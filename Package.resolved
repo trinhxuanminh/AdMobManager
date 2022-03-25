@@ -47,6 +47,24 @@
         }
       },
       {
+        "package": "NativeAdCollectionViewCell",
+        "repositoryURL": "https://github.com/trinhxuanminh/NativeAdCollectionViewCell.git",
+        "state": {
+          "branch": "main",
+          "revision": "9d9a5f89d0d66af7192e5d76bd021a6a9a4ed647",
+          "version": null
+        }
+      },
+      {
+        "package": "NVActivityIndicatorView",
+        "repositoryURL": "https://github.com/ninjaprox/NVActivityIndicatorView.git",
+        "state": {
+          "branch": null,
+          "revision": "bcb52371f2259254bac6690f92bb474a61768c47",
+          "version": "5.1.1"
+        }
+      },
+      {
         "package": "Promises",
         "repositoryURL": "https://github.com/google/promises.git",
         "state": {
