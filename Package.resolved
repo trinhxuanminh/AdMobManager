@@ -51,7 +51,16 @@
         "repositoryURL": "https://github.com/trinhxuanminh/NativeAdCollectionViewCell.git",
         "state": {
           "branch": "main",
-          "revision": "39c3dc30826e3cdbb1fb826d140f3f3be9940356",
+          "revision": "e5a71b3610adf481e23e6f1a9d5a872083bf2327",
+          "version": null
+        }
+      },
+      {
+        "package": "NativeAdvancedAdCollectionViewCell",
+        "repositoryURL": "https://github.com/trinhxuanminh/NativeAdvancedAdCollectionViewCell.git",
+        "state": {
+          "branch": "main",
+          "revision": "a45859684a06ca4ad82715d2caceac1a91f09b2b",
           "version": null
         }
       },

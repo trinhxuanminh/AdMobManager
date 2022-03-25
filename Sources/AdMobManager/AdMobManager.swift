@@ -1,7 +1,6 @@
 import UIKit
 import GoogleMobileAds
 import Foundation
-import NativeAdCollectionViewCell
 
 public struct AdMobManager {
     
