@@ -26,11 +26,12 @@ class InterstitialAd: NSObject {
         if self.isLoading {
             return
         }
-        self.isLoading = true
         
-        guard let adUnit_ID = adUnit_ID else {
+        guard let adUnit_ID = self.adUnit_ID else {
             return
         }
+        
+        self.isLoading = true
         
         let request = GADRequest()
         GADInterstitialAd.load(withAdUnitID: adUnit_ID,

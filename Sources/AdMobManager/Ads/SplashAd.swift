@@ -23,7 +23,7 @@ class SplashAd: NSObject {
         }
         self.isLoading = true
         
-        guard let adUnit_ID = adUnit_ID else {
+        guard let adUnit_ID = self.adUnit_ID else {
             return
         }
         
