@@ -16,38 +16,44 @@ public class NativeAd: NSObject {
     fileprivate var adLoader: GADAdLoader!
     fileprivate var configData: (() -> ())?
     
+    public override init() {
+        super.init()
+        self.adUnit_ID = AdMobManager.shared.getNativeAdID()
+        self.load()
+    }
+    
     func load() {
         guard let adUnit_ID = self.adUnit_ID else {
             return
         }
         
-        self.adNativeLoader = GADAdLoader(adUnitID: adUnit_ID,
+        self.adLoader = GADAdLoader(adUnitID: adUnit_ID,
                                rootViewController: UIViewController(),
                                adTypes: [.native],
                                options: nil)
-        self.adNativeLoader.delegate = self
-        self.adNativeLoader.load(GADRequest())
+        self.adLoader.delegate = self
+        self.adLoader.load(GADRequest())
     }
     
     func isExist() -> Bool {
         return self.nativeAd != nil
     }
     
-    public func getAd() -> GADNativeAd? {
+    public func get_Ad() -> GADNativeAd? {
         return self.nativeAd
     }
     
-    public func setConfigData(didLoadAd: (() -> ())?) {
+    public func set_Config_Data(didLoadAd: (() -> ())?) {
         self.configData = didLoadAd
     }
 }
 
 extension NativeAd: GADNativeAdLoaderDelegate {
-    func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: Error) {
+    public func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: Error) {
         self.load()
     }
     
-    func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
+    public func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
         self.nativeAd = nativeAd
         self.configData?()
     }

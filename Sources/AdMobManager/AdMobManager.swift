@@ -11,6 +11,7 @@ public struct AdMobManager {
     fileprivate var interstitialAd = InterstitialAd()
     fileprivate var appOpenAd = AppOpenAd()
     fileprivate var startDate: Date?
+    fileprivate var nativeAd_ID: String?
     
     public enum AdType {
         case splash
@@ -19,23 +20,27 @@ public struct AdMobManager {
         case native
     }
     
-    public mutating func set_AdUnit(splashID: String?, interstitialID: String?, appOpenID: String?) {
-        if let splashID = splashID {
-            self.splashAd.set_AdUnit_ID(ID: splashID)
+    public mutating func set_AdUnit(splashAd_ID: String?, interstitialAd_ID: String?, appOpenAd_ID: String?, nativeAd_ID: String?) {
+        if let splashAd_ID = splashAd_ID {
+            self.splashAd.setAdUnitID(ID: splashAd_ID)
         }
         
-        if let interstitialID = interstitialID {
-            self.interstitialAd.set_AdUnit_ID(ID: interstitialID)
+        if let interstitialAd_ID = interstitialAd_ID {
+            self.interstitialAd.setAdUnitID(ID: interstitialAd_ID)
         }
         
-        if let appOpenID = appOpenID {
-            self.appOpenAd.set_AdUnit_ID(ID: appOpenID)
+        if let appOpenAd_ID = appOpenAd_ID {
+            self.appOpenAd.setAdUnitID(ID: appOpenAd_ID)
+        }
+        
+        if let nativeAd_ID = nativeAd_ID {
+            self.nativeAd_ID = nativeAd_ID
         }
         
         self.load()
     }
     
-    public func isReady(adType: AdType) -> Bool {
+    public func is_Ready(adType: AdType) -> Bool {
         switch adType {
         case .splash:
             return self.splashAd.isReady()
@@ -65,7 +70,7 @@ public struct AdMobManager {
         self.startDate = start
     }
     
-    public func setTimeBetween(adType: AdType, time: Double) {
+    public func set_Time_Between(adType: AdType, time: Double) {
         switch adType {
         case .interstitial:
             self.interstitialAd.setTimeBetween(time: time)
@@ -75,15 +80,11 @@ public struct AdMobManager {
             return
         }
     }
-    
-    public func nativeAd() -> NativeAd {
-        return NativeAd()
-    }
 }
 
 extension AdMobManager {
     func load() {
-        if !self.allow_Show_Full_Feature() {
+        if !self.allowShowFullFeature() {
             return
         }
         
@@ -100,7 +101,11 @@ extension AdMobManager {
         }
     }
     
-    func allow_Show_Full_Feature() -> Bool {
+    func getNativeAdID() -> String? {
+        return self.nativeAd_ID
+    }
+    
+    func allowShowFullFeature() -> Bool {
         guard let startDate = self.startDate else {
             return true
         }

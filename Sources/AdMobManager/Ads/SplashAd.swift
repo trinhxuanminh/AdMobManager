@@ -76,7 +76,7 @@ extension SplashAd: GADFullScreenContentDelegate {
         self.didDismiss?()
     }
     
-    func set_AdUnit_ID(ID: String) {
+    func setAdUnitID(ID: String) {
         self.adUnit_ID = ID
     }
 }

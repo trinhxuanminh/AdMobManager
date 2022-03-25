@@ -93,7 +93,7 @@ extension AppOpenAd: GADFullScreenContentDelegate {
         self.timeBetween = time
     }
     
-    func set_AdUnit_ID(ID: String) {
+    func setAdUnitID(ID: String) {
         self.adUnit_ID = ID
     }
 }
