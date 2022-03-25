@@ -7,18 +7,18 @@ public struct AdMobManager {
     
     public static var shared = AdMobManager()
     
-    fileprivate var splashAd = SplashAd()
-    fileprivate var interstitialAd = InterstitialAd()
-    fileprivate var appOpenAd = AppOpenAd()
-    fileprivate var startDate: Date?
-    fileprivate var nativeAd_ID: String?
-    
     public enum AdType {
         case splash
         case interstitial
         case appOpen
         case native
     }
+    
+    fileprivate var splashAd = SplashAd()
+    fileprivate var interstitialAd = InterstitialAd()
+    fileprivate var appOpenAd = AppOpenAd()
+    fileprivate var startDate: Date?
+    fileprivate var nativeAd_ID: String?
     
     public mutating func set_AdUnit(splashAd_ID: String?, interstitialAd_ID: String?, appOpenAd_ID: String?, nativeAd_ID: String?) {
         if let splashAd_ID = splashAd_ID {

@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/quanghits/GoogleMobileAds.git",
         "state": {
           "branch": null,
-          "revision": "3464efa9ef50a26a4c8ee5e66aeedc8ce79048d4",
-          "version": "9.1.0"
+          "revision": "ddbb0e7c4c01adb5d0b65ae37fd24c3d86675bb7",
+          "version": "9.2.0"
         }
       },
       {
@@ -51,7 +51,7 @@
         "repositoryURL": "https://github.com/trinhxuanminh/NativeAdCollectionViewCell.git",
         "state": {
           "branch": "main",
-          "revision": "29f10ce01b73a902c3ed6be23ded3379344ba3d2",
+          "revision": "39c3dc30826e3cdbb1fb826d140f3f3be9940356",
           "version": null
         }
       },
