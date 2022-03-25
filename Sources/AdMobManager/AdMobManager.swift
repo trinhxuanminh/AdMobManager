@@ -62,7 +62,7 @@ public struct AdMobManager {
         }
     }
     
-    public func show(adType: AdType, rootViewController: UIViewController, willDismiss: (() -> ())?, didDismiss: (() -> ())?) {
+    public func show(adType: AdType, rootViewController: UIViewController, willDismiss: (() -> ())? = nil, didDismiss: (() -> ())? = nil) {
         switch adType {
         case .splash:
             self.splashAd.show(rootViewController: rootViewController, willDismiss: willDismiss, didDismiss: didDismiss)
