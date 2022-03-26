@@ -39,6 +39,11 @@ public class BannerAdView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        print(self.frame, self.bannerAdView.frame)
+    }
+    
     func load() {
         if self.isLoading {
             return
