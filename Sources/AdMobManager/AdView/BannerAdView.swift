@@ -15,6 +15,7 @@ public class BannerAdView: UIView {
         didSet {
             self.bannerAdView.translatesAutoresizingMaskIntoConstraints = false
             self.adUnit_ID = AdMobManager.shared.getBannerAdID()
+            self.bannerAdView.backgroundColor = .red
         }
     }
     
