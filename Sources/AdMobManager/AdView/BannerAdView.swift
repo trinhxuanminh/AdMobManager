@@ -25,14 +25,12 @@ public class BannerAdView: UIView {
         super.awakeFromNib()
         self.createComponents()
         self.setupConstraints()
-        self.load()
     }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
         self.createComponents()
         self.setupConstraints()
-        self.load()
     }
     
     required init?(coder: NSCoder) {
@@ -41,7 +39,7 @@ public class BannerAdView: UIView {
     
     public override func draw(_ rect: CGRect) {
         super.draw(rect)
-        print(self.frame, self.bannerAdView.frame)
+        self.load()
     }
     
     func load() {
@@ -64,7 +62,6 @@ public class BannerAdView: UIView {
         self.adUnit_ID = adUnit_ID
         self.bannerAdView.rootViewController = topViewController
         self.bannerAdView.load(GADRequest())
-        print(bannerAdView.frame)
     }
 }
 
