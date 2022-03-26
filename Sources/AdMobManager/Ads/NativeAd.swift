@@ -77,9 +77,7 @@ extension NativeAd: GADNativeAdLoaderDelegate {
     public func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: Error) {
         self.isLoading = false
         print("NativeAd download error, trying again!")
-        if !AdMobManager.shared.getLimitReloadingOfAdsWhenThereIsAnError() {
-            self.load()
-        }
+        self.load()
     }
     
     public func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {

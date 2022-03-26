@@ -76,9 +76,7 @@ extension BannerAdView: GADBannerViewDelegate {
     public func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
         self.isLoading = false
         print("BannerAd download error, trying again!")
-        if !AdMobManager.shared.getLimitReloadingOfAdsWhenThereIsAnError() {
-            self.load()
-        }
+        self.load()
     }
 }
 
