@@ -25,11 +25,13 @@ public class BannerAdView: UIView {
     public override func awakeFromNib() {
         super.awakeFromNib()
         self.createComponents()
+        self.setupConstraints()
     }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
         self.createComponents()
+        self.setupConstraints()
     }
     
     required init?(coder: NSCoder) {
