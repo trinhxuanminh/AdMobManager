@@ -9,6 +9,12 @@ import Foundation
 import UIKit
 import GoogleMobileAds
 
+/// This class returns a UIView displaying BannerAd.
+/// ```
+/// import AdMobManager
+/// ```
+/// Can be instantiated by program or interface builder. Use as UIView. Ad display is automatic.
+/// - Warning: Banner Ad will not be displayed without adding ID.
 @IBDesignable public class BannerAdView: UIView {
     
     fileprivate var bannerAdView: GADBannerView! {

@@ -9,6 +9,15 @@ import Foundation
 import UIKit
 import GoogleMobileAds
 
+/// This class returns a NSObject gồm một GADNativeAd.
+/// ```
+/// import AdMobManager
+/// ```
+/// ```
+/// let nativeAd: NativeAd = NativeAd()
+/// ```
+/// Use as a data type.
+/// - Warning: Requires additional ID before initialization.
 public class NativeAd: NSObject {
     
     fileprivate var adUnit_ID: String?
@@ -52,10 +61,13 @@ public class NativeAd: NSObject {
         return self.nativeAd != nil
     }
     
+    /// This function returns a GADNativeAd inside the NativeAd class.
     public func get_Ad() -> GADNativeAd? {
         return self.nativeAd
     }
     
+    /// This function will change the command block to execute when the ad has been received.
+    /// - Parameter didLoadAd: An executable block of commands.
     public func set_Config_Data(didLoadAd: (() -> ())?) {
         self.configData = didLoadAd
     }

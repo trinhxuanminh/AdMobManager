@@ -2,6 +2,24 @@ import UIKit
 import GoogleMobileAds
 import Foundation
 
+/// An ad management structure. It supports setting SplashAd, InterstitialAd, AppOpenAd, NativeAd, BannerAd.
+/// ```
+/// import AdMobManager
+/// ```
+/// ```
+/// func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+///
+///     let bannerId = "ca-app-pub-3940256099942544/2934735716"
+///     let interstitialID = "ca-app-pub-3940256099942544/4411468910"
+///     let splashID = "ca-app-pub-3940256099942544/4411468910"
+///     let nativeID = "ca-app-pub-3940256099942544/3986624511"
+///     let appOpenID = "ca-app-pub-3940256099942544/5662855259"
+///
+///     AdMobManager.shared.set_AdUnit(splashAd_ID: splashID, interstitialAd_ID: interstitialID, appOpenAd_ID: appOpenID, nativeAd_ID: nativeID, bannerAd_ID: bannerId)
+///
+///     return true
+/// }
+/// ```
 public struct AdMobManager {
     
     public static var shared = AdMobManager()
@@ -19,6 +37,8 @@ public struct AdMobManager {
     fileprivate var nativeAd_ID: String?
     fileprivate var bannerAd_ID: String?
     
+    /// This function helps to change the ad ID, available for the next load.
+    /// - Warning: Ad parameters = nil will not load the corresponding ad type.
     public mutating func set_AdUnit(splashAd_ID: String? = nil, interstitialAd_ID: String? = nil, appOpenAd_ID: String? = nil, nativeAd_ID: String? = nil, bannerAd_ID: String? = nil) {
         if let splashAd_ID = splashAd_ID {
             self.splashAd.setAdUnitID(ID: splashAd_ID)
@@ -43,6 +63,10 @@ public struct AdMobManager {
         self.load()
     }
     
+    /// This function returns a value indicating if the ad is ready to be displayed.
+    /// ```
+    /// AdMobManager.shared.is_Ready(adType: .splash)
+    /// ```
     public func is_Ready(adType: AdType) -> Bool {
         switch adType {
         case .splash:
@@ -54,6 +78,25 @@ public struct AdMobManager {
         }
     }
     
+    /// This function will display ads when ready.
+    ///```
+    /// AdMobManager.shared.show(adType: .splash)
+    ///```
+    ///```
+    /// AdMobManager.shared.show(adType: .interstitial)
+    ///```
+    ///```
+    /// func applicationDidBecomeActive(_ application: UIApplication) {
+    ///     AdMobManager.shared.show(adType: .appOpen)
+    /// }
+    ///
+    /// func sceneDidBecomeActive(_ scene: UIScene) {
+    ///     AdMobManager.shared.show(adType: .appOpen)
+    /// }
+    ///```
+    /// - Parameter willPresent: The block executes after the ad is about to show.
+    /// - Parameter willDismiss: The block executes after the ad is about to disappear.
+    /// - Parameter didDismiss: The block executes after the ad has disappeared.
     public func show(adType: AdType, willPresent: (() -> ())? = nil, willDismiss: (() -> ())? = nil, didDismiss: (() -> ())? = nil) {
         switch adType {
         case .splash:
@@ -65,10 +108,18 @@ public struct AdMobManager {
         }
     }
     
+    /// This function helps to set the date to start showing ads.
+    /// - Warning: Default is **nil**, the ad will be displayed as soon as it is ready. Changes only for SplashAd, InterstitialAd, AppOpenAd.
     public mutating func set_Time_Show_Full_Feature(start: Date) {
         self.startDate = start
     }
     
+    /// This function helps to change the minimum display time between ads of the same type.
+    ///```
+    /// AdMobManager.shared.set_Time_Between(adType: .interstitial, time: 5.0)
+    ///```
+    /// - Parameter time: Minimum time between ads. Default is **5 seconds**.
+    /// - Warning: Changes only for  InterstitialAd, AppOpenAd.
     public func set_Time_Between(adType: AdType, time: Double) {
         switch adType {
         case .interstitial:
