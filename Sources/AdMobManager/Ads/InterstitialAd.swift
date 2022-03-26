@@ -56,17 +56,18 @@ class InterstitialAd: NSObject {
         return self.isExist() && self.adsReady
     }
     
-    func show(rootViewController: UIViewController, willDismiss: (() -> ())?, didDismiss: (() -> ())?) {
+    func show(willDismiss: (() -> ())?, didDismiss: (() -> ())?) {
         if !self.isReady() {
             print("InterstitialAds are not ready to show!")
             return
         }
-        guard let topVC = UIApplication.topStackViewController() else {
+        guard let topViewController = UIApplication.topStackViewController() else {
+            print("Can't find RootViewController!")
             return
         }
         self.willDismiss = willDismiss
         self.didDismiss = didDismiss
-        self.interstitialAd?.present(fromRootViewController: topVC)
+        self.interstitialAd?.present(fromRootViewController: topViewController)
     }
 }
 

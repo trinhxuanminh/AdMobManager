@@ -50,14 +50,18 @@ class SplashAd: NSObject {
         return self.isExist()
     }
     
-    func show(rootViewController: UIViewController, willDismiss: (() -> ())?, didDismiss: (() -> ())?) {
+    func show(willDismiss: (() -> ())?, didDismiss: (() -> ())?) {
         if !self.isReady() {
             print("SplashAds are not ready to show!")
             return
         }
+        guard let topViewController = UIApplication.topStackViewController() else {
+            print("Can't find RootViewController!")
+            return
+        }
         self.willDismiss = willDismiss
         self.didDismiss = didDismiss
-        self.splashAd?.present(fromRootViewController: rootViewController)
+        self.splashAd?.present(fromRootViewController: topViewController)
     }
 }
 

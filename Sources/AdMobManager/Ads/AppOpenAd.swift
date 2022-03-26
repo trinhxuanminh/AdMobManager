@@ -54,14 +54,18 @@ class AppOpenAd: NSObject {
         return self.isExist() && self.wasLoadTimeLessThanNHoursAgo()
     }
     
-    func show(rootViewController: UIViewController, willDismiss: (() -> ())?, didDismiss: (() -> ())?) {
+    func show(willDismiss: (() -> ())?, didDismiss: (() -> ())?) {
         if !self.isReady() {
             print("OpenAppAds are not ready to show!")
             return
         }
+        guard let topViewController = UIApplication.topStackViewController() else {
+            print("Can't find RootViewController!")
+            return
+        }
         self.willDismiss = willDismiss
         self.didDismiss = didDismiss
-        self.appOpenAd?.present(fromRootViewController: rootViewController)
+        self.appOpenAd?.present(fromRootViewController: topViewController)
     }
 }
 

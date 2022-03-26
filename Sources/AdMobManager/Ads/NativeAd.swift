@@ -26,9 +26,12 @@ public class NativeAd: NSObject {
         guard let adUnit_ID = self.adUnit_ID else {
             return
         }
-        
+        guard let topViewController = UIApplication.topStackViewController() else {
+            print("Can't find RootViewController!")
+            return
+        }
         self.adLoader = GADAdLoader(adUnitID: adUnit_ID,
-                               rootViewController: UIViewController(),
+                               rootViewController: topViewController,
                                adTypes: [.native],
                                options: nil)
         self.adLoader.delegate = self

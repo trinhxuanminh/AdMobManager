@@ -49,14 +49,14 @@ public struct AdMobManager {
         }
     }
     
-    public func show(adType: AdType, rootViewController: UIViewController, willDismiss: (() -> ())? = {}, didDismiss: (() -> ())? = {}) {
+    public func show(adType: AdType, willDismiss: (() -> ())? = {}, didDismiss: (() -> ())? = {}) {
         switch adType {
         case .splash:
-            self.splashAd.show(rootViewController: rootViewController, willDismiss: willDismiss, didDismiss: didDismiss)
+            self.splashAd.show(willDismiss: willDismiss, didDismiss: didDismiss)
         case .interstitial:
-            self.interstitialAd.show(rootViewController: rootViewController, willDismiss: willDismiss, didDismiss: didDismiss)
+            self.interstitialAd.show(willDismiss: willDismiss, didDismiss: didDismiss)
         case .appOpen:
-            self.appOpenAd.show(rootViewController: rootViewController, willDismiss: willDismiss, didDismiss: didDismiss)
+            self.appOpenAd.show(willDismiss: willDismiss, didDismiss: didDismiss)
         }
     }
     
