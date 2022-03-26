@@ -9,21 +9,27 @@ import Foundation
 import UIKit
 import GoogleMobileAds
 
-public class BannerAdView: GADBannerView {
+public class BannerAdView: UIView {
+    
+    fileprivate var bannerAdView: GADBannerView! {
+        didSet {
+            self.bannerAdView.translatesAutoresizingMaskIntoConstraints = false
+            self.adUnit_ID = AdMobManager.shared.getBannerAdID()
+            self.load()
+        }
+    }
     
     fileprivate var adUnit_ID: String?
     fileprivate var isLoading: Bool = false
     
     public override func awakeFromNib() {
         super.awakeFromNib()
-        self.adUnit_ID = AdMobManager.shared.getBannerAdID()
-        self.load()
+        self.createComponents()
     }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        self.adUnit_ID = AdMobManager.shared.getBannerAdID()
-        self.load()
+        self.createComponents()
     }
     
     required init?(coder: NSCoder) {
@@ -48,8 +54,8 @@ public class BannerAdView: GADBannerView {
         self.isLoading = true
         
         self.adUnit_ID = adUnit_ID
-        self.rootViewController = topViewController
-        self.load(GADRequest())
+        self.bannerAdView.rootViewController = topViewController
+        self.bannerAdView.load(GADRequest())
     }
 }
 
@@ -57,5 +63,21 @@ extension BannerAdView: GADBannerViewDelegate {
     public func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
         self.isLoading = false
         self.load()
+    }
+}
+
+extension BannerAdView {
+    func createComponents() {
+        self.bannerAdView = GADBannerView()
+        self.addSubview(self.bannerAdView)
+    }
+    
+    func setupConstraints() {
+        NSLayoutConstraint.activate([
+            self.bannerAdView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            self.bannerAdView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            self.bannerAdView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            self.bannerAdView.topAnchor.constraint(equalTo: self.topAnchor)
+        ])
     }
 }
