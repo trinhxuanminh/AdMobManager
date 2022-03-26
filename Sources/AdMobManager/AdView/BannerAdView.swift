@@ -59,6 +59,7 @@ public class BannerAdView: UIView {
         self.adUnit_ID = adUnit_ID
         self.bannerAdView.rootViewController = topViewController
         self.bannerAdView.load(GADRequest())
+        print(bannerAdView.frame)
     }
 }
 
