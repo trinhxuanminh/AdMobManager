@@ -37,7 +37,7 @@ class AppOpenAd: NSObject {
                           request: request,
                           orientation: UIInterfaceOrientation.portrait) { (ad, error) in
             if let _ = error {
-                print("OpenAppAds download error, trying again!")
+                print("AppOpenAd download error, trying again!")
                 self.isLoading = false
                 if !AdMobManager.shared.getLimitReloadingOfAdsWhenThereIsAnError() {
                     self.load()
@@ -60,7 +60,7 @@ class AppOpenAd: NSObject {
     
     func show(willPresent: (() -> ())?, willDismiss: (() -> ())?, didDismiss: (() -> ())?) {
         if !self.isReady() {
-            print("OpenAppAds are not ready to show!")
+            print("AppOpenAd are not ready to show!")
             return
         }
         guard let topViewController = UIApplication.topStackViewController() else {

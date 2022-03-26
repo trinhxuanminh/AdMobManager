@@ -39,7 +39,7 @@ class InterstitialAd: NSObject {
         GADInterstitialAd.load(withAdUnitID: adUnit_ID,
                                request: request) { (ad, error) in
             if let _ = error {
-                print("InterstitialAds download error, trying again!")
+                print("InterstitialAd download error, trying again!")
                 self.isLoading = false
                 if !AdMobManager.shared.getLimitReloadingOfAdsWhenThereIsAnError() {
                     self.load()
@@ -62,7 +62,7 @@ class InterstitialAd: NSObject {
     
     func show(willPresent: (() -> ())?, willDismiss: (() -> ())?, didDismiss: (() -> ())?) {
         if !self.isReady() {
-            print("InterstitialAds are not ready to show!")
+            print("InterstitialAd are not ready to show!")
             return
         }
         guard let topViewController = UIApplication.topStackViewController() else {

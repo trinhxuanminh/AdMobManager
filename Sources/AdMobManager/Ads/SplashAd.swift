@@ -34,7 +34,7 @@ class SplashAd: NSObject {
         GADInterstitialAd.load(withAdUnitID: adUnit_ID,
                                request: request) { (ad, error) in
             if let _ = error {
-                print("SplashAds download error, trying again!")
+                print("SplashAd download error, trying again!")
                 self.isLoading = false
                 if !AdMobManager.shared.getLimitReloadingOfAdsWhenThereIsAnError() {
                     self.load()
@@ -57,7 +57,7 @@ class SplashAd: NSObject {
     
     func show(willPresent: (() -> ())?, willDismiss: (() -> ())?, didDismiss: (() -> ())?) {
         if !self.isReady() {
-            print("SplashAds are not ready to show!")
+            print("SplashAd are not ready to show!")
             return
         }
         guard let topViewController = UIApplication.topStackViewController() else {
