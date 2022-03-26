@@ -10,7 +10,6 @@ public struct AdMobManager {
         case splash
         case interstitial
         case appOpen
-        case native
     }
     
     fileprivate var splashAd = SplashAd()
@@ -47,8 +46,6 @@ public struct AdMobManager {
             return self.interstitialAd.isReady()
         case .appOpen:
             return self.appOpenAd.isReady()
-        case .native:
-            return false
         }
     }
     
@@ -60,8 +57,6 @@ public struct AdMobManager {
             self.interstitialAd.show(rootViewController: rootViewController, willDismiss: willDismiss, didDismiss: didDismiss)
         case .appOpen:
             self.appOpenAd.show(rootViewController: rootViewController, willDismiss: willDismiss, didDismiss: didDismiss)
-        case .native:
-            return
         }
     }
     

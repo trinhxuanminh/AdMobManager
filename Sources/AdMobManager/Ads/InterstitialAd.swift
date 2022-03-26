@@ -61,9 +61,12 @@ class InterstitialAd: NSObject {
             print("InterstitialAds are not ready to show!")
             return
         }
+        guard let topVC = UIApplication.topStackViewController() else {
+            return
+        }
         self.willDismiss = willDismiss
         self.didDismiss = didDismiss
-        self.interstitialAd?.present(fromRootViewController: rootViewController)
+        self.interstitialAd?.present(fromRootViewController: topVC)
     }
 }
 
