@@ -24,6 +24,7 @@ public struct AdMobManager {
     fileprivate var nativeAd_ID: String?
     fileprivate var bannerAd_ID: String?
     fileprivate var limitReloadingOfAdsWhenThereIsAnError: Bool = false
+    fileprivate var stopLoadingSplashAd: Bool = false
     
     /// This function helps to change the ad ID, available for the next load.
     /// ```
@@ -148,6 +149,15 @@ public struct AdMobManager {
         self.limitReloadingOfAdsWhenThereIsAnError = true
         self.load()
     }
+    
+    /// This function helps to block reloading of SplashAd.
+    /// ```
+    /// AdMobManager.shared.stop_Loading_SplashAd()
+    /// ```
+    /// Recommended when splash ads don't need to appear anymore.
+    public mutating func stop_Loading_SplashAd() {
+        self.stopLoadingSplashAd = true
+    }
 }
 
 extension AdMobManager {
@@ -179,6 +189,10 @@ extension AdMobManager {
     
     func getLimitReloadingOfAdsWhenThereIsAnError() -> Bool {
         return self.limitReloadingOfAdsWhenThereIsAnError
+    }
+    
+    func getStopLoadingSplashAd() -> Bool {
+        return self.stopLoadingSplashAd
     }
     
     func allowShowFullFeature() -> Bool {

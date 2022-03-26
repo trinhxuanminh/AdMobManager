@@ -19,6 +19,10 @@ class SplashAd: NSObject {
     fileprivate var didDismiss: (() -> ())?
     
     func load() {
+        if AdMobManager.shared.getStopLoadingSplashAd() {
+            return
+        }
+        
         if self.isLoading {
             return
         }
