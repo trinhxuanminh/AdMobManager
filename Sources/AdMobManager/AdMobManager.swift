@@ -6,20 +6,7 @@ import Foundation
 /// ```
 /// import AdMobManager
 /// ```
-/// ```
-/// func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-///
-///     let bannerId = "ca-app-pub-3940256099942544/2934735716"
-///     let interstitialID = "ca-app-pub-3940256099942544/4411468910"
-///     let splashID = "ca-app-pub-3940256099942544/4411468910"
-///     let nativeID = "ca-app-pub-3940256099942544/3986624511"
-///     let appOpenID = "ca-app-pub-3940256099942544/5662855259"
-///
-///     AdMobManager.shared.set_AdUnit(splashAd_ID: splashID, interstitialAd_ID: interstitialID, appOpenAd_ID: appOpenID, nativeAd_ID: nativeID, bannerAd_ID: bannerId)
-///
-///     return true
-/// }
-/// ```
+/// - Warning: Available for Swift 5.0, Xcode 11.0. Support from iOS 10.0!
 public struct AdMobManager {
     
     public static var shared = AdMobManager()
@@ -36,8 +23,23 @@ public struct AdMobManager {
     fileprivate var startDate: Date?
     fileprivate var nativeAd_ID: String?
     fileprivate var bannerAd_ID: String?
+    fileprivate var limitReloadingOfAdsWhenThereIsAnError: Bool = false
     
     /// This function helps to change the ad ID, available for the next load.
+    /// ```
+    /// func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    ///
+    ///     let bannerId = "ca-app-pub-3940256099942544/2934735716"
+    ///     let interstitialID = "ca-app-pub-3940256099942544/4411468910"
+    ///     let splashID = "ca-app-pub-3940256099942544/4411468910"
+    ///     let nativeID = "ca-app-pub-3940256099942544/3986624511"
+    ///     let appOpenID = "ca-app-pub-3940256099942544/5662855259"
+    ///
+    ///     AdMobManager.shared.set_AdUnit(splashAd_ID: splashID, interstitialAd_ID: interstitialID, appOpenAd_ID: appOpenID, nativeAd_ID: nativeID, bannerAd_ID: bannerId)
+    ///
+    ///     return true
+    /// }
+    /// ```
     /// - Warning: Ad parameters = nil will not load the corresponding ad type.
     public mutating func set_AdUnit(splashAd_ID: String? = nil, interstitialAd_ID: String? = nil, appOpenAd_ID: String? = nil, nativeAd_ID: String? = nil, bannerAd_ID: String? = nil) {
         if let splashAd_ID = splashAd_ID {
@@ -130,6 +132,22 @@ public struct AdMobManager {
             return
         }
     }
+    
+    /// This function helps to limit the reload of the ad when an error occurs.
+    ///```
+    /// func applicationDidBecomeActive(_ application: UIApplication) {
+    ///     AdMobManager.shared.limit_Reloading_Of_Ads_When_There_Is_An_Error()
+    /// }
+    ///
+    /// func sceneDidBecomeActive(_ scene: UIScene) {
+    ///     AdMobManager.shared.limit_Reloading_Of_Ads_When_There_Is_An_Error()
+    /// }
+    ///```
+    /// - Warning: Ads may not be displayed properly.
+    public mutating func limit_Reloading_Of_Ads_When_There_Is_An_Error() {
+        self.limitReloadingOfAdsWhenThereIsAnError = true
+        self.load()
+    }
 }
 
 extension AdMobManager {
@@ -157,6 +175,10 @@ extension AdMobManager {
     
     func getBannerAdID() -> String? {
         return self.bannerAd_ID
+    }
+    
+    func getLimitReloadingOfAdsWhenThereIsAnError() -> Bool {
+        return self.limitReloadingOfAdsWhenThereIsAnError
     }
     
     func allowShowFullFeature() -> Bool {

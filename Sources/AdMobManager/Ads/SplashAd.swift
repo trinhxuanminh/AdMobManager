@@ -36,7 +36,9 @@ class SplashAd: NSObject {
             if let _ = error {
                 print("SplashAds download error, trying again!")
                 self.isLoading = false
-                self.load()
+                if !AdMobManager.shared.getLimitReloadingOfAdsWhenThereIsAnError() {
+                    self.load()
+                }
                 return
             }
             self.splashAd = ad

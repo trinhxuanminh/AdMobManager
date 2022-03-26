@@ -39,7 +39,9 @@ class AppOpenAd: NSObject {
             if let _ = error {
                 print("OpenAppAds download error, trying again!")
                 self.isLoading = false
-                self.load()
+                if !AdMobManager.shared.getLimitReloadingOfAdsWhenThereIsAnError() {
+                    self.load()
+                }
                 return
             }
             self.appOpenAd = ad

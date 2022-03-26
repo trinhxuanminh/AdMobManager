@@ -41,7 +41,9 @@ class InterstitialAd: NSObject {
             if let _ = error {
                 print("InterstitialAds download error, trying again!")
                 self.isLoading = false
-                self.load()
+                if !AdMobManager.shared.getLimitReloadingOfAdsWhenThereIsAnError() {
+                    self.load()
+                }
                 return
             }
             self.interstitialAd = ad
