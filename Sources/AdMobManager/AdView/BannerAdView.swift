@@ -15,7 +15,6 @@ public class BannerAdView: UIView {
         didSet {
             self.bannerAdView.translatesAutoresizingMaskIntoConstraints = false
             self.adUnit_ID = AdMobManager.shared.getBannerAdID()
-            self.bannerAdView.backgroundColor = .red
         }
     }
     
@@ -60,7 +59,7 @@ public class BannerAdView: UIView {
         
         self.isLoading = true
         
-        self.adUnit_ID = adUnit_ID
+        self.bannerAdView.adUnitID = adUnit_ID
         self.bannerAdView.delegate = self
         self.bannerAdView.rootViewController = topViewController
         self.bannerAdView.load(GADRequest())
@@ -71,10 +70,6 @@ extension BannerAdView: GADBannerViewDelegate {
     public func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
         self.isLoading = false
         self.load()
-    }
-    
-    public func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
-        print("did load ad")
     }
 }
 
