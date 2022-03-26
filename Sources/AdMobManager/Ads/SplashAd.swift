@@ -23,16 +23,16 @@ class SplashAd: NSObject {
             return
         }
         
-        if AdMobManager.shared.getStopLoadingSplashAd() {
-            return
-        }
-        
         guard let adUnit_ID = self.adUnit_ID else {
             print("No SplashAd ID!")
             return
         }
         
         self.isLoading = true
+        
+        if AdMobManager.shared.getStopLoadingSplashAd() {
+            return
+        }
         
         let request = GADRequest()
         GADInterstitialAd.load(withAdUnitID: adUnit_ID,
