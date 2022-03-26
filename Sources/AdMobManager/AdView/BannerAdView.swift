@@ -61,6 +61,7 @@ public class BannerAdView: UIView {
         self.isLoading = true
         
         self.adUnit_ID = adUnit_ID
+        self.bannerAdView.delegate = self
         self.bannerAdView.rootViewController = topViewController
         self.bannerAdView.load(GADRequest())
     }
