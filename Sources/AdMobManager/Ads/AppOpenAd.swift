@@ -16,6 +16,7 @@ class AppOpenAd: NSObject {
     fileprivate var loadTimeOpenApp: Date = Date()
     fileprivate var timeBetween: Double = 5
     fileprivate var isLoading: Bool = false
+    fileprivate var willPresent: (() -> ())?
     fileprivate var willDismiss: (() -> ())?
     fileprivate var didDismiss: (() -> ())?
     
@@ -54,7 +55,7 @@ class AppOpenAd: NSObject {
         return self.isExist() && self.wasLoadTimeLessThanNHoursAgo()
     }
     
-    func show(willDismiss: (() -> ())?, didDismiss: (() -> ())?) {
+    func show(willPresent: (() -> ())?, willDismiss: (() -> ())?, didDismiss: (() -> ())?) {
         if !self.isReady() {
             print("OpenAppAds are not ready to show!")
             return
@@ -63,6 +64,7 @@ class AppOpenAd: NSObject {
             print("Can't find RootViewController!")
             return
         }
+        self.willPresent = willPresent
         self.willDismiss = willDismiss
         self.didDismiss = didDismiss
         self.appOpenAd?.present(fromRootViewController: topViewController)
@@ -73,6 +75,10 @@ extension AppOpenAd: GADFullScreenContentDelegate {
     func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
         print("Ad did fail to present full screen content.")
         self.didDismiss?()
+    }
+    
+    func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+        self.willPresent?()
     }
     
     func adWillDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {

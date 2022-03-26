@@ -19,6 +19,7 @@ class InterstitialAd: NSObject {
     fileprivate var timeInterval: Double = 0.1
     fileprivate var timeBetween: Double = 5
     fileprivate var isLoading: Bool = false
+    fileprivate var willPresent: (() -> ())?
     fileprivate var willDismiss: (() -> ())?
     fileprivate var didDismiss: (() -> ())?
     
@@ -56,7 +57,7 @@ class InterstitialAd: NSObject {
         return self.isExist() && self.adsReady
     }
     
-    func show(willDismiss: (() -> ())?, didDismiss: (() -> ())?) {
+    func show(willPresent: (() -> ())?, willDismiss: (() -> ())?, didDismiss: (() -> ())?) {
         if !self.isReady() {
             print("InterstitialAds are not ready to show!")
             return
@@ -65,6 +66,7 @@ class InterstitialAd: NSObject {
             print("Can't find RootViewController!")
             return
         }
+        self.willPresent = willPresent
         self.willDismiss = willDismiss
         self.didDismiss = didDismiss
         self.interstitialAd?.present(fromRootViewController: topViewController)
@@ -75,6 +77,10 @@ extension InterstitialAd: GADFullScreenContentDelegate {
     func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
         print("Ad did fail to present full screen content.")
         self.didDismiss?()
+    }
+    
+    func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+        self.willPresent?()
     }
     
     func adWillDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {

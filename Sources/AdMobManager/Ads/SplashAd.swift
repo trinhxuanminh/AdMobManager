@@ -14,6 +14,7 @@ class SplashAd: NSObject {
     fileprivate var adUnit_ID: String?
     fileprivate var splashAd: GADInterstitialAd?
     fileprivate var isLoading: Bool = false
+    fileprivate var willPresent: (() -> ())?
     fileprivate var willDismiss: (() -> ())?
     fileprivate var didDismiss: (() -> ())?
     
@@ -50,7 +51,7 @@ class SplashAd: NSObject {
         return self.isExist()
     }
     
-    func show(willDismiss: (() -> ())?, didDismiss: (() -> ())?) {
+    func show(willPresent: (() -> ())?, willDismiss: (() -> ())?, didDismiss: (() -> ())?) {
         if !self.isReady() {
             print("SplashAds are not ready to show!")
             return
@@ -59,6 +60,7 @@ class SplashAd: NSObject {
             print("Can't find RootViewController!")
             return
         }
+        self.willPresent = willPresent
         self.willDismiss = willDismiss
         self.didDismiss = didDismiss
         self.splashAd?.present(fromRootViewController: topViewController)
@@ -69,6 +71,10 @@ extension SplashAd: GADFullScreenContentDelegate {
     func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
         print("Ad did fail to present full screen content.")
         self.didDismiss?()
+    }
+    
+    func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+        self.willPresent?()
     }
     
     func adWillDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
