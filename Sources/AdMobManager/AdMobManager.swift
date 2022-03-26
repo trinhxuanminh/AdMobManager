@@ -143,7 +143,7 @@ public struct AdMobManager {
     ///     AdMobManager.shared.limit_Reloading_Of_Ads_When_There_Is_An_Error()
     /// }
     ///```
-    /// - Warning: Ads may not be displayed properly.
+    /// - Warning: Ads may not be displayed properly. Changes only for SplashAd, InterstitialAd, AppOpenAd.
     public mutating func limit_Reloading_Of_Ads_When_There_Is_An_Error() {
         self.limitReloadingOfAdsWhenThereIsAnError = true
         self.load()
