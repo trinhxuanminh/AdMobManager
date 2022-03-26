@@ -17,8 +17,13 @@ class SplashAd: NSObject {
     fileprivate var willPresent: (() -> ())?
     fileprivate var willDismiss: (() -> ())?
     fileprivate var didDismiss: (() -> ())?
+    fileprivate var stopLoadingSplashAd: Bool = false
     
     func load() {
+        if self.stopLoadingSplashAd {
+            return
+        }
+        
         if self.isLoading {
             return
         }
@@ -29,10 +34,6 @@ class SplashAd: NSObject {
         }
         
         self.isLoading = true
-        
-        if AdMobManager.shared.getStopLoadingSplashAd() {
-            return
-        }
         
         let request = GADRequest()
         GADInterstitialAd.load(withAdUnitID: adUnit_ID,
@@ -96,5 +97,9 @@ extension SplashAd: GADFullScreenContentDelegate {
     
     func setAdUnitID(ID: String) {
         self.adUnit_ID = ID
+    }
+    
+    func setStopLoadingSplashAd() {
+        self.stopLoadingSplashAd = true
     }
 }
