@@ -71,6 +71,10 @@ extension BannerAdView: GADBannerViewDelegate {
         self.isLoading = false
         self.load()
     }
+    
+    public func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("did load ad")
+    }
 }
 
 extension BannerAdView {
