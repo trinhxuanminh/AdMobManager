@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import GoogleMobileAds
 
-public class BannerAdView: UIView {
+@IBDesignable public class BannerAdView: UIView {
     
     fileprivate var bannerAdView: GADBannerView! {
         didSet {
