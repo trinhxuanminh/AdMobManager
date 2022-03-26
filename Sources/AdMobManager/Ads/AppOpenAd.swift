@@ -26,6 +26,7 @@ class AppOpenAd: NSObject {
         }
         
         guard let adUnit_ID = self.adUnit_ID else {
+            print("No AppOpenAd ID!")
             return
         }
         

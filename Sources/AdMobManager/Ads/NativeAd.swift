@@ -14,6 +14,7 @@ public class NativeAd: NSObject {
     fileprivate var adUnit_ID: String?
     fileprivate var nativeAd: GADNativeAd?
     fileprivate var adLoader: GADAdLoader!
+    fileprivate var isLoading: Bool = false
     fileprivate var configData: (() -> ())?
     
     public override init() {
@@ -23,13 +24,22 @@ public class NativeAd: NSObject {
     }
     
     func load() {
-        guard let adUnit_ID = self.adUnit_ID else {
+        if self.isLoading {
             return
         }
+        
+        guard let adUnit_ID = self.adUnit_ID else {
+            print("No NativeAd ID!")
+            return
+        }
+        
         guard let topViewController = UIApplication.topStackViewController() else {
             print("Can't find RootViewController!")
             return
         }
+        
+        self.isLoading = true
+        
         self.adLoader = GADAdLoader(adUnitID: adUnit_ID,
                                rootViewController: topViewController,
                                adTypes: [.native],
@@ -53,6 +63,7 @@ public class NativeAd: NSObject {
 
 extension NativeAd: GADNativeAdLoaderDelegate {
     public func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: Error) {
+        self.isLoading = false
         self.load()
     }
     

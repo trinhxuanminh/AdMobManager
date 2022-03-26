@@ -22,11 +22,13 @@ class SplashAd: NSObject {
         if self.isLoading {
             return
         }
-        self.isLoading = true
         
         guard let adUnit_ID = self.adUnit_ID else {
+            print("No SplashAd ID!")
             return
         }
+        
+        self.isLoading = true
         
         let request = GADRequest()
         GADInterstitialAd.load(withAdUnitID: adUnit_ID,

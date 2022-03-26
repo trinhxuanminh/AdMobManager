@@ -29,6 +29,7 @@ class InterstitialAd: NSObject {
         }
         
         guard let adUnit_ID = self.adUnit_ID else {
+            print("No InterstitialAd ID!")
             return
         }
         

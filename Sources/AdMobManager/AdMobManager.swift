@@ -17,8 +17,9 @@ public struct AdMobManager {
     fileprivate var appOpenAd = AppOpenAd()
     fileprivate var startDate: Date?
     fileprivate var nativeAd_ID: String?
+    fileprivate var bannerAd_ID: String?
     
-    public mutating func set_AdUnit(splashAd_ID: String? = nil, interstitialAd_ID: String? = nil, appOpenAd_ID: String? = nil, nativeAd_ID: String? = nil) {
+    public mutating func set_AdUnit(splashAd_ID: String? = nil, interstitialAd_ID: String? = nil, appOpenAd_ID: String? = nil, nativeAd_ID: String? = nil, bannerAd_ID: String? = nil) {
         if let splashAd_ID = splashAd_ID {
             self.splashAd.setAdUnitID(ID: splashAd_ID)
         }
@@ -33,6 +34,10 @@ public struct AdMobManager {
         
         if let nativeAd_ID = nativeAd_ID {
             self.nativeAd_ID = nativeAd_ID
+        }
+        
+        if let bannerAd_ID = bannerAd_ID {
+            self.bannerAd_ID = bannerAd_ID
         }
         
         self.load()
@@ -97,6 +102,10 @@ extension AdMobManager {
     
     func getNativeAdID() -> String? {
         return self.nativeAd_ID
+    }
+    
+    func getBannerAdID() -> String? {
+        return self.bannerAd_ID
     }
     
     func allowShowFullFeature() -> Bool {
