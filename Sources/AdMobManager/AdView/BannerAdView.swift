@@ -15,7 +15,6 @@ public class BannerAdView: UIView {
         didSet {
             self.bannerAdView.translatesAutoresizingMaskIntoConstraints = false
             self.adUnit_ID = AdMobManager.shared.getBannerAdID()
-            self.load()
         }
     }
     
@@ -26,12 +25,14 @@ public class BannerAdView: UIView {
         super.awakeFromNib()
         self.createComponents()
         self.setupConstraints()
+        self.load()
     }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
         self.createComponents()
         self.setupConstraints()
+        self.load()
     }
     
     required init?(coder: NSCoder) {
