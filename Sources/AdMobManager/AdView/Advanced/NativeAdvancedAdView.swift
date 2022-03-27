@@ -159,7 +159,7 @@ import NVActivityIndicatorView
         }
         
         if let backgroundColor = backgroundColor {
-            self.backgroundColor = backgroundColor
+            self.contentView?.backgroundColor = backgroundColor
         }
         
         if let themeColor = themeColor {
