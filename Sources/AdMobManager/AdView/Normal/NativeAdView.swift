@@ -13,7 +13,8 @@ import NVActivityIndicatorView
 
     /// This constant returns the minimum recommended height for NativeAdCollectionViewCell.
     public static let adHeightMinimum: CGFloat = 100
-
+    
+    @IBOutlet weak var view: UIView!
     @IBOutlet var nativeAdView: GADNativeAdView!
     @IBOutlet weak var headlineLabel: UILabel! {
         didSet {
@@ -75,7 +76,28 @@ import NVActivityIndicatorView
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        nibSetup()
     }
+    
+    private func nibSetup() {
+            backgroundColor = .clear
+
+            view = loadViewFromNib()
+            view.frame = bounds
+        view.backgroundColor = .red
+            view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            view.translatesAutoresizingMaskIntoConstraints = true
+
+            addSubview(view)
+        }
+
+        private func loadViewFromNib() -> UIView {
+            let bundle = Bundle(for: type(of: self))
+            let nib = UINib(nibName: String(describing: type(of: self)), bundle: bundle)
+            let nibView = nib.instantiate(withOwner: self, options: nil).first as! UIView
+
+            return nibView
+        }
     
     /// This function helps to adjust the color of the ad content.
     /// - Parameter style: Change the color of the labels according to the interface style. Default is **light**.
