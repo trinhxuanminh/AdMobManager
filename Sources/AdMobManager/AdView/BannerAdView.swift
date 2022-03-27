@@ -20,14 +20,13 @@ import GoogleMobileAds
     fileprivate var bannerAdView: GADBannerView! {
         didSet {
             self.bannerAdView.translatesAutoresizingMaskIntoConstraints = false
-            self.adUnit_ID = AdMobManager.shared.getBannerAdID()
         }
     }
     
     fileprivate var adUnit_ID: String?
     fileprivate var isLoading: Bool = false
     fileprivate var isExist: Bool = false
-    fileprivate var didAddReloadingAd: Bool = false
+    fileprivate var didFirstLoadAd: Bool = false
     
     public override func awakeFromNib() {
         super.awakeFromNib()
@@ -47,10 +46,11 @@ import GoogleMobileAds
     
     public override func draw(_ rect: CGRect) {
         super.draw(rect)
-        self.load()
         
-        if !self.didAddReloadingAd {
-            self.didAddReloadingAd = true
+        if !self.didFirstLoadAd {
+            self.didFirstLoadAd = true
+            self.adUnit_ID = AdMobManager.shared.getBannerAdID()
+            self.load()
             AdMobManager.shared.addReloadingAd {
                 self.load()
             }

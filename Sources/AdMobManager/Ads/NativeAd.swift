@@ -29,11 +29,11 @@ public class NativeAd: NSObject {
     
     public override init() {
         super.init()
-        self.adUnit_ID = AdMobManager.shared.getNativeAdID()
-        self.load()
         
         if !self.didAddReloadingAd {
             self.didAddReloadingAd = true
+            self.adUnit_ID = AdMobManager.shared.getNativeAdID()
+            self.load()
             AdMobManager.shared.addReloadingAd {
                 self.load()
             }
