@@ -95,38 +95,38 @@ import NVActivityIndicatorView
         if let style = style {
             switch style {
             case .dark:
-                self.headlineLabel.textColor = UIColor(rgb: 0xFFFFFF)
+                self.headlineLabel?.textColor = UIColor(rgb: 0xFFFFFF)
                 
-                self.adLabel.textColor = UIColor(rgb: 0xFFFFFF)
-                self.adLabel.backgroundColor = UIColor(rgb: 0x004AFF)
+                self.adLabel?.textColor = UIColor(rgb: 0xFFFFFF)
+                self.adLabel?.backgroundColor = UIColor(rgb: 0x004AFF)
                 
-                self.advertiserLabel.textColor = UIColor(rgb: 0xFFFFFF, alpha: 0.6)
+                self.advertiserLabel?.textColor = UIColor(rgb: 0xFFFFFF, alpha: 0.6)
                 
-                self.callToActionButton.setTitleColor(UIColor(rgb: 0x000000), for: .normal)
+                self.callToActionButton?.setTitleColor(UIColor(rgb: 0x000000), for: .normal)
                 
-                if self.loadingIndicator.isAnimating {
-                    self.loadingIndicator.stopAnimating()
-                    self.loadingIndicator.color = UIColor(rgb: 0xFFFFFF)
-                    self.loadingIndicator.startAnimating()
+                if ((self.loadingIndicator?.isAnimating) != nil) {
+                    self.loadingIndicator?.stopAnimating()
+                    self.loadingIndicator?.color = UIColor(rgb: 0xFFFFFF)
+                    self.loadingIndicator?.startAnimating()
                 } else {
-                    self.loadingIndicator.color = UIColor(rgb: 0xFFFFFF)
+                    self.loadingIndicator?.color = UIColor(rgb: 0xFFFFFF)
                 }
             case .light:
-                self.headlineLabel.textColor = UIColor(rgb: 0x000000)
+                self.headlineLabel?.textColor = UIColor(rgb: 0x000000)
                 
-                self.adLabel.textColor = UIColor(rgb: 0x000000)
-                self.adLabel.backgroundColor = UIColor(rgb: 0xFFB500)
+                self.adLabel?.textColor = UIColor(rgb: 0x000000)
+                self.adLabel?.backgroundColor = UIColor(rgb: 0xFFB500)
                 
-                self.advertiserLabel.textColor = UIColor(rgb: 0x000000, alpha: 0.6)
+                self.advertiserLabel?.textColor = UIColor(rgb: 0x000000, alpha: 0.6)
                 
-                self.callToActionButton.setTitleColor(UIColor(rgb: 0xFFFFFF), for: .normal)
+                self.callToActionButton?.setTitleColor(UIColor(rgb: 0xFFFFFF), for: .normal)
                 
-                if self.loadingIndicator.isAnimating {
-                    self.loadingIndicator.stopAnimating()
-                    self.loadingIndicator.color = UIColor(rgb: 0x000000)
-                    self.loadingIndicator.startAnimating()
+                if ((self.loadingIndicator?.isAnimating) != nil) {
+                    self.loadingIndicator?.stopAnimating()
+                    self.loadingIndicator?.color = UIColor(rgb: 0x000000)
+                    self.loadingIndicator?.startAnimating()
                 } else {
-                    self.loadingIndicator.color = UIColor(rgb: 0x000000)
+                    self.loadingIndicator?.color = UIColor(rgb: 0x000000)
                 }
             }
         }
@@ -136,19 +136,19 @@ import NVActivityIndicatorView
         }
         
         if let themeColor = themeColor {
-            self.callToActionButton.backgroundColor = themeColor
+            self.callToActionButton?.backgroundColor = themeColor
         }
     }
     
     /// This function helps to change the loading type.
     /// - Parameter type: The NVActivityIndicatorType want to display. Default is **ballPulse**.
     public func set_Loading_Type(type: NVActivityIndicatorType) {
-        if self.loadingIndicator.isAnimating {
-            self.loadingIndicator.stopAnimating()
-            self.loadingIndicator.type = type
-            self.loadingIndicator.startAnimating()
+        if ((self.loadingIndicator?.isAnimating) != nil) {
+            self.loadingIndicator?.stopAnimating()
+            self.loadingIndicator?.type = type
+            self.loadingIndicator?.startAnimating()
         } else {
-            self.loadingIndicator.type = type
+            self.loadingIndicator?.type = type
         }
     }
 }

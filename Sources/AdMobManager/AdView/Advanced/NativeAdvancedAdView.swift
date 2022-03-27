@@ -114,57 +114,57 @@ import NVActivityIndicatorView
         if let style = style {
             switch style {
             case .dark:
-                self.headlineLabel.textColor = UIColor(rgb: 0xFFFFFF)
+                self.headlineLabel?.textColor = UIColor(rgb: 0xFFFFFF)
                 
-                self.adLabel.textColor = UIColor(rgb: 0xFFFFFF)
-                self.adLabel.backgroundColor = UIColor(rgb: 0x004AFF)
+                self.adLabel?.textColor = UIColor(rgb: 0xFFFFFF)
+                self.adLabel?.backgroundColor = UIColor(rgb: 0x004AFF)
                 
-                self.advertiserLabel.textColor = UIColor(rgb: 0xFFFFFF, alpha: 0.6)
+                self.advertiserLabel?.textColor = UIColor(rgb: 0xFFFFFF, alpha: 0.6)
                 
-                self.storeLabel.textColor = UIColor(rgb: 0xFFFFFF)
+                self.storeLabel?.textColor = UIColor(rgb: 0xFFFFFF)
                 
-                self.priceLabel.textColor = UIColor(rgb: 0xFFFFFF)
+                self.priceLabel?.textColor = UIColor(rgb: 0xFFFFFF)
                 
-                self.bodyLabel.textColor = UIColor(rgb: 0xFFFFFF)
+                self.bodyLabel?.textColor = UIColor(rgb: 0xFFFFFF)
                 
-                if self.loadingIndicator.isAnimating {
-                    self.loadingIndicator.stopAnimating()
-                    self.loadingIndicator.color = UIColor(rgb: 0xFFFFFF)
-                    self.loadingIndicator.startAnimating()
+                if ((self.loadingIndicator?.isAnimating) != nil) {
+                    self.loadingIndicator?.stopAnimating()
+                    self.loadingIndicator?.color = UIColor(rgb: 0xFFFFFF)
+                    self.loadingIndicator?.startAnimating()
                 } else {
-                    self.loadingIndicator.color = UIColor(rgb: 0xFFFFFF)
+                    self.loadingIndicator?.color = UIColor(rgb: 0xFFFFFF)
                 }
             case .light:
-                self.headlineLabel.textColor = UIColor(rgb: 0x000000)
+                self.headlineLabel?.textColor = UIColor(rgb: 0x000000)
                 
-                self.adLabel.textColor = UIColor(rgb: 0x000000)
-                self.adLabel.backgroundColor = UIColor(rgb: 0xFFB500)
+                self.adLabel?.textColor = UIColor(rgb: 0x000000)
+                self.adLabel?.backgroundColor = UIColor(rgb: 0xFFB500)
                 
-                self.advertiserLabel.textColor = UIColor(rgb: 0x000000, alpha: 0.6)
+                self.advertiserLabel?.textColor = UIColor(rgb: 0x000000, alpha: 0.6)
                 
-                self.storeLabel.textColor = UIColor(rgb: 0x000000)
+                self.storeLabel?.textColor = UIColor(rgb: 0x000000)
                 
-                self.priceLabel.textColor = UIColor(rgb: 0x000000)
+                self.priceLabel?.textColor = UIColor(rgb: 0x000000)
                 
-                self.bodyLabel.textColor = UIColor(rgb: 0x000000)
+                self.bodyLabel?.textColor = UIColor(rgb: 0x000000)
                 
-                if self.loadingIndicator.isAnimating {
-                    self.loadingIndicator.stopAnimating()
-                    self.loadingIndicator.color = UIColor(rgb: 0x000000)
-                    self.loadingIndicator.startAnimating()
+                if ((self.loadingIndicator?.isAnimating) != nil) {
+                    self.loadingIndicator?.stopAnimating()
+                    self.loadingIndicator?.color = UIColor(rgb: 0x000000)
+                    self.loadingIndicator?.startAnimating()
                 } else {
-                    self.loadingIndicator.color = UIColor(rgb: 0x000000)
+                    self.loadingIndicator?.color = UIColor(rgb: 0x000000)
                 }
             }
         }
         
         if let backgroundColor = backgroundColor {
-            self.contentView.backgroundColor = backgroundColor
+            self.backgroundColor = backgroundColor
         }
         
         if let themeColor = themeColor {
-            self.nativeAdView.layer.borderColor = themeColor.cgColor
-            self.callToActionButton.setTitleColor(themeColor, for: .normal)
+            self.nativeAdView?.layer.borderColor = themeColor.cgColor
+            self.callToActionButton?.setTitleColor(themeColor, for: .normal)
         }
     }
     
