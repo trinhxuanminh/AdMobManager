@@ -37,6 +37,10 @@ public class NativeAd: NSObject {
             return
         }
         
+        if self.isExist() {
+            return
+        }
+        
         guard let adUnit_ID = self.adUnit_ID else {
             print("No NativeAd ID!")
             return
@@ -81,6 +85,7 @@ extension NativeAd: GADNativeAdLoaderDelegate {
     }
     
     public func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
+        self.isLoading = false
         self.nativeAd = nativeAd
         self.configData?()
     }

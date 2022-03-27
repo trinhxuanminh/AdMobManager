@@ -165,17 +165,11 @@ extension AdMobManager {
             return
         }
         
-        if !self.splashAd.isExist() {
-            self.splashAd.load()
-        }
+        self.splashAd.load()
         
-        if !self.interstitialAd.isExist() {
-            self.interstitialAd.load()
-        }
+        self.interstitialAd.load()
         
-        if !self.appOpenAd.isExist() {
-            self.appOpenAd.load()
-        }
+        self.appOpenAd.load()
     }
     
     func getNativeAdID() -> String? {

@@ -28,6 +28,10 @@ class SplashAd: NSObject {
             return
         }
         
+        if self.isExist() {
+            return
+        }
+        
         guard let adUnit_ID = self.adUnit_ID else {
             print("No SplashAd ID!")
             return

@@ -26,6 +26,7 @@ import GoogleMobileAds
     
     fileprivate var adUnit_ID: String?
     fileprivate var isLoading: Bool = false
+    fileprivate var isExist: Bool = false
     
     public override func awakeFromNib() {
         super.awakeFromNib()
@@ -53,6 +54,10 @@ import GoogleMobileAds
             return
         }
         
+        if self.isExist {
+            return
+        }
+        
         guard let adUnit_ID = adUnit_ID else {
             print("No BannerAd ID!")
             return
@@ -77,6 +82,11 @@ extension BannerAdView: GADBannerViewDelegate {
         self.isLoading = false
         print("BannerAd download error, trying again!")
         self.load()
+    }
+    
+    public func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        self.isLoading = false
+        self.isExist = true
     }
 }
 
