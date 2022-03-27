@@ -78,11 +78,7 @@ public class NativeAdCollectionViewCell: UICollectionViewCell {
     }
     
     fileprivate var didConfigData: Bool = false
-    fileprivate var nativeAd: NativeAd = NativeAd() {
-        didSet {
-            print("init")
-        }
-    }
+    fileprivate var nativeAd: NativeAd = NativeAd()
     
     public override func awakeFromNib() {
         super.awakeFromNib()
@@ -92,10 +88,10 @@ public class NativeAdCollectionViewCell: UICollectionViewCell {
     }
     
     /// This function will help ads show on NativeAdCollectionViewCell class.
-    public func setAd(nativeAd: NativeAd) {
-        self.config_Data(ad: nativeAd.get_Ad())
-        nativeAd.set_Config_Data {
-            self.config_Data(ad: nativeAd.get_Ad())
+    public func setAd() {
+        self.config_Data(ad: self.nativeAd.get_Ad())
+        self.nativeAd.set_Config_Data {
+            self.config_Data(ad: self.nativeAd.get_Ad())
         }
     }
     
