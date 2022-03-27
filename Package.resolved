@@ -47,15 +47,6 @@
         }
       },
       {
-        "package": "NativeAdvancedAdCollectionViewCell",
-        "repositoryURL": "https://github.com/trinhxuanminh/NativeAdvancedAdCollectionViewCell.git",
-        "state": {
-          "branch": "main",
-          "revision": "4d07b941c408f60599116d97d6404a846e68ea07",
-          "version": null
-        }
-      },
-      {
         "package": "NVActivityIndicatorView",
         "repositoryURL": "https://github.com/ninjaprox/NVActivityIndicatorView.git",
         "state": {

@@ -16,8 +16,7 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
         .package(name: "GoogleMobileAds", url: "https://github.com/quanghits/GoogleMobileAds.git", from: "9.1.0"),
-//        .package(name: "NativeAdCollectionViewCell", url: "https://github.com/trinhxuanminh/NativeAdCollectionViewCell.git", branch: "main"),
-        .package(name: "NativeAdvancedAdCollectionViewCell", url: "https://github.com/trinhxuanminh/NativeAdvancedAdCollectionViewCell.git", branch: "main"),
+        .package(name: "NVActivityIndicatorView", url: "https://github.com/ninjaprox/NVActivityIndicatorView.git", from: "5.1.1"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -26,11 +25,11 @@ let package = Package(
             name: "AdMobManager",
             dependencies: [
                 "GoogleMobileAds",
-//                "NativeAdCollectionViewCell",
-                "NativeAdvancedAdCollectionViewCell",
+                "NVActivityIndicatorView",
             ],
             resources: [
-                .process("AdCollectionViewCell/NativeAdCollectionViewCell.xib"),
+                .process("AdCollectionViewCell/Normal/NativeAdCollectionViewCell.xib"),
+                .process("AdCollectionViewCell/Advanced/NativeAdvancedAdCollectionViewCell.xib"),
             ]
         ),
         .testTarget(
