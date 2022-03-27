@@ -28,6 +28,9 @@ let package = Package(
                 "GoogleMobileAds",
 //                "NativeAdCollectionViewCell",
                 "NativeAdvancedAdCollectionViewCell",
+            ],
+            resources: [
+                .process("AdCollectionViewCell/NativeAdCollectionViewCell.xib"),
             ]
         ),
         .testTarget(
