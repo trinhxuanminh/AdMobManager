@@ -11,7 +11,6 @@ import NVActivityIndicatorView
 
 /// This class returns a UICollectionViewCell displaying NativeAd.
 /// ```
-/// import NativeAdCollectionViewCell
 /// import AdMobManager
 /// ```
 /// ```
@@ -20,16 +19,13 @@ import NVActivityIndicatorView
 /// override func viewDidLoad() {
 ///     super.viewDidLoad()
 ///
-///     self.collectionView.register(UINib(nibName: NativeAdCollectionViewCell.className, bundle: NativeAdCollectionViewCell.bundle), forCellWithReuseIdentifier: NativeAdCollectionViewCell.className)
+///     self.collectionView.register(UINib(nibName: NativeAdCollectionViewCell.className, bundle: AdMobManager.bundle), forCellWithReuseIdentifier: NativeAdCollectionViewCell.className)
 /// }
 /// ```
 /// ```
 /// func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 ///     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NativeAdCollectionViewCell.className, for: indexPath) as! NativeAdCollectionViewCell
-///     cell.config_Data(self.nativeAd.get_Ad())
-///     self.nativeAd.set_Config_Data {
-///         cell.config_Data(self.nativeAd.get_Ad())
-///     }
+///     cell.setAd(nativeAd: self.nativeAd)
 ///     return cell
 /// }
 /// ```
@@ -82,6 +78,11 @@ public class NativeAdCollectionViewCell: UICollectionViewCell {
     }
     
     fileprivate var didConfigData: Bool = false
+    fileprivate var nativeAd: NativeAd = NativeAd() {
+        didSet {
+            print("init")
+        }
+    }
     
     public override func awakeFromNib() {
         super.awakeFromNib()

@@ -11,7 +11,6 @@ import NVActivityIndicatorView
 
 /// This class returns a UICollectionViewCell displaying NativeAd.
 /// ```
-/// import NativeAdvancedAdCollectionViewCell
 /// import AdMobManager
 /// ```
 /// ```
@@ -20,16 +19,13 @@ import NVActivityIndicatorView
 /// override func viewDidLoad() {
 ///     super.viewDidLoad()
 ///
-///     self.collectionView.register(UINib(nibName: NativeAdvancedAdCollectionViewCell.className, bundle: NativeAdvancedAdCollectionViewCell.bundle), forCellWithReuseIdentifier: NativeAdvancedAdCollectionViewCell.className)
+///     self.collectionView.register(UINib(nibName: NativeAdvancedAdCollectionViewCell.className, bundle: AdMobManager.bundle), forCellWithReuseIdentifier: NativeAdvancedAdCollectionViewCell.className)
 /// }
 /// ```
 /// ```
 /// func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 ///     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NativeAdvancedAdCollectionViewCell.className, for: indexPath) as! NativeAdvancedAdCollectionViewCell
-///     cell.config_Data(self.nativeAd.get_Ad())
-///     self.nativeAd.set_Config_Data {
-///         cell.config_Data(self.nativeAd.get_Ad())
-///     }
+///     cell.setAd(nativeAd: self.nativeAd)
 ///     return cell
 /// }
 /// ```
