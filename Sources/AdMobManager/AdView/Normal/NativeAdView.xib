@@ -5,17 +5,27 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NativeAdView" customModule="AdMobManager"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NativeAdView" customModule="AdMobManager">
+            <connections>
+                <outlet property="adLabel" destination="tOS-am-PkC" id="JPC-VO-IKj"/>
+                <outlet property="advertiserLabel" destination="ext-Ii-t8I" id="DL7-5E-b00"/>
+                <outlet property="callToActionButton" destination="cRI-p7-ahc" id="LiL-KQ-zSP"/>
+                <outlet property="contentView" destination="iN0-l3-epB" id="EGl-SH-dXC"/>
+                <outlet property="headlineLabel" destination="Wzh-ea-UuP" id="b38-hy-Fh3"/>
+                <outlet property="nativeAdView" destination="NMf-nG-9Vw" id="arH-ea-5aq"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="NativeAdView" customModule="AdMobManager">
-            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NMf-nG-9Vw" customClass="GADNativeAdView">
-                    <rect key="frame" x="0.0" y="398" width="414" height="100"/>
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="baK-Oy-Gyk">
                             <rect key="frame" x="15" y="15" width="70" height="70"/>
@@ -92,20 +102,19 @@
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" systemColor="systemYellowColor"/>
             <constraints>
                 <constraint firstItem="NMf-nG-9Vw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="I39-Vz-J7k"/>
                 <constraint firstAttribute="trailing" secondItem="NMf-nG-9Vw" secondAttribute="trailing" id="Mjn-1r-VAW"/>
                 <constraint firstItem="NMf-nG-9Vw" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="p4p-BZ-2gJ"/>
             </constraints>
-            <connections>
-                <outlet property="adLabel" destination="tOS-am-PkC" id="8BE-aC-XmD"/>
-                <outlet property="advertiserLabel" destination="ext-Ii-t8I" id="FEj-i7-Px1"/>
-                <outlet property="callToActionButton" destination="cRI-p7-ahc" id="IqU-0i-lzN"/>
-                <outlet property="headlineLabel" destination="Wzh-ea-UuP" id="nNu-ZO-eej"/>
-                <outlet property="nativeAdView" destination="NMf-nG-9Vw" id="Sdv-3v-UPg"/>
-            </connections>
-            <point key="canvasLocation" x="133" y="130"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-290" y="-183"/>
         </view>
     </objects>
+    <resources>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>

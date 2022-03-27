@@ -14,7 +14,7 @@ import NVActivityIndicatorView
     /// This constant returns the minimum recommended height for NativeAdCollectionViewCell.
     public static let adHeightMinimum: CGFloat = 100
     
-    @IBOutlet weak var view: UIView!
+    @IBOutlet var contentView: UIView!
     @IBOutlet var nativeAdView: GADNativeAdView!
     @IBOutlet weak var headlineLabel: UILabel! {
         didSet {
@@ -62,6 +62,7 @@ import NVActivityIndicatorView
     public override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.setupView()
         self.createComponents()
         self.setupConstraints()
         self.setAd()
@@ -69,6 +70,7 @@ import NVActivityIndicatorView
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
+        self.setupView()
         self.createComponents()
         self.setupConstraints()
         self.setAd()
@@ -76,28 +78,14 @@ import NVActivityIndicatorView
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        nibSetup()
     }
     
-    private func nibSetup() {
-            backgroundColor = .clear
-
-            view = loadViewFromNib()
-            view.frame = bounds
-        view.backgroundColor = .red
-            view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            view.translatesAutoresizingMaskIntoConstraints = true
-
-            addSubview(view)
-        }
-
-        private func loadViewFromNib() -> UIView {
-            let bundle = Bundle(for: type(of: self))
-            let nib = UINib(nibName: String(describing: type(of: self)), bundle: bundle)
-            let nibView = nib.instantiate(withOwner: self, options: nil).first as! UIView
-
-            return nibView
-        }
+    fileprivate func setupView() {
+        Bundle.module.loadNibNamed("NativeAdView", owner: self, options: nil)
+        self.addSubview(self.contentView)
+        self.contentView.frame = self.bounds
+        self.contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    }
     
     /// This function helps to adjust the color of the ad content.
     /// - Parameter style: Change the color of the labels according to the interface style. Default is **light**.
@@ -168,13 +156,13 @@ import NVActivityIndicatorView
 extension NativeAdView {
     func createComponents() {
         self.loadingIndicator = NVActivityIndicatorView(frame: .zero)
-        self.addSubview(self.loadingIndicator)
+        self.contentView.addSubview(self.loadingIndicator)
     }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            self.loadingIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            self.loadingIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            self.loadingIndicator.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
+            self.loadingIndicator.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
             self.loadingIndicator.widthAnchor.constraint(equalToConstant: 20),
             self.loadingIndicator.heightAnchor.constraint(equalToConstant: 20),
         ])
