@@ -27,7 +27,6 @@ import GoogleMobileAds
     fileprivate var adUnit_ID: String?
     fileprivate var isLoading: Bool = false
     fileprivate var isExist: Bool = false
-    fileprivate var limitReloading: Bool = false
     
     public override func awakeFromNib() {
         super.awakeFromNib()
@@ -49,8 +48,8 @@ import GoogleMobileAds
         super.draw(rect)
         self.load()
         
-        AdMobManager.shared.addLimitReloading {
-            self.limitReloading = true
+        AdMobManager.shared.addReloadingAd {
+            self.load()
         }
     }
     
@@ -60,11 +59,6 @@ import GoogleMobileAds
         }
         
         if self.isExist {
-            return
-        }
-        
-        if self.limitReloading {
-            self.load()
             return
         }
         
@@ -91,8 +85,9 @@ extension BannerAdView: GADBannerViewDelegate {
     public func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
         self.isLoading = false
         print("BannerAd download error, trying again!")
-        self.limitReloading = AdMobManager.shared.getLimitReloadingOfAdsWhenThereIsAnError()
-        self.load()
+        if !AdMobManager.shared.getLimitReloadingOfAdsWhenThereIsAnError() {
+            self.load()
+        }
     }
     
     public func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
