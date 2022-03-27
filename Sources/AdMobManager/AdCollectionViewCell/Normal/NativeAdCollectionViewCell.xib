@@ -11,21 +11,21 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="" id="gTV-IL-0wX" customClass="NativeAdCollectionViewCell" customModule="AdMobManager">
-            <rect key="frame" x="0.0" y="0.0" width="401" height="100"/>
+            <rect key="frame" x="0.0" y="0.0" width="401" height="99"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="401" height="100"/>
+                <rect key="frame" x="0.0" y="0.0" width="401" height="99"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ScS-l2-ZmV" customClass="GADNativeAdView">
-                        <rect key="frame" x="0.0" y="0.0" width="401" height="100"/>
+                        <rect key="frame" x="0.0" y="-0.5" width="401" height="100"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="qwO-ds-ATf">
                                 <rect key="frame" x="15" y="15" width="70" height="70"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="70" id="FZ4-Vy-cXC"/>
                                     <constraint firstAttribute="width" secondItem="qwO-ds-ATf" secondAttribute="height" multiplier="1:1" id="ckV-tI-aaU"/>
+                                    <constraint firstAttribute="width" constant="70" id="yaP-ho-Vuf"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Headline" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cUT-ym-jDI">
@@ -69,7 +69,9 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstAttribute="height" constant="100" id="4If-YU-27s"/>
                             <constraint firstAttribute="trailing" secondItem="xK0-HE-Xb3" secondAttribute="trailing" constant="15" id="9Vt-OJ-VfS"/>
+                            <constraint firstItem="qwO-ds-ATf" firstAttribute="centerY" secondItem="ScS-l2-ZmV" secondAttribute="centerY" id="Cfo-IW-NzC"/>
                             <constraint firstItem="xK0-HE-Xb3" firstAttribute="leading" secondItem="jhE-ED-nyd" secondAttribute="trailing" constant="8" id="EU8-7x-DxL"/>
                             <constraint firstItem="cUT-ym-jDI" firstAttribute="leading" secondItem="qwO-ds-ATf" secondAttribute="trailing" constant="8" symbolic="YES" id="Efz-2u-vw1"/>
                             <constraint firstItem="qwO-ds-ATf" firstAttribute="leading" secondItem="ScS-l2-ZmV" secondAttribute="leading" constant="15" id="Fka-ii-hyw"/>
@@ -78,7 +80,6 @@
                             <constraint firstAttribute="trailing" secondItem="cUT-ym-jDI" secondAttribute="trailing" constant="15" id="JEc-zg-g27"/>
                             <constraint firstItem="Qte-vl-EP4" firstAttribute="top" secondItem="xK0-HE-Xb3" secondAttribute="bottom" constant="1" id="Q2P-cW-V7M"/>
                             <constraint firstItem="Qte-vl-EP4" firstAttribute="leading" secondItem="qwO-ds-ATf" secondAttribute="trailing" constant="8" id="QAd-Ec-AOh"/>
-                            <constraint firstItem="qwO-ds-ATf" firstAttribute="centerY" secondItem="ScS-l2-ZmV" secondAttribute="centerY" id="XjP-BU-don"/>
                             <constraint firstItem="qwO-ds-ATf" firstAttribute="bottom" secondItem="Qte-vl-EP4" secondAttribute="bottom" id="cfL-7F-1UF"/>
                             <constraint firstItem="cUT-ym-jDI" firstAttribute="top" secondItem="qwO-ds-ATf" secondAttribute="top" constant="-5" id="evi-Iq-o0c"/>
                             <constraint firstAttribute="trailing" secondItem="Qte-vl-EP4" secondAttribute="trailing" constant="15" id="kzn-3a-ZXa"/>
@@ -97,12 +98,11 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="ScS-l2-ZmV" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="AL8-cj-UvO"/>
                 <constraint firstAttribute="trailing" secondItem="ScS-l2-ZmV" secondAttribute="trailing" id="axB-IS-v7q"/>
-                <constraint firstAttribute="bottom" secondItem="ScS-l2-ZmV" secondAttribute="bottom" id="qR7-u3-Axv"/>
                 <constraint firstItem="ScS-l2-ZmV" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="vCH-Ya-qjJ"/>
-                <constraint firstItem="ScS-l2-ZmV" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="zbf-fv-8kp"/>
             </constraints>
-            <size key="customSize" width="401" height="102"/>
+            <size key="customSize" width="401" height="101"/>
             <connections>
                 <outlet property="adLabel" destination="jhE-ED-nyd" id="fgU-XE-LuP"/>
                 <outlet property="advertiserLabel" destination="xK0-HE-Xb3" id="lPI-rk-4iD"/>
@@ -110,7 +110,7 @@
                 <outlet property="headlineLabel" destination="cUT-ym-jDI" id="pIC-O7-4cr"/>
                 <outlet property="nativeAdView" destination="ScS-l2-ZmV" id="eeS-pd-m8k"/>
             </connections>
-            <point key="canvasLocation" x="-25.362318840579711" y="14.732142857142856"/>
+            <point key="canvasLocation" x="-25.362318840579711" y="4.3526785714285712"/>
         </collectionViewCell>
     </objects>
 </document>
