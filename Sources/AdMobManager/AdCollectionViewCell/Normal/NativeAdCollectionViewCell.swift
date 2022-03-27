@@ -14,8 +14,6 @@ import NVActivityIndicatorView
 /// import AdMobManager
 /// ```
 /// ```
-/// let nativeAd: NativeAd = NativeAd()
-///
 /// override func viewDidLoad() {
 ///     super.viewDidLoad()
 ///
@@ -25,7 +23,6 @@ import NVActivityIndicatorView
 /// ```
 /// func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 ///     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NativeAdCollectionViewCell.className, for: indexPath) as! NativeAdCollectionViewCell
-///     cell.setAd(nativeAd: self.nativeAd)
 ///     return cell
 /// }
 /// ```
@@ -85,14 +82,7 @@ public class NativeAdCollectionViewCell: UICollectionViewCell {
         // Initialization code
         self.createComponents()
         self.setupConstraints()
-    }
-    
-    /// This function will help ads show on NativeAdCollectionViewCell class.
-    public func setAd() {
-        self.config_Data(ad: self.nativeAd.get_Ad())
-        self.nativeAd.set_Config_Data {
-            self.config_Data(ad: self.nativeAd.get_Ad())
-        }
+        self.setAd()
     }
     
     /// This function helps to adjust the color of the ad content.
@@ -174,6 +164,13 @@ extension NativeAdCollectionViewCell {
             self.loadingIndicator.widthAnchor.constraint(equalToConstant: 20),
             self.loadingIndicator.heightAnchor.constraint(equalToConstant: 20),
         ])
+    }
+    
+    func setAd() {
+        self.config_Data(ad: self.nativeAd.get_Ad())
+        self.nativeAd.set_Config_Data {
+            self.config_Data(ad: self.nativeAd.get_Ad())
+        }
     }
     
     func config_Data(ad: GADNativeAd?) {

@@ -9,16 +9,7 @@ import Foundation
 import UIKit
 import GoogleMobileAds
 
-/// This class returns a NSObject gồm một GADNativeAd.
-/// ```
-/// import AdMobManager
-/// ```
-/// ```
-/// let nativeAd: NativeAd = NativeAd()
-/// ```
-/// Use as a data type.
-/// - Warning: Requires additional ID before initialization.
-public class NativeAd: NSObject {
+class NativeAd: NSObject {
     
     fileprivate var adUnit_ID: String?
     fileprivate var nativeAd: GADNativeAd?
@@ -27,7 +18,7 @@ public class NativeAd: NSObject {
     fileprivate var configData: (() -> ())?
     fileprivate var didAddReloadingAd: Bool = false
     
-    public override init() {
+    override init() {
         super.init()
         
         if !self.didAddReloadingAd {
@@ -83,7 +74,7 @@ public class NativeAd: NSObject {
 }
 
 extension NativeAd: GADNativeAdLoaderDelegate {
-    public func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: Error) {
+    func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: Error) {
         self.isLoading = false
         print("NativeAd download error, trying again!")
         if !AdMobManager.shared.getLimitReloadingOfAdsWhenThereIsAnError() {
@@ -91,7 +82,7 @@ extension NativeAd: GADNativeAdLoaderDelegate {
         }
     }
     
-    public func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
+    func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
         self.nativeAd = nativeAd
         self.configData?()
     }
