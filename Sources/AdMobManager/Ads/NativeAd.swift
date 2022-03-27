@@ -1,8 +1,8 @@
 //
-//  NativeAdsGlobal.swift
-//  MovieIOS7
+//  NativeAd.swift
+//  AdMobManager
 //
-//  Created by Trịnh Xuân Minh on 21/02/2022.
+//  Created by Trịnh Xuân Minh on 25/03/2022.
 //
 
 import Foundation
@@ -73,14 +73,11 @@ public class NativeAd: NSObject {
         return self.nativeAd != nil
     }
     
-    /// This function returns a GADNativeAd inside the NativeAd class.
-    public func get_Ad() -> GADNativeAd? {
+    func get_Ad() -> GADNativeAd? {
         return self.nativeAd
     }
     
-    /// This function will change the command block to execute when the ad has been received.
-    /// - Parameter didLoadAd: An executable block of commands.
-    public func set_Config_Data(didLoadAd: (() -> ())?) {
+    func set_Config_Data(didLoadAd: (() -> ())?) {
         self.configData = didLoadAd
     }
 }

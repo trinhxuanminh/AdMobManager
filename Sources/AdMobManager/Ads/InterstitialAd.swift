@@ -1,8 +1,8 @@
 //
-//  InterstitialAdsGlobal.swift
-//  MovieIOS7
+//  InterstitialAd.swift
+//  AdMobManager
 //
-//  Created by Trịnh Xuân Minh on 21/02/2022.
+//  Created by Trịnh Xuân Minh on 25/03/2022.
 //
 
 import Foundation

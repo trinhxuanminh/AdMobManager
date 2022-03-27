@@ -1,8 +1,8 @@
 //
-//  InterstitialAdsSplash.swift
-//  MovieIOS7
+//  SplashAd.swift
+//  AdMobManager
 //
-//  Created by Trịnh Xuân Minh on 21/02/2022.
+//  Created by Trịnh Xuân Minh on 25/03/2022.
 //
 
 import Foundation

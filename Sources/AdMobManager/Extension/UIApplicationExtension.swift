@@ -1,8 +1,8 @@
 //
 //  UIApplicationExtension.swift
-//  Wallpaper_Gacha_Life
+//  AdMobManager
 //
-//  Created by Trịnh Xuân Minh on 05/04/2021.
+//  Created by Trịnh Xuân Minh on 25/03/2022.
 //
 
 import Foundation

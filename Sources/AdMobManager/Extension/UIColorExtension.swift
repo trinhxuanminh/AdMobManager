@@ -1,6 +1,6 @@
 //
 //  UIColorExtension.swift
-//  NativeAdCollectionViewCell
+//  AdMobManager
 //
 //  Created by Trịnh Xuân Minh on 25/03/2022.
 //

@@ -1,8 +1,8 @@
 //
 //  NSObjectExtension.swift
-//  Strem_IO
+//  AdMobManager
 //
-//  Created by Trịnh Xuân Minh on 27/05/2021.
+//  Created by Trịnh Xuân Minh on 25/03/2022.
 //
 
 import Foundation

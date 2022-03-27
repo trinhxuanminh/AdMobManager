@@ -1,3 +1,10 @@
+//
+//  AdMobManager.swift
+//  AdMobManager
+//
+//  Created by Trịnh Xuân Minh on 25/03/2022.
+//
+
 import UIKit
 import GoogleMobileAds
 import Foundation
@@ -8,6 +15,9 @@ import Foundation
 /// ```
 /// - Warning: Available for Swift 5.0, Xcode 11.0. Support from iOS 10.0!
 public struct AdMobManager {
+    
+    /// This constant returns the Bundle of the AdMobManager module
+    public static let bundle = Bundle.module
     
     public static var shared = AdMobManager()
     

@@ -1,8 +1,8 @@
 //
-//  File.swift
-//  
+//  BannerAdView.swift
+//  AdMobManager
 //
-//  Created by Trịnh Xuân Minh on 26/03/2022.
+//  Created by Trịnh Xuân Minh on 25/03/2022.
 //
 
 import Foundation

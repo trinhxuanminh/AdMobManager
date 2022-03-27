@@ -1,6 +1,6 @@
 //
 //  NativeAdvancedAdCollectionViewCell.swift
-//  NativeAdvancedAdCollectionViewCell
+//  AdMobManager
 //
 //  Created by Trịnh Xuân Minh on 25/03/2022.
 //
@@ -36,9 +36,6 @@ import NVActivityIndicatorView
 /// Minimum height is **400**
 /// - Warning: Native Ad will not be displayed without adding ID.
 public class NativeAdvancedAdCollectionViewCell: UICollectionViewCell, GADVideoControllerDelegate {
-    
-    /// This constant returns the Bundle of the NativeAdvancedAdCollectionViewCell module
-    public static let bundle = Bundle.module
     
     /// This constant returns the minimum recommended height for NativeAdvancedAdCollectionViewCell.
     public static let adHeightMinimum: CGFloat = 400
@@ -112,56 +109,12 @@ public class NativeAdvancedAdCollectionViewCell: UICollectionViewCell, GADVideoC
         self.setupConstraints()
     }
     
-    /// This function will present the ad content.
-    /// - Parameter nativeAd: The GADNativeAd class want to display.
-    public func config_Data(ad: GADNativeAd?) {
-        guard let nativeAd = ad else {
-            self.loadingIndicator?.startAnimating()
-            self.nativeAdView?.isHidden = true
-            return
+    /// This function will help ads show on NativeAdvancedAdCollectionViewCell class.
+    public func setAd(nativeAd: NativeAd) {
+        self.config_Data(ad: nativeAd.get_Ad())
+        nativeAd.set_Config_Data {
+            self.config_Data(ad: nativeAd.get_Ad())
         }
-        
-        if self.didConfigData {
-            return
-        }
-        
-        self.didConfigData = true
-        self.loadingIndicator?.stopAnimating()
-        
-        self.nativeAdView?.isHidden = false
-        
-        self.nativeAdView?.nativeAd = nativeAd
-        
-        (self.nativeAdView?.headlineView as? UILabel)?.text = nativeAd.headline
-        self.nativeAdView?.mediaView?.mediaContent = nativeAd.mediaContent
-
-        let mediaContent = nativeAd.mediaContent
-        if mediaContent.hasVideoContent {
-            mediaContent.videoController.delegate = self
-        }
-
-        (self.nativeAdView?.bodyView as? UILabel)?.text = nativeAd.body
-        self.nativeAdView?.bodyView?.isHidden = nativeAd.body == nil
-
-        (self.nativeAdView?.callToActionView as? UIButton)?.setTitle(nativeAd.callToAction, for: .normal)
-        self.nativeAdView?.callToActionView?.isHidden = nativeAd.callToAction == nil
-
-        (self.nativeAdView?.iconView as? UIImageView)?.image = nativeAd.icon?.image
-        self.nativeAdView?.iconView?.isHidden = nativeAd.icon == nil
-
-        (self.nativeAdView?.starRatingView as? UIImageView)?.image = self.imageOfStars(from: nativeAd.starRating)
-        self.nativeAdView?.starRatingView?.isHidden = nativeAd.starRating == nil
-
-        (self.nativeAdView?.storeView as? UILabel)?.text = nativeAd.store
-        self.nativeAdView?.storeView?.isHidden = nativeAd.store == nil
-
-        (self.nativeAdView?.priceView as? UILabel)?.text = nativeAd.price
-        self.nativeAdView?.priceView?.isHidden = nativeAd.price == nil
-
-        (self.nativeAdView?.advertiserView as? UILabel)?.text = nativeAd.advertiser
-        self.nativeAdView?.advertiserView?.isHidden = nativeAd.advertiser == nil
-
-        self.nativeAdView?.callToActionView?.isUserInteractionEnabled = false
     }
     
     /// This function helps to adjust the color of the ad content.
@@ -252,6 +205,56 @@ extension NativeAdvancedAdCollectionViewCell {
             self.loadingIndicator.widthAnchor.constraint(equalToConstant: 20),
             self.loadingIndicator.heightAnchor.constraint(equalToConstant: 20),
         ])
+    }
+    
+    func config_Data(ad: GADNativeAd?) {
+        guard let nativeAd = ad else {
+            self.loadingIndicator?.startAnimating()
+            self.nativeAdView?.isHidden = true
+            return
+        }
+        
+        if self.didConfigData {
+            return
+        }
+        
+        self.didConfigData = true
+        self.loadingIndicator?.stopAnimating()
+        
+        self.nativeAdView?.isHidden = false
+        
+        self.nativeAdView?.nativeAd = nativeAd
+        
+        (self.nativeAdView?.headlineView as? UILabel)?.text = nativeAd.headline
+        self.nativeAdView?.mediaView?.mediaContent = nativeAd.mediaContent
+
+        let mediaContent = nativeAd.mediaContent
+        if mediaContent.hasVideoContent {
+            mediaContent.videoController.delegate = self
+        }
+
+        (self.nativeAdView?.bodyView as? UILabel)?.text = nativeAd.body
+        self.nativeAdView?.bodyView?.isHidden = nativeAd.body == nil
+
+        (self.nativeAdView?.callToActionView as? UIButton)?.setTitle(nativeAd.callToAction, for: .normal)
+        self.nativeAdView?.callToActionView?.isHidden = nativeAd.callToAction == nil
+
+        (self.nativeAdView?.iconView as? UIImageView)?.image = nativeAd.icon?.image
+        self.nativeAdView?.iconView?.isHidden = nativeAd.icon == nil
+
+        (self.nativeAdView?.starRatingView as? UIImageView)?.image = self.imageOfStars(from: nativeAd.starRating)
+        self.nativeAdView?.starRatingView?.isHidden = nativeAd.starRating == nil
+
+        (self.nativeAdView?.storeView as? UILabel)?.text = nativeAd.store
+        self.nativeAdView?.storeView?.isHidden = nativeAd.store == nil
+
+        (self.nativeAdView?.priceView as? UILabel)?.text = nativeAd.price
+        self.nativeAdView?.priceView?.isHidden = nativeAd.price == nil
+
+        (self.nativeAdView?.advertiserView as? UILabel)?.text = nativeAd.advertiser
+        self.nativeAdView?.advertiserView?.isHidden = nativeAd.advertiser == nil
+
+        self.nativeAdView?.callToActionView?.isUserInteractionEnabled = false
     }
     
     func imageOfStars(from starRating: NSDecimalNumber?) -> UIImage? {
