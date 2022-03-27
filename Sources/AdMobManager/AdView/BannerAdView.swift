@@ -27,6 +27,7 @@ import GoogleMobileAds
     fileprivate var adUnit_ID: String?
     fileprivate var isLoading: Bool = false
     fileprivate var isExist: Bool = false
+    fileprivate var didAddReloadingAd: Bool = false
     
     public override func awakeFromNib() {
         super.awakeFromNib()
@@ -48,8 +49,11 @@ import GoogleMobileAds
         super.draw(rect)
         self.load()
         
-        AdMobManager.shared.addReloadingAd {
-            self.load()
+        if !self.didAddReloadingAd {
+            self.didAddReloadingAd = true
+            AdMobManager.shared.addReloadingAd {
+                self.load()
+            }
         }
     }
     

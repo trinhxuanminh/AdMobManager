@@ -25,14 +25,18 @@ public class NativeAd: NSObject {
     fileprivate var adLoader: GADAdLoader!
     fileprivate var isLoading: Bool = false
     fileprivate var configData: (() -> ())?
+    fileprivate var didAddReloadingAd: Bool = false
     
     public override init() {
         super.init()
         self.adUnit_ID = AdMobManager.shared.getNativeAdID()
         self.load()
         
-        AdMobManager.shared.addReloadingAd {
-            self.load()
+        if !self.didAddReloadingAd {
+            self.didAddReloadingAd = true
+            AdMobManager.shared.addReloadingAd {
+                self.load()
+            }
         }
     }
     
