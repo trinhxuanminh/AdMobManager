@@ -1,6 +1,6 @@
 //
 //  NativeAdView.swift
-//  
+//  AdMobManager
 //
 //  Created by Trịnh Xuân Minh on 27/03/2022.
 //
@@ -9,9 +9,16 @@ import UIKit
 import GoogleMobileAds
 import NVActivityIndicatorView
 
+/// This class returns a UIView displaying NativeAd.
+/// ```
+/// import AdMobManager
+/// ```
+/// Can be instantiated by program or interface builder. Use as UIView. Ad display is automatic.
+/// Minimum height is **100**
+/// - Warning: Native Ad will not be displayed without adding ID.
 @IBDesignable public class NativeAdView: UIView {
 
-    /// This constant returns the minimum recommended height for NativeAdCollectionViewCell.
+    /// This constant returns the minimum recommended height for NativeAdView.
     public static let adHeightMinimum: CGFloat = 100
     
     @IBOutlet var contentView: UIView!
@@ -80,16 +87,9 @@ import NVActivityIndicatorView
         super.init(coder: coder)
     }
     
-    fileprivate func setupView() {
-        Bundle.module.loadNibNamed("NativeAdView", owner: self, options: nil)
-        self.addSubview(self.contentView)
-        self.contentView.frame = self.bounds
-        self.contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    }
-    
     /// This function helps to adjust the color of the ad content.
     /// - Parameter style: Change the color of the labels according to the interface style. Default is **light**.
-    /// - Parameter backgroundColor: Change background color of NativeAdCollectionViewCell class. Default is **clear**.
+    /// - Parameter backgroundColor: Change background color of NativeAdView class. Default is **clear**.
     /// - Parameter themeColor: Change the background color of the buttons. Default is **#87A605**.
     public func set_Color(style: Style? = nil, backgroundColor: UIColor? = nil, themeColor: UIColor? = nil) {
         if let style = style {
@@ -166,6 +166,13 @@ extension NativeAdView {
             self.loadingIndicator.widthAnchor.constraint(equalToConstant: 20),
             self.loadingIndicator.heightAnchor.constraint(equalToConstant: 20),
         ])
+    }
+    
+    func setupView() {
+        Bundle.module.loadNibNamed(NativeAdView.className, owner: self, options: nil)
+        self.addSubview(self.contentView)
+        self.contentView.frame = self.bounds
+        self.contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
     
     func setAd() {
