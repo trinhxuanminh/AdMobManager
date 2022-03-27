@@ -128,7 +128,7 @@
                             <constraint firstItem="OMb-uQ-YaJ" firstAttribute="top" secondItem="R19-aI-aDV" secondAttribute="top" constant="1" id="mQx-hs-QtA"/>
                             <constraint firstItem="4hJ-zS-moV" firstAttribute="leading" secondItem="V0A-MN-NZ2" secondAttribute="leading" id="nEt-wS-kZX"/>
                             <constraint firstItem="LXc-3G-LrK" firstAttribute="top" secondItem="uZw-t8-G3s" secondAttribute="bottom" constant="5" id="ndz-2g-TkK"/>
-                            <constraint firstItem="uZw-t8-G3s" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="R19-aI-aDV" secondAttribute="leading" constant="16" id="pQ7-9I-cfD"/>
+                            <constraint firstItem="uZw-t8-G3s" firstAttribute="leading" relation="lessThanOrEqual" secondItem="R19-aI-aDV" secondAttribute="leading" constant="16" id="pQ7-9I-cfD"/>
                             <constraint firstItem="LXc-3G-LrK" firstAttribute="leading" secondItem="kdN-md-54W" secondAttribute="trailing" constant="10" id="r6y-8j-uFD"/>
                             <constraint firstItem="RvX-4g-7zX" firstAttribute="leading" secondItem="4hJ-zS-moV" secondAttribute="trailing" constant="5" id="rKJ-cS-MsK"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="uZw-t8-G3s" secondAttribute="trailing" constant="16" id="rtM-KM-q5t"/>
@@ -161,7 +161,7 @@
                 <constraint firstAttribute="bottom" relation="lessThanOrEqual" secondItem="R19-aI-aDV" secondAttribute="bottom" constant="15" id="IKW-NG-LhL"/>
                 <constraint firstItem="R19-aI-aDV" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="JuG-pE-b9J"/>
             </constraints>
-            <size key="customSize" width="512" height="416"/>
+            <size key="customSize" width="574" height="425"/>
             <connections>
                 <outlet property="adLabel" destination="OMb-uQ-YaJ" id="FQf-Vr-UBl"/>
                 <outlet property="advertiserLabel" destination="4hJ-zS-moV" id="hCW-rI-1yZ"/>
@@ -172,7 +172,7 @@
                 <outlet property="priceLabel" destination="Wol-qx-Oo5" id="fFv-kf-9MD"/>
                 <outlet property="storeLabel" destination="kdN-md-54W" id="5QJ-hs-DZs"/>
             </connections>
-            <point key="canvasLocation" x="479.71014492753625" y="280.24553571428572"/>
+            <point key="canvasLocation" x="524.63768115942037" y="281.91964285714283"/>
         </collectionViewCell>
     </objects>
 </document>

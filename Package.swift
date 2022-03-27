@@ -31,6 +31,7 @@ let package = Package(
                 .process("AdCollectionViewCell/Normal/NativeAdCollectionViewCell.xib"),
                 .process("AdCollectionViewCell/Advanced/NativeAdvancedAdCollectionViewCell.xib"),
                 .process("AdView/Normal/NativeAdView.xib"),
+                .process("AdView/Advanced/NativeAdvancedAdView.xib"),
             ]
         ),
         .testTarget(
