@@ -47,15 +47,6 @@
         }
       },
       {
-        "package": "NativeAdCollectionViewCell",
-        "repositoryURL": "https://github.com/trinhxuanminh/NativeAdCollectionViewCell.git",
-        "state": {
-          "branch": "main",
-          "revision": "40db1f62c2bfbc60f4d26bea4e414a3000f6ad54",
-          "version": null
-        }
-      },
-      {
         "package": "NativeAdvancedAdCollectionViewCell",
         "repositoryURL": "https://github.com/trinhxuanminh/NativeAdvancedAdCollectionViewCell.git",
         "state": {

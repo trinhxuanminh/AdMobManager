@@ -16,7 +16,7 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
         .package(name: "GoogleMobileAds", url: "https://github.com/quanghits/GoogleMobileAds.git", from: "9.1.0"),
-        .package(name: "NativeAdCollectionViewCell", url: "https://github.com/trinhxuanminh/NativeAdCollectionViewCell.git", branch: "main"),
+//        .package(name: "NativeAdCollectionViewCell", url: "https://github.com/trinhxuanminh/NativeAdCollectionViewCell.git", branch: "main"),
         .package(name: "NativeAdvancedAdCollectionViewCell", url: "https://github.com/trinhxuanminh/NativeAdvancedAdCollectionViewCell.git", branch: "main"),
     ],
     targets: [
@@ -26,7 +26,7 @@ let package = Package(
             name: "AdMobManager",
             dependencies: [
                 "GoogleMobileAds",
-                "NativeAdCollectionViewCell",
+//                "NativeAdCollectionViewCell",
                 "NativeAdvancedAdCollectionViewCell",
             ]
         ),
