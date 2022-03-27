@@ -192,7 +192,6 @@ extension AdMobManager {
     
     mutating func addReloadingAd(load: (() -> ())?) {
         self.listReloadingAd.append(load)
-        print(self.listReloadingAd.count)
     }
     
     func allowShowFullFeature() -> Bool {
