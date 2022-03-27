@@ -171,12 +171,12 @@ import NVActivityIndicatorView
     /// This function helps to change the loading type.
     /// - Parameter type: The NVActivityIndicatorType want to display. Default is **ballPulse**.
     public func set_Loading_Type(type: NVActivityIndicatorType) {
-        if self.loadingIndicator.isAnimating {
-            self.loadingIndicator.stopAnimating()
-            self.loadingIndicator.type = type
-            self.loadingIndicator.startAnimating()
+        if ((self.loadingIndicator?.isAnimating) != nil) {
+            self.loadingIndicator?.stopAnimating()
+            self.loadingIndicator?.type = type
+            self.loadingIndicator?.startAnimating()
         } else {
-            self.loadingIndicator.type = type
+            self.loadingIndicator?.type = type
         }
     }
 }
