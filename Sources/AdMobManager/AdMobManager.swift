@@ -24,6 +24,7 @@ public struct AdMobManager {
     fileprivate var nativeAd_ID: String?
     fileprivate var bannerAd_ID: String?
     fileprivate var limitReloadingOfAdsWhenThereIsAnError: Bool = false
+    fileprivate var setListLimitReloading: [(() -> ())?] = []
     
     /// This function helps to change the ad ID, available for the next load.
     /// ```
@@ -143,10 +144,15 @@ public struct AdMobManager {
     ///     AdMobManager.shared.limit_Reloading_Of_Ads_When_There_Is_An_Error()
     /// }
     ///```
-    /// - Warning: Ads may not be displayed properly. Changes only for SplashAd, InterstitialAd, AppOpenAd.
+    /// - Warning: Ads may not be displayed properly.
     public mutating func limit_Reloading_Of_Ads_When_There_Is_An_Error() {
         self.limitReloadingOfAdsWhenThereIsAnError = true
+        
         self.load()
+        
+        for setLimitReloading in self.setListLimitReloading {
+            setLimitReloading?()
+        }
     }
     
     /// This function helps to block reloading of SplashAd.
@@ -182,6 +188,10 @@ extension AdMobManager {
     
     func getLimitReloadingOfAdsWhenThereIsAnError() -> Bool {
         return self.limitReloadingOfAdsWhenThereIsAnError
+    }
+    
+    mutating func addLimitReloading(closure: (() -> ())?) {
+        self.setListLimitReloading.append(closure)
     }
     
     func allowShowFullFeature() -> Bool {

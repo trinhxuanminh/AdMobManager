@@ -25,11 +25,16 @@ public class NativeAd: NSObject {
     fileprivate var adLoader: GADAdLoader!
     fileprivate var isLoading: Bool = false
     fileprivate var configData: (() -> ())?
+    fileprivate var limitReloading: Bool = false
     
     public override init() {
         super.init()
         self.adUnit_ID = AdMobManager.shared.getNativeAdID()
         self.load()
+        
+        AdMobManager.shared.addLimitReloading {
+            self.limitReloading = true
+        }
     }
     
     func load() {
@@ -38,6 +43,11 @@ public class NativeAd: NSObject {
         }
         
         if self.isExist() {
+            return
+        }
+        
+        if self.limitReloading {
+            self.load()
             return
         }
         
@@ -81,11 +91,11 @@ extension NativeAd: GADNativeAdLoaderDelegate {
     public func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: Error) {
         self.isLoading = false
         print("NativeAd download error, trying again!")
+        self.limitReloading = AdMobManager.shared.getLimitReloadingOfAdsWhenThereIsAnError()
         self.load()
     }
     
     public func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
-        self.isLoading = false
         self.nativeAd = nativeAd
         self.configData?()
     }
