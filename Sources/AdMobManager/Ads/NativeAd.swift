@@ -73,6 +73,10 @@ class NativeAd: NSObject {
     func set_Config_Data(didLoadAd: (() -> ())?) {
         self.configData = didLoadAd
     }
+    
+    func cancelRequest() {
+        self.loadRequestWorkItem?.cancel()
+    }
 }
 
 extension NativeAd: GADNativeAdLoaderDelegate {
