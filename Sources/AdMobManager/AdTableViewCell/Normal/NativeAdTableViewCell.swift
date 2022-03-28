@@ -75,7 +75,7 @@ public class NativeAdTableViewCell: UITableViewCell {
     }
     
     fileprivate var didConfigData: Bool = false
-    fileprivate var nativeAd: NativeAd = NativeAd()
+    fileprivate var nativeAd: NativeAd? = NativeAd()
     
     public override func awakeFromNib() {
         super.awakeFromNib()
@@ -87,6 +87,7 @@ public class NativeAdTableViewCell: UITableViewCell {
     
     public override func removeFromSuperview() {
         print("denint")
+        self.nativeAd = nil
         super.removeFromSuperview()
     }
     
@@ -172,9 +173,9 @@ extension NativeAdTableViewCell {
     }
     
     func setAd() {
-        self.config_Data(ad: self.nativeAd.get_Ad())
-        self.nativeAd.set_Config_Data {
-            self.config_Data(ad: self.nativeAd.get_Ad())
+        self.config_Data(ad: self.nativeAd?.get_Ad())
+        self.nativeAd?.set_Config_Data {
+            self.config_Data(ad: self.nativeAd?.get_Ad())
         }
     }
     
