@@ -25,8 +25,7 @@ class NativeAd: NSObject {
         
         if !self.didAddReloadingAd {
             self.didAddReloadingAd = true
-            let adUnit_ID = AdMobManager.shared.getNativeAdID()
-            self.adUnit_ID = adUnit_ID
+            self.adUnit_ID = AdMobManager.shared.getNativeAdID()
             self.rootViewController = UIApplication.topStackViewController()
             self.request()
         }
@@ -88,8 +87,8 @@ extension NativeAd: GADNativeAdLoaderDelegate {
     
     func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
         self.nativeAd = nativeAd
-//        DispatchQueue.main.async {
-//            self.configData?()
-//        }
+        DispatchQueue.main.async {
+            self.configData?()
+        }
     }
 }
