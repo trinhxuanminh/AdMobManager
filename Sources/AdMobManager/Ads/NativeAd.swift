@@ -88,8 +88,8 @@ extension NativeAd: GADNativeAdLoaderDelegate {
     
     func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
         self.nativeAd = nativeAd
-        DispatchQueue.main.async {
-            self.configData?()
-        }
+//        DispatchQueue.main.async {
+//            self.configData?()
+//        }
     }
 }
