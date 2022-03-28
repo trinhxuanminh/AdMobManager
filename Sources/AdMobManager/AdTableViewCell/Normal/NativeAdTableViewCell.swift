@@ -96,6 +96,12 @@ public class NativeAdTableViewCell: UITableViewCell {
         print("denint")
     }
     
+    public override func willMove(toSuperview newSuperview: UIView?) {
+        if newSuperview == nil {
+            print("removed from parent")
+        }
+    }
+    
     /// This function helps to adjust the color of the ad content.
     /// - Parameter style: Change the color of the labels according to the interface style. Default is **light**.
     /// - Parameter backgroundColor: Change background color of NativeAdTableViewCell class. Default is **clear**.
