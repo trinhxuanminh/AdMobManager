@@ -31,10 +31,6 @@ class NativeAd: NSObject {
         }
     }
     
-    deinit {
-        print("deinit")
-    }
-    
     func load() {
         if self.isLoading {
             return
