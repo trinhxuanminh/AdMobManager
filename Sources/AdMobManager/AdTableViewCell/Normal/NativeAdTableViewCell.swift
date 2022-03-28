@@ -75,7 +75,7 @@ public class NativeAdTableViewCell: UITableViewCell {
     }
     
     fileprivate var didConfigData: Bool = false
-    fileprivate var nativeAd: NativeAd?// = NativeAd()
+    fileprivate var nativeAd: NativeAd? = NativeAd()
     
     public override func awakeFromNib() {
         super.awakeFromNib()
@@ -94,12 +94,6 @@ public class NativeAdTableViewCell: UITableViewCell {
     
     deinit {
         print("denint")
-    }
-    
-    public override func willMove(toSuperview newSuperview: UIView?) {
-        if newSuperview == nil {
-            print("removed from parent")
-        }
     }
     
     /// This function helps to adjust the color of the ad content.
@@ -184,7 +178,6 @@ extension NativeAdTableViewCell {
     }
     
     func setAd() {
-        self.nativeAd = NativeAd()
         self.config_Data(ad: self.nativeAd?.get_Ad())
         self.nativeAd?.set_Config_Data {
             self.config_Data(ad: self.nativeAd?.get_Ad())
@@ -208,6 +201,8 @@ extension NativeAdTableViewCell {
         self.nativeAdView?.isHidden = false
         
         self.nativeAdView?.nativeAd = nativeAd
+        self.nativeAd?.cancelRequest()
+        self.nativeAd = nil
         
         (self.nativeAdView?.headlineView as? UILabel)?.text = nativeAd.headline
 
