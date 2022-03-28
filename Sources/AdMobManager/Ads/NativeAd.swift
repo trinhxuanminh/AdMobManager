@@ -31,6 +31,10 @@ class NativeAd: NSObject {
         }
     }
     
+    deinit {
+        print("deinit nativeAd")
+    }
+    
     func load() {
         if self.isExist() {
             return
