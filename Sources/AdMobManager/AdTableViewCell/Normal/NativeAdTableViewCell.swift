@@ -87,6 +87,7 @@ public class NativeAdTableViewCell: UITableViewCell {
     
     public override func removeFromSuperview() {
         print("denint")
+        super.removeFromSuperview()
     }
     
     /// This function helps to adjust the color of the ad content.
