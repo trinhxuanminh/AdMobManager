@@ -85,6 +85,10 @@ public class NativeAdTableViewCell: UITableViewCell {
         self.setAd()
     }
     
+    public override func removeFromSuperview() {
+        print("denint")
+    }
+    
     /// This function helps to adjust the color of the ad content.
     /// - Parameter style: Change the color of the labels according to the interface style. Default is **light**.
     /// - Parameter backgroundColor: Change background color of NativeAdTableViewCell class. Default is **clear**.
