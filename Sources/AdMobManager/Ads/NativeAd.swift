@@ -25,7 +25,8 @@ class NativeAd: NSObject {
         
         if !self.didAddReloadingAd {
             self.didAddReloadingAd = true
-            self.adUnit_ID = AdMobManager.shared.getNativeAdID()
+            let adUnit_ID = AdMobManager.shared.getNativeAdID()
+            self.adUnit_ID = adUnit_ID
             self.rootViewController = UIApplication.topStackViewController()
             self.request()
         }
