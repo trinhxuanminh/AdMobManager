@@ -17,12 +17,12 @@ import NVActivityIndicatorView
 /// override func viewDidLoad() {
 ///     super.viewDidLoad()
 ///
-///     self.collectionView.register(UINib(nibName: NativeAdvancedAdTableViewCell.className, bundle: AdMobManager.bundle), forCellWithReuseIdentifier: NativeAdvancedAdTableViewCell.className)
+///     self.tableView.register(UINib(nibName: NativeAdvancedAdTableViewCell.className, bundle: AdMobManager.bundle), forCellReuseIdentifier: NativeAdvancedAdTableViewCell.className)
 /// }
 /// ```
 /// ```
-/// func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-///     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NativeAdvancedAdCollectionViewCell.className, for: indexPath) as! NativeAdvancedAdCollectionViewCell
+/// func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+///     let cell = tableView.dequeueReusableCell(withIdentifier: NativeAdvancedAdTableViewCell.className, for: indexPath) as! NativeAdvancedAdTableViewCell
 ///     return cell
 /// }
 /// ```

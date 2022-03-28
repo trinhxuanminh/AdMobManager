@@ -160,6 +160,7 @@ public struct AdMobManager {
         
         self.load()
         
+        print(self.listReloadingAd.count)
         for reloadingAd in self.listReloadingAd {
             reloadingAd?()
         }
