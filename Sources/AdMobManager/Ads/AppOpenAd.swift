@@ -15,16 +15,12 @@ class AppOpenAd: NSObject {
     fileprivate var appOpenAd: GADAppOpenAd?
     fileprivate var loadTimeOpenApp: Date = Date()
     fileprivate var timeBetween: Double = 5
-    fileprivate var isLoading: Bool = false
     fileprivate var willPresent: (() -> ())?
     fileprivate var willDismiss: (() -> ())?
     fileprivate var didDismiss: (() -> ())?
+    fileprivate var loadRequestWorkItem: DispatchWorkItem?
     
     func load() {
-        if self.isLoading {
-            return
-        }
-        
         if self.isExist() {
             return
         }
@@ -34,24 +30,26 @@ class AppOpenAd: NSObject {
             return
         }
         
-        self.isLoading = true
-        
         let request = GADRequest()
         GADAppOpenAd.load(withAdUnitID: adUnit_ID,
                           request: request,
                           orientation: UIInterfaceOrientation.portrait) { (ad, error) in
             if let _ = error {
                 print("AppOpenAd download error, trying again!")
-                self.isLoading = false
-                if !AdMobManager.shared.getLimitReloadingOfAdsWhenThereIsAnError() {
-                    self.load()
-                }
+                self.request()
                 return
             }
             self.appOpenAd = ad
             self.appOpenAd?.fullScreenContentDelegate = self
-            self.isLoading = false
         }
+    }
+    
+    func request() {
+        self.loadRequestWorkItem?.cancel()
+        let requestWorkItem = DispatchWorkItem(block: self.load)
+        self.loadRequestWorkItem = requestWorkItem
+        let adReloadTime: Int? = AdMobManager.shared.getAdReloadTime()
+        DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: requestWorkItem)
     }
     
     func isExist() -> Bool {
@@ -96,7 +94,7 @@ extension AppOpenAd: GADFullScreenContentDelegate {
         print("Ad did dismiss full screen content.")
         self.didDismiss?()
         self.appOpenAd = nil
-        self.load()
+        self.request()
         self.loadTimeOpenApp = Date()
     }
     

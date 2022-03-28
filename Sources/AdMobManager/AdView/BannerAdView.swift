@@ -27,6 +27,7 @@ import GoogleMobileAds
     fileprivate var isLoading: Bool = false
     fileprivate var isExist: Bool = false
     fileprivate var didFirstLoadAd: Bool = false
+    fileprivate var loadRequestWorkItem: DispatchWorkItem?
     
     public override func awakeFromNib() {
         super.awakeFromNib()
@@ -50,18 +51,11 @@ import GoogleMobileAds
         if !self.didFirstLoadAd {
             self.didFirstLoadAd = true
             self.adUnit_ID = AdMobManager.shared.getBannerAdID()
-            self.load()
-            AdMobManager.shared.addReloadingAd {
-                self.load()
-            }
+            self.request()
         }
     }
     
     func load() {
-        if self.isLoading {
-            return
-        }
-        
         if self.isExist {
             return
         }
@@ -76,22 +70,25 @@ import GoogleMobileAds
             return
         }
         
-        self.isLoading = true
-        
         self.bannerAdView.adUnitID = adUnit_ID
         self.bannerAdView.delegate = self
         self.bannerAdView.rootViewController = topViewController
         self.bannerAdView.load(GADRequest())
     }
+    
+    func request() {
+        self.loadRequestWorkItem?.cancel()
+        let requestWorkItem = DispatchWorkItem(block: self.load)
+        self.loadRequestWorkItem = requestWorkItem
+        let adReloadTime: Int? = AdMobManager.shared.getAdReloadTime()
+        DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: requestWorkItem)
+    }
 }
 
 extension BannerAdView: GADBannerViewDelegate {
     public func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
-        self.isLoading = false
         print("BannerAd download error, trying again!")
-        if !AdMobManager.shared.getLimitReloadingOfAdsWhenThereIsAnError() {
-            self.load()
-        }
+        self.request()
     }
     
     public func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {

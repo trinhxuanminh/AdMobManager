@@ -18,16 +18,12 @@ class InterstitialAd: NSObject {
     fileprivate var adsReady: Bool = true
     fileprivate var timeInterval: Double = 0.1
     fileprivate var timeBetween: Double = 5
-    fileprivate var isLoading: Bool = false
     fileprivate var willPresent: (() -> ())?
     fileprivate var willDismiss: (() -> ())?
     fileprivate var didDismiss: (() -> ())?
+    fileprivate var loadRequestWorkItem: DispatchWorkItem?
     
     func load() {
-        if self.isLoading {
-            return
-        }
-        
         if self.isExist() {
             return
         }
@@ -37,23 +33,25 @@ class InterstitialAd: NSObject {
             return
         }
         
-        self.isLoading = true
-        
         let request = GADRequest()
         GADInterstitialAd.load(withAdUnitID: adUnit_ID,
                                request: request) { (ad, error) in
             if let _ = error {
                 print("InterstitialAd download error, trying again!")
-                self.isLoading = false
-                if !AdMobManager.shared.getLimitReloadingOfAdsWhenThereIsAnError() {
-                    self.load()
-                }
+                self.request()
                 return
             }
             self.interstitialAd = ad
             self.interstitialAd?.fullScreenContentDelegate = self
-            self.isLoading = false
         }
+    }
+    
+    func request() {
+        self.loadRequestWorkItem?.cancel()
+        let requestWorkItem = DispatchWorkItem(block: self.load)
+        self.loadRequestWorkItem = requestWorkItem
+        let adReloadTime: Int? = AdMobManager.shared.getAdReloadTime()
+        DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: requestWorkItem)
     }
     
     func isExist() -> Bool {
@@ -98,7 +96,7 @@ extension InterstitialAd: GADFullScreenContentDelegate {
         print("Ad did dismiss full screen content.")
         self.didDismiss?()
         self.interstitialAd = nil
-        self.load()
+        self.request()
         self.adsReady = false
         self.time = 0
         self.timer = Timer.scheduledTimer(timeInterval: self.timeInterval, target: self, selector: #selector(runTime), userInfo: nil, repeats: true)

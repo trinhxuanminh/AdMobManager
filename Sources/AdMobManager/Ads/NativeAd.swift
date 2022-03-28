@@ -17,6 +17,7 @@ class NativeAd: NSObject {
     fileprivate var isLoading: Bool = false
     fileprivate var configData: (() -> ())?
     fileprivate var didAddReloadingAd: Bool = false
+    fileprivate var loadRequestWorkItem: DispatchWorkItem?
     
     override init() {
         super.init()
@@ -24,18 +25,11 @@ class NativeAd: NSObject {
         if !self.didAddReloadingAd {
             self.didAddReloadingAd = true
             self.adUnit_ID = AdMobManager.shared.getNativeAdID()
-            self.load()
-            AdMobManager.shared.addReloadingAd {
-                self.load()
-            }
+            self.request()
         }
     }
     
     func load() {
-        if self.isLoading {
-            return
-        }
-        
         if self.isExist() {
             return
         }
@@ -50,14 +44,20 @@ class NativeAd: NSObject {
             return
         }
         
-        self.isLoading = true
-        
         self.adLoader = GADAdLoader(adUnitID: adUnit_ID,
                                rootViewController: topViewController,
                                adTypes: [.native],
                                options: nil)
         self.adLoader.delegate = self
         self.adLoader.load(GADRequest())
+    }
+    
+    func request() {
+        self.loadRequestWorkItem?.cancel()
+        let requestWorkItem = DispatchWorkItem(block: self.load)
+        self.loadRequestWorkItem = requestWorkItem
+        let adReloadTime: Int? = AdMobManager.shared.getAdReloadTime()
+        DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: requestWorkItem)
     }
     
     func isExist() -> Bool {
@@ -75,11 +75,8 @@ class NativeAd: NSObject {
 
 extension NativeAd: GADNativeAdLoaderDelegate {
     func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: Error) {
-        self.isLoading = false
         print("NativeAd download error, trying again!")
-        if !AdMobManager.shared.getLimitReloadingOfAdsWhenThereIsAnError() {
-            self.load()
-        }
+        self.request()
     }
     
     func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {

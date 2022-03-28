@@ -33,8 +33,7 @@ public struct AdMobManager {
     fileprivate var startDate: Date?
     fileprivate var nativeAd_ID: String?
     fileprivate var bannerAd_ID: String?
-    fileprivate var limitReloadingOfAdsWhenThereIsAnError: Bool = false
-    fileprivate var listReloadingAd: [(() -> ())?] = []
+    fileprivate var adReloadTime: Int?
     
     /// This function helps to change the ad ID, available for the next load.
     /// ```
@@ -146,24 +145,12 @@ public struct AdMobManager {
     
     /// This function helps to limit the reload of the ad when an error occurs.
     ///```
-    /// func applicationDidBecomeActive(_ application: UIApplication) {
-    ///     AdMobManager.shared.limit_Reloading_Of_Ads_When_There_Is_An_Error()
-    /// }
-    ///
-    /// func sceneDidBecomeActive(_ scene: UIScene) {
-    ///     AdMobManager.shared.limit_Reloading_Of_Ads_When_There_Is_An_Error()
-    /// }
+    /// AdMobManager.shared.limit_Reloading_Of_Ads_When_There_Is_An_Error(adReloadTime: 1000)
     ///```
-    /// - Warning: Ads may not be displayed properly.
-    public mutating func limit_Reloading_Of_Ads_When_There_Is_An_Error() {
-        self.limitReloadingOfAdsWhenThereIsAnError = true
-        
-        self.load()
-        
-        print(self.listReloadingAd.count)
-        for reloadingAd in self.listReloadingAd {
-            reloadingAd?()
-        }
+    /// Unit is milliseconds.
+    /// - Parameter adReloadTime: Timeout to reload ads after failed load. Default is **nil**, ad will be reloaded immediately.
+    public mutating func limit_Reloading_Of_Ads_When_There_Is_An_Error(adReloadTime: Int) {
+        self.adReloadTime = adReloadTime
     }
     
     /// This function helps to block reloading of SplashAd.
@@ -197,12 +184,8 @@ extension AdMobManager {
         return self.bannerAd_ID
     }
     
-    func getLimitReloadingOfAdsWhenThereIsAnError() -> Bool {
-        return self.limitReloadingOfAdsWhenThereIsAnError
-    }
-    
-    mutating func addReloadingAd(load: (() -> ())?) {
-        self.listReloadingAd.append(load)
+    func getAdReloadTime() -> Int? {
+        return self.adReloadTime
     }
     
     func allowShowFullFeature() -> Bool {
