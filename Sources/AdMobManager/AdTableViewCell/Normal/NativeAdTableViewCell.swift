@@ -82,7 +82,7 @@ public class NativeAdTableViewCell: UITableViewCell {
         // Initialization code
         self.createComponents()
         self.setupConstraints()
-//        self.setAd()
+        self.setAd()
     }
     
     public override func removeFromSuperview() {
@@ -175,12 +175,12 @@ extension NativeAdTableViewCell {
         ])
     }
     
-//    func setAd() {
-//        self.config_Data(ad: self.nativeAd.get_Ad())
+    func setAd() {
+        self.config_Data(ad: self.nativeAd.get_Ad())
 //        self.nativeAd.set_Config_Data { [self] in
 //            self.config_Data(ad: self.nativeAd.get_Ad())
 //        }
-//    }
+    }
     
     func config_Data(ad: GADNativeAd?) {
         guard let nativeAd = ad else {
