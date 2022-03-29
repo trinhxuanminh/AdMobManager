@@ -83,7 +83,7 @@ import NVActivityIndicatorView
     }
     
     fileprivate var didConfigData: Bool = false
-    fileprivate var nativeAd: NativeAd? = NativeAd()
+    fileprivate var listNativeAd: [NativeAd?] = [NativeAd()]
     
     public override func awakeFromNib() {
         super.awakeFromNib()
@@ -107,7 +107,9 @@ import NVActivityIndicatorView
     }
     
     public override func removeFromSuperview() {
-        self.nativeAd = nil
+        for index in 0..<self.listNativeAd.count {
+            self.listNativeAd[index] = nil
+        }
         super.removeFromSuperview()
     }
     
@@ -184,6 +186,27 @@ import NVActivityIndicatorView
             self.loadingIndicator?.type = type
         }
     }
+    
+    /// This function helps to change the ads in the cell.
+    /// - Parameter index: Index of ads to show in the list.
+    public func setAd(index: Int = 0) {
+        if index < 0 {
+            return
+        }
+        if index >= self.listNativeAd.count {
+            for _ in self.listNativeAd.count..<index {
+                self.listNativeAd.append(nil)
+            }
+            self.listNativeAd.append(NativeAd())
+        }
+        if self.listNativeAd[index] == nil {
+            self.listNativeAd[index] = NativeAd()
+        }
+        self.config_Data(ad: self.listNativeAd[index]?.get_Ad())
+        self.listNativeAd[index]?.set_Config_Data { [weak self] in
+            self?.config_Data(ad: self?.listNativeAd[index]?.get_Ad())
+        }
+    }
 }
 
 extension NativeAdvancedAdView {
@@ -206,13 +229,6 @@ extension NativeAdvancedAdView {
         self.addSubview(self.contentView)
         self.contentView.frame = self.bounds
         self.contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    }
-    
-    func setAd() {
-        self.config_Data(ad: self.nativeAd?.get_Ad())
-        self.nativeAd?.set_Config_Data { [weak self] in
-            self?.config_Data(ad: self?.nativeAd?.get_Ad())
-        }
     }
     
     func config_Data(ad: GADNativeAd?) {

@@ -91,10 +91,6 @@ public class NativeAdCollectionViewCell: UICollectionViewCell {
         super.removeFromSuperview()
     }
     
-    deinit {
-        print("NativeAdCollectionViewCell deinit")
-    }
-    
     /// This function helps to adjust the color of the ad content.
     /// - Parameter style: Change the color of the labels according to the interface style. Default is **light**.
     /// - Parameter backgroundColor: Change background color of NativeAdCollectionViewCell class. Default is **clear**.
@@ -160,7 +156,8 @@ public class NativeAdCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    
+    /// This function helps to change the ads in the cell.
+    /// - Parameter index: Index of ads to show in the list.
     public func setAd(index: Int = 0) {
         if index < 0 {
             return

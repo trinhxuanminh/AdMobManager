@@ -80,10 +80,10 @@ import GoogleMobileAds
         
         self.isLoading = true
 
-        self.bannerAdView.adUnitID = adUnit_ID
-        self.bannerAdView.delegate = self
-        self.bannerAdView.rootViewController = rootViewController
-        self.bannerAdView.load(GADRequest())
+        self.bannerAdView?.adUnitID = adUnit_ID
+        self.bannerAdView?.delegate = self
+        self.bannerAdView?.rootViewController = rootViewController
+        self.bannerAdView?.load(GADRequest())
     }
     
     func request() {
