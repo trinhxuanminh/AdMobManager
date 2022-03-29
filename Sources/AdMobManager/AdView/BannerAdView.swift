@@ -28,7 +28,6 @@ import GoogleMobileAds
     fileprivate var isExist: Bool = false
     fileprivate var didFirstLoadAd: Bool = false
     fileprivate var loadRequestWorkItem: DispatchWorkItem?
-    fileprivate var rootViewController: UIViewController?
     
     public override func awakeFromNib() {
         super.awakeFromNib()
@@ -76,14 +75,14 @@ import GoogleMobileAds
             return
         }
         
-        guard let rootViewController = UIApplication.topStackViewController() else {
-            print("Can't find RootViewController!")
-            return
-        }
+//        guard let rootViewController = UIApplication.topStackViewController() else {
+//            print("Can't find RootViewController!")
+//            return
+//        }
         
         self.bannerAdView.adUnitID = adUnit_ID
         self.bannerAdView.delegate = self
-        self.bannerAdView.rootViewController = rootViewController
+        self.bannerAdView.rootViewController = UIViewController()
         self.bannerAdView.load(GADRequest())
     }
     
