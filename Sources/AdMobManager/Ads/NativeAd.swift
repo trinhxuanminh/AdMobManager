@@ -63,7 +63,7 @@ class NativeAd: NSObject {
     
     func request() {
         let adReloadTime: Int? = AdMobManager.shared.getAdReloadTime()
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: self.load)
+        DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: self.load)
     }
     
     func isExist() -> Bool {
@@ -88,6 +88,8 @@ extension NativeAd: GADNativeAdLoaderDelegate {
     
     func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
         self.nativeAd = nativeAd
-        self.configData?()
+        DispatchQueue.main.async {
+            self.configData?()
+        }
     }
 }
