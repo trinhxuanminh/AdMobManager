@@ -86,7 +86,6 @@ public class NativeAdCollectionViewCell: UICollectionViewCell {
     }
     
     public override func removeFromSuperview() {
-        self.nativeAd?.cancelRequest()
         self.nativeAd = nil
         super.removeFromSuperview()
     }

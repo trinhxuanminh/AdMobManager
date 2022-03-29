@@ -105,7 +105,6 @@ public class NativeAdvancedAdCollectionViewCell: UICollectionViewCell, GADVideoC
     }
     
     public override func removeFromSuperview() {
-        self.nativeAd?.cancelRequest()
         self.nativeAd = nil
         super.removeFromSuperview()
     }

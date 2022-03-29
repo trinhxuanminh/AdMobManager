@@ -16,7 +16,7 @@ class NativeAd: NSObject {
     fileprivate var adLoader: GADAdLoader!
     fileprivate var configData: (() -> ())?
     fileprivate var didAddReloadingAd: Bool = false
-    fileprivate var loadRequestWorkItem: DispatchWorkItem?
+    fileprivate var isLoading: Bool = false
     
     override init() {
         super.init()
@@ -33,32 +33,35 @@ class NativeAd: NSObject {
     }
     
     func load() {
+        if self.isLoading {
+            return
+        }
+        
         if self.isExist() {
             return
         }
         
-//        guard let adUnit_ID = self.adUnit_ID else {
-//            print("No NativeAd ID!")
-//            return
-//        }
+        guard let adUnit_ID = self.adUnit_ID else {
+            print("No NativeAd ID!")
+            return
+        }
         
-//        guard let rootViewController = UIApplication.topStackViewController() else {
-//            print("Can't find RootViewController!")
-//            return
-//        }
+        guard let rootViewController = UIApplication.topStackViewController() else {
+            print("Can't find RootViewController!")
+            return
+        }
         
-//        self.adLoader = GADAdLoader(adUnitID: adUnit_ID,
-//                               rootViewController: rootViewController,
-//                               adTypes: [.native],
-//                               options: nil)
-//        self.adLoader.delegate = self
-//        self.adLoader.load(GADRequest())
+        self.isLoading = true
+        
+        self.adLoader = GADAdLoader(adUnitID: adUnit_ID,
+                               rootViewController: rootViewController,
+                               adTypes: [.native],
+                               options: nil)
+        self.adLoader.delegate = self
+        self.adLoader.load(GADRequest())
     }
     
     func request() {
-//        self.loadRequestWorkItem?.cancel()
-//        let requestWorkItem = DispatchWorkItem(block: self.load)
-//        self.loadRequestWorkItem = requestWorkItem
         let adReloadTime: Int? = AdMobManager.shared.getAdReloadTime()
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: self.load)
     }
@@ -74,15 +77,12 @@ class NativeAd: NSObject {
     func set_Config_Data(didLoadAd: (() -> ())?) {
         self.configData = didLoadAd
     }
-    
-    func cancelRequest() {
-        self.loadRequestWorkItem?.cancel()
-    }
 }
 
 extension NativeAd: GADNativeAdLoaderDelegate {
     func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: Error) {
         print("NativeAd download error, trying again!")
+        self.isLoading = false
         self.request()
     }
     

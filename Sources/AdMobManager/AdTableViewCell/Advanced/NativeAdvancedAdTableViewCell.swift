@@ -105,7 +105,6 @@ public class NativeAdvancedAdTableViewCell: UITableViewCell, GADVideoControllerD
     }
     
     public override func removeFromSuperview() {
-        self.nativeAd?.cancelRequest()
         self.nativeAd = nil
         super.removeFromSuperview()
     }

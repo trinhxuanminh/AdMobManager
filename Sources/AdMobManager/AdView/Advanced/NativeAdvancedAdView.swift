@@ -107,7 +107,6 @@ import NVActivityIndicatorView
     }
     
     public override func removeFromSuperview() {
-        self.nativeAd?.cancelRequest()
         self.nativeAd = nil
         super.removeFromSuperview()
     }
