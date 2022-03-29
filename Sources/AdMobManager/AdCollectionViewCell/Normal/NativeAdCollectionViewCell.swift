@@ -74,7 +74,7 @@ public class NativeAdCollectionViewCell: UICollectionViewCell {
         case light
     }
     
-    fileprivate var listNativeAd: [NativeAd?]? = [NativeAd()]
+    fileprivate var listNativeAd: [NativeAd?] = [NativeAd()]
     
     public override func awakeFromNib() {
         super.awakeFromNib()
@@ -85,7 +85,9 @@ public class NativeAdCollectionViewCell: UICollectionViewCell {
     }
     
     public override func removeFromSuperview() {
-        self.listNativeAd = nil
+        for index in 0..<self.listNativeAd.count {
+            self.listNativeAd[index] = nil
+        }
         super.removeFromSuperview()
     }
     
@@ -160,19 +162,18 @@ public class NativeAdCollectionViewCell: UICollectionViewCell {
     
     
     public func setAd(index: Int = 0) {
-        guard var listNativeAd = self.listNativeAd, index >= 0 else {
+        if index < 0 {
             return
         }
-        if index >= listNativeAd.count {
-            for _ in listNativeAd.count..<index {
-                listNativeAd.append(nil)
+        if index >= self.listNativeAd.count {
+            for _ in self.listNativeAd.count..<index {
+                self.listNativeAd.append(nil)
             }
-            listNativeAd.append(NativeAd())
+            self.listNativeAd.append(NativeAd())
         }
         if listNativeAd[index] == nil {
             listNativeAd[index] = NativeAd()
         }
-        self.listNativeAd = listNativeAd
         let nativeAd = listNativeAd[index]
         self.config_Data(ad: nativeAd?.get_Ad())
         nativeAd?.set_Config_Data { [weak self] in
