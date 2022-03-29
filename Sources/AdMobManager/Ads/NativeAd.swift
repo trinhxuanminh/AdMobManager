@@ -25,7 +25,7 @@ class NativeAd: NSObject {
         
         if !self.didAddReloadingAd {
             self.didAddReloadingAd = true
-            self.adUnit_ID = AdMobManager.shared.getNativeAdID()
+//            self.adUnit_ID = AdMobManager.shared.getNativeAdID()
             self.rootViewController = UIApplication.topStackViewController()
             self.request()
         }
@@ -58,8 +58,8 @@ class NativeAd: NSObject {
         self.loadRequestWorkItem?.cancel()
         let requestWorkItem = DispatchWorkItem(block: self.load)
         self.loadRequestWorkItem = requestWorkItem
-        let adReloadTime: Int? = AdMobManager.shared.getAdReloadTime()
-        DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: requestWorkItem)
+//        let adReloadTime: Int? = AdMobManager.shared.getAdReloadTime()
+//        DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: requestWorkItem)
     }
     
     func isExist() -> Bool {
