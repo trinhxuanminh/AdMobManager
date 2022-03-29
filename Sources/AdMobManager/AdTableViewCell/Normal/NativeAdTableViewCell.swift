@@ -75,7 +75,7 @@ public class NativeAdTableViewCell: UITableViewCell {
     }
     
     fileprivate var didConfigData: Bool = false
-//    fileprivate var nativeAd: NativeAd = NativeAd()
+    fileprivate var nativeAd: NativeAd = NativeAd()
     
     public override func awakeFromNib() {
         super.awakeFromNib()
