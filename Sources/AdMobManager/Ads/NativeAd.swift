@@ -14,7 +14,6 @@ class NativeAd: NSObject {
     fileprivate var adUnit_ID: String?
     fileprivate var nativeAd: GADNativeAd?
     fileprivate var adLoader: GADAdLoader!
-    fileprivate var isLoading: Bool = false
     fileprivate var configData: (() -> ())?
     fileprivate var didAddReloadingAd: Bool = false
     fileprivate var loadRequestWorkItem: DispatchWorkItem?

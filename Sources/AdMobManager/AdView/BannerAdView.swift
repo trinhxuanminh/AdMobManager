@@ -27,7 +27,6 @@ import GoogleMobileAds
     fileprivate var isLoading: Bool = false
     fileprivate var isExist: Bool = false
     fileprivate var didFirstLoadAd: Bool = false
-    fileprivate var loadRequestWorkItem: DispatchWorkItem?
     
     public override func awakeFromNib() {
         super.awakeFromNib()
@@ -57,7 +56,6 @@ import GoogleMobileAds
     
     public override func removeFromSuperview() {
         print("banner remove")
-        self.loadRequestWorkItem?.cancel()
         self.bannerAdView = nil
         super.removeFromSuperview()
     }
@@ -67,6 +65,10 @@ import GoogleMobileAds
     }
     
     func load() {
+        if self.isLoading {
+            return
+        }
+        
         if self.isExist {
             return
         }
@@ -80,6 +82,8 @@ import GoogleMobileAds
             print("Can't find RootViewController!")
             return
         }
+        
+        self.isLoading = true
 
         self.bannerAdView.adUnitID = adUnit_ID
         self.bannerAdView.delegate = self
@@ -88,11 +92,7 @@ import GoogleMobileAds
     }
     
     func request() {
-//        self.loadRequestWorkItem?.cancel()
-//        let requestWorkItem = DispatchWorkItem(block: self.load)
-//        self.loadRequestWorkItem = requestWorkItem
         let adReloadTime: Int? = AdMobManager.shared.getAdReloadTime()
-//        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: requestWorkItem)
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: self.load)
     }
 }
@@ -100,6 +100,7 @@ import GoogleMobileAds
 extension BannerAdView: GADBannerViewDelegate {
     public func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
         print("BannerAd download error, trying again!")
+        self.isLoading = false
         self.request()
     }
 
