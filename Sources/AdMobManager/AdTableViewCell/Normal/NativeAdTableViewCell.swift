@@ -181,9 +181,9 @@ extension NativeAdTableViewCell {
         let nativeAd = NativeAd()
         self.nativeAd = nativeAd
         self.config_Data(ad: self.nativeAd?.get_Ad())
-//        self.nativeAd?.set_Config_Data { [self] in
+        self.nativeAd?.set_Config_Data { [self] in
 //            self.config_Data(ad: self.nativeAd?.get_Ad())
-//        }
+        }
     }
     
     func config_Data(ad: GADNativeAd?) {
