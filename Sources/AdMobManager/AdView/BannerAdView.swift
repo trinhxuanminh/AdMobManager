@@ -67,32 +67,33 @@ import GoogleMobileAds
     }
     
     func load() {
-//        if self.isExist {
-//            return
-//        }
+        if self.isExist {
+            return
+        }
         
-//        guard let adUnit_ID = self.adUnit_ID else {
-//            print("No BannerAd ID!")
-//            return
-//        }
+        guard let adUnit_ID = self.adUnit_ID else {
+            print("No BannerAd ID!")
+            return
+        }
 
-//        guard let rootViewController = UIApplication.topStackViewController() else {
-//            print("Can't find RootViewController!")
-//            return
-//        }
+        guard let rootViewController = UIApplication.topStackViewController() else {
+            print("Can't find RootViewController!")
+            return
+        }
 
-//        self.bannerAdView.adUnitID = adUnit_ID
-//        self.bannerAdView.delegate = self
-//        self.bannerAdView.rootViewController = rootViewController
-//        self.bannerAdView.load(GADRequest())
+        self.bannerAdView.adUnitID = adUnit_ID
+        self.bannerAdView.delegate = self
+        self.bannerAdView.rootViewController = rootViewController
+        self.bannerAdView.load(GADRequest())
     }
     
     func request() {
-        self.loadRequestWorkItem?.cancel()
-        let requestWorkItem = DispatchWorkItem(block: self.load)
-        self.loadRequestWorkItem = requestWorkItem
+//        self.loadRequestWorkItem?.cancel()
+//        let requestWorkItem = DispatchWorkItem(block: self.load)
+//        self.loadRequestWorkItem = requestWorkItem
         let adReloadTime: Int? = AdMobManager.shared.getAdReloadTime()
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: requestWorkItem)
+//        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: requestWorkItem)
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: self.load)
     }
 }
 
