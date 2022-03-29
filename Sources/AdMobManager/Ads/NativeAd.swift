@@ -26,11 +26,11 @@ class NativeAd: NSObject {
         if !self.didAddReloadingAd {
             self.didAddReloadingAd = true
             self.adUnit_ID = AdMobManager.shared.getNativeAdID()
-            guard let topViewController = UIApplication.topStackViewController() else {
-                print("Can't find RootViewController!")
-                return
-            }
-            self.rootViewController = topViewController
+//            guard let topViewController = UIApplication.topStackViewController() else {
+//                print("Can't find RootViewController!")
+//                return
+//            }
+//            self.rootViewController = topViewController
             self.request()
         }
     }
@@ -45,13 +45,13 @@ class NativeAd: NSObject {
             return
         }
         
-        guard let rootViewController = self.rootViewController else {
-            print("Can't find RootViewController!")
-            return
-        }
+//        guard let rootViewController = self.rootViewController else {
+//            print("Can't find RootViewController!")
+//            return
+//        }
         
         self.adLoader = GADAdLoader(adUnitID: adUnit_ID,
-                               rootViewController: rootViewController,
+                               rootViewController: UIViewController(),
                                adTypes: [.native],
                                options: nil)
         self.adLoader.delegate = self
