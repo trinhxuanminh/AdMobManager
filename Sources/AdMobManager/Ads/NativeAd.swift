@@ -17,7 +17,6 @@ class NativeAd: NSObject {
     fileprivate var configData: (() -> ())?
     fileprivate var didAddReloadingAd: Bool = false
     fileprivate var isLoading: Bool = false
-    fileprivate var rootViewController: UIViewController?
     
     override init() {
         super.init()
@@ -25,13 +24,8 @@ class NativeAd: NSObject {
         if !self.didAddReloadingAd {
             self.didAddReloadingAd = true
             self.adUnit_ID = AdMobManager.shared.getNativeAdID()
-            self.rootViewController = UIApplication.topStackViewController()
             self.request()
         }
-    }
-    
-    deinit {
-        print("NativeAd deinit")
     }
     
     func load() {
@@ -48,11 +42,8 @@ class NativeAd: NSObject {
             return
         }
         
-//        guard let rootViewController = UIApplication.topStackViewController() else {
-//            print("Can't find RootViewController!")
-//            return
-//        }
-        guard let rootViewController = rootViewController else {
+        guard let rootViewController = UIApplication.topStackViewController() else {
+            print("Can't find RootViewController!")
             return
         }
         
@@ -68,7 +59,7 @@ class NativeAd: NSObject {
     
     func request() {
         let adReloadTime: Int? = AdMobManager.shared.getAdReloadTime()
-        DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: self.load)
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: self.load)
     }
     
     func isExist() -> Bool {
