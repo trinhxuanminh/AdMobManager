@@ -74,7 +74,6 @@ public class NativeAdCollectionViewCell: UICollectionViewCell {
         case light
     }
     
-    fileprivate var didConfigData: Bool = false
     fileprivate var listNativeAd: [NativeAd?]? = [NativeAd()]
     
     public override func awakeFromNib() {
@@ -169,11 +168,11 @@ public class NativeAdCollectionViewCell: UICollectionViewCell {
                 listNativeAd.append(nil)
             }
             listNativeAd.append(NativeAd())
-            self.listNativeAd = listNativeAd
         }
         if listNativeAd[index] == nil {
             listNativeAd[index] = NativeAd()
         }
+        self.listNativeAd = listNativeAd
         let nativeAd = listNativeAd[index]
         self.config_Data(ad: nativeAd?.get_Ad())
         nativeAd?.set_Config_Data { [weak self] in
@@ -204,11 +203,6 @@ extension NativeAdCollectionViewCell {
             return
         }
         
-        if self.didConfigData {
-            return
-        }
-        
-        self.didConfigData = true
         self.loadingIndicator?.stopAnimating()
         
         self.nativeAdView?.isHidden = false
