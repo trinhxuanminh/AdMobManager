@@ -170,7 +170,9 @@ extension AdMobManager {
         }
         
         self.splashAd.load()
+        
         self.interstitialAd.load()
+        
         self.appOpenAd.load()
     }
     
