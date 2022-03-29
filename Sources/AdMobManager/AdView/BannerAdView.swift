@@ -81,18 +81,18 @@ import GoogleMobileAds
             return
         }
 
-        self.bannerAdView.adUnitID = adUnit_ID
-        self.bannerAdView.delegate = self
-        self.bannerAdView.rootViewController = rootViewController
-        self.bannerAdView.load(GADRequest())
+//        self.bannerAdView.adUnitID = adUnit_ID
+//        self.bannerAdView.delegate = self
+//        self.bannerAdView.rootViewController = rootViewController
+//        self.bannerAdView.load(GADRequest())
     }
     
     func request() {
-//        self.loadRequestWorkItem?.cancel()
-//        let requestWorkItem = DispatchWorkItem(block: self.load)
-//        self.loadRequestWorkItem = requestWorkItem
-//        let adReloadTime: Int? = AdMobManager.shared.getAdReloadTime()
-//        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: requestWorkItem)
+        self.loadRequestWorkItem?.cancel()
+        let requestWorkItem = DispatchWorkItem(block: self.load)
+        self.loadRequestWorkItem = requestWorkItem
+        let adReloadTime: Int? = AdMobManager.shared.getAdReloadTime()
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: requestWorkItem)
     }
 }
 
