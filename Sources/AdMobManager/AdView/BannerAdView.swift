@@ -57,8 +57,13 @@ import GoogleMobileAds
     }
     
     public override func removeFromSuperview() {
+        print("banner remove")
         self.loadRequestWorkItem?.cancel()
         super.removeFromSuperview()
+    }
+    
+    deinit {
+        print("banner deinit")
     }
     
     func load() {

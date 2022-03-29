@@ -88,9 +88,14 @@ import NVActivityIndicatorView
     }
     
     public override func removeFromSuperview() {
+        print("nativeAdView remove")
         self.nativeAd?.cancelRequest()
         self.nativeAd = nil
         super.removeFromSuperview()
+    }
+    
+    deinit {
+        print("nativeAdView deinit")
     }
     
     /// This function helps to adjust the color of the ad content.
