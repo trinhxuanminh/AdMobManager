@@ -52,7 +52,6 @@ import GoogleMobileAds
         if !self.didFirstLoadAd {
             self.didFirstLoadAd = true
             self.adUnit_ID = AdMobManager.shared.getBannerAdID()
-            self.rootViewController = UIApplication.topStackViewController()
             self.request()
         }
     }
@@ -72,7 +71,7 @@ import GoogleMobileAds
             return
         }
         
-        guard let rootViewController = rootViewController else {
+        guard let rootViewController = UIApplication.topStackViewController() else {
             print("Can't find RootViewController!")
             return
         }
