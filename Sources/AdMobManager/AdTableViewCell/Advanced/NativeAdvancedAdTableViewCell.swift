@@ -93,7 +93,6 @@ public class NativeAdvancedAdTableViewCell: UITableViewCell, GADVideoControllerD
         case light
     }
     
-    fileprivate var didConfigData: Bool = false
     fileprivate var listNativeAd: [NativeAd?] = [NativeAd()]
     
     public override func awakeFromNib() {
@@ -229,11 +228,6 @@ extension NativeAdvancedAdTableViewCell {
             return
         }
         
-        if self.didConfigData {
-            return
-        }
-        
-        self.didConfigData = true
         self.loadingIndicator?.stopAnimating()
         
         self.nativeAdView?.isHidden = false

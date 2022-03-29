@@ -82,7 +82,6 @@ import NVActivityIndicatorView
         case light
     }
     
-    fileprivate var didConfigData: Bool = false
     fileprivate var listNativeAd: [NativeAd?] = [NativeAd()]
     
     public override func awakeFromNib() {
@@ -238,11 +237,6 @@ extension NativeAdvancedAdView {
             return
         }
         
-        if self.didConfigData {
-            return
-        }
-        
-        self.didConfigData = true
         self.loadingIndicator?.stopAnimating()
         
         self.nativeAdView?.isHidden = false
