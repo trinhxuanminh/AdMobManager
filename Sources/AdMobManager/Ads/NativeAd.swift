@@ -56,11 +56,11 @@ class NativeAd: NSObject {
     }
     
     func request() {
-        self.loadRequestWorkItem?.cancel()
-        let requestWorkItem = DispatchWorkItem(block: self.load)
-        self.loadRequestWorkItem = requestWorkItem
+//        self.loadRequestWorkItem?.cancel()
+//        let requestWorkItem = DispatchWorkItem(block: self.load)
+//        self.loadRequestWorkItem = requestWorkItem
         let adReloadTime: Int? = AdMobManager.shared.getAdReloadTime()
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: requestWorkItem)
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: self.load)
     }
     
     func isExist() -> Bool {
