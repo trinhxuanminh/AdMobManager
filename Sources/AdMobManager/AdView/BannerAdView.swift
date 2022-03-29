@@ -57,6 +57,11 @@ import GoogleMobileAds
         }
     }
     
+    public override func removeFromSuperview() {
+        self.loadRequestWorkItem?.cancel()
+        super.removeFromSuperview()
+    }
+    
     func load() {
         if self.isExist {
             return

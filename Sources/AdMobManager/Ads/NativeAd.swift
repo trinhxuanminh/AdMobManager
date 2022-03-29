@@ -18,7 +18,6 @@ class NativeAd: NSObject {
     fileprivate var configData: (() -> ())?
     fileprivate var didAddReloadingAd: Bool = false
     fileprivate var loadRequestWorkItem: DispatchWorkItem?
-    fileprivate var rootViewController: UIViewController?
     
     override init() {
         super.init()
@@ -26,11 +25,6 @@ class NativeAd: NSObject {
         if !self.didAddReloadingAd {
             self.didAddReloadingAd = true
             self.adUnit_ID = AdMobManager.shared.getNativeAdID()
-//            guard let topViewController = UIApplication.topStackViewController() else {
-//                print("Can't find RootViewController!")
-//                return
-//            }
-//            self.rootViewController = topViewController
             self.request()
         }
     }
@@ -44,11 +38,6 @@ class NativeAd: NSObject {
             print("No NativeAd ID!")
             return
         }
-        
-//        guard let rootViewController = self.rootViewController else {
-//            print("Can't find RootViewController!")
-//            return
-//        }
         
         self.adLoader = GADAdLoader(adUnitID: adUnit_ID,
                                rootViewController: UIViewController(),

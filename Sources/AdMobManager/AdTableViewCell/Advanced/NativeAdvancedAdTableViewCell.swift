@@ -94,14 +94,20 @@ public class NativeAdvancedAdTableViewCell: UITableViewCell, GADVideoControllerD
     }
     
     fileprivate var didConfigData: Bool = false
-//    fileprivate var nativeAd: NativeAd = NativeAd()
+    fileprivate var nativeAd: NativeAd? = NativeAd()
     
     public override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         self.createComponents()
         self.setupConstraints()
-//        self.setAd()
+        self.setAd()
+    }
+    
+    public override func removeFromSuperview() {
+        self.nativeAd?.cancelRequest()
+        self.nativeAd = nil
+        super.removeFromSuperview()
     }
     
     /// This function helps to adjust the color of the ad content.
@@ -194,12 +200,12 @@ extension NativeAdvancedAdTableViewCell {
         ])
     }
     
-//    func setAd() {
-//        self.config_Data(ad: self.nativeAd.get_Ad())
-//        self.nativeAd.set_Config_Data { [self] in
-//            self.config_Data(ad: self.nativeAd.get_Ad())
-//        }
-//    }
+    func setAd() {
+        self.config_Data(ad: self.nativeAd?.get_Ad())
+        self.nativeAd?.set_Config_Data { [weak self] in
+            self?.config_Data(ad: self?.nativeAd?.get_Ad())
+        }
+    }
     
     func config_Data(ad: GADNativeAd?) {
         guard let nativeAd = ad else {

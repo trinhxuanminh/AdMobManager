@@ -83,7 +83,7 @@ import NVActivityIndicatorView
     }
     
     fileprivate var didConfigData: Bool = false
-    fileprivate var nativeAd: NativeAd = NativeAd()
+    fileprivate var nativeAd: NativeAd? = NativeAd()
     
     public override func awakeFromNib() {
         super.awakeFromNib()
@@ -104,6 +104,12 @@ import NVActivityIndicatorView
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    public override func removeFromSuperview() {
+        self.nativeAd?.cancelRequest()
+        self.nativeAd = nil
+        super.removeFromSuperview()
     }
     
     /// This function helps to adjust the color of the ad content.
@@ -204,9 +210,9 @@ extension NativeAdvancedAdView {
     }
     
     func setAd() {
-        self.config_Data(ad: self.nativeAd.get_Ad())
-        self.nativeAd.set_Config_Data {
-            self.config_Data(ad: self.nativeAd.get_Ad())
+        self.config_Data(ad: self.nativeAd?.get_Ad())
+        self.nativeAd?.set_Config_Data { [weak self] in
+            self?.config_Data(ad: self?.nativeAd?.get_Ad())
         }
     }
     
