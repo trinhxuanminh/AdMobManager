@@ -79,10 +79,11 @@ import GoogleMobileAds
 //            print("Can't find RootViewController!")
 //            return
 //        }
+        let vc = UIViewController()
         
         self.bannerAdView.adUnitID = adUnit_ID
         self.bannerAdView.delegate = self
-        self.bannerAdView.rootViewController = UIViewController()
+        self.bannerAdView.rootViewController = vc
         self.bannerAdView.load(GADRequest())
     }
     
