@@ -50,7 +50,7 @@ import GoogleMobileAds
         
         if !self.didFirstLoadAd {
             self.didFirstLoadAd = true
-            self.adUnit_ID = AdMobManager.shared.getBannerAdID()
+//            self.adUnit_ID = AdMobManager.shared.getBannerAdID()
             self.request()
         }
     }
