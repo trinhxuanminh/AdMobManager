@@ -24,8 +24,12 @@ class NativeAd: NSObject {
         if !self.didAddReloadingAd {
             self.didAddReloadingAd = true
             self.adUnit_ID = AdMobManager.shared.getNativeAdID()
-            self.request()
+//            self.request()
         }
+    }
+    
+    deinit {
+        print("NativeAd deinit")
     }
     
     func load() {
