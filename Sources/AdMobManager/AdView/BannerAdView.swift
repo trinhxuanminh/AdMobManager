@@ -76,10 +76,10 @@ import GoogleMobileAds
             return
         }
 
-        guard let rootViewController = UIApplication.topStackViewController() else {
-            print("Can't find RootViewController!")
-            return
-        }
+//        guard let rootViewController = UIApplication.topStackViewController() else {
+//            print("Can't find RootViewController!")
+//            return
+//        }
 //
 //        self.bannerAdView.adUnitID = adUnit_ID
 //        self.bannerAdView.delegate = self
