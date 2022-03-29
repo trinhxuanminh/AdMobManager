@@ -17,6 +17,7 @@ class NativeAd: NSObject {
     fileprivate var configData: (() -> ())?
     fileprivate var didAddReloadingAd: Bool = false
     fileprivate var isLoading: Bool = false
+    fileprivate var rootViewController: UIViewController?
     
     override init() {
         super.init()
@@ -24,6 +25,7 @@ class NativeAd: NSObject {
         if !self.didAddReloadingAd {
             self.didAddReloadingAd = true
             self.adUnit_ID = AdMobManager.shared.getNativeAdID()
+            self.rootViewController = UIApplication.topStackViewController()
             self.request()
         }
     }
@@ -46,8 +48,11 @@ class NativeAd: NSObject {
             return
         }
         
-        guard let rootViewController = UIApplication.topStackViewController() else {
-            print("Can't find RootViewController!")
+//        guard let rootViewController = UIApplication.topStackViewController() else {
+//            print("Can't find RootViewController!")
+//            return
+//        }
+        guard let rootViewController = rootViewController else {
             return
         }
         
