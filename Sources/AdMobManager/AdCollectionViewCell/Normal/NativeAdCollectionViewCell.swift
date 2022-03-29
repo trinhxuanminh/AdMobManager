@@ -75,7 +75,7 @@ public class NativeAdCollectionViewCell: UICollectionViewCell {
     }
     
     fileprivate var didConfigData: Bool = false
-    fileprivate var nativeAd: NativeAd? = NativeAd()
+    fileprivate var listNativeAd: [NativeAd?]? = [NativeAd()]
     
     public override func awakeFromNib() {
         super.awakeFromNib()
@@ -86,8 +86,12 @@ public class NativeAdCollectionViewCell: UICollectionViewCell {
     }
     
     public override func removeFromSuperview() {
-        self.nativeAd = nil
+        self.listNativeAd = nil
         super.removeFromSuperview()
+    }
+    
+    deinit {
+        print("NativeAdCollectionViewCell deinit")
     }
     
     /// This function helps to adjust the color of the ad content.
@@ -154,6 +158,28 @@ public class NativeAdCollectionViewCell: UICollectionViewCell {
             self.loadingIndicator.type = type
         }
     }
+    
+    
+    public func setAd(index: Int = 0) {
+        guard var listNativeAd = self.listNativeAd, index >= 0 else {
+            return
+        }
+        if index >= listNativeAd.count {
+            for _ in listNativeAd.count..<index {
+                listNativeAd.append(nil)
+            }
+            listNativeAd.append(NativeAd())
+            self.listNativeAd = listNativeAd
+        }
+        if listNativeAd[index] == nil {
+            listNativeAd[index] = NativeAd()
+        }
+        let nativeAd = listNativeAd[index]
+        self.config_Data(ad: nativeAd?.get_Ad())
+        nativeAd?.set_Config_Data { [weak self] in
+            self?.config_Data(ad: nativeAd?.get_Ad())
+        }
+    }
 }
 
 extension NativeAdCollectionViewCell {
@@ -169,13 +195,6 @@ extension NativeAdCollectionViewCell {
             self.loadingIndicator.widthAnchor.constraint(equalToConstant: 20),
             self.loadingIndicator.heightAnchor.constraint(equalToConstant: 20),
         ])
-    }
-    
-    func setAd() {
-        self.config_Data(ad: self.nativeAd?.get_Ad())
-        self.nativeAd?.set_Config_Data { [weak self] in
-            self?.config_Data(ad: self?.nativeAd?.get_Ad())
-        }
     }
     
     func config_Data(ad: GADNativeAd?) {
