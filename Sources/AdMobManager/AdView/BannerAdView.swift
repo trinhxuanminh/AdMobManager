@@ -19,7 +19,7 @@ import GoogleMobileAds
     
     fileprivate var bannerAdView: GADBannerView! {
         didSet {
-            self.bannerAdView.translatesAutoresizingMaskIntoConstraints = false
+            self.bannerAdView?.translatesAutoresizingMaskIntoConstraints = false
         }
     }
     
