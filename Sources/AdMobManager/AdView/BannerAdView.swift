@@ -17,28 +17,28 @@ import GoogleMobileAds
 /// - Warning: Banner Ad will not be displayed without adding ID.
 @IBDesignable public class BannerAdView: UIView {
     
-//    fileprivate var bannerAdView: GADBannerView! {
-//        didSet {
-//            self.bannerAdView.translatesAutoresizingMaskIntoConstraints = false
-//        }
-//    }
+    fileprivate var bannerAdView: GADBannerView! {
+        didSet {
+            self.bannerAdView.translatesAutoresizingMaskIntoConstraints = false
+        }
+    }
     
-//    fileprivate var adUnit_ID: String?
-//    fileprivate var isLoading: Bool = false
-//    fileprivate var isExist: Bool = false
-//    fileprivate var didFirstLoadAd: Bool = false
-//    fileprivate var loadRequestWorkItem: DispatchWorkItem?
+    fileprivate var adUnit_ID: String?
+    fileprivate var isLoading: Bool = false
+    fileprivate var isExist: Bool = false
+    fileprivate var didFirstLoadAd: Bool = false
+    fileprivate var loadRequestWorkItem: DispatchWorkItem?
     
     public override func awakeFromNib() {
         super.awakeFromNib()
-//        self.createComponents()
-//        self.setupConstraints()
+        self.createComponents()
+        self.setupConstraints()
     }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-//        self.createComponents()
-//        self.setupConstraints()
+        self.createComponents()
+        self.setupConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -48,16 +48,16 @@ import GoogleMobileAds
     public override func draw(_ rect: CGRect) {
         super.draw(rect)
         
-//        if !self.didFirstLoadAd {
-//            self.didFirstLoadAd = true
-//            self.adUnit_ID = AdMobManager.shared.getBannerAdID()
-//            self.request()
-//        }
+        if !self.didFirstLoadAd {
+            self.didFirstLoadAd = true
+            self.adUnit_ID = AdMobManager.shared.getBannerAdID()
+            self.request()
+        }
     }
     
     public override func removeFromSuperview() {
         print("banner remove")
-//        self.loadRequestWorkItem?.cancel()
+        self.loadRequestWorkItem?.cancel()
         super.removeFromSuperview()
     }
     
@@ -65,16 +65,16 @@ import GoogleMobileAds
         print("banner deinit")
     }
     
-//    func load() {
-//        if self.isExist {
-//            return
-//        }
+    func load() {
+        if self.isExist {
+            return
+        }
         
 //        guard let adUnit_ID = adUnit_ID else {
 //            print("No BannerAd ID!")
 //            return
 //        }
-        
+//
 //        guard let rootViewController = UIApplication.topStackViewController() else {
 //            print("Can't find RootViewController!")
 //            return
@@ -84,40 +84,40 @@ import GoogleMobileAds
 //        self.bannerAdView.delegate = self
 //        self.bannerAdView.rootViewController = rootViewController
 //        self.bannerAdView.load(GADRequest())
-//    }
+    }
     
-//    func request() {
-//        self.loadRequestWorkItem?.cancel()
-//        let requestWorkItem = DispatchWorkItem(block: self.load)
-//        self.loadRequestWorkItem = requestWorkItem
-//        let adReloadTime: Int? = AdMobManager.shared.getAdReloadTime()
-//        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: requestWorkItem)
-//    }
+    func request() {
+        self.loadRequestWorkItem?.cancel()
+        let requestWorkItem = DispatchWorkItem(block: self.load)
+        self.loadRequestWorkItem = requestWorkItem
+        let adReloadTime: Int? = AdMobManager.shared.getAdReloadTime()
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: requestWorkItem)
+    }
 }
 
-//extension BannerAdView: GADBannerViewDelegate {
-//    public func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
-//        print("BannerAd download error, trying again!")
-//        self.request()
-//    }
-//
-//    public func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
-//        self.isExist = true
-//    }
-//}
-//
-//extension BannerAdView {
-//    func createComponents() {
-//        self.bannerAdView = GADBannerView()
-//        self.addSubview(self.bannerAdView)
-//    }
-//
-//    func setupConstraints() {
-//        NSLayoutConstraint.activate([
-//            self.bannerAdView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-//            self.bannerAdView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-//            self.bannerAdView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-//            self.bannerAdView.topAnchor.constraint(equalTo: self.topAnchor)
-//        ])
-//    }
-//}
+extension BannerAdView: GADBannerViewDelegate {
+    public func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+        print("BannerAd download error, trying again!")
+        self.request()
+    }
+
+    public func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        self.isExist = true
+    }
+}
+
+extension BannerAdView {
+    func createComponents() {
+        self.bannerAdView = GADBannerView()
+        self.addSubview(self.bannerAdView)
+    }
+
+    func setupConstraints() {
+        NSLayoutConstraint.activate([
+            self.bannerAdView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            self.bannerAdView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            self.bannerAdView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            self.bannerAdView.topAnchor.constraint(equalTo: self.topAnchor)
+        ])
+    }
+}
