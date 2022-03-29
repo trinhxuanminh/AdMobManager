@@ -67,19 +67,19 @@ import GoogleMobileAds
     }
     
     func load() {
-        if self.isExist {
-            return
-        }
+//        if self.isExist {
+//            return
+//        }
         
-        guard let adUnit_ID = adUnit_ID else {
-            print("No BannerAd ID!")
-            return
-        }
+//        guard let adUnit_ID = self.adUnit_ID else {
+//            print("No BannerAd ID!")
+//            return
+//        }
 
-        guard let rootViewController = UIApplication.topStackViewController() else {
-            print("Can't find RootViewController!")
-            return
-        }
+//        guard let rootViewController = UIApplication.topStackViewController() else {
+//            print("Can't find RootViewController!")
+//            return
+//        }
 
 //        self.bannerAdView.adUnitID = adUnit_ID
 //        self.bannerAdView.delegate = self
