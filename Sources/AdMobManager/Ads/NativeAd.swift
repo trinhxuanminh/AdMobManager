@@ -37,10 +37,10 @@ class NativeAd: NSObject {
             return
         }
         
-        guard let adUnit_ID = self.adUnit_ID else {
-            print("No NativeAd ID!")
-            return
-        }
+//        guard let adUnit_ID = self.adUnit_ID else {
+//            print("No NativeAd ID!")
+//            return
+//        }
         
 //        guard let rootViewController = UIApplication.topStackViewController() else {
 //            print("Can't find RootViewController!")
