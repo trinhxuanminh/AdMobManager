@@ -87,6 +87,7 @@ public class NativeAdTableViewCell: UITableViewCell {
     
     public override func removeFromSuperview() {
         print("remove")
+        self.nativeAd.cancelRequest()
         super.removeFromSuperview()
     }
     
