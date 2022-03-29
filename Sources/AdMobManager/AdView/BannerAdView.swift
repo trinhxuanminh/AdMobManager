@@ -50,7 +50,7 @@ import GoogleMobileAds
         
         if !self.didFirstLoadAd {
             self.didFirstLoadAd = true
-//            self.adUnit_ID = AdMobManager.shared.getBannerAdID()
+            self.adUnit_ID = AdMobManager.shared.getBannerAdID()
             self.request()
         }
     }
@@ -90,8 +90,8 @@ import GoogleMobileAds
         self.loadRequestWorkItem?.cancel()
         let requestWorkItem = DispatchWorkItem(block: self.load)
         self.loadRequestWorkItem = requestWorkItem
-        let adReloadTime: Int? = AdMobManager.shared.getAdReloadTime()
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: requestWorkItem)
+//        let adReloadTime: Int? = AdMobManager.shared.getAdReloadTime()
+//        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: requestWorkItem)
     }
 }
 
