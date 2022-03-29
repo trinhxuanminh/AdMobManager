@@ -24,7 +24,7 @@ class NativeAd: NSObject {
         if !self.didAddReloadingAd {
             self.didAddReloadingAd = true
             self.adUnit_ID = AdMobManager.shared.getNativeAdID()
-//            self.request()
+            self.request()
         }
     }
     
@@ -47,12 +47,12 @@ class NativeAd: NSObject {
             return
         }
         
-        self.adLoader = GADAdLoader(adUnitID: adUnit_ID,
-                               rootViewController: rootViewController,
-                               adTypes: [.native],
-                               options: nil)
-        self.adLoader.delegate = self
-        self.adLoader.load(GADRequest())
+//        self.adLoader = GADAdLoader(adUnitID: adUnit_ID,
+//                               rootViewController: rootViewController,
+//                               adTypes: [.native],
+//                               options: nil)
+//        self.adLoader.delegate = self
+//        self.adLoader.load(GADRequest())
     }
     
     func request() {
