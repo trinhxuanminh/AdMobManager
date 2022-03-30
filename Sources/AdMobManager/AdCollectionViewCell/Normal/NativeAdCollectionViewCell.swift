@@ -66,14 +66,6 @@ public class NativeAdCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    /// Interface style for ad content.
-    public enum Style {
-        /// This style will display white labels on a dark theme.
-        case dark
-        /// This style will display black labels on a dark theme.
-        case light
-    }
-    
     fileprivate var listNativeAd: [NativeAd?] = [NativeAd()]
     
     public override func awakeFromNib() {
@@ -95,7 +87,7 @@ public class NativeAdCollectionViewCell: UICollectionViewCell {
     /// - Parameter style: Change the color of the labels according to the interface style. Default is **light**.
     /// - Parameter backgroundColor: Change background color of NativeAdCollectionViewCell class. Default is **clear**.
     /// - Parameter themeColor: Change the background color of the buttons. Default is **#87A605**.
-    public func set_Color(style: Style? = nil, backgroundColor: UIColor? = nil, themeColor: UIColor? = nil) {
+    public func set_Color(style: AdMobManager.Style? = nil, backgroundColor: UIColor? = nil, themeColor: UIColor? = nil) {
         if let style = style {
             switch style {
             case .dark:

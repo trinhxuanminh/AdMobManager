@@ -85,14 +85,6 @@ public class NativeAdvancedAdTableViewCell: UITableViewCell, GADVideoControllerD
         }
     }
     
-    /// Interface style for ad content.
-    public enum Style {
-        /// This style will display white labels on a dark theme.
-        case dark
-        /// This style will display black labels on a dark theme.
-        case light
-    }
-    
     fileprivate var listNativeAd: [NativeAd?] = [NativeAd()]
     
     public override func awakeFromNib() {
@@ -114,7 +106,7 @@ public class NativeAdvancedAdTableViewCell: UITableViewCell, GADVideoControllerD
     /// - Parameter style: Change the color of the labels according to the interface style. Default is **light**.
     /// - Parameter backgroundColor: Change background color of NativeAdvancedAdTableViewCell class. Default is **clear**.
     /// - Parameter themeColor: Change the title color of the buttons and the border color. Default is **#87A605**.
-    public func set_Color(style: Style? = nil, backgroundColor: UIColor? = nil, themeColor: UIColor? = nil) {
+    public func set_Color(style: AdMobManager.Style? = nil, backgroundColor: UIColor? = nil, themeColor: UIColor? = nil) {
         if let style = style {
             switch style {
             case .dark:

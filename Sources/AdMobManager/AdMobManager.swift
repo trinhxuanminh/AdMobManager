@@ -27,6 +27,14 @@ public struct AdMobManager {
         case appOpen
     }
     
+    /// Interface style for ad content.
+    public enum Style {
+        /// This style will display white labels on a dark theme.
+        case dark
+        /// This style will display black labels on a dark theme.
+        case light
+    }
+    
     fileprivate var splashAd = SplashAd()
     fileprivate var interstitialAd = InterstitialAd()
     fileprivate var appOpenAd = AppOpenAd()
@@ -148,7 +156,7 @@ public struct AdMobManager {
     /// AdMobManager.shared.limit_Reloading_Of_Ads_When_There_Is_An_Error(adReloadTime: 1000)
     ///```
     /// Unit is milliseconds.
-    /// - Parameter adReloadTime: Timeout to reload ads after failed load. Default is **nil**, ad will be reloaded immediately.
+    /// - Parameter adReloadTime: Time reload ads after failed load. Default is **nil**, ad will be reloaded immediately.
     public mutating func limit_Reloading_Of_Ads_When_There_Is_An_Error(adReloadTime: Int) {
         self.adReloadTime = adReloadTime
     }
