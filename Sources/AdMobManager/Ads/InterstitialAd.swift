@@ -28,6 +28,12 @@ class InterstitialAd: NSObject {
             return
         }
         
+        if #available(iOS 12.0, *), !NetworkMonitor.shared.isConnected {
+            print("Not connected!")
+            self.request()
+            return
+        }
+        
         guard let adUnit_ID = self.adUnit_ID else {
             print("No InterstitialAd ID!")
             return

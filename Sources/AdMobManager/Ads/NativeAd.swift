@@ -28,12 +28,22 @@ class NativeAd: NSObject {
         }
     }
     
+    deinit {
+        print("NativeAd deinit")
+    }
+    
     func load() {
         if self.isLoading {
             return
         }
         
         if self.isExist() {
+            return
+        }
+        
+        if #available(iOS 12.0, *), !NetworkMonitor.shared.isConnected {
+            print("Not connected!")
+            self.request()
             return
         }
         
