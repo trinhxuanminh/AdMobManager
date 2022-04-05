@@ -41,7 +41,7 @@ public struct AdMobManager {
     fileprivate var startDate: Date?
     fileprivate var nativeAd_ID: String?
     fileprivate var bannerAd_ID: String?
-    fileprivate var adReloadTime: Int = 1000
+    fileprivate var adReloadTime: Double = 1.0
     
     /// This function helps to change the ad ID, available for the next load.
     /// ```
@@ -160,11 +160,10 @@ public struct AdMobManager {
     
     /// This function helps to limit the reload of the ad when an error occurs.
     ///```
-    /// AdMobManager.shared.limit_Reloading_Of_Ads_When_There_Is_An_Error(adReloadTime: 1000)
+    /// AdMobManager.shared.limit_Reloading_Of_Ads_When_There_Is_An_Error(adReloadTime: 1.0)
     ///```
-    /// Unit is milliseconds.
-    /// - Parameter adReloadTime: Time reload ads after failed load. Default is **1000 milliseconds**, ad will be reloaded immediately.
-    public mutating func limit_Reloading_Of_Ads_When_There_Is_An_Error(adReloadTime: Int) {
+    /// - Parameter adReloadTime: Time reload ads after failed load. Default is **1 seconds**.
+    public mutating func limit_Reloading_Of_Ads_When_There_Is_An_Error(adReloadTime: Double) {
         self.adReloadTime = adReloadTime
         
         self.splashAd.adReloadTime = adReloadTime
@@ -215,7 +214,7 @@ extension AdMobManager {
         return self.bannerAd_ID
     }
     
-    func getAdReloadTime() -> Int {
+    func getAdReloadTime() -> Double {
         return self.adReloadTime
     }
     

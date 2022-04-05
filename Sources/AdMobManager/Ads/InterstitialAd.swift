@@ -22,7 +22,7 @@ class InterstitialAd: NSObject {
     fileprivate var willPresent: (() -> ())?
     fileprivate var willDismiss: (() -> ())?
     fileprivate var didDismiss: (() -> ())?
-    public var adReloadTime: Int = 1000
+    public var adReloadTime: Double = 1.0
     fileprivate var loadRequestWorkItem: DispatchWorkItem?
     public fileprivate(set) var isPresent: Bool = false
     
@@ -62,7 +62,7 @@ class InterstitialAd: NSObject {
     }
     
     func request() {
-        DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(self.adReloadTime), execute: self.load)
+        DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(Int(self.adReloadTime * 1000)), execute: self.load)
     }
     
     func isExist() -> Bool {

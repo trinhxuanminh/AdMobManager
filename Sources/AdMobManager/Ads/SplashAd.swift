@@ -17,7 +17,7 @@ class SplashAd: NSObject {
     fileprivate var willDismiss: (() -> ())?
     fileprivate var didDismiss: (() -> ())?
     fileprivate var stopLoadingSplashAd: Bool = false
-    public var adReloadTime: Int = 1000
+    public var adReloadTime: Double = 1.0
     fileprivate var isLoading: Bool = false
     fileprivate var loadRequestWorkItem: DispatchWorkItem?
     public fileprivate(set) var isPresent: Bool = false
@@ -62,7 +62,7 @@ class SplashAd: NSObject {
     }
     
     func request() {
-        DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(self.adReloadTime), execute: self.load)
+        DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(Int(self.adReloadTime * 1000)), execute: self.load)
     }
 
     func isExist() -> Bool {

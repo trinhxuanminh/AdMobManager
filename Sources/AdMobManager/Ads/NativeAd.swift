@@ -64,8 +64,8 @@ class NativeAd: NSObject {
     }
     
     func request() {
-        let adReloadTime: Int = AdMobManager.shared.getAdReloadTime()
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(adReloadTime), execute: self.load)
+        let adReloadTime: Double = AdMobManager.shared.getAdReloadTime()
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(Int(adReloadTime * 1000)), execute: self.load)
     }
     
     func isExist() -> Bool {
