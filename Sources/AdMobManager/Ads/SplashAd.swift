@@ -20,6 +20,7 @@ class SplashAd: NSObject {
     public var adReloadTime: Int = 1000
     fileprivate var isLoading: Bool = false
     fileprivate var loadRequestWorkItem: DispatchWorkItem?
+    public fileprivate(set) var isPresent: Bool = false
     
     func load() {
         if self.stopLoadingSplashAd {
@@ -95,6 +96,7 @@ extension SplashAd: GADFullScreenContentDelegate {
     }
     
     func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+        self.isPresent = true
         self.willPresent?()
     }
     
@@ -104,6 +106,7 @@ extension SplashAd: GADFullScreenContentDelegate {
     
     func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
         print("Ad did dismiss full screen content.")
+        self.isPresent = false
         self.didDismiss?()
     }
     

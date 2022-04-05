@@ -124,7 +124,10 @@ public struct AdMobManager {
         case .interstitial:
             self.interstitialAd.show(willPresent: willPresent, willDismiss: willDismiss, didDismiss: didDismiss)
         case .appOpen:
-            if self.interstitialAd.isPresent {
+            if self.splashAd.isPresent {
+                print("SplashAd is showing!")
+                return
+            } else if self.interstitialAd.isPresent {
                 print("InterstitialAd is showing!")
                 return
             }
