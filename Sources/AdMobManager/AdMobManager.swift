@@ -13,7 +13,7 @@ import Foundation
 /// ```
 /// import AdMobManager
 /// ```
-/// - Warning: Available for Swift 5.3, Xcode 12.0 (macOS Big Sur). Support from iOS 10.0
+/// - Warning: Available for Swift 5.3, Xcode 12.0 (macOS Big Sur). Support from iOS 10.0 or newer.
 public struct AdMobManager {
     
     /// This constant returns the Bundle of the AdMobManager module
@@ -159,6 +159,12 @@ public struct AdMobManager {
     /// - Parameter adReloadTime: Time reload ads after failed load. Default is **nil**, ad will be reloaded immediately.
     public mutating func limit_Reloading_Of_Ads_When_There_Is_An_Error(adReloadTime: Int) {
         self.adReloadTime = adReloadTime
+        
+        self.splashAd.setAdReloadTime(time: adReloadTime)
+        
+        self.interstitialAd.setAdReloadTime(time: adReloadTime)
+        
+        self.appOpenAd.setAdReloadTime(time: adReloadTime)
     }
     
     /// This function helps to block reloading of SplashAd.
@@ -168,6 +174,16 @@ public struct AdMobManager {
     /// Recommended when splash ads don't need to appear anymore.
     public mutating func stop_Loading_SplashAd() {
         self.splashAd.setStopLoadingSplashAd()
+    }
+    
+    /// This function return about an value for know the path is available to establish connections and send data.
+    /// ```
+    /// AdMobManager.shared.isConnected()
+    /// ```
+    /// - Warning: Available for iOS 12.0 or newer.
+    @available(iOS 12.0, *)
+    public func isConnected() -> Bool {
+        return NetworkMonitor.shared.isConnected
     }
 }
 

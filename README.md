@@ -187,6 +187,13 @@ This function helps to block reloading of SplashAd.
 AdMobManager.shared.stop_Loading_SplashAd()
 ```
 
+#### isConnected()
+This function return about an value for know the path is available to establish connections and send data.
+- Available for iOS 12.0 or newer.
+```swift
+AdMobManager.shared.isConnected()
+```
+
 ## License
 ### [ProX Global](https://proxglobal.com)
 ### Copyright (c) Trịnh Xuân Minh 2022 [@trinhxuanminh](https://www.facebook.com/minhtx.developer)
