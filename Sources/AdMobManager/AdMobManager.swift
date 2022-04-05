@@ -120,10 +120,19 @@ public struct AdMobManager {
     public func show(adType: AdType, willPresent: (() -> ())? = nil, willDismiss: (() -> ())? = nil, didDismiss: (() -> ())? = nil) {
         switch adType {
         case .splash:
+            if #available(*, iOS 11.4) {
+                self.splashAd.load()
+            }
             self.splashAd.show(willPresent: willPresent, willDismiss: willDismiss, didDismiss: didDismiss)
         case .interstitial:
+            if #available(*, iOS 11.4) {
+                self.interstitialAd.load()
+            }
             self.interstitialAd.show(willPresent: willPresent, willDismiss: willDismiss, didDismiss: didDismiss)
         case .appOpen:
+            if #available(*, iOS 11.4) {
+                self.appOpenAd.load()
+            }
             self.appOpenAd.show(willPresent: willPresent, willDismiss: willDismiss, didDismiss: didDismiss)
         }
     }

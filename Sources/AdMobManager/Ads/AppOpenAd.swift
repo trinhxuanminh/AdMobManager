@@ -15,6 +15,7 @@ class AppOpenAd: NSObject {
     fileprivate var appOpenAd: GADAppOpenAd?
     fileprivate var loadTimeOpenApp: Date = Date()
     fileprivate var timeBetween: Double = 5
+    fileprivate var isLoading: Bool = false
     fileprivate var willPresent: (() -> ())?
     fileprivate var willDismiss: (() -> ())?
     fileprivate var didDismiss: (() -> ())?
@@ -22,6 +23,10 @@ class AppOpenAd: NSObject {
     fileprivate var loadRequestWorkItem: DispatchWorkItem?
     
     func load() {
+        if self.isLoading {
+            return
+        }
+        
         if self.isExist() {
             return
         }
@@ -37,25 +42,25 @@ class AppOpenAd: NSObject {
             return
         }
         
+        self.isLoading = true
+        
         let request = GADRequest()
         GADAppOpenAd.load(withAdUnitID: adUnit_ID,
                           request: request,
                           orientation: UIInterfaceOrientation.portrait) { (ad, error) in
             if let _ = error {
                 print("AppOpenAd download error, trying again!")
-                self.request()
+                self.isLoading = false
                 return
             }
             self.appOpenAd = ad
             self.appOpenAd?.fullScreenContentDelegate = self
+            self.isLoading = false
         }
     }
     
     func request() {
-        self.loadRequestWorkItem?.cancel()
-        let requestWorkItem = DispatchWorkItem(block: self.load)
-        self.loadRequestWorkItem = requestWorkItem
-        DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(self.adReloadTime), execute: requestWorkItem)
+        DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(self.adReloadTime), execute: self.load)
     }
     
     func isExist() -> Bool {
@@ -100,7 +105,7 @@ extension AppOpenAd: GADFullScreenContentDelegate {
         print("Ad did dismiss full screen content.")
         self.didDismiss?()
         self.appOpenAd = nil
-        self.request()
+        self.load()
         self.loadTimeOpenApp = Date()
     }
     
