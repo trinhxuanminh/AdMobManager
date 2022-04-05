@@ -18,6 +18,7 @@ class AppOpenAd: NSObject {
     fileprivate var willPresent: (() -> ())?
     fileprivate var willDismiss: (() -> ())?
     fileprivate var didDismiss: (() -> ())?
+    fileprivate var adReloadTime: Int = 0
     fileprivate var loadRequestWorkItem: DispatchWorkItem?
     
     func load() {
@@ -54,8 +55,7 @@ class AppOpenAd: NSObject {
         self.loadRequestWorkItem?.cancel()
         let requestWorkItem = DispatchWorkItem(block: self.load)
         self.loadRequestWorkItem = requestWorkItem
-        let adReloadTime: Int? = AdMobManager.shared.getAdReloadTime()
-        DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: requestWorkItem)
+        DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(self.adReloadTime), execute: requestWorkItem)
     }
     
     func isExist() -> Bool {
@@ -116,5 +116,9 @@ extension AppOpenAd: GADFullScreenContentDelegate {
     
     func setAdUnitID(ID: String) {
         self.adUnit_ID = ID
+    }
+    
+    func setAdReloadTime(time: Int) {
+        self.adReloadTime = time
     }
 }

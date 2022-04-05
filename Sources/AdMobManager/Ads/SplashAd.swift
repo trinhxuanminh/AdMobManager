@@ -17,6 +17,7 @@ class SplashAd: NSObject {
     fileprivate var willDismiss: (() -> ())?
     fileprivate var didDismiss: (() -> ())?
     fileprivate var stopLoadingSplashAd: Bool = false
+    fileprivate var adReloadTime: Int = 0
     fileprivate var loadRequestWorkItem: DispatchWorkItem?
     
     func load() {
@@ -56,8 +57,7 @@ class SplashAd: NSObject {
         self.loadRequestWorkItem?.cancel()
         let requestWorkItem = DispatchWorkItem(block: self.load)
         self.loadRequestWorkItem = requestWorkItem
-        let adReloadTime: Int? = AdMobManager.shared.getAdReloadTime()
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: requestWorkItem)
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(self.adReloadTime), execute: requestWorkItem)
     }
 
     func isExist() -> Bool {
@@ -109,5 +109,9 @@ extension SplashAd: GADFullScreenContentDelegate {
     
     func setStopLoadingSplashAd() {
         self.stopLoadingSplashAd = true
+    }
+    
+    func setAdReloadTime(time: Int) {
+        self.adReloadTime = time
     }
 }
