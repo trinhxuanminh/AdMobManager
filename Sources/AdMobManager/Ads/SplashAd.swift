@@ -11,13 +11,13 @@ import GoogleMobileAds
 
 class SplashAd: NSObject {
     
-    fileprivate var adUnit_ID: String?
+    public var adUnit_ID: String?
     fileprivate var splashAd: GADInterstitialAd?
     fileprivate var willPresent: (() -> ())?
     fileprivate var willDismiss: (() -> ())?
     fileprivate var didDismiss: (() -> ())?
     fileprivate var stopLoadingSplashAd: Bool = false
-    fileprivate var adReloadTime: Int = 1000
+    public var adReloadTime: Int = 1000
     fileprivate var isLoading: Bool = false
     fileprivate var loadRequestWorkItem: DispatchWorkItem?
     
@@ -53,7 +53,6 @@ class SplashAd: NSObject {
             self.isLoading = false
             if let _ = error {
                 print("SplashAd download error, trying again!")
-                self.request()
                 return
             }
             self.splashAd = ad
@@ -108,15 +107,7 @@ extension SplashAd: GADFullScreenContentDelegate {
         self.didDismiss?()
     }
     
-    func setAdUnitID(ID: String) {
-        self.adUnit_ID = ID
-    }
-    
     func setStopLoadingSplashAd() {
         self.stopLoadingSplashAd = true
-    }
-    
-    func setAdReloadTime(time: Int) {
-        self.adReloadTime = time
     }
 }

@@ -61,15 +61,15 @@ public struct AdMobManager {
     /// - Warning: Ad parameters = nil will not load the corresponding ad type.
     public mutating func set_AdUnit(splashAd_ID: String? = nil, interstitialAd_ID: String? = nil, appOpenAd_ID: String? = nil, nativeAd_ID: String? = nil, bannerAd_ID: String? = nil) {
         if let splashAd_ID = splashAd_ID {
-            self.splashAd.setAdUnitID(ID: splashAd_ID)
+            self.splashAd.adUnit_ID = splashAd_ID
         }
         
         if let interstitialAd_ID = interstitialAd_ID {
-            self.interstitialAd.setAdUnitID(ID: interstitialAd_ID)
+            self.interstitialAd.adUnit_ID = interstitialAd_ID
         }
         
         if let appOpenAd_ID = appOpenAd_ID {
-            self.appOpenAd.setAdUnitID(ID: appOpenAd_ID)
+            self.appOpenAd.adUnit_ID = appOpenAd_ID
         }
         
         if let nativeAd_ID = nativeAd_ID {
@@ -124,6 +124,10 @@ public struct AdMobManager {
         case .interstitial:
             self.interstitialAd.show(willPresent: willPresent, willDismiss: willDismiss, didDismiss: didDismiss)
         case .appOpen:
+            if self.interstitialAd.isPresent {
+                print("InterstitialAd is showing!")
+                return
+            }
             self.appOpenAd.show(willPresent: willPresent, willDismiss: willDismiss, didDismiss: didDismiss)
         }
     }
@@ -143,9 +147,9 @@ public struct AdMobManager {
     public func set_Time_Between(adType: AdType, time: Double) {
         switch adType {
         case .interstitial:
-            self.interstitialAd.setTimeBetween(time: time)
+            self.interstitialAd.timeBetween = time
         case .appOpen:
-            self.appOpenAd.setTimeBetween(time: time)
+            self.appOpenAd.timeBetween = time
         default:
             return
         }
@@ -160,11 +164,11 @@ public struct AdMobManager {
     public mutating func limit_Reloading_Of_Ads_When_There_Is_An_Error(adReloadTime: Int) {
         self.adReloadTime = adReloadTime
         
-        self.splashAd.setAdReloadTime(time: adReloadTime)
+        self.splashAd.adReloadTime = adReloadTime
         
-        self.interstitialAd.setAdReloadTime(time: adReloadTime)
+        self.interstitialAd.adReloadTime = adReloadTime
         
-        self.appOpenAd.setAdReloadTime(time: adReloadTime)
+        self.appOpenAd.adReloadTime = adReloadTime
     }
     
     /// This function helps to block reloading of SplashAd.

@@ -12,9 +12,9 @@ import GoogleMobileAds
 class NativeAd: NSObject {
     
     fileprivate var adUnit_ID: String?
-    fileprivate var nativeAd: GADNativeAd?
+    public var nativeAd: GADNativeAd?
     fileprivate var adLoader: GADAdLoader!
-    fileprivate var configData: (() -> ())?
+    public var configData: (() -> ())?
     fileprivate var didAddReloadingAd: Bool = false
     fileprivate var isLoading: Bool = false
     
@@ -71,21 +71,12 @@ class NativeAd: NSObject {
     func isExist() -> Bool {
         return self.nativeAd != nil
     }
-    
-    func get_Ad() -> GADNativeAd? {
-        return self.nativeAd
-    }
-    
-    func set_Config_Data(didLoadAd: (() -> ())?) {
-        self.configData = didLoadAd
-    }
 }
 
 extension NativeAd: GADNativeAdLoaderDelegate {
     func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: Error) {
         print("NativeAd download error, trying again!")
         self.isLoading = false
-        self.request()
     }
     
     func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {

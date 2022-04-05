@@ -11,19 +11,20 @@ import GoogleMobileAds
 
 class InterstitialAd: NSObject {
     
-    fileprivate var adUnit_ID: String?
+    public var adUnit_ID: String?
     fileprivate var interstitialAd: GADInterstitialAd?
     fileprivate var timer: Timer?
     fileprivate var time: Double = 0.0
     fileprivate var adsReady: Bool = true
     fileprivate var timeInterval: Double = 0.1
-    fileprivate var timeBetween: Double = 5
+    public var timeBetween: Double = 5
     fileprivate var isLoading: Bool = false
     fileprivate var willPresent: (() -> ())?
     fileprivate var willDismiss: (() -> ())?
     fileprivate var didDismiss: (() -> ())?
-    fileprivate var adReloadTime: Int = 1000
+    public var adReloadTime: Int = 1000
     fileprivate var loadRequestWorkItem: DispatchWorkItem?
+    public fileprivate(set) var isPresent: Bool = false
     
     func load() {
         if self.isLoading {
@@ -75,7 +76,8 @@ class InterstitialAd: NSObject {
     func show(willPresent: (() -> ())?, willDismiss: (() -> ())?, didDismiss: (() -> ())?) {
         if !self.isReady() {
             print("InterstitialAd are not ready to show!")
-            if #available(*, iOS 11.4) {
+            if #available(iOS 12.0, *) {
+            } else {
                 self.load()
             }
             return
@@ -98,6 +100,7 @@ extension InterstitialAd: GADFullScreenContentDelegate {
     }
     
     func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+        self.isPresent = true
         self.willPresent?()
     }
     
@@ -108,6 +111,7 @@ extension InterstitialAd: GADFullScreenContentDelegate {
     func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
         print("Ad did dismiss full screen content.")
         self.didDismiss?()
+        self.isPresent = false
         self.interstitialAd = nil
         self.load()
         self.adsReady = false
@@ -122,17 +126,5 @@ extension InterstitialAd: GADFullScreenContentDelegate {
             self.timer?.invalidate()
             self.timer = nil
         }
-    }
-    
-    func setTimeBetween(time: Double) {
-        self.timeBetween = time
-    }
-    
-    func setAdUnitID(ID: String) {
-        self.adUnit_ID = ID
-    }
-    
-    func setAdReloadTime(time: Int) {
-        self.adReloadTime = time
     }
 }

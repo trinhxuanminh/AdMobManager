@@ -191,9 +191,9 @@ public class NativeAdvancedAdCollectionViewCell: UICollectionViewCell, GADVideoC
         if self.listNativeAd[index] == nil {
             self.listNativeAd[index] = NativeAd()
         }
-        self.config_Data(ad: self.listNativeAd[index]?.get_Ad())
-        self.listNativeAd[index]?.set_Config_Data { [weak self] in
-            self?.config_Data(ad: self?.listNativeAd[index]?.get_Ad())
+        self.config_Data(ad: self.listNativeAd[index]?.nativeAd)
+        self.listNativeAd[index]?.configData = { [weak self] in
+            self?.config_Data(ad: self?.listNativeAd[index]?.nativeAd)
         }
     }
 }

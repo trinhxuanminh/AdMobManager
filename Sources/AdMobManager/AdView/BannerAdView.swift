@@ -102,7 +102,6 @@ extension BannerAdView: GADBannerViewDelegate {
     public func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
         print("BannerAd download error, trying again!")
         self.isLoading = false
-        self.request()
     }
 
     public func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {

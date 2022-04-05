@@ -11,15 +11,15 @@ import GoogleMobileAds
 
 class AppOpenAd: NSObject {
     
-    fileprivate var adUnit_ID: String?
+    public var adUnit_ID: String?
     fileprivate var appOpenAd: GADAppOpenAd?
     fileprivate var loadTimeOpenApp: Date = Date()
-    fileprivate var timeBetween: Double = 5
+    public var timeBetween: Double = 5
     fileprivate var isLoading: Bool = false
     fileprivate var willPresent: (() -> ())?
     fileprivate var willDismiss: (() -> ())?
     fileprivate var didDismiss: (() -> ())?
-    fileprivate var adReloadTime: Int = 1000
+    public var adReloadTime: Int = 1000
     fileprivate var loadRequestWorkItem: DispatchWorkItem?
     
     func load() {
@@ -73,7 +73,8 @@ class AppOpenAd: NSObject {
     func show(willPresent: (() -> ())?, willDismiss: (() -> ())?, didDismiss: (() -> ())?) {
         if !self.isReady() {
             print("AppOpenAd are not ready to show!")
-            if #available(*, iOS 11.4) {
+            if #available(iOS 12.0, *) {
+            } else {
                 self.load()
             }
             return
@@ -115,17 +116,5 @@ extension AppOpenAd: GADFullScreenContentDelegate {
         let now = Date()
         let timeIntervalBetweenNowAndLoadTime = now.timeIntervalSince(self.loadTimeOpenApp)
         return timeIntervalBetweenNowAndLoadTime > self.timeBetween
-    }
-    
-    func setTimeBetween(time: Double) {
-        self.timeBetween = time
-    }
-    
-    func setAdUnitID(ID: String) {
-        self.adUnit_ID = ID
-    }
-    
-    func setAdReloadTime(time: Int) {
-        self.adReloadTime = time
     }
 }
