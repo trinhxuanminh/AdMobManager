@@ -19,7 +19,7 @@ class AppOpenAd: NSObject {
     fileprivate var willPresent: (() -> ())?
     fileprivate var willDismiss: (() -> ())?
     fileprivate var didDismiss: (() -> ())?
-    fileprivate var adReloadTime: Int = 0
+    fileprivate var adReloadTime: Int = 1000
     fileprivate var loadRequestWorkItem: DispatchWorkItem?
     
     func load() {
@@ -48,14 +48,13 @@ class AppOpenAd: NSObject {
         GADAppOpenAd.load(withAdUnitID: adUnit_ID,
                           request: request,
                           orientation: UIInterfaceOrientation.portrait) { (ad, error) in
+            self.isLoading = false
             if let _ = error {
                 print("AppOpenAd download error, trying again!")
-                self.isLoading = false
                 return
             }
             self.appOpenAd = ad
             self.appOpenAd?.fullScreenContentDelegate = self
-            self.isLoading = false
         }
     }
     
@@ -74,6 +73,9 @@ class AppOpenAd: NSObject {
     func show(willPresent: (() -> ())?, willDismiss: (() -> ())?, didDismiss: (() -> ())?) {
         if !self.isReady() {
             print("AppOpenAd are not ready to show!")
+            if #available(*, iOS 11.4) {
+                self.load()
+            }
             return
         }
         guard let topViewController = UIApplication.topStackViewController() else {

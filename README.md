@@ -175,10 +175,11 @@ Then, there are two ways you can create `BannerAdView`:
 This function helps to limit the reload of the ad when an error occurs.
 - Time reload ads after failed load.
 - Unit is milliseconds.
-- Default is nil, ad will be reloaded immediately.
+- Default is _**1000 milliseconds**_, ad will be reloaded immediately.
 ```swift
 AdMobManager.shared.limit_Reloading_Of_Ads_When_There_Is_An_Error(adReloadTime: Int)
 ```
+_**Note**: For iOS 11.4 and below, `InterstitialAd` and `AppOpenAd` will reload immediately after the failed impression._
 
 #### Stop loading SplashAd
 This function helps to block reloading of SplashAd.

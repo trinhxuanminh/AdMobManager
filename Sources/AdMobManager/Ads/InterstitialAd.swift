@@ -22,7 +22,7 @@ class InterstitialAd: NSObject {
     fileprivate var willPresent: (() -> ())?
     fileprivate var willDismiss: (() -> ())?
     fileprivate var didDismiss: (() -> ())?
-    fileprivate var adReloadTime: Int = 0
+    fileprivate var adReloadTime: Int = 1000
     fileprivate var loadRequestWorkItem: DispatchWorkItem?
     
     func load() {
@@ -50,14 +50,13 @@ class InterstitialAd: NSObject {
         let request = GADRequest()
         GADInterstitialAd.load(withAdUnitID: adUnit_ID,
                                request: request) { (ad, error) in
+            self.isLoading = false
             if let _ = error {
                 print("InterstitialAd download error, trying again!")
-                self.isLoading = false
                 return
             }
             self.interstitialAd = ad
             self.interstitialAd?.fullScreenContentDelegate = self
-            self.isLoading = false
         }
     }
     
@@ -76,6 +75,9 @@ class InterstitialAd: NSObject {
     func show(willPresent: (() -> ())?, willDismiss: (() -> ())?, didDismiss: (() -> ())?) {
         if !self.isReady() {
             print("InterstitialAd are not ready to show!")
+            if #available(*, iOS 11.4) {
+                self.load()
+            }
             return
         }
         guard let topViewController = UIApplication.topStackViewController() else {

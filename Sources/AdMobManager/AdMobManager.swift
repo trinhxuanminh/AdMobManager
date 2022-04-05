@@ -41,7 +41,7 @@ public struct AdMobManager {
     fileprivate var startDate: Date?
     fileprivate var nativeAd_ID: String?
     fileprivate var bannerAd_ID: String?
-    fileprivate var adReloadTime: Int?
+    fileprivate var adReloadTime: Int = 1000
     
     /// This function helps to change the ad ID, available for the next load.
     /// ```
@@ -120,19 +120,10 @@ public struct AdMobManager {
     public func show(adType: AdType, willPresent: (() -> ())? = nil, willDismiss: (() -> ())? = nil, didDismiss: (() -> ())? = nil) {
         switch adType {
         case .splash:
-            if #available(*, iOS 11.4) {
-                self.splashAd.load()
-            }
             self.splashAd.show(willPresent: willPresent, willDismiss: willDismiss, didDismiss: didDismiss)
         case .interstitial:
-            if #available(*, iOS 11.4) {
-                self.interstitialAd.load()
-            }
             self.interstitialAd.show(willPresent: willPresent, willDismiss: willDismiss, didDismiss: didDismiss)
         case .appOpen:
-            if #available(*, iOS 11.4) {
-                self.appOpenAd.load()
-            }
             self.appOpenAd.show(willPresent: willPresent, willDismiss: willDismiss, didDismiss: didDismiss)
         }
     }
@@ -165,7 +156,7 @@ public struct AdMobManager {
     /// AdMobManager.shared.limit_Reloading_Of_Ads_When_There_Is_An_Error(adReloadTime: 1000)
     ///```
     /// Unit is milliseconds.
-    /// - Parameter adReloadTime: Time reload ads after failed load. Default is **nil**, ad will be reloaded immediately.
+    /// - Parameter adReloadTime: Time reload ads after failed load. Default is **1000 milliseconds**, ad will be reloaded immediately.
     public mutating func limit_Reloading_Of_Ads_When_There_Is_An_Error(adReloadTime: Int) {
         self.adReloadTime = adReloadTime
         
@@ -217,7 +208,7 @@ extension AdMobManager {
         return self.bannerAd_ID
     }
     
-    func getAdReloadTime() -> Int? {
+    func getAdReloadTime() -> Int {
         return self.adReloadTime
     }
     

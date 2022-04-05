@@ -93,8 +93,8 @@ import GoogleMobileAds
     }
     
     func request() {
-        let adReloadTime: Int? = AdMobManager.shared.getAdReloadTime()
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(adReloadTime == nil ? 0 : adReloadTime!), execute: self.load)
+        let adReloadTime: Int = AdMobManager.shared.getAdReloadTime()
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(adReloadTime), execute: self.load)
     }
 }
 

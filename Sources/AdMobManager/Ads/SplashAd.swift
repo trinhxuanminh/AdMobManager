@@ -17,7 +17,7 @@ class SplashAd: NSObject {
     fileprivate var willDismiss: (() -> ())?
     fileprivate var didDismiss: (() -> ())?
     fileprivate var stopLoadingSplashAd: Bool = false
-    fileprivate var adReloadTime: Int = 0
+    fileprivate var adReloadTime: Int = 1000
     fileprivate var isLoading: Bool = false
     fileprivate var loadRequestWorkItem: DispatchWorkItem?
     
@@ -50,19 +50,19 @@ class SplashAd: NSObject {
         let request = GADRequest()
         GADInterstitialAd.load(withAdUnitID: adUnit_ID,
                                request: request) { (ad, error) in
+            self.isLoading = false
             if let _ = error {
                 print("SplashAd download error, trying again!")
-                self.isLoading = false
+                self.request()
                 return
             }
             self.splashAd = ad
             self.splashAd?.fullScreenContentDelegate = self
-            self.isLoading = false
         }
     }
     
     func request() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(self.adReloadTime), execute: self.load)
+        DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(self.adReloadTime), execute: self.load)
     }
 
     func isExist() -> Bool {
