@@ -59,10 +59,6 @@ import GoogleMobileAds
         super.removeFromSuperview()
     }
     
-    deinit {
-        print("BannerAd deinit")
-    }
-    
     func load() {
         if self.isLoading {
             return
