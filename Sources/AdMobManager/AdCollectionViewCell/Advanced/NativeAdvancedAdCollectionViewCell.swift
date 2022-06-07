@@ -26,7 +26,7 @@ import NVActivityIndicatorView
 ///     return cell
 /// }
 /// ```
-/// Minimum height is **400**
+/// Minimum height is **400**, for iPad devices: height = width * 9 / 16 + 158
 /// - Warning: Native Ad will not be displayed without adding ID.
 public class NativeAdvancedAdCollectionViewCell: UICollectionViewCell, GADVideoControllerDelegate {
     
