@@ -184,7 +184,7 @@ extension BannerAdView {
         
         NSLayoutConstraint.activate([
             self.loadingIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            self.loadingIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            self.loadingIndicator.centerYAnchor.constraint(equalTo: self     .centerYAnchor),
             self.loadingIndicator.widthAnchor.constraint(equalToConstant: 20),
             self.loadingIndicator.heightAnchor.constraint(equalToConstant: 20),
         ])
