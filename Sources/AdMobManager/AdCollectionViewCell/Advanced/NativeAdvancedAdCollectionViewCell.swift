@@ -275,14 +275,8 @@ extension NativeAdvancedAdCollectionViewCell {
         }
         
         if let imageName = imageName, let image = UIImage(named: imageName, in: Bundle.module, compatibleWith: nil) {
-            print(image)
-        }
-        
-        if let imageName = imageName, let path = Bundle.module.path(forResource: imageName, ofType: "png"), let image = UIImage(contentsOfFile: path) {
-            print(image)
             return image
         } else {
-            print("nil")
             return nil
         }
     }
