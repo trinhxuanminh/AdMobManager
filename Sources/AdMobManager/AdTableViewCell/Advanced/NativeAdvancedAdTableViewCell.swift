@@ -274,7 +274,7 @@ extension NativeAdvancedAdTableViewCell {
             imageName = "stars_3_5"
         }
         
-        if let imageName = imageName, let path = Bundle.module.path(forResource: imageName, ofType: "png"), let image = UIImage(contentsOfFile: path) {
+        if let imageName = imageName, let image = UIImage(named: imageName, in: Bundle.module, compatibleWith: nil) {
             return image
         } else {
             return nil
