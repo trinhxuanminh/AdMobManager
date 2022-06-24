@@ -54,7 +54,7 @@ import GoogleMobileAds
   }
 
   override func addComponents() {
-    Bundle.module.loadNibNamed(nativeAdView.className, owner: self, options: nil)
+    Bundle.module.loadNibNamed(NativeAdView.className, owner: self, options: nil)
     addSubview(contentView)
   }
 
