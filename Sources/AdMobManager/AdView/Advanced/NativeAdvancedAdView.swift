@@ -7,7 +7,6 @@
 
 import UIKit
 import GoogleMobileAds
-import NVActivityIndicatorView
 
 /// This class returns a UIView displaying NativeAd.
 /// ```
@@ -16,277 +15,160 @@ import NVActivityIndicatorView
 /// Can be instantiated programmatically or Interface Builder. Use as UIView. Ad display is automatic.
 /// Minimum height is **400**
 /// - Warning: Native Ad will not be displayed without adding ID.
-@IBDesignable public class NativeAdvancedAdView: UIView, GADVideoControllerDelegate {
+@IBDesignable public class NativeAdvancedAdView: BaseView, GADVideoControllerDelegate {
 
-    /// This constant returns the minimum recommended height for NativeAdvancedAdView.
-    public static let adHeightMinimum: CGFloat = 400
-    
-    @IBOutlet var contentView: UIView!
-    @IBOutlet weak var callToActionButton: UIButton! {
-        didSet {
-            self.callToActionButton.setTitleColor(UIColor(rgb: 0x87A605), for: .normal)
-        }
+  /// This constant returns the minimum recommended height for NativeAdvancedAdView.
+  public static let adHeightMinimum: CGFloat = 400
+
+  @IBOutlet var contentView: UIView!
+  @IBOutlet weak var callToActionButton: UIButton!
+  @IBOutlet weak var storeLabel: UILabel!
+  @IBOutlet weak var priceLabel: UILabel!
+  @IBOutlet weak var bodyLabel: UILabel!
+  @IBOutlet weak var advertiserLabel: UILabel!
+  @IBOutlet weak var headlineLabel: UILabel!
+  @IBOutlet weak var adLabel: UILabel!
+  @IBOutlet weak var nativeAdView: GADNativeAdView! {
+    didSet {
+      nativeAdView.layer.borderWidth = 1.0
     }
-    @IBOutlet weak var storeLabel: UILabel! {
-        didSet {
-            self.storeLabel.textColor = UIColor(rgb: 0x000000)
-        }
+  }
+
+  private var listAd: [NativeAd?] = [NativeAd()]
+
+  public override func awakeFromNib() {
+    super.awakeFromNib()
+    // Initialization code
+    setAd()
+  }
+
+  public override init(frame: CGRect) {
+    super.init(frame: frame)
+    setAd()
+  }
+
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+  }
+
+  public override func removeFromSuperview() {
+    for index in 0..<listAd.count {
+      listAd[index] = nil
     }
-    @IBOutlet weak var priceLabel: UILabel! {
-        didSet {
-            self.priceLabel.textColor = UIColor(rgb: 0x000000)
-        }
+    super.removeFromSuperview()
+  }
+
+  override func setColor() {
+    callToActionButton.setTitleColor(UIColor(rgb: 0x87A605), for: .normal)
+    storeLabel.textColor = UIColor(rgb: 0x000000)
+    priceLabel.textColor = UIColor(rgb: 0x000000)
+    bodyLabel.textColor = UIColor(rgb: 0x000000)
+    advertiserLabel.textColor = UIColor(rgb: 0x000000, alpha: 0.6)
+    headlineLabel.textColor = UIColor(rgb: 0x000000)
+    adLabel.textColor = UIColor(rgb: 0x000000)
+    adLabel.backgroundColor = UIColor(rgb: 0xFFB500)
+    nativeAdView.layer.borderColor = UIColor(rgb: 0x87A605).cgColor
+  }
+
+  override func addComponents() {
+    Bundle.module.loadNibNamed(NativeAdvancedAdView.className, owner: self, options: nil)
+    addSubview(contentView)
+  }
+
+  override func setProperties() {
+    contentView.frame = bounds
+    contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+  }
+
+  /// This function helps to change the ads in the cell.
+  /// - Parameter index: Index of ads to show in the list.
+  public func setAd(index: Int = 0) {
+    guard index >= 0 else {
+      return
     }
-    @IBOutlet weak var bodyLabel: UILabel! {
-        didSet {
-            self.bodyLabel.textColor = UIColor(rgb: 0x000000)
-        }
+    if index >= listAd.count {
+      for _ in listAd.count..<index {
+        listAd.append(nil)
+      }
+      listAd.append(NativeAd())
+    } else if listAd[index] == nil {
+      listAd[index] = NativeAd()
     }
-    @IBOutlet weak var advertiserLabel: UILabel! {
-        didSet {
-            self.advertiserLabel.textColor = UIColor(rgb: 0x000000, alpha: 0.6)
-        }
-    }
-    @IBOutlet weak var headlineLabel: UILabel! {
-        didSet {
-            self.headlineLabel.textColor = UIColor(rgb: 0x000000)
-        }
-    }
-    @IBOutlet weak var adLabel: UILabel! {
-        didSet {
-            self.adLabel.textColor = UIColor(rgb: 0x000000)
-            self.adLabel.backgroundColor = UIColor(rgb: 0xFFB500)
-        }
-    }
-    @IBOutlet weak var nativeAdView: GADNativeAdView! {
-        didSet {
-            self.nativeAdView.layer.borderWidth = 1.0
-            self.nativeAdView.layer.borderColor = UIColor(rgb: 0x87A605).cgColor
-        }
-    }
-    fileprivate var loadingIndicator: NVActivityIndicatorView! {
-        didSet {
-            self.loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
-            self.loadingIndicator.type = .ballPulse
-            self.loadingIndicator.padding = 30
-            self.loadingIndicator.color = UIColor(rgb: 0x000000)
-            self.loadingIndicator.startAnimating()
-        }
-    }
-    
-    fileprivate var listNativeAd: [NativeAd?] = [NativeAd()]
-    
-    public override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-        self.setupView()
-        self.createComponents()
-        self.setupConstraints()
-        self.setAd()
-    }
-    
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.setupView()
-        self.createComponents()
-        self.setupConstraints()
-        self.setAd()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
-    public override func removeFromSuperview() {
-        for index in 0..<self.listNativeAd.count {
-            self.listNativeAd[index] = nil
-        }
-        super.removeFromSuperview()
-    }
-    
-    /// This function helps to adjust the color of the ad content.
-    /// - Parameter style: Change the color of the labels according to the interface style. Default is **light**.
-    /// - Parameter backgroundColor: Change background color of NativeAdvancedAdView class. Default is **clear**.
-    /// - Parameter themeColor: Change the title color of the buttons and the border color. Default is **#87A605**.
-    public func set_Color(style: AdMobManager.Style? = nil, backgroundColor: UIColor? = nil, themeColor: UIColor? = nil) {
-        if let style = style {
-            switch style {
-            case .dark:
-                self.headlineLabel?.textColor = UIColor(rgb: 0xFFFFFF)
-                
-                self.adLabel?.textColor = UIColor(rgb: 0xFFFFFF)
-                self.adLabel?.backgroundColor = UIColor(rgb: 0x004AFF)
-                
-                self.advertiserLabel?.textColor = UIColor(rgb: 0xFFFFFF, alpha: 0.6)
-                
-                self.storeLabel?.textColor = UIColor(rgb: 0xFFFFFF)
-                
-                self.priceLabel?.textColor = UIColor(rgb: 0xFFFFFF)
-                
-                self.bodyLabel?.textColor = UIColor(rgb: 0xFFFFFF)
-                
-                if ((self.loadingIndicator?.isAnimating) != nil) {
-                    self.loadingIndicator?.stopAnimating()
-                    self.loadingIndicator?.color = UIColor(rgb: 0xFFFFFF)
-                    self.loadingIndicator?.startAnimating()
-                } else {
-                    self.loadingIndicator?.color = UIColor(rgb: 0xFFFFFF)
-                }
-            case .light:
-                self.headlineLabel?.textColor = UIColor(rgb: 0x000000)
-                
-                self.adLabel?.textColor = UIColor(rgb: 0x000000)
-                self.adLabel?.backgroundColor = UIColor(rgb: 0xFFB500)
-                
-                self.advertiserLabel?.textColor = UIColor(rgb: 0x000000, alpha: 0.6)
-                
-                self.storeLabel?.textColor = UIColor(rgb: 0x000000)
-                
-                self.priceLabel?.textColor = UIColor(rgb: 0x000000)
-                
-                self.bodyLabel?.textColor = UIColor(rgb: 0x000000)
-                
-                if ((self.loadingIndicator?.isAnimating) != nil) {
-                    self.loadingIndicator?.stopAnimating()
-                    self.loadingIndicator?.color = UIColor(rgb: 0x000000)
-                    self.loadingIndicator?.startAnimating()
-                } else {
-                    self.loadingIndicator?.color = UIColor(rgb: 0x000000)
-                }
-            }
-        }
-        
-        if let backgroundColor = backgroundColor {
-            self.contentView?.backgroundColor = backgroundColor
-        }
-        
-        if let themeColor = themeColor {
-            self.nativeAdView?.layer.borderColor = themeColor.cgColor
-            self.callToActionButton?.setTitleColor(themeColor, for: .normal)
-        }
-    }
-    
-    /// This function helps to change the loading type.
-    /// - Parameter type: The NVActivityIndicatorType want to display. Default is **ballPulse**.
-    public func set_Loading_Type(type: NVActivityIndicatorType) {
-        if ((self.loadingIndicator?.isAnimating) != nil) {
-            self.loadingIndicator?.stopAnimating()
-            self.loadingIndicator?.type = type
-            self.loadingIndicator?.startAnimating()
-        } else {
-            self.loadingIndicator?.type = type
-        }
-    }
-    
-    /// This function helps to change the ads in the cell.
-    /// - Parameter index: Index of ads to show in the list.
-    public func setAd(index: Int = 0) {
-        if index < 0 {
-            return
-        }
-        if index >= self.listNativeAd.count {
-            for _ in self.listNativeAd.count..<index {
-                self.listNativeAd.append(nil)
-            }
-            self.listNativeAd.append(NativeAd())
-        }
-        if self.listNativeAd[index] == nil {
-            self.listNativeAd[index] = NativeAd()
-        }
-        self.config_Data(ad: self.listNativeAd[index]?.nativeAd)
-        self.listNativeAd[index]?.configData = { [weak self] in
-            self?.config_Data(ad: self?.listNativeAd[index]?.nativeAd)
-        }
-    }
+    config_Data(ad: listAd[index]?.ad())
+    listAd[index]?.setConfigData({ [weak self] in
+      guard let self = self else {
+        return
+      }
+      self.config_Data(ad: self.listAd[index]?.ad())
+    })
+  }
 }
 
 extension NativeAdvancedAdView {
-    func createComponents() {
-        self.loadingIndicator = NVActivityIndicatorView(frame: .zero)
-        self.contentView.addSubview(self.loadingIndicator)
+  func config_Data(ad: GADNativeAd?) {
+    guard let nativeAd = ad else {
+      nativeAdView?.isHidden = true
+      return
     }
-    
-    func setupConstraints() {
-        NSLayoutConstraint.activate([
-            self.loadingIndicator.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
-            self.loadingIndicator.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
-            self.loadingIndicator.widthAnchor.constraint(equalToConstant: 20),
-            self.loadingIndicator.heightAnchor.constraint(equalToConstant: 20),
-        ])
+
+    nativeAdView?.isHidden = false
+    nativeAdView?.nativeAd = nativeAd
+
+    (nativeAdView?.headlineView as? UILabel)?.text = nativeAd.headline
+    nativeAdView?.mediaView?.mediaContent = nativeAd.mediaContent
+
+    let mediaContent = nativeAd.mediaContent
+    if mediaContent.hasVideoContent {
+      mediaContent.videoController.delegate = self
     }
-    
-    func setupView() {
-        Bundle.module.loadNibNamed(NativeAdvancedAdView.className, owner: self, options: nil)
-        self.addSubview(self.contentView)
-        self.contentView.frame = self.bounds
-        self.contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+    (nativeAdView?.bodyView as? UILabel)?.text = nativeAd.body
+    nativeAdView?.bodyView?.isHidden = nativeAd.body == nil
+
+    (nativeAdView?.callToActionView as? UIButton)?.setTitle(nativeAd.callToAction, for: .normal)
+    nativeAdView?.callToActionView?.isHidden = nativeAd.callToAction == nil
+
+    (nativeAdView?.iconView as? UIImageView)?.image = nativeAd.icon?.image
+    nativeAdView?.iconView?.isHidden = nativeAd.icon == nil
+
+    (nativeAdView?.starRatingView as? UIImageView)?.image = imageOfStars(from: nativeAd.starRating)
+    nativeAdView?.starRatingView?.isHidden = nativeAd.starRating == nil
+
+    (nativeAdView?.storeView as? UILabel)?.text = nativeAd.store
+    nativeAdView?.storeView?.isHidden = nativeAd.store == nil
+
+    (nativeAdView?.priceView as? UILabel)?.text = nativeAd.price
+    nativeAdView?.priceView?.isHidden = nativeAd.price == nil
+
+    (nativeAdView?.advertiserView as? UILabel)?.text = nativeAd.advertiser
+    nativeAdView?.advertiserView?.isHidden = nativeAd.advertiser == nil
+
+    nativeAdView?.callToActionView?.isUserInteractionEnabled = false
+  }
+
+  func imageOfStars(from starRating: NSDecimalNumber?) -> UIImage? {
+    guard let rating = starRating?.doubleValue else {
+      return nil
     }
-    
-    func config_Data(ad: GADNativeAd?) {
-        guard let nativeAd = ad else {
-            self.loadingIndicator?.startAnimating()
-            self.nativeAdView?.isHidden = true
-            return
-        }
-        
-        self.loadingIndicator?.stopAnimating()
-        
-        self.nativeAdView?.isHidden = false
-        
-        self.nativeAdView?.nativeAd = nativeAd
-        
-        (self.nativeAdView?.headlineView as? UILabel)?.text = nativeAd.headline
-        self.nativeAdView?.mediaView?.mediaContent = nativeAd.mediaContent
 
-        let mediaContent = nativeAd.mediaContent
-        if mediaContent.hasVideoContent {
-            mediaContent.videoController.delegate = self
-        }
-
-        (self.nativeAdView?.bodyView as? UILabel)?.text = nativeAd.body
-        self.nativeAdView?.bodyView?.isHidden = nativeAd.body == nil
-
-        (self.nativeAdView?.callToActionView as? UIButton)?.setTitle(nativeAd.callToAction, for: .normal)
-        self.nativeAdView?.callToActionView?.isHidden = nativeAd.callToAction == nil
-
-        (self.nativeAdView?.iconView as? UIImageView)?.image = nativeAd.icon?.image
-        self.nativeAdView?.iconView?.isHidden = nativeAd.icon == nil
-
-        (self.nativeAdView?.starRatingView as? UIImageView)?.image = self.imageOfStars(from: nativeAd.starRating)
-        self.nativeAdView?.starRatingView?.isHidden = nativeAd.starRating == nil
-
-        (self.nativeAdView?.storeView as? UILabel)?.text = nativeAd.store
-        self.nativeAdView?.storeView?.isHidden = nativeAd.store == nil
-
-        (self.nativeAdView?.priceView as? UILabel)?.text = nativeAd.price
-        self.nativeAdView?.priceView?.isHidden = nativeAd.price == nil
-
-        (self.nativeAdView?.advertiserView as? UILabel)?.text = nativeAd.advertiser
-        self.nativeAdView?.advertiserView?.isHidden = nativeAd.advertiser == nil
-
-        self.nativeAdView?.callToActionView?.isUserInteractionEnabled = false
+    var imageName: String?
+    switch true {
+    case rating >= 5.0:
+      imageName = Icon.stars_5
+    case rating >= 4.5:
+      imageName = Icon.stars_4_5
+    case rating >= 4.0:
+      imageName = Icon.stars_4
+    case rating >= 3.5:
+      imageName = Icon.stars_3_5
+    default:
+      break
     }
-    
-    func imageOfStars(from starRating: NSDecimalNumber?) -> UIImage? {
-        guard let rating = starRating?.doubleValue else {
-            return nil
-        }
-        var imageName: String?
-        
-        if rating >= 5 {
-            imageName = "stars_5"
-        } else if rating >= 4.5 {
-            imageName = "stars_4_5"
-        } else if rating >= 4 {
-            imageName = "stars_4"
-        } else if rating >= 3.5 {
-            imageName = "stars_3_5"
-        }
-        
-        if let imageName = imageName, let image = UIImage(named: imageName, in: Bundle.module, compatibleWith: nil) {
-            return image
-        } else {
-            return nil
-        }
+
+    if let imageName = imageName, let image = UIImage(named: imageName, in: Bundle.module, compatibleWith: nil) {
+      return image
+    } else {
+      return nil
     }
+  }
 }

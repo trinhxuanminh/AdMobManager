@@ -5,84 +5,97 @@
 //  Created by Trịnh Xuân Minh on 25/03/2022.
 //
 
-import Foundation
 import UIKit
 import GoogleMobileAds
 
 class NativeAd: NSObject {
-    
-    fileprivate var adUnit_ID: String?
-    public var nativeAd: GADNativeAd?
-    fileprivate var adLoader: GADAdLoader!
-    public var configData: (() -> ())?
-    fileprivate var didAddReloadingAd: Bool = false
-    fileprivate var isLoading: Bool = false
-    
-    override init() {
-        super.init()
-        
-        if !self.didAddReloadingAd {
-            self.didAddReloadingAd = true
-            self.adUnit_ID = AdMobManager.shared.getNativeAdID()
-            self.request()
-        }
+
+  private var adUnitID: String?
+  private var nativeAd: GADNativeAd?
+  private var adLoader: GADAdLoader!
+  private var configData: (() -> Void)?
+  private var didAddReloadingAd: Bool = false
+  private var isLoading: Bool = false
+
+  func ad() -> GADNativeAd? {
+    return nativeAd
+  }
+
+  func setConfigData(_ configData: (() -> Void)? = nil) {
+    self.configData = configData
+  }
+
+  override init() {
+    super.init()
+    guard !didAddReloadingAd else {
+      return
     }
-    
-    func load() {
-        if self.isLoading {
-            return
-        }
-        
-        if self.isExist() {
-            return
-        }
-        
-        if #available(iOS 12.0, *), !NetworkMonitor.shared.isConnected {
-            print("Not connected!")
-            self.request()
-            return
-        }
-        
-        guard let adUnit_ID = self.adUnit_ID else {
-            print("No NativeAd ID!")
-            return
-        }
-        
-        guard let rootViewController = UIApplication.topStackViewController() else {
-            print("Can't find RootViewController!")
-            return
-        }
-        
-        self.isLoading = true
-        
-        self.adLoader = GADAdLoader(adUnitID: adUnit_ID,
-                               rootViewController: rootViewController,
-                               adTypes: [.native],
-                               options: nil)
-        self.adLoader.delegate = self
-        self.adLoader.load(GADRequest())
+    didAddReloadingAd = true
+    adUnitID = AdMobManager.shared.getNativeID()
+    request()
+  }
+
+  private func load() {
+    guard !isLoading else {
+      return
     }
-    
-    func request() {
-        let adReloadTime: Double = AdMobManager.shared.getAdReloadTime()
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(Int(adReloadTime * 1000)), execute: self.load)
+
+    guard !isExist() else {
+      return
     }
-    
-    func isExist() -> Bool {
-        return self.nativeAd != nil
+
+    guard let adUnitID = adUnitID else {
+      print("No NativeAd ID!")
+      return
     }
+
+    if #available(iOS 12.0, *), !NetworkMonitor.shared.isConnected() {
+      print("Not connected!")
+      request()
+      return
+    }
+
+    guard let rootViewController = UIApplication.topStackViewController() else {
+      print("Can't find RootViewController!")
+      return
+    }
+
+    isLoading = true
+
+    adLoader = GADAdLoader(adUnitID: adUnitID,
+                                rootViewController: rootViewController,
+                                adTypes: [.native],
+                                options: nil)
+    adLoader.delegate = self
+    adLoader.load(GADRequest())
+  }
+
+  private func request() {
+    let adReloadTime = AdMobManager.shared.getAdReloadTime()
+    DispatchQueue.main.asyncAfter(
+      deadline: .now() + .milliseconds(Int(adReloadTime * 1000)),
+      execute: load)
+  }
+
+  private func isExist() -> Bool {
+    return nativeAd != nil
+  }
 }
 
 extension NativeAd: GADNativeAdLoaderDelegate {
-    func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: Error) {
-        print("NativeAd download error, trying again!")
-        self.isLoading = false
+  func adLoader(_ adLoader: GADAdLoader,
+                didFailToReceiveAdWithError error: Error) {
+    print("NativeAd download error, trying again!")
+    isLoading = false
+  }
+
+  func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
+    self.nativeAd = nativeAd
+    DispatchQueue.main.async { [weak self] in
+      guard let self = self else {
+        return
+      }
+      self.configData?()
     }
-    
-    func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
-        self.nativeAd = nativeAd
-        DispatchQueue.main.async {
-            self.configData?()
-        }
-    }
+  }
 }

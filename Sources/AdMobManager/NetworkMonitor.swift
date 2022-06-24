@@ -10,47 +10,55 @@ import Network
 
 @available(iOS 12.0, *)
 final class NetworkMonitor {
-    static let shared = NetworkMonitor()
-    
-    enum ConnectionType {
-        case wifi
-        case cellular
-        case ethernet
-        case unknown
+
+  static let shared = NetworkMonitor()
+
+  enum ConnectionType {
+    case wifi
+    case cellular
+    case ethernet
+    case unknown
+  }
+
+  private let queue = DispatchQueue.global()
+  private let monitor: NWPathMonitor
+  private var connectState: Bool = false
+  private var connectionType: ConnectionType = .unknown
+
+  init() {
+    self.monitor = NWPathMonitor()
+    self.startMonitoring()
+  }
+
+  func isConnected() -> Bool {
+    return connectState
+  }
+
+  private func startMonitoring() {
+    monitor.start(queue: queue)
+    self.monitor.pathUpdateHandler = { [weak self] path in
+      guard let self = self else {
+        return
+      }
+      self.connectState = path.status == .satisfied
+      self.setConnectionType(path)
     }
-    
-    fileprivate let queue = DispatchQueue.global()
-    fileprivate let monitor: NWPathMonitor
-    public private(set) var isConnected: Bool = false
-    public private(set) var connectionType: ConnectionType = .unknown
-    
-    init() {
-        self.monitor = NWPathMonitor()
-        self.startMonitoring()
+  }
+
+  private func stopMonitoring() {
+    monitor.cancel()
+  }
+
+  private func setConnectionType(_ path: NWPath) {
+    switch true {
+    case path.usesInterfaceType(.wifi):
+      connectionType = .wifi
+    case path.usesInterfaceType(.cellular):
+      connectionType = .cellular
+    case path.usesInterfaceType(.wiredEthernet):
+      connectionType = .ethernet
+    default:
+      connectionType = .unknown
     }
-    
-    private func startMonitoring() {
-        self.monitor.start(queue: self.queue)
-        self.monitor.pathUpdateHandler = { [weak self] path in
-            self?.isConnected = path.status == .satisfied
-            
-            self?.setConnectionType(path)
-        }
-    }
-    
-    private func stopMonitoring() {
-        self.monitor.cancel()
-    }
-    
-    private func setConnectionType(_ path: NWPath) {
-        if path.usesInterfaceType(.wifi) {
-            self.connectionType = .wifi
-        } else if path.usesInterfaceType(.cellular) {
-            self.connectionType = .cellular
-        } else if path.usesInterfaceType(.wiredEthernet) {
-            self.connectionType = .ethernet
-        } else {
-            self.connectionType = .unknown
-        }
-    }
+  }
 }
