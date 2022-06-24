@@ -22,12 +22,12 @@ final class NetworkMonitor {
 
   private let queue = DispatchQueue.global()
   private let monitor: NWPathMonitor
-  private var connectState: Bool = false
+  private var connectState = false
   private var connectionType: ConnectionType = .unknown
 
   init() {
-    self.monitor = NWPathMonitor()
-    self.startMonitoring()
+    monitor = NWPathMonitor()
+    startMonitoring()
   }
 
   func isConnected() -> Bool {
@@ -36,7 +36,7 @@ final class NetworkMonitor {
 
   private func startMonitoring() {
     monitor.start(queue: queue)
-    self.monitor.pathUpdateHandler = { [weak self] path in
+    monitor.pathUpdateHandler = { [weak self] path in
       guard let self = self else {
         return
       }

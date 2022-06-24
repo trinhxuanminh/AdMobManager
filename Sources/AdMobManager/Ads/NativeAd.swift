@@ -14,16 +14,8 @@ class NativeAd: NSObject {
   private var nativeAd: GADNativeAd?
   private var adLoader: GADAdLoader!
   private var configData: (() -> Void)?
-  private var didAddReloadingAd: Bool = false
-  private var isLoading: Bool = false
-
-  func ad() -> GADNativeAd? {
-    return nativeAd
-  }
-
-  func setConfigData(_ configData: (() -> Void)? = nil) {
-    self.configData = configData
-  }
+  private var didAddReloadingAd = false
+  private var isLoading = false
 
   override init() {
     super.init()
@@ -33,6 +25,14 @@ class NativeAd: NSObject {
     didAddReloadingAd = true
     adUnitID = AdMobManager.shared.getNativeID()
     request()
+  }
+
+  func ad() -> GADNativeAd? {
+    return nativeAd
+  }
+
+  func setConfigData(_ configData: (() -> Void)? = nil) {
+    self.configData = configData
   }
 
   private func load() {
@@ -63,9 +63,9 @@ class NativeAd: NSObject {
     isLoading = true
 
     adLoader = GADAdLoader(adUnitID: adUnitID,
-                                rootViewController: rootViewController,
-                                adTypes: [.native],
-                                options: nil)
+                           rootViewController: rootViewController,
+                           adTypes: [.native],
+                           options: nil)
     adLoader.delegate = self
     adLoader.load(GADRequest())
   }

@@ -46,48 +46,48 @@ public struct AdMobManager {
 
   /// This function helps to change the ad ID, available for the next load.
   /// ```
-  /// func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-  ///
-  ///     let bannerId = "ca-app-pub-3940256099942544/2934735716"
-  ///     let interstitialID = "ca-app-pub-3940256099942544/4411468910"
-  ///     let splashID = "ca-app-pub-3940256099942544/4411468910"
-  ///     let nativeID = "ca-app-pub-3940256099942544/3986624511"
-  ///     let appOpenID = "ca-app-pub-3940256099942544/5662855259"
-  ///
-  ///     AdMobManager.shared.set_AdUnit(splashAd_ID: splashID, interstitialAd_ID: interstitialID, appOpenAd_ID: appOpenID, nativeAd_ID: nativeID, bannerAd_ID: bannerId)
-  ///
-  ///     return true
-  /// }
+  /// func application(
+  ///   _ application: UIApplication,
+  ///   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+  /// ) -> Bool {
+  ///   AdMobManager.shared.setID(
+  ///     splashID: "ca-app-pub-3940256099942544/4411468910",
+  ///     interstitialID: "ca-app-pub-3940256099942544/4411468910",
+  ///     appOpenID: "ca-app-pub-3940256099942544/5662855259",
+  ///     nativeID: "ca-app-pub-3940256099942544/3986624511",
+  ///     bannerID: "ca-app-pub-3940256099942544/2934735716")
+  ///   return true
+  ///}
   /// ```
   /// - Warning: Ad parameters = nil will not load the corresponding ad type.
   public mutating func setID(
-    splashID: String? = nil,
-    interstitialID: String? = nil,
-    appOpenID: String? = nil,
-    nativeID: String? = nil,
-    bannerID: String? = nil
+    splash: String? = nil,
+    interstitial: String? = nil,
+    appOpen: String? = nil,
+    native: String? = nil,
+    banner: String? = nil
   ) {
-    if let splashID = splashID {
-      splashAd.setAdUnitID(splashID)
+    if let splash = splash {
+      splashAd.setAdUnitID(splash)
       load(ad: .splash)
     }
 
-    if let interstitialID = interstitialID {
-      interstitialAd.setAdUnitID(interstitialID)
+    if let interstitial = interstitial {
+      interstitialAd.setAdUnitID(interstitial)
       load(ad: .interstitial)
     }
 
-    if let appOpenID = appOpenID {
-      appOpenAd.setAdUnitID(appOpenID)
+    if let appOpen = appOpen {
+      appOpenAd.setAdUnitID(appOpen)
       load(ad: .appOpen)
     }
 
-    if let nativeID = nativeID {
-      self.nativeID = nativeID
+    if let native = native {
+      self.nativeID = native
     }
 
-    if let bannerID = bannerID {
-      self.bannerID = bannerID
+    if let banner = banner {
+      self.bannerID = banner
     }
   }
 
@@ -218,7 +218,7 @@ public struct AdMobManager {
 }
 
 extension AdMobManager {
-  func load(ad type: AdType) {
+  private func load(ad type: AdType) {
     if !allowShowFullFeature() {
       return
     }
@@ -244,12 +244,8 @@ extension AdMobManager {
     return adReloadTime
   }
 
-  func allowShowFullFeature() -> Bool {
-    guard let startDate = startDate else {
-      return true
-    }
-
-    if Date().timeIntervalSince(startDate) > 0 {
+  private func allowShowFullFeature() -> Bool {
+    guard let startDate = startDate, Date().timeIntervalSince(startDate) < 0 else {
       return true
     }
     return false

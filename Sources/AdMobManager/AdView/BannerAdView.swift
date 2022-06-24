@@ -13,7 +13,7 @@ import GoogleMobileAds
 /// import AdMobManager
 /// ```
 /// Can be instantiated programmatically or Interface Builder. Use as UIView. Ad display is automatic.
-/// - Warning: Banner Ad will not be displayed without adding ID.
+/// - Warning: Ad will not be displayed without adding ID.
 @IBDesignable public class BannerAdView: BaseView {
 
   private lazy var bannerAdView: GADBannerView! = {
