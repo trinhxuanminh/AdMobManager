@@ -7,6 +7,7 @@
 
 import UIKit
 import GoogleMobileAds
+import SkeletonView
 
 /// This class returns a UIView displaying BannerAd.
 /// ```
@@ -39,6 +40,11 @@ import GoogleMobileAds
       bannerAdView.trailingAnchor.constraint(equalTo: trailingAnchor),
       bannerAdView.topAnchor.constraint(equalTo: topAnchor)
     ])
+  }
+
+  override func setProperties() {
+    isSkeletonable = true
+    showGradientSkeleton()
   }
 
   public override func draw(_ rect: CGRect) {
