@@ -27,6 +27,7 @@ import SkeletonView
   @IBOutlet weak var adLabel: UILabel!
   @IBOutlet weak var advertiserLabel: UILabel!
   @IBOutlet weak var callToActionButton: UIButton!
+  @IBOutlet weak var skeletonView: UIView!
 
   private var listAd: [NativeAd?] = [NativeAd()]
   private var baseColor = UIColor(rgb: 0x808080)
@@ -107,7 +108,7 @@ import SkeletonView
     if let base = base {
       self.baseColor = base
     }
-    updateAnimatedGradientSkeleton(
+    skeletonView.updateAnimatedGradientSkeleton(
       usingGradient: SkeletonGradient(
         baseColor: baseColor,
         secondaryColor: secondaryColor))
@@ -117,14 +118,14 @@ import SkeletonView
 extension NativeAdView {
   func config_Data(ad: GADNativeAd?) {
     guard let nativeAd = ad else {
-      showAnimatedGradientSkeleton(
+      skeletonView.showAnimatedGradientSkeleton(
         usingGradient: SkeletonGradient(
           baseColor: baseColor,
           secondaryColor: secondaryColor))
       return
     }
 
-    hideSkeleton(reloadDataAfter: true)
+    skeletonView.hideSkeleton(reloadDataAfter: true)
 
     nativeAdView?.nativeAd = nativeAd
 
