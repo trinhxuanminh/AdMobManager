@@ -20,7 +20,6 @@ import SkeletonView
   private lazy var bannerAdView: GADBannerView! = {
     let bannerView = GADBannerView()
     bannerView.translatesAutoresizingMaskIntoConstraints = false
-    bannerView.isHidden = true
     return bannerView
   }()
 
@@ -28,6 +27,8 @@ import SkeletonView
   private var isLoading = false
   private var isExist = false
   private var didFirstLoadAd = false
+  private var baseColor = UIColor(rgb: 0x808080)
+  private var secondaryColor = UIColor(rgb: 0xFFFFFF)
 
   override func addComponents() {
     addSubview(bannerAdView)
@@ -44,7 +45,10 @@ import SkeletonView
 
   override func setProperties() {
     isSkeletonable = true
-    showGradientSkeleton()
+    showAnimatedGradientSkeleton(
+      usingGradient: SkeletonGradient(
+        baseColor: baseColor,
+        secondaryColor: secondaryColor))
   }
 
   public override func draw(_ rect: CGRect) {
@@ -60,6 +64,22 @@ import SkeletonView
   public override func removeFromSuperview() {
     bannerAdView = nil
     super.removeFromSuperview()
+  }
+
+  /// Change the color of animated.
+  /// - Parameter base: Basic background color. Default is **gray**.
+  /// - Parameter secondary: Animated colors. Default is **white**.
+  public func setAnimatedColor(base: UIColor?, secondary: UIColor? = nil) {
+    if let secondary = secondary {
+      self.secondaryColor = secondary
+    }
+    if let base = base {
+      self.baseColor = base
+    }
+    updateAnimatedGradientSkeleton(
+      usingGradient: SkeletonGradient(
+        baseColor: baseColor,
+        secondaryColor: secondaryColor))
   }
 
   private func load() {
@@ -113,6 +133,7 @@ extension BannerAdView: GADBannerViewDelegate {
 
   public func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
     isExist = true
-    bannerAdView?.isHidden = false
+    hideSkeleton(
+      reloadDataAfter: true)
   }
 }
