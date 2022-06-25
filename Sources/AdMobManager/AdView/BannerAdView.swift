@@ -69,7 +69,7 @@ import SkeletonView
   /// Change the color of animated.
   /// - Parameter base: Basic background color. Default is **gray**.
   /// - Parameter secondary: Animated colors. Default is **white**.
-  public func setAnimatedColor(base: UIColor?, secondary: UIColor? = nil) {
+  public func setAnimatedColor(base: UIColor? = nil, secondary: UIColor? = nil) {
     if let secondary = secondary {
       self.secondaryColor = secondary
     }
