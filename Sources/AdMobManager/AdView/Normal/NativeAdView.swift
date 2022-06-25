@@ -64,7 +64,6 @@ import SkeletonView
   override func setProperties() {
     contentView.frame = bounds
     contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    isSkeletonable = true
   }
 
 
