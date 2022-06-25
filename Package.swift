@@ -16,7 +16,7 @@ let package = Package(
     // Dependencies declare other packages that this package depends on.
     // .package(url: /* package url */, from: "1.0.0"),
     .package(name: "GoogleMobileAds", url: "https://github.com/quanghits/GoogleMobileAds.git", from: "9.1.0"),
-    .package(name: "SkeletonView", url: "https://github.com/Juanpe/SkeletonView.git", from: "1.7.0"),
+    .package(name: "SkeletonView", url: "https://github.com/Juanpe/SkeletonView.git", from: "1.29.3"),
   ],
   targets: [
     // Targets are the basic building blocks of a package. A target can define a module or a test suite.
