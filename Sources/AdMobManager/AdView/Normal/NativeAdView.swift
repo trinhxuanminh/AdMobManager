@@ -50,11 +50,10 @@ import SkeletonView
   override func setColor() {
     callToActionButton.setTitleColor(UIColor(rgb: 0xFFFFFF), for: .normal)
     callToActionButton.backgroundColor = UIColor(rgb: 0x87A605)
-    advertiserLabel.textColor = UIColor(rgb: 0x000000, alpha: 0.6)
+    advertiserLabel.textColor = UIColor(rgb: 0x000000, alpha: 0.5)
     headlineLabel.textColor = UIColor(rgb: 0x000000)
     adLabel.textColor = UIColor(rgb: 0x000000)
     adLabel.backgroundColor = UIColor(rgb: 0xFFB500)
-    nativeAdView.layer.borderColor = UIColor(rgb: 0x87A605).cgColor
   }
 
   override func addComponents() {
@@ -98,15 +97,36 @@ import SkeletonView
     })
   }
 
+  public func setInterface(style: AdMobManager.Style) {
+    switch style {
+    case .light:
+      callToActionButton.setTitleColor(UIColor(rgb: 0xFFFFFF), for: .normal)
+      advertiserLabel.textColor = UIColor(rgb: 0x000000, alpha: 0.5)
+      headlineLabel.textColor = UIColor(rgb: 0x000000)
+      adLabel.textColor = UIColor(rgb: 0x000000)
+      adLabel.backgroundColor = UIColor(rgb: 0xFFB500)
+    case .dark:
+      callToActionButton.setTitleColor(UIColor(rgb: 0x000000), for: .normal)
+      advertiserLabel.textColor = UIColor(rgb: 0xFFFFFF, alpha: 0.5)
+      headlineLabel.textColor = UIColor(rgb: 0xFFFFFF)
+      adLabel.textColor = UIColor(rgb: 0xFFFFFF)
+      adLabel.backgroundColor = UIColor(rgb: 0x004AFF)
+    }
+  }
+
+  public func setTheme(color: UIColor) {
+    callToActionButton.backgroundColor = color
+  }
+
   /// Change the color of animated.
   /// - Parameter base: Basic background color. Default is **gray**.
   /// - Parameter secondary: Animated colors. Default is **white**.
   public func setAnimatedColor(base: UIColor? = nil, secondary: UIColor? = nil) {
     if let secondary = secondary {
-      self.secondaryColor = secondary
+      secondaryColor = secondary
     }
     if let base = base {
-      self.baseColor = base
+      baseColor = base
     }
     skeletonView.updateAnimatedGradientSkeleton(
       usingGradient: SkeletonGradient(

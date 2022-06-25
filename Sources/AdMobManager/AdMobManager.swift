@@ -36,6 +36,14 @@ public struct AdMobManager {
     case splash
   }
 
+  /// Interface style for ad content.
+  public enum Style {
+      /// This style will display white labels on a dark theme.
+      case dark
+      /// This style will display black labels on a dark theme.
+      case light
+  }
+
   private var splashAd: OnceAdProtocol = SplashAd()
   private var interstitialAd: ReuseAdProtocol = InterstitialAd()
   private var appOpenAd: ReuseAdProtocol = AppOpenAd()
