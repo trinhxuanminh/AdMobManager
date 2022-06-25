@@ -7,6 +7,7 @@
 
 import UIKit
 import GoogleMobileAds
+import SkeletonView
 
 /// This class returns a UIView displaying NativeAd.
 /// ```
@@ -28,6 +29,8 @@ import GoogleMobileAds
   @IBOutlet weak var callToActionButton: UIButton!
 
   private var listAd: [NativeAd?] = [NativeAd()]
+  private var baseColor = UIColor(rgb: 0x808080)
+  private var secondaryColor = UIColor(rgb: 0xFFFFFF)
 
   public override func awakeFromNib() {
     super.awakeFromNib()
@@ -61,6 +64,7 @@ import GoogleMobileAds
   override func setProperties() {
     contentView.frame = bounds
     contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    isSkeletonable = true
   }
 
 
@@ -93,16 +97,35 @@ import GoogleMobileAds
       self.config_Data(ad: self.listAd[index]?.ad())
     })
   }
+
+  /// Change the color of animated.
+  /// - Parameter base: Basic background color. Default is **gray**.
+  /// - Parameter secondary: Animated colors. Default is **white**.
+  public func setAnimatedColor(base: UIColor? = nil, secondary: UIColor? = nil) {
+    if let secondary = secondary {
+      self.secondaryColor = secondary
+    }
+    if let base = base {
+      self.baseColor = base
+    }
+    updateAnimatedGradientSkeleton(
+      usingGradient: SkeletonGradient(
+        baseColor: baseColor,
+        secondaryColor: secondaryColor))
+  }
 }
 
 extension NativeAdView {
   func config_Data(ad: GADNativeAd?) {
     guard let nativeAd = ad else {
-      nativeAdView?.isHidden = true
+      showAnimatedGradientSkeleton(
+        usingGradient: SkeletonGradient(
+          baseColor: baseColor,
+          secondaryColor: secondaryColor))
       return
     }
 
-    nativeAdView?.isHidden = false
+    hideSkeleton(reloadDataAfter: true)
 
     nativeAdView?.nativeAd = nativeAd
 

@@ -133,7 +133,6 @@ extension BannerAdView: GADBannerViewDelegate {
 
   public func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
     isExist = true
-    hideSkeleton(
-      reloadDataAfter: true)
+    hideSkeleton(reloadDataAfter: true)
   }
 }
