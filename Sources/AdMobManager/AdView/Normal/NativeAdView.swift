@@ -149,7 +149,7 @@ extension NativeAdView {
 //        return
 //      }
       startAnimation()
-      contentView.backgroundColor = .green
+      nativeAdView.backgroundColor = .green
       return
     }
 
