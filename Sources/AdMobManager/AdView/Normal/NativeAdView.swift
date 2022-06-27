@@ -61,6 +61,10 @@ import SkeletonView
     addSubview(contentView)
   }
 
+  override func setConstraints() {
+      skeletonView.layoutIfNeeded()
+  }
+
   override func setProperties() {
     contentView.frame = bounds
     contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -138,8 +142,6 @@ import SkeletonView
 extension NativeAdView {
   func config_Data(ad: GADNativeAd?) {
     guard let nativeAd = ad else {
-//      skeletonView.layoutIfNeeded()
-      skeletonView.setNeedsLayout()
       skeletonView.showAnimatedGradientSkeleton(
         usingGradient: SkeletonGradient(
           baseColor: baseColor,
