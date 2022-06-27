@@ -62,17 +62,8 @@ import SnapKit
   }
 
   override func setConstraints() {
-//    nativeAdView.snp.makeConstraints { make in
-//      make.edges.equalTo(contentView)
-//    }
-  }
-
-  override func setProperties() {
     contentView.frame = bounds
     contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    nativeAdView.snp.makeConstraints { make in
-      make.edges.equalTo(contentView)
-    }
   }
 
   public override func removeFromSuperview() {
@@ -105,13 +96,13 @@ import SnapKit
     } else if listAd[index] == nil {
       listAd[index] = NativeAd()
     }
-    config_Data(ad: listAd[index]?.ad())
-    listAd[index]?.setConfigData({ [weak self] in
+    config_Data(ad: listAd[index]?.ad(), index: index)
+    listAd[index]?.setConfigData(index: index) { [weak self] index in
       guard let self = self else {
         return
       }
-      self.config_Data(ad: self.listAd[index]?.ad())
-    })
+      self.config_Data(ad: self.listAd[index]?.ad(), index: index)
+    }
   }
 
   /// This function helps to adjust the color of the ad content.
@@ -152,12 +143,15 @@ import SnapKit
 }
 
 extension NativeAdView {
-  private func config_Data(ad: GADNativeAd?) {
+  private func config_Data(ad: GADNativeAd?, index: Int) {
+    guard index == indexState else {
+      return
+    }
     guard let nativeAd = ad else {
       isLoading = true
-//      guard didFirstLoadAd else {
-//        return
-//      }
+      guard didFirstLoadAd else {
+        return
+      }
       startAnimation()
       nativeAdView.backgroundColor = .green
       return

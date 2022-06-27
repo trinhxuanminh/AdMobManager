@@ -13,9 +13,10 @@ class NativeAd: NSObject {
   private var adUnitID: String?
   private var nativeAd: GADNativeAd?
   private var adLoader: GADAdLoader!
-  private var configData: (() -> Void)?
+  private var configData: ((Int) -> Void)?
   private var didAddReloadingAd = false
   private var isLoading = false
+  private var index: Int?
 
   override init() {
     super.init()
@@ -31,8 +32,9 @@ class NativeAd: NSObject {
     return nativeAd
   }
 
-  func setConfigData(_ configData: (() -> Void)? = nil) {
-    self.configData = configData
+  func setConfigData(index: Int, execute work: ((Int) -> Void)? = nil) {
+    self.index = index
+    self.configData = work
   }
 
   private func load() {
@@ -93,10 +95,13 @@ extension NativeAd: GADNativeAdLoaderDelegate {
   func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
     self.nativeAd = nativeAd
     DispatchQueue.main.async { [weak self] in
-      guard let self = self else {
+      guard
+        let self = self,
+        let configData = self.configData,
+        let index = self.index else {
         return
       }
-      self.configData?()
+      configData(index)
     }
   }
 }
