@@ -32,28 +32,25 @@ import SkeletonView
   private var listAd: [NativeAd?] = [NativeAd()]
   private var baseColor = UIColor(rgb: 0x808080)
   private var secondaryColor = UIColor(rgb: 0xFFFFFF)
+  private var isLoading = false
 
-//  public override func awakeFromNib() {
-//    super.awakeFromNib()
-//    setAd()
-//  }
-//
-//  public override init(frame: CGRect) {
-//    super.init(frame: frame)
-//    setAd()
-//  }
-//
-//  required init?(coder: NSCoder) {
-//    super.init(coder: coder)
-//  }
+  public override func awakeFromNib() {
+    super.awakeFromNib()
+    setAd()
+  }
+
+  public override init(frame: CGRect) {
+    super.init(frame: frame)
+    setAd()
+  }
+
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+  }
 
   override func setColor() {
-    callToActionButton.setTitleColor(UIColor(rgb: 0xFFFFFF), for: .normal)
     callToActionButton.backgroundColor = UIColor(rgb: 0x87A605)
-    advertiserLabel.textColor = UIColor(rgb: 0x000000, alpha: 0.5)
-    headlineLabel.textColor = UIColor(rgb: 0x000000)
-    adLabel.textColor = UIColor(rgb: 0x000000)
-    adLabel.backgroundColor = UIColor(rgb: 0xFFB500)
+    setLightColor()
   }
 
   override func addComponents() {
@@ -75,7 +72,10 @@ import SkeletonView
 
   public override func draw(_ rect: CGRect) {
     super.draw(rect)
-    setAd()
+    guard isLoading else {
+      return
+    }
+    startAnimation()
   }
 
   /// This function helps to change the ads in the cell.
@@ -101,23 +101,19 @@ import SkeletonView
     })
   }
 
+  /// This function helps to adjust the color of the ad content.
+  /// - Parameter style: Change the color of the labels according to the interface style. Default is **light**.
   public func setInterface(style: AdMobManager.Style) {
     switch style {
     case .light:
-      callToActionButton.setTitleColor(UIColor(rgb: 0xFFFFFF), for: .normal)
-      advertiserLabel.textColor = UIColor(rgb: 0x000000, alpha: 0.5)
-      headlineLabel.textColor = UIColor(rgb: 0x000000)
-      adLabel.textColor = UIColor(rgb: 0x000000)
-      adLabel.backgroundColor = UIColor(rgb: 0xFFB500)
+      setLightColor()
     case .dark:
-      callToActionButton.setTitleColor(UIColor(rgb: 0x000000), for: .normal)
-      advertiserLabel.textColor = UIColor(rgb: 0xFFFFFF, alpha: 0.5)
-      headlineLabel.textColor = UIColor(rgb: 0xFFFFFF)
-      adLabel.textColor = UIColor(rgb: 0xFFFFFF)
-      adLabel.backgroundColor = UIColor(rgb: 0x004AFF)
+      setDarkColor()
     }
   }
 
+  /// This function helps to adjust the color of the ad content.
+  /// - Parameter color: Change the background color of the buttons. Default is **#87A605**.
   public func setTheme(color: UIColor) {
     callToActionButton.backgroundColor = color
   }
@@ -132,6 +128,9 @@ import SkeletonView
     if let base = base {
       baseColor = base
     }
+    guard isLoading else {
+      return
+    }
     skeletonView.updateAnimatedGradientSkeleton(
       usingGradient: SkeletonGradient(
         baseColor: baseColor,
@@ -140,17 +139,16 @@ import SkeletonView
 }
 
 extension NativeAdView {
-  func config_Data(ad: GADNativeAd?) {
+  private func config_Data(ad: GADNativeAd?) {
     guard let nativeAd = ad else {
-      advertiserLabel.isHidden = true
-      skeletonView.showAnimatedGradientSkeleton(
-        usingGradient: SkeletonGradient(
-          baseColor: baseColor,
-          secondaryColor: secondaryColor))
+      isLoading = true
       return
     }
 
-    skeletonView.hideSkeleton(reloadDataAfter: true)
+    if isLoading {
+      isLoading = false
+      skeletonView.hideSkeleton(reloadDataAfter: true)
+    }
 
     nativeAdView?.nativeAd = nativeAd
 
@@ -166,5 +164,29 @@ extension NativeAdView {
 
     // In order for the SDK to process touch events properly, user interaction should be disabled.
     nativeAdView?.callToActionView?.isUserInteractionEnabled = false
+  }
+
+  private func setLightColor() {
+    callToActionButton.setTitleColor(UIColor(rgb: 0xFFFFFF), for: .normal)
+    advertiserLabel.textColor = UIColor(rgb: 0x000000, alpha: 0.5)
+    headlineLabel.textColor = UIColor(rgb: 0x000000)
+    adLabel.textColor = UIColor(rgb: 0x000000)
+    adLabel.backgroundColor = UIColor(rgb: 0xFFB500)
+  }
+
+  private func setDarkColor() {
+    callToActionButton.setTitleColor(UIColor(rgb: 0x000000), for: .normal)
+    advertiserLabel.textColor = UIColor(rgb: 0xFFFFFF, alpha: 0.5)
+    headlineLabel.textColor = UIColor(rgb: 0xFFFFFF)
+    adLabel.textColor = UIColor(rgb: 0xFFFFFF)
+    adLabel.backgroundColor = UIColor(rgb: 0x004AFF)
+  }
+
+  private func startAnimation() {
+    advertiserLabel.isHidden = true
+    skeletonView.showAnimatedGradientSkeleton(
+      usingGradient: SkeletonGradient(
+        baseColor: baseColor,
+        secondaryColor: secondaryColor))
   }
 }
