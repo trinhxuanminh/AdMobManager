@@ -74,6 +74,7 @@ import SkeletonView
   }
 
   public override func draw(_ rect: CGRect) {
+    super.draw(rect)
     setAd()
   }
 
