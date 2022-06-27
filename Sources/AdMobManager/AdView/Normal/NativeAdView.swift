@@ -30,6 +30,7 @@ import SkeletonView
   @IBOutlet weak var skeletonView: UIView!
 
   private var listAd: [NativeAd?] = [NativeAd()]
+  private var indexState: Int!
   private var baseColor = UIColor(rgb: 0x808080)
   private var secondaryColor = UIColor(rgb: 0xFFFFFF)
   private var isLoading = false
@@ -85,6 +86,7 @@ import SkeletonView
     guard index >= 0 else {
       return
     }
+    indexState = index
     if index >= listAd.count {
       for _ in listAd.count..<index {
         listAd.append(nil)
@@ -143,9 +145,9 @@ extension NativeAdView {
   private func config_Data(ad: GADNativeAd?) {
     guard let nativeAd = ad else {
       isLoading = true
-      guard didFirstLoadAd else {
-        return
-      }
+//      guard didFirstLoadAd else {
+//        return
+//      }
       startAnimation()
       return
     }
