@@ -138,7 +138,7 @@ import SkeletonView
 extension NativeAdView {
   func config_Data(ad: GADNativeAd?) {
     guard let nativeAd = ad else {
-      skeletonView.layoutIfNeeded()
+//      skeletonView.layoutIfNeeded()
       skeletonView.showAnimatedGradientSkeleton(
         usingGradient: SkeletonGradient(
           baseColor: baseColor,
