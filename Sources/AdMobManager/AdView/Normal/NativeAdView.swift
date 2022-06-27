@@ -148,6 +148,7 @@ extension NativeAdView {
 //      guard didFirstLoadAd else {
 //        return
 //      }
+      nativeAdView.frame.size.width = contentView.frame.size.width
       startAnimation()
       nativeAdView.backgroundColor = .green
       return
