@@ -63,7 +63,7 @@ import SnapKit
 
   override func setConstraints() {
     nativeAdView.snp.makeConstraints { make in
-      make.edges.equalToSuperview()
+      make.edges.equalTo(contentView)
     }
   }
 
