@@ -33,6 +33,7 @@ import SkeletonView
   private var baseColor = UIColor(rgb: 0x808080)
   private var secondaryColor = UIColor(rgb: 0xFFFFFF)
   private var isLoading = false
+  private var didFirstLoadAd = false
 
   public override func awakeFromNib() {
     super.awakeFromNib()
@@ -142,9 +143,14 @@ extension NativeAdView {
   private func config_Data(ad: GADNativeAd?) {
     guard let nativeAd = ad else {
       isLoading = true
+      guard didFirstLoadAd else {
+        return
+      }
       startAnimation()
       return
     }
+
+    didFirstLoadAd = true
 
     if isLoading {
       isLoading = false
