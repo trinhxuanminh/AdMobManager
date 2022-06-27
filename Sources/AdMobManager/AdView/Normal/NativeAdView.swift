@@ -61,13 +61,10 @@ import SkeletonView
     addSubview(contentView)
   }
 
-  override func setConstraints() {
-    updateConstraintsIfNeeded()
-  }
-
   override func setProperties() {
     contentView.frame = bounds
     contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    layoutIfNeeded()
   }
 
   public override func removeFromSuperview() {
