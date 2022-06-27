@@ -33,19 +33,19 @@ import SkeletonView
   private var baseColor = UIColor(rgb: 0x808080)
   private var secondaryColor = UIColor(rgb: 0xFFFFFF)
 
-  public override func awakeFromNib() {
-    super.awakeFromNib()
-    setAd()
-  }
-
-  public override init(frame: CGRect) {
-    super.init(frame: frame)
-    setAd()
-  }
-
-  required init?(coder: NSCoder) {
-    super.init(coder: coder)
-  }
+//  public override func awakeFromNib() {
+//    super.awakeFromNib()
+//    setAd()
+//  }
+//
+//  public override init(frame: CGRect) {
+//    super.init(frame: frame)
+//    setAd()
+//  }
+//
+//  required init?(coder: NSCoder) {
+//    super.init(coder: coder)
+//  }
 
   override func setColor() {
     callToActionButton.setTitleColor(UIColor(rgb: 0xFFFFFF), for: .normal)
@@ -64,7 +64,6 @@ import SkeletonView
   override func setProperties() {
     contentView.frame = bounds
     contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    updateConstraints()
   }
 
   public override func removeFromSuperview() {
@@ -72,6 +71,10 @@ import SkeletonView
       self.listAd[index] = nil
     }
     super.removeFromSuperview()
+  }
+
+  public override func draw(_ rect: CGRect) {
+    setAd()
   }
 
   /// This function helps to change the ads in the cell.
