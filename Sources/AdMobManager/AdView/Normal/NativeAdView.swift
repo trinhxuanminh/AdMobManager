@@ -33,23 +33,19 @@ import SkeletonView
   private var baseColor = UIColor(rgb: 0x808080)
   private var secondaryColor = UIColor(rgb: 0xFFFFFF)
 
-  public override func awakeFromNib() {
-    super.awakeFromNib()
-    setAd()
-  }
+//  public override func awakeFromNib() {
+//    super.awakeFromNib()
+//    setAd()
+//  }
+//
+//  public override init(frame: CGRect) {
+//    super.init(frame: frame)
+//    setAd()
+//  }
 
-  public override init(frame: CGRect) {
-    super.init(frame: frame)
-    setAd()
-  }
-
-  required init?(coder: NSCoder) {
-    super.init(coder: coder)
-  }
-
-  deinit {
-    print("deinit")
-  }
+//  required init?(coder: NSCoder) {
+//    super.init(coder: coder)
+//  }
 
   override func setColor() {
     callToActionButton.setTitleColor(UIColor(rgb: 0xFFFFFF), for: .normal)
@@ -71,7 +67,7 @@ import SkeletonView
   }
 
   public override func layoutSubviews() {
-    print("Did")
+    setAd()
   }
 
 
