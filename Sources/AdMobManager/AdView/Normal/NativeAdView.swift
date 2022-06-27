@@ -62,7 +62,7 @@ import SkeletonView
   }
 
   override func setConstraints() {
-      skeletonView.layoutIfNeeded()
+    layoutIfNeeded()
   }
 
   override func setProperties() {
@@ -142,6 +142,7 @@ import SkeletonView
 extension NativeAdView {
   func config_Data(ad: GADNativeAd?) {
     guard let nativeAd = ad else {
+      advertiserLabel.isHidden = true
       skeletonView.showAnimatedGradientSkeleton(
         usingGradient: SkeletonGradient(
           baseColor: baseColor,
