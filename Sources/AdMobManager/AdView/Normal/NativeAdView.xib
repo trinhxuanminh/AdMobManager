@@ -21,14 +21,14 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
+            <rect key="frame" x="0.0" y="0.0" width="317" height="100"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NMf-nG-9Vw" customClass="GADNativeAdView">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
+                    <rect key="frame" x="0.0" y="0.0" width="317" height="100"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="05X-Uj-t4q">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
+                            <rect key="frame" x="0.0" y="0.0" width="317" height="100"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="baK-Oy-Gyk">
                                     <rect key="frame" x="15" y="15" width="70" height="70"/>
@@ -42,7 +42,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Headline" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wzh-ea-UuP">
-                                    <rect key="frame" x="93" y="15" width="306" height="21"/>
+                                    <rect key="frame" x="93" y="15" width="209" height="21"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="21" id="Wbp-XD-wnl"/>
                                     </constraints>
@@ -54,7 +54,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cRI-p7-ahc">
-                                    <rect key="frame" x="93" y="56" width="306" height="29"/>
+                                    <rect key="frame" x="93" y="56" width="209" height="29"/>
                                     <color key="backgroundColor" red="0.52941176469999995" green="0.65098039220000004" blue="0.019607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -81,7 +81,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="748" text="Advertiser" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ext-Ii-t8I">
-                                    <rect key="frame" x="119" y="38" width="280" height="14"/>
+                                    <rect key="frame" x="119" y="38" width="183" height="14"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="14" id="Fzp-FG-Lva"/>
                                     </constraints>
@@ -139,7 +139,7 @@
                 <constraint firstItem="NMf-nG-9Vw" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="p4p-BZ-2gJ"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-139.85507246376812" y="-177.45535714285714"/>
+            <point key="canvasLocation" x="-210.86956521739131" y="-177.45535714285714"/>
         </view>
     </objects>
 </document>
