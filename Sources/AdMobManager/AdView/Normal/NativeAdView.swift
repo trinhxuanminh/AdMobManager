@@ -63,8 +63,6 @@ import SkeletonView
   override func setProperties() {
     contentView.frame = bounds
     contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    backgroundColor = .red
-    contentView.backgroundColor = .green
   }
 
   public override func removeFromSuperview() {
@@ -151,6 +149,7 @@ extension NativeAdView {
 //        return
 //      }
       startAnimation()
+      contentView.backgroundColor = .green
       return
     }
 
