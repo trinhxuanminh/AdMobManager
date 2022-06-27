@@ -8,6 +8,7 @@
 import UIKit
 import GoogleMobileAds
 import SkeletonView
+import SnapKit
 
 /// This class returns a UIView displaying NativeAd.
 /// ```
@@ -58,6 +59,12 @@ import SkeletonView
   override func addComponents() {
     Bundle.module.loadNibNamed(NativeAdView.className, owner: self, options: nil)
     addSubview(contentView)
+  }
+
+  override func setConstraints() {
+    nativeAdView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
   }
 
   override func setProperties() {
@@ -148,7 +155,6 @@ extension NativeAdView {
 //      guard didFirstLoadAd else {
 //        return
 //      }
-      nativeAdView.frame.size.width = contentView.frame.size.width
       startAnimation()
       nativeAdView.backgroundColor = .green
       return
