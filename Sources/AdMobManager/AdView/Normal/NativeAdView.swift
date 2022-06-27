@@ -62,14 +62,17 @@ import SnapKit
   }
 
   override func setConstraints() {
-    nativeAdView.snp.makeConstraints { make in
-      make.edges.equalTo(contentView)
-    }
+//    nativeAdView.snp.makeConstraints { make in
+//      make.edges.equalTo(contentView)
+//    }
   }
 
   override func setProperties() {
     contentView.frame = bounds
     contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    nativeAdView.snp.makeConstraints { make in
+      make.edges.equalTo(contentView)
+    }
   }
 
   public override func removeFromSuperview() {
