@@ -142,6 +142,7 @@ extension NativeAdView {
   private func config_Data(ad: GADNativeAd?) {
     guard let nativeAd = ad else {
       isLoading = true
+      startAnimation()
       return
     }
 
