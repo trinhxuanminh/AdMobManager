@@ -68,7 +68,7 @@ import SnapKit
 
   public override func removeFromSuperview() {
     for index in 0..<listAd.count {
-      self.listAd[index] = nil
+      listAd[index] = nil
     }
     super.removeFromSuperview()
   }

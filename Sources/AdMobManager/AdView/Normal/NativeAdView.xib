@@ -83,7 +83,7 @@
                                 </label>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="baK-Oy-Gyk">
                                     <rect key="frame" x="15" y="15" width="70" height="70"/>
-                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="width" secondItem="baK-Oy-Gyk" secondAttribute="height" multiplier="1:1" id="HJr-yD-dvq"/>
                                         <constraint firstAttribute="height" constant="70" id="KJy-Gc-1BZ"/>
