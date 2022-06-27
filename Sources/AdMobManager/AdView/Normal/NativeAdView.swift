@@ -47,6 +47,10 @@ import SkeletonView
     super.init(coder: coder)
   }
 
+  deinit {
+    print("deinit")
+  }
+
   override func setColor() {
     callToActionButton.setTitleColor(UIColor(rgb: 0xFFFFFF), for: .normal)
     callToActionButton.backgroundColor = UIColor(rgb: 0x87A605)
@@ -61,13 +65,13 @@ import SkeletonView
     addSubview(contentView)
   }
 
-  override func setConstraints() {
-    layoutIfNeeded()
-  }
-
   override func setProperties() {
     contentView.frame = bounds
     contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+  }
+
+  public override func layoutSubviews() {
+    print("Did")
   }
 
 
