@@ -8,6 +8,7 @@
 import UIKit
 import GoogleMobileAds
 import SkeletonView
+import SnapKit
 
 /// This class returns a UIView displaying BannerAd.
 /// ```
@@ -50,12 +51,9 @@ import SkeletonView
   }
 
   override func setConstraints() {
-    NSLayoutConstraint.activate([
-      bannerAdView.bottomAnchor.constraint(equalTo: bottomAnchor),
-      bannerAdView.leadingAnchor.constraint(equalTo: leadingAnchor),
-      bannerAdView.trailingAnchor.constraint(equalTo: trailingAnchor),
-      bannerAdView.topAnchor.constraint(equalTo: topAnchor)
-    ])
+    bannerAdView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
   }
 
   override func setProperties() {
