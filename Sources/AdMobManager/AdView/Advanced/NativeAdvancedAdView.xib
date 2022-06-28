@@ -15,6 +15,7 @@
                 <outlet property="callToActionButton" destination="8bd-Qk-fUY" id="1az-NV-0cK"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="qS0-fd-ce5"/>
                 <outlet property="headlineLabel" destination="tJx-XH-1rT" id="Ijd-Zg-fJZ"/>
+                <outlet property="mediaView" destination="yH0-bL-6aS" id="p89-k6-l1n"/>
                 <outlet property="nativeAdView" destination="QAY-e9-imc" id="rYt-zB-X96"/>
                 <outlet property="priceLabel" destination="OY6-nb-7Zo" id="Shi-43-ajt"/>
                 <outlet property="skeletonView" destination="zS2-od-J8R" id="sLo-3i-UuC"/>

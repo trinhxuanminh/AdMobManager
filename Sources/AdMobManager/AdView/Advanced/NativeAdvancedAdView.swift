@@ -29,6 +29,7 @@ import SkeletonView
   @IBOutlet weak var nativeAdView: GADNativeAdView!
   @IBOutlet weak var skeletonView: UIView!
   @IBOutlet weak var starImageView: UIImageView!
+  @IBOutlet weak var mediaView: GADMediaView!
 
   private var listAd: [NativeAd?] = [NativeAd()]
   private var indexState: Int!
@@ -129,7 +130,8 @@ import SkeletonView
   /// This function helps to adjust the color of the ad content.
   /// - Parameter color: Change the title color of the buttons and the border color. Default is **#87A605**.
   public func setTheme(color: UIColor) {
-    callToActionButton.backgroundColor = color
+    callToActionButton.setTitleColor(color, for: .normal)
+    nativeAdView.layer.borderColor = color.cgColor
   }
 
   /// Change the color of animated.
@@ -179,6 +181,7 @@ extension NativeAdvancedAdView {
 
     let mediaContent = nativeAd.mediaContent
     if mediaContent.hasVideoContent {
+      nativeAdView.mediaView?.isHidden = false
       mediaContent.videoController.delegate = self
     }
 
@@ -256,6 +259,7 @@ extension NativeAdvancedAdView {
     priceLabel.isHidden = true
     storeLabel.isHidden = true
     starImageView.isHidden = true
+    mediaView.isHidden = true
     skeletonView.showAnimatedGradientSkeleton(
       usingGradient: SkeletonGradient(
         baseColor: baseColor,
