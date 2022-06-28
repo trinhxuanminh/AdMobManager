@@ -79,7 +79,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8bd-Qk-fUY">
-                                    <rect key="frame" x="313" y="318.5" width="51" height="25"/>
+                                    <rect key="frame" x="313" y="323.5" width="51" height="25"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="25" id="odl-dc-MWA"/>
                                     </constraints>
@@ -94,7 +94,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Store" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yXe-Aa-rju">
-                                    <rect key="frame" x="266" y="322.5" width="35" height="20"/>
+                                    <rect key="frame" x="266" y="327.5" width="35" height="20"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="20" id="vhM-cz-zdf"/>
                                     </constraints>
@@ -138,7 +138,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Price" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OY6-nb-7Zo">
-                                    <rect key="frame" x="221" y="322.5" width="33" height="20"/>
+                                    <rect key="frame" x="221" y="327.5" width="33" height="20"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="20" id="CIU-hv-aFf"/>
                                     </constraints>
@@ -152,7 +152,7 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstItem="8bd-Qk-fUY" firstAttribute="top" secondItem="yH0-bL-6aS" secondAttribute="bottom" constant="5" id="16N-da-YQM"/>
+                                <constraint firstItem="8bd-Qk-fUY" firstAttribute="top" secondItem="yH0-bL-6aS" secondAttribute="bottom" constant="10" id="16N-da-YQM"/>
                                 <constraint firstItem="OY6-nb-7Zo" firstAttribute="bottom" secondItem="8bd-Qk-fUY" secondAttribute="bottom" constant="-1" id="8gL-uK-WcG"/>
                                 <constraint firstItem="pAy-Jx-yo0" firstAttribute="leading" secondItem="UJv-Nz-7Lr" secondAttribute="leading" id="8h6-ed-SoU"/>
                                 <constraint firstItem="8bd-Qk-fUY" firstAttribute="leading" secondItem="yXe-Aa-rju" secondAttribute="trailing" constant="12" id="ADu-ja-k6b"/>
