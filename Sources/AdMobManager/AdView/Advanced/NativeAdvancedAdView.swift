@@ -181,8 +181,8 @@ extension NativeAdvancedAdView {
 
     let mediaContent = nativeAd.mediaContent
     if mediaContent.hasVideoContent {
-      nativeAdView.mediaView?.isHidden = false
       mediaContent.videoController.delegate = self
+      mediaView.isHidden = false
     }
 
     (nativeAdView?.bodyView as? UILabel)?.text = nativeAd.body
