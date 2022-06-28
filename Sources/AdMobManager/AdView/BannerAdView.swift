@@ -30,6 +30,21 @@ import SkeletonView
   private var baseColor = UIColor(rgb: 0x808080)
   private var secondaryColor = UIColor(rgb: 0xFFFFFF)
 
+  public override func draw(_ rect: CGRect) {
+    super.draw(rect)
+    guard !didFirstLoadAd else {
+      return
+    }
+    didFirstLoadAd = true
+    adUnitID = AdMobManager.shared.getBannerID()
+    request()
+  }
+
+  public override func removeFromSuperview() {
+    bannerAdView = nil
+    super.removeFromSuperview()
+  }
+
   override func addComponents() {
     addSubview(bannerAdView)
   }
@@ -49,21 +64,6 @@ import SkeletonView
       usingGradient: SkeletonGradient(
         baseColor: baseColor,
         secondaryColor: secondaryColor))
-  }
-
-  public override func draw(_ rect: CGRect) {
-    super.draw(rect)
-    guard !didFirstLoadAd else {
-      return
-    }
-    didFirstLoadAd = true
-    adUnitID = AdMobManager.shared.getBannerID()
-    request()
-  }
-
-  public override func removeFromSuperview() {
-    bannerAdView = nil
-    super.removeFromSuperview()
   }
 
   /// Change the color of animated.

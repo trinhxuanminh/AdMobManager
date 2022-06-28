@@ -8,7 +8,6 @@
 import UIKit
 import GoogleMobileAds
 import SkeletonView
-import SnapKit
 
 /// This class returns a UIView displaying NativeAd.
 /// ```
@@ -18,9 +17,6 @@ import SnapKit
 /// Minimum height is **100**
 /// - Warning: Native Ad will not be displayed without adding ID.
 @IBDesignable public class NativeAdView: BaseView {
-
-  /// This constant returns the minimum recommended height for NativeAdView.
-  public static let adHeightMinimum: CGFloat = 100
 
   @IBOutlet var contentView: UIView!
   @IBOutlet var nativeAdView: GADNativeAdView!
@@ -51,6 +47,21 @@ import SnapKit
     super.init(coder: coder)
   }
 
+  public override func removeFromSuperview() {
+    for index in 0..<listAd.count {
+      listAd[index] = nil
+    }
+    super.removeFromSuperview()
+  }
+
+  public override func draw(_ rect: CGRect) {
+    super.draw(rect)
+    guard isLoading else {
+      return
+    }
+    startAnimation()
+  }
+
   override func setColor() {
     callToActionButton.backgroundColor = UIColor(rgb: 0x87A605)
     setLightColor()
@@ -66,19 +77,9 @@ import SnapKit
     contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
   }
 
-  public override func removeFromSuperview() {
-    for index in 0..<listAd.count {
-      listAd[index] = nil
-    }
-    super.removeFromSuperview()
-  }
-
-  public override func draw(_ rect: CGRect) {
-    super.draw(rect)
-    guard isLoading else {
-      return
-    }
-    startAnimation()
+  /// This function returns the minimum recommended height for NativeAdView.
+  public class func adHeightMinimum() -> CGFloat {
+    return 100.0
   }
 
   /// This function helps to change the ads in the cell.
@@ -96,12 +97,12 @@ import SnapKit
     } else if listAd[index] == nil {
       listAd[index] = NativeAd()
     }
-    config_Data(ad: listAd[index]?.ad(), index: index)
+    configData(ad: listAd[index]?.ad(), index: index)
     listAd[index]?.setConfigData(index: index) { [weak self] index in
       guard let self = self else {
         return
       }
-      self.config_Data(ad: self.listAd[index]?.ad(), index: index)
+      self.configData(ad: self.listAd[index]?.ad(), index: index)
     }
   }
 
@@ -143,7 +144,7 @@ import SnapKit
 }
 
 extension NativeAdView {
-  private func config_Data(ad: GADNativeAd?, index: Int) {
+  private func configData(ad: GADNativeAd?, index: Int) {
     guard index == indexState else {
       return
     }

@@ -4,7 +4,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,7 +19,7 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB">
+        <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="308" height="100"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -43,7 +42,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cRI-p7-ahc">
-                                    <rect key="frame" x="93" y="56" width="200" height="29"/>
+                                    <rect key="frame" x="93" y="58" width="200" height="27"/>
                                     <color key="backgroundColor" red="0.52941176469999995" green="0.65098039220000004" blue="0.019607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -56,11 +55,11 @@
                                     </userDefinedRuntimeAttributes>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ad" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tOS-am-PkC">
-                                    <rect key="frame" x="93" y="38" width="18" height="14"/>
+                                    <rect key="frame" x="93" y="38" width="18" height="16"/>
                                     <color key="backgroundColor" red="1" green="0.70980392160000005" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="18" id="4aJ-pS-agA"/>
-                                        <constraint firstAttribute="height" constant="14" id="hs6-ky-5ey"/>
+                                        <constraint firstAttribute="width" constant="18" id="4aJ-pS-agA"/>
+                                        <constraint firstAttribute="height" constant="16" id="hs6-ky-5ey"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -70,9 +69,9 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="748" text="Advertiser" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ext-Ii-t8I">
-                                    <rect key="frame" x="119" y="38" width="174" height="14"/>
+                                    <rect key="frame" x="119" y="38" width="174" height="16"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="14" id="Fzp-FG-Lva"/>
+                                        <constraint firstAttribute="height" constant="16" id="Fzp-FG-Lva"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -131,7 +130,6 @@
                     </connections>
                 </view>
             </subviews>
-            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="NMf-nG-9Vw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="I39-Vz-J7k"/>
