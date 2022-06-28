@@ -69,7 +69,7 @@ import SkeletonView
 
   override func setColor() {
     callToActionButton.setTitleColor(UIColor(rgb: 0x87A605), for: .normal)
-    nativeAdView.layer.borderColor = UIColor(rgb: 0x87A605).cgColor
+    skeletonView.layer.borderColor = UIColor(rgb: 0x87A605).cgColor
     setLightColor()
   }
 
@@ -84,7 +84,7 @@ import SkeletonView
   }
 
   override func setProperties() {
-    nativeAdView.layer.borderWidth = 1.0
+    skeletonView.layer.borderWidth = 1.0
   }
 
   /// This function returns the minimum recommended height for NativeAdvancedAdView.
@@ -131,7 +131,7 @@ import SkeletonView
   /// - Parameter color: Change the title color of the buttons and the border color. Default is **#87A605**.
   public func setTheme(color: UIColor) {
     callToActionButton.setTitleColor(color, for: .normal)
-    nativeAdView.layer.borderColor = color.cgColor
+    skeletonView.layer.borderColor = color.cgColor
   }
 
   /// Change the color of animated.
@@ -178,11 +178,11 @@ extension NativeAdvancedAdView {
 
     (nativeAdView?.headlineView as? UILabel)?.text = nativeAd.headline
     nativeAdView?.mediaView?.mediaContent = nativeAd.mediaContent
+    mediaView.isHidden = false
 
     let mediaContent = nativeAd.mediaContent
     if mediaContent.hasVideoContent {
       mediaContent.videoController.delegate = self
-      mediaView.isHidden = false
     }
 
     (nativeAdView?.bodyView as? UILabel)?.text = nativeAd.body
