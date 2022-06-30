@@ -149,7 +149,6 @@ extension NativeAdCollectionViewCell {
     nativeAdView.nativeAd = nativeAd
 
     (nativeAdView.headlineView as? UILabel)?.text = nativeAd.headline
-    nativeAdView.headlineView?.isHidden = false
 
     (nativeAdView.iconView as? UIImageView)?.image = nativeAd.icon?.image
 
@@ -157,7 +156,6 @@ extension NativeAdCollectionViewCell {
     nativeAdView.advertiserView?.isHidden = nativeAd.advertiser == nil
 
     (nativeAdView.callToActionView as? UIButton)?.setTitle(nativeAd.callToAction, for: .normal)
-    nativeAdView.callToActionView?.isHidden = false
     nativeAdView.callToActionView?.isUserInteractionEnabled = false
   }
 
@@ -183,7 +181,7 @@ extension NativeAdCollectionViewCell {
       usingGradient: SkeletonGradient(
         baseColor: baseColor,
         secondaryColor: secondaryColor))
-    headlineLabel.isHidden = true
-    callToActionButton.isHidden = true
+    headlineLabel.text = nil
+    callToActionButton.setTitle(nil, for: .normal)
   }
 }
