@@ -156,7 +156,6 @@ extension NativeAdCollectionViewCell {
     nativeAdView?.advertiserView?.isHidden = nativeAd.advertiser == nil
 
     (nativeAdView?.callToActionView as? UIButton)?.setTitle(nativeAd.callToAction, for: .normal)
-    nativeAdView?.callToActionView?.isHidden = nativeAd.callToAction == nil
 
     // In order for the SDK to process touch events properly, user interaction should be disabled.
     nativeAdView?.callToActionView?.isUserInteractionEnabled = false
@@ -180,6 +179,8 @@ extension NativeAdCollectionViewCell {
 
   private func startAnimation() {
     advertiserLabel.isHidden = true
+    headlineLabel.text = Text.headline
+    callToActionButton.setTitle(Text.callToAction, for: .normal)
     skeletonView.showAnimatedGradientSkeleton(
       usingGradient: SkeletonGradient(
         baseColor: baseColor,
