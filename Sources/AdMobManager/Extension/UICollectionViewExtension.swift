@@ -8,11 +8,12 @@
 import UIKit
 
 extension UICollectionView {
-  func registerAds(ofType type: AnyClass, bundle: Bundle = AdMobManager.bundle) {
-    register(UINib(nibName: String(describing: type.self), bundle: bundle), forCellWithReuseIdentifier: String(describing: type.self))
+  public func registerAds(ofType type: AnyClass, bundle: Bundle? = AdMobManager.bundle) {
+    register(UINib(nibName: String(describing: type.self), bundle: bundle),
+             forCellWithReuseIdentifier: String(describing: type.self))
   }
 
-  func dequeueCell<T>(ofType type: T.Type, indexPath: IndexPath) -> T {
+  public func dequeueCell<T>(ofType type: T.Type, indexPath: IndexPath) -> T {
     return dequeueReusableCell(withReuseIdentifier: String(describing: T.self), for: indexPath) as! T
   }
 }
