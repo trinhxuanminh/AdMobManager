@@ -9,6 +9,23 @@ import UIKit
 import GoogleMobileAds
 import SkeletonView
 
+/// This class returns a UITableViewCell displaying NativeAd.
+/// ```
+/// import AdMobManager
+/// ```
+/// ```
+/// override func viewDidLoad() {
+///     super.viewDidLoad()
+///     tableView.registerAds(ofType: NativeAdTableViewCell.self)
+/// }
+/// ```
+/// ```
+/// func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+///     let cell = tableView.dequeueCell(ofType: NativeAdTableViewCell.self, indexPath: indexPath)
+///     return cell
+/// }
+/// ```
+/// - Warning: Native Ad will not be displayed without adding ID.
 @IBDesignable public class NativeAdTableViewCell: BaseTableViewCell {
 
   @IBOutlet weak var nativeAdView: GADNativeAdView!

@@ -9,6 +9,23 @@ import UIKit
 import GoogleMobileAds
 import SkeletonView
 
+/// This class returns a UICollectionViewCell displaying NativeAd.
+/// ```
+/// import AdMobManager
+/// ```
+/// ```
+/// override func viewDidLoad() {
+///   super.viewDidLoad()
+///   collectionView.registerAds(ofType: NativeAdCollectionViewCell.self)
+/// }
+/// ```
+/// ```
+/// func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+///   let cell = collectionView.dequeueCell(ofType: NativeAdCollectionViewCell.self, indexPath: indexPath)
+///   return cell
+/// }
+/// ```
+/// - Warning: Native Ad will not be displayed without adding ID.
 @IBDesignable public class NativeAdCollectionViewCell: BaseCollectionViewCell {
 
   @IBOutlet var nativeAdView: GADNativeAdView!
