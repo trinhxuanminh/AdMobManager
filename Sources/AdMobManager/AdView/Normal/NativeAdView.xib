@@ -9,13 +9,13 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NativeAdView" customModule="AdMobManager">
             <connections>
-                <outlet property="adLabel" destination="tOS-am-PkC" id="JPC-VO-IKj"/>
-                <outlet property="advertiserLabel" destination="ext-Ii-t8I" id="DL7-5E-b00"/>
-                <outlet property="callToActionButton" destination="cRI-p7-ahc" id="LiL-KQ-zSP"/>
-                <outlet property="contentView" destination="iN0-l3-epB" id="EGl-SH-dXC"/>
-                <outlet property="headlineLabel" destination="Wzh-ea-UuP" id="b38-hy-Fh3"/>
-                <outlet property="nativeAdView" destination="NMf-nG-9Vw" id="arH-ea-5aq"/>
-                <outlet property="skeletonView" destination="05X-Uj-t4q" id="i58-OU-hMR"/>
+                <outlet property="adLabel" destination="tOS-am-PkC" id="ErK-Lx-NtN"/>
+                <outlet property="advertiserLabel" destination="ext-Ii-t8I" id="44B-Ab-xeC"/>
+                <outlet property="callToActionButton" destination="cRI-p7-ahc" id="mEQ-BM-64n"/>
+                <outlet property="contentView" destination="iN0-l3-epB" id="9VF-wK-23W"/>
+                <outlet property="headlineLabel" destination="Wzh-ea-UuP" id="QNK-wz-sZL"/>
+                <outlet property="nativeAdView" destination="NMf-nG-9Vw" id="c1T-yj-ToP"/>
+                <outlet property="skeletonView" destination="05X-Uj-t4q" id="wqw-tW-var"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

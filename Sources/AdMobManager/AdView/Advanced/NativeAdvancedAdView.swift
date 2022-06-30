@@ -74,7 +74,7 @@ import SkeletonView
   }
 
   override func addComponents() {
-    Bundle.module.loadNibNamed(NativeAdvancedAdView.className, owner: self, options: nil)
+    Bundle.module.loadNibNamed(String(describing: NativeAdvancedAdView.self), owner: self, options: nil)
     addSubview(contentView)
   }
 

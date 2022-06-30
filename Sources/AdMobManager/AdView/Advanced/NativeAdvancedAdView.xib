@@ -9,18 +9,18 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NativeAdvancedAdView" customModule="AdMobManager">
             <connections>
-                <outlet property="adLabel" destination="bDj-US-PUf" id="yGp-nj-xAp"/>
-                <outlet property="advertiserLabel" destination="kEy-Ch-uMU" id="C3v-gf-voP"/>
-                <outlet property="bodyLabel" destination="pAy-Jx-yo0" id="ZXw-oT-5uG"/>
-                <outlet property="callToActionButton" destination="8bd-Qk-fUY" id="1az-NV-0cK"/>
-                <outlet property="contentView" destination="iN0-l3-epB" id="qS0-fd-ce5"/>
-                <outlet property="headlineLabel" destination="tJx-XH-1rT" id="Ijd-Zg-fJZ"/>
-                <outlet property="mediaView" destination="yH0-bL-6aS" id="p89-k6-l1n"/>
-                <outlet property="nativeAdView" destination="QAY-e9-imc" id="rYt-zB-X96"/>
-                <outlet property="priceLabel" destination="OY6-nb-7Zo" id="Shi-43-ajt"/>
-                <outlet property="skeletonView" destination="zS2-od-J8R" id="sLo-3i-UuC"/>
-                <outlet property="starImageView" destination="HCj-1n-h09" id="u7u-rk-IuG"/>
-                <outlet property="storeLabel" destination="yXe-Aa-rju" id="L1P-tj-e5H"/>
+                <outlet property="adLabel" destination="bDj-US-PUf" id="spn-Q4-9nj"/>
+                <outlet property="advertiserLabel" destination="kEy-Ch-uMU" id="aX6-qg-mFc"/>
+                <outlet property="bodyLabel" destination="pAy-Jx-yo0" id="AV8-4T-ytO"/>
+                <outlet property="callToActionButton" destination="8bd-Qk-fUY" id="VvW-CC-zzs"/>
+                <outlet property="contentView" destination="iN0-l3-epB" id="bP3-al-wbz"/>
+                <outlet property="headlineLabel" destination="tJx-XH-1rT" id="QWK-wu-W12"/>
+                <outlet property="mediaView" destination="yH0-bL-6aS" id="jUm-fV-ST5"/>
+                <outlet property="nativeAdView" destination="QAY-e9-imc" id="7LD-2c-rmf"/>
+                <outlet property="priceLabel" destination="OY6-nb-7Zo" id="jVx-b0-ehX"/>
+                <outlet property="skeletonView" destination="zS2-od-J8R" id="JRy-vy-RUR"/>
+                <outlet property="starImageView" destination="HCj-1n-h09" id="xKN-Qt-6uy"/>
+                <outlet property="storeLabel" destination="yXe-Aa-rju" id="cRQ-7z-or3"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
