@@ -137,19 +137,19 @@ extension NativeAdTableViewCell {
       skeletonView.hideSkeleton(reloadDataAfter: true)
     }
 
-    nativeAdView?.nativeAd = nativeAd
+    nativeAdView.nativeAd = nativeAd
 
-    (nativeAdView?.headlineView as? UILabel)?.text = nativeAd.headline
+    (nativeAdView.headlineView as? UILabel)?.text = nativeAd.headline
+    nativeAdView.headlineView?.isHidden = false
 
-    (nativeAdView?.iconView as? UIImageView)?.image = nativeAd.icon?.image
+    (nativeAdView.iconView as? UIImageView)?.image = nativeAd.icon?.image
 
-    (nativeAdView?.advertiserView as? UILabel)?.text = nativeAd.advertiser
-    nativeAdView?.advertiserView?.isHidden = nativeAd.advertiser == nil
+    (nativeAdView.advertiserView as? UILabel)?.text = nativeAd.advertiser
+    nativeAdView.advertiserView?.isHidden = nativeAd.advertiser == nil
 
-    (nativeAdView?.callToActionView as? UIButton)?.setTitle(nativeAd.callToAction, for: .normal)
-
-    // In order for the SDK to process touch events properly, user interaction should be disabled.
-    nativeAdView?.callToActionView?.isUserInteractionEnabled = false
+    (nativeAdView.callToActionView as? UIButton)?.setTitle(nativeAd.callToAction, for: .normal)
+    nativeAdView.callToActionView?.isHidden = false
+    nativeAdView.callToActionView?.isUserInteractionEnabled = false
   }
 
   private func setLightColor() {
@@ -170,11 +170,11 @@ extension NativeAdTableViewCell {
 
   private func startAnimation() {
     advertiserLabel.isHidden = true
-    headlineLabel.text = Text.headline
-    callToActionButton.setTitle(Text.callToAction, for: .normal)
     skeletonView.showAnimatedGradientSkeleton(
       usingGradient: SkeletonGradient(
         baseColor: baseColor,
         secondaryColor: secondaryColor))
+    headlineLabel.isHidden = true
+    callToActionButton.isHidden = true
   }
 }

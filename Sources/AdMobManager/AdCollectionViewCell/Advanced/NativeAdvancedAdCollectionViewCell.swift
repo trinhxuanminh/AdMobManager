@@ -142,6 +142,7 @@ import SkeletonView
         secondaryColor: secondaryColor))
   }
 }
+
 extension NativeAdvancedAdCollectionViewCell {
   private func configData(ad: GADNativeAd?, index: Int) {
     guard index == indexState else {
@@ -163,36 +164,39 @@ extension NativeAdvancedAdCollectionViewCell {
       skeletonView.hideSkeleton(reloadDataAfter: true)
     }
 
-    nativeAdView?.nativeAd = nativeAd
+    nativeAdView.nativeAd = nativeAd
 
-    (nativeAdView?.headlineView as? UILabel)?.text = nativeAd.headline
-    nativeAdView?.mediaView?.mediaContent = nativeAd.mediaContent
+    (nativeAdView.headlineView as? UILabel)?.text = nativeAd.headline
+    nativeAdView.headlineView?.isHidden = false
+
+    nativeAdView.mediaView?.mediaContent = nativeAd.mediaContent
     mediaView.isHidden = false
-
     let mediaContent = nativeAd.mediaContent
     if mediaContent.hasVideoContent {
       mediaContent.videoController.delegate = self
     }
 
-    (nativeAdView?.bodyView as? UILabel)?.text = nativeAd.body
+    (nativeAdView.bodyView as? UILabel)?.text = nativeAd.body
+    nativeAdView.bodyView?.isHidden = false
 
-    (nativeAdView?.callToActionView as? UIButton)?.setTitle(nativeAd.callToAction, for: .normal)
+    (nativeAdView.callToActionView as? UIButton)?.setTitle(nativeAd.callToAction, for: .normal)
+    nativeAdView.callToActionView?.isHidden = false
 
-    (nativeAdView?.iconView as? UIImageView)?.image = nativeAd.icon?.image
+    (nativeAdView.iconView as? UIImageView)?.image = nativeAd.icon?.image
 
-    (nativeAdView?.starRatingView as? UIImageView)?.image = imageOfStars(from: nativeAd.starRating)
-    nativeAdView?.starRatingView?.isHidden = nativeAd.starRating == nil
+    (nativeAdView.starRatingView as? UIImageView)?.image = imageOfStars(from: nativeAd.starRating)
+    nativeAdView.starRatingView?.isHidden = nativeAd.starRating == nil
 
-    (nativeAdView?.storeView as? UILabel)?.text = nativeAd.store
-    nativeAdView?.storeView?.isHidden = nativeAd.store == nil
+    (nativeAdView.storeView as? UILabel)?.text = nativeAd.store
+    nativeAdView.storeView?.isHidden = nativeAd.store == nil
 
-    (nativeAdView?.priceView as? UILabel)?.text = nativeAd.price
-    nativeAdView?.priceView?.isHidden = nativeAd.price == nil
+    (nativeAdView.priceView as? UILabel)?.text = nativeAd.price
+    nativeAdView.priceView?.isHidden = nativeAd.price == nil
 
-    (nativeAdView?.advertiserView as? UILabel)?.text = nativeAd.advertiser
-    nativeAdView?.advertiserView?.isHidden = nativeAd.advertiser == nil
+    (nativeAdView.advertiserView as? UILabel)?.text = nativeAd.advertiser
+    nativeAdView.advertiserView?.isHidden = nativeAd.advertiser == nil
 
-    nativeAdView?.callToActionView?.isUserInteractionEnabled = false
+    nativeAdView.callToActionView?.isUserInteractionEnabled = false
   }
 
   private func imageOfStars(from starRating: NSDecimalNumber?) -> UIImage? {
@@ -247,12 +251,13 @@ extension NativeAdvancedAdCollectionViewCell {
     starImageView.isHidden = true
     mediaView.isHidden = true
     advertiserLabel.isHidden = true
-    headlineLabel.text = Text.headline
-    callToActionButton.setTitle(Text.callToAction, for: .normal)
-    bodyLabel.text = Text.body
     skeletonView.showAnimatedGradientSkeleton(
       usingGradient: SkeletonGradient(
         baseColor: baseColor,
         secondaryColor: secondaryColor))
+    headlineLabel.isHidden = true
+    callToActionButton.isHidden = true
+    bodyLabel.isHidden = true
   }
 }
+
