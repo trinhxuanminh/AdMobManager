@@ -16,7 +16,7 @@ import SkeletonView
 /// Can be instantiated programmatically or Interface Builder. Use as UIView. Ad display is automatic.
 /// Minimum **height** = width  / 16 * 9 + 160
 /// - Warning: Native Ad will not be displayed without adding ID.
-@IBDesignable public class NativeAdvancedAdCollectionViewCell: BaseView, GADVideoControllerDelegate {
+@IBDesignable public class NativeAdvancedAdCollectionViewCell: BaseCollectionViewCell, GADVideoControllerDelegate {
 
   @IBOutlet weak var callToActionButton: UIButton!
   @IBOutlet weak var storeLabel: UILabel!
