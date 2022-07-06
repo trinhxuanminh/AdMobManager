@@ -13,7 +13,7 @@ import Foundation
 /// ```
 /// import AdMobManager
 /// ```
-/// - Warning: Available for Swift 5.3, Xcode 12.0 (macOS Big Sur). Support from iOS 10.0 or newer.
+/// - Warning: Available for Swift 5.3, Xcode 12.5 (macOS Big Sur). Support from iOS 10.0 or newer.
 public struct AdMobManager {
 
   /// This constant returns the Bundle of the AdMobManager module
