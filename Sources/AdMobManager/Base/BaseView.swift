@@ -8,7 +8,6 @@
 import UIKit
 
 public class BaseView: UIView, ViewProtocol {
-
   public override func awakeFromNib() {
     super.awakeFromNib()
     addComponents()

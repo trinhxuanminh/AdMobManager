@@ -17,7 +17,6 @@ import SnapKit
 /// Can be instantiated programmatically or Interface Builder. Use as UIView. Ad display is automatic.
 /// - Warning: Ad will not be displayed without adding ID.
 @IBDesignable public class BannerAdView: BaseView {
-
   private lazy var bannerAdView: GADBannerView! = {
     let bannerView = GADBannerView()
     bannerView.translatesAutoresizingMaskIntoConstraints = false
@@ -28,6 +27,7 @@ import SnapKit
   private var isLoading = false
   private var isExist = false
   private var didFirstLoadAd = false
+  private var retryAttempt = 0.0
   private var baseColor = UIColor(rgb: 0x808080)
   private var secondaryColor = UIColor(rgb: 0xFFFFFF)
 
@@ -38,7 +38,7 @@ import SnapKit
     }
     didFirstLoadAd = true
     adUnitID = AdMobManager.shared.getBannerID()
-    request()
+    load()
   }
 
   public override func removeFromSuperview() {
@@ -90,34 +90,21 @@ import SnapKit
     }
 
     guard let adUnitID = adUnitID else {
-      print("No BannerAd ID!")
-      return
-    }
-
-    if #available(iOS 12.0, *), !NetworkMonitor.shared.isConnected() {
-      print("Not connected!")
-      request()
+      print("BannerAd: failed to load - not initialized yet! Please install ID.")
       return
     }
 
     guard let rootViewController = UIApplication.topStackViewController() else {
-      print("Can't find RootViewController!")
+      print("BannerAd: display failure - can't find RootViewController!")
       return
     }
 
     isLoading = true
-
+    print("BannerAd: start load!")
     bannerAdView?.adUnitID = adUnitID
     bannerAdView?.delegate = self
     bannerAdView?.rootViewController = rootViewController
     bannerAdView?.load(GADRequest())
-  }
-
-  func request() {
-    let adReloadTime = AdMobManager.shared.getAdReloadTime()
-    DispatchQueue.main.asyncAfter(
-      deadline: .now() + .milliseconds(Int(adReloadTime * 1000)),
-      execute: load)
   }
 }
 
@@ -125,11 +112,16 @@ extension BannerAdView: GADBannerViewDelegate {
   public func bannerView(_ bannerView: GADBannerView,
                          didFailToReceiveAdWithError error: Error
   ) {
-    print("BannerAd download error, trying again!")
     isLoading = false
+    self.retryAttempt += 1
+    let delaySec = pow(2.0, min(5.0, retryAttempt))
+    print("BannerAd: did fail to load. Reload after \(delaySec)s! (\(error))")
+    DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: load)
   }
 
   public func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+    print("BannerAd: did load!")
+    self.retryAttempt = 0
     isExist = true
     hideSkeleton(reloadDataAfter: true)
   }

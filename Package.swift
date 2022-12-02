@@ -34,8 +34,6 @@ let package = Package(
         .process("AdCollectionViewCell/Advanced/NativeAdvancedAdCollectionViewCell.xib"),
         .process("AdView/Normal/NativeAdView.xib"),
         .process("AdView/Advanced/NativeAdvancedAdView.xib"),
-        .process("AdTableViewCell/Normal/NativeAdTableViewCell.xib"),
-        .process("AdTableViewCell/Advanced/NativeAdvancedAdTableViewCell.xib"),
       ]
     )
   ]

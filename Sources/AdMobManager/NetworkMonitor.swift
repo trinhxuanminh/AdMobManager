@@ -10,7 +10,6 @@ import Network
 
 @available(iOS 12.0, *)
 final class NetworkMonitor {
-
   static let shared = NetworkMonitor()
 
   enum ConnectionType {

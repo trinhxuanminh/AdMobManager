@@ -9,32 +9,32 @@ import UIKit
 import GoogleMobileAds
 
 class NativeAd: NSObject {
-
-  private var adUnitID: String?
   private var nativeAd: GADNativeAd?
-  private var adLoader: GADAdLoader!
-  private var configData: ((Int) -> Void)?
-  private var didAddReloadingAd = false
+  private var adLoader: GADAdLoader?
+  private var adUnitID: String?
+  private var didAddID = false
   private var isLoading = false
+  private var retryAttempt = 0.0
   private var index: Int?
+  private var binding: ((Int) -> Void)?
 
   override init() {
     super.init()
-    guard !didAddReloadingAd else {
+    guard !didAddID else {
       return
     }
-    didAddReloadingAd = true
-    adUnitID = AdMobManager.shared.getNativeID()
-    request()
+    self.didAddID = true
+    self.adUnitID = AdMobManager.shared.getNativeID()
+    load()
   }
 
   func ad() -> GADNativeAd? {
     return nativeAd
   }
 
-  func setConfigData(index: Int, execute work: ((Int) -> Void)? = nil) {
+  func setBinding(index: Int, binding: ((Int) -> Void)?) {
     self.index = index
-    self.configData = work
+    self.binding = binding
   }
 
   private func load() {
@@ -47,37 +47,24 @@ class NativeAd: NSObject {
     }
 
     guard let adUnitID = adUnitID else {
-      print("No NativeAd ID!")
-      return
-    }
-
-    if #available(iOS 12.0, *), !NetworkMonitor.shared.isConnected() {
-      print("Not connected!")
-      request()
+      print("NativeAd: failed to load - not initialized yet! Please install ID.")
       return
     }
 
     guard let rootViewController = UIApplication.topStackViewController() else {
-      print("Can't find RootViewController!")
+      print("NativeAd: failed to load - can't find RootViewController!")
       return
     }
 
-    isLoading = true
-
-    adLoader = GADAdLoader(
+    self.isLoading = true
+    print("NativeAd: start load!")
+    self.adLoader = GADAdLoader(
       adUnitID: adUnitID,
       rootViewController: rootViewController,
       adTypes: [.native],
       options: nil)
-    adLoader.delegate = self
-    adLoader.load(GADRequest())
-  }
-
-  private func request() {
-    let adReloadTime = AdMobManager.shared.getAdReloadTime()
-    DispatchQueue.main.asyncAfter(
-      deadline: .now() + .milliseconds(Int(adReloadTime * 1000)),
-      execute: load)
+    adLoader?.delegate = self
+    adLoader?.load(GADRequest())
   }
 
   private func isExist() -> Bool {
@@ -88,8 +75,11 @@ class NativeAd: NSObject {
 extension NativeAd: GADNativeAdLoaderDelegate {
   func adLoader(_ adLoader: GADAdLoader,
                 didFailToReceiveAdWithError error: Error) {
-    print("NativeAd download error, trying again!")
-    isLoading = false
+    self.isLoading = false
+    self.retryAttempt += 1
+    let delaySec = pow(2.0, min(5.0, self.retryAttempt))
+    print("NativeAd: did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
+    DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: self.load)
   }
 
   func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
@@ -97,11 +87,11 @@ extension NativeAd: GADNativeAdLoaderDelegate {
     DispatchQueue.main.async { [weak self] in
       guard
         let self = self,
-        let configData = self.configData,
+        let binding = self.binding,
         let index = self.index else {
         return
       }
-      configData(index)
+      binding(index)
     }
   }
 }

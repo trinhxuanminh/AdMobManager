@@ -8,7 +8,6 @@
 import UIKit
 
 public class BaseTableViewCell: UITableViewCell, ViewProtocol {
-
   public override func awakeFromNib() {
     super.awakeFromNib()
     addComponents()

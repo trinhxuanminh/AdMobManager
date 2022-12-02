@@ -9,20 +9,13 @@ import Foundation
 
 protocol AdProtocol {
   func setAdUnitID(_ adUnitID: String)
-  func setAdReloadTime(_ adReloadTime: Double)
   func isPresent() -> Bool
   func load()
   func isExist() -> Bool
   func isReady() -> Bool
+  func setTimeBetween(_ timeBetween: Double)
   func show(willPresent: (() -> Void)?,
             willDismiss: (() -> Void)?,
-            didDismiss: (() -> Void)?)
-}
-
-protocol ReuseAdProtocol: AdProtocol {
-  func setTimeBetween(_ timeBetween: Double)
-}
-
-protocol OnceAdProtocol: AdProtocol {
-  func stopLoading()
+            didDismiss: (() -> Void)?,
+            didFail: (() -> Void)?)
 }

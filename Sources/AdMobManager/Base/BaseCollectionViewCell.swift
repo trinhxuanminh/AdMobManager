@@ -8,7 +8,6 @@
 import UIKit
 
 public class BaseCollectionViewCell: UICollectionViewCell, ViewProtocol {
-
   public override func awakeFromNib() {
     super.awakeFromNib()
     addComponents()

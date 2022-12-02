@@ -8,30 +8,30 @@
 import UIKit
 import GoogleMobileAds
 
-class InterstitialAd: NSObject, ReuseAdProtocol {
-
-  private var adUnitID: String?
-  private var timeBetween = 5.0
-  private var adReloadTime = 1.0
-  private var presentState = false
+class InterstitialAd: NSObject, AdProtocol {
   private var interstitialAd: GADInterstitialAd?
-  private var loadTime = Date()
+  private var adUnitID: String?
+  private var timeBetween = 10.0
+  private var presentState = false
+  private var lastTimeDisplay = Date()
   private var isLoading = false
+  private var retryAttempt = 0.0
   private var willPresent: (() -> Void)?
   private var willDismiss: (() -> Void)?
   private var didDismiss: (() -> Void)?
-  private var loadRequestWorkItem: DispatchWorkItem?
+  private var didFail: (() -> Void)?
 
   func setAdUnitID(_ adUnitID: String) {
     self.adUnitID = adUnitID
+    load()
   }
 
   func setTimeBetween(_ timeBetween: Double) {
+    guard timeBetween > 0.0 else {
+      print("InterstitialAd: set time between failed - invalid time!")
+      return
+    }
     self.timeBetween = timeBetween
-  }
-
-  func setAdReloadTime(_ adReloadTime: Double) {
-    self.adReloadTime = adReloadTime
   }
 
   func isPresent() -> Bool {
@@ -48,18 +48,12 @@ class InterstitialAd: NSObject, ReuseAdProtocol {
     }
 
     guard let adUnitID = adUnitID else {
-      print("No InterstitialAd ID!")
+      print("InterstitialAd: failed to load - not initialized yet! Please install ID.")
       return
     }
 
-    if #available(iOS 12.0, *), !NetworkMonitor.shared.isConnected() {
-      print("Not connected!")
-      request()
-      return
-    }
-
-    isLoading = true
-
+    self.isLoading = true
+    print("InterstitialAd: start load!")
     let request = GADRequest()
     GADInterstitialAd.load(
       withAdUnitID: adUnitID,
@@ -69,12 +63,17 @@ class InterstitialAd: NSObject, ReuseAdProtocol {
         return
       }
       self.isLoading = false
-      guard error == nil else {
-        print("InterstitialAd download error, trying again!")
+      guard error == nil, let ad = ad else {
+        self.retryAttempt += 1
+        let delaySec = pow(2.0, min(5.0, self.retryAttempt))
+        print("InterstitialAd: did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
+        DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: self.load)
         return
       }
+      print("InterstitialAd: did load!")
+      self.retryAttempt = 0
+      ad.fullScreenContentDelegate = self
       self.interstitialAd = ad
-      self.interstitialAd?.fullScreenContentDelegate = self
     }
   }
 
@@ -86,26 +85,28 @@ class InterstitialAd: NSObject, ReuseAdProtocol {
     return isExist() && wasLoadTimeLessThanNHoursAgo()
   }
 
-  func show(
-    willPresent: (() -> Void)?,
-    willDismiss: (() -> Void)?,
-    didDismiss: (() -> Void)?
+  func show(willPresent: (() -> Void)?,
+            willDismiss: (() -> Void)?,
+            didDismiss: (() -> Void)?,
+            didFail: (() -> Void)?
   ) {
     guard isReady() else {
-      print("InterstitialAd are not ready to show!")
-      guard #available(iOS 12.0, *) else {
-        load()
-        return
-      }
+      print("InterstitialAd: display failure - not ready to show!")
+      return
+    }
+    guard !presentState else {
+      print("InterstitialAd: display failure - ads are being displayed!")
       return
     }
     guard let topViewController = UIApplication.topStackViewController() else {
-      print("Can't find RootViewController!")
+      print("InterstitialAd: display failure - can't find RootViewController!")
       return
     }
+    print("InterstitialAd: requested to show!")
     self.willPresent = willPresent
     self.willDismiss = willDismiss
     self.didDismiss = didDismiss
+    self.didFail = didFail
     interstitialAd?.present(fromRootViewController: topViewController)
   }
 }
@@ -114,39 +115,37 @@ extension InterstitialAd: GADFullScreenContentDelegate {
   func ad(_ ad: GADFullScreenPresentingAd,
           didFailToPresentFullScreenContentWithError error: Error
   ) {
-    print("Ad did fail to present full screen content.")
-    didDismiss?()
+    print("InterstitialAd: did fail to show content!")
+    didFail?()
+    self.interstitialAd = nil
+    load()
   }
-
+  
   func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-    presentState = true
+    print("InterstitialAd: will display!")
+    self.presentState = true
     willPresent?()
   }
 
   func adWillDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+    print("InterstitialAd: will hide!")
     willDismiss?()
   }
 
   func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-    print("Ad did dismiss full screen content.")
+    print("InterstitialAd: did hide!")
     didDismiss?()
-    presentState = false
-    interstitialAd = nil
+    self.interstitialAd = nil
+    self.presentState = false
     load()
-    loadTime = Date()
+    self.lastTimeDisplay = Date()
   }
 }
 
 extension InterstitialAd {
-  private func request() {
-    DispatchQueue.global().asyncAfter(
-      deadline: .now() + .milliseconds(Int(adReloadTime * 1000)),
-      execute: load)
-  }
-
   private func wasLoadTimeLessThanNHoursAgo() -> Bool {
     let now = Date()
-    let timeIntervalBetweenNowAndLoadTime = now.timeIntervalSince(loadTime)
+    let timeIntervalBetweenNowAndLoadTime = now.timeIntervalSince(lastTimeDisplay)
     return timeIntervalBetweenNowAndLoadTime > timeBetween
   }
 }

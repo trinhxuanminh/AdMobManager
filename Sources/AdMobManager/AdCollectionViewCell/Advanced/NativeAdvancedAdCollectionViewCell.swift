@@ -14,20 +14,15 @@ import SkeletonView
 /// import AdMobManager
 /// ```
 /// ```
-/// override func viewDidLoad() {
-///   super.viewDidLoad()
-///   collectionView.registerAds(ofType: NativeAdvancedAdCollectionViewCell.self)
-/// }
+/// collectionView.registerAds(ofType: NativeAdvancedAdCollectionViewCell.self)
 /// ```
 /// ```
 /// func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-///   let cell = collectionView.dequeueCell(ofType: NativeAdvancedAdCollectionViewCell.self, indexPath: indexPath)
-///   return cell
+///   return collectionView.dequeueCell(ofType: NativeAdvancedAdCollectionViewCell.self, indexPath: indexPath)
 /// }
 /// ```
 /// - Warning: Native Ad will not be displayed without adding ID.
 @IBDesignable public class NativeAdvancedAdCollectionViewCell: BaseCollectionViewCell, GADVideoControllerDelegate {
-
   @IBOutlet weak var callToActionButton: UIButton!
   @IBOutlet weak var storeLabel: UILabel!
   @IBOutlet weak var priceLabel: UILabel!
@@ -41,7 +36,7 @@ import SkeletonView
   @IBOutlet weak var mediaView: GADMediaView!
 
   private var listAd: [NativeAd?] = [NativeAd()]
-  private var indexState: Int!
+  private var indexState: Int = 0
   private var baseColor = UIColor(rgb: 0x808080)
   private var secondaryColor = UIColor(rgb: 0xFFFFFF)
   private var isLoading = false
@@ -63,7 +58,7 @@ import SkeletonView
 
   public override func removeFromSuperview() {
     for index in 0..<listAd.count {
-      listAd[index] = nil
+      self.listAd[index] = nil
     }
     super.removeFromSuperview()
   }
@@ -76,17 +71,11 @@ import SkeletonView
     startAnimation()
   }
 
-  override func setColor() {
-    callToActionButton.setTitleColor(UIColor(rgb: 0x87A605), for: .normal)
-    skeletonView.layer.borderColor = UIColor(rgb: 0x87A605).cgColor
-    setLightColor()
-  }
-
   override func setProperties() {
     skeletonView.layer.borderWidth = 1.0
   }
 
-  /// This function returns the minimum recommended height for NativeAdvancedAdView.
+  /// This function returns the minimum recommended height for NativeAdvancedAdCollectionViewCell.
   public class func adHeightMinimum(width: CGFloat) -> CGFloat {
     return width / 16 * 9 + 160
   }
@@ -97,17 +86,17 @@ import SkeletonView
     guard index >= 0 else {
       return
     }
-    indexState = index
+    self.indexState = index
     if index >= listAd.count {
       for _ in listAd.count..<index {
         listAd.append(nil)
       }
-      listAd.append(NativeAd())
+      self.listAd.append(NativeAd())
     } else if listAd[index] == nil {
-      listAd[index] = NativeAd()
+      self.listAd[index] = NativeAd()
     }
     configData(ad: listAd[index]?.ad(), index: index)
-    listAd[index]?.setConfigData(index: index) { [weak self] index in
+    listAd[index]?.setBinding(index: index) { [weak self] index in
       guard let self = self else {
         return
       }
@@ -115,30 +104,12 @@ import SkeletonView
     }
   }
 
-  /// This function helps to adjust the color of the ad content.
-  /// - Parameter style: Change the color of the labels according to the interface style. Default is **light**.
-  public func setInterface(style: AdMobManager.Style) {
-    switch style {
-    case .light:
-      setLightColor()
-    case .dark:
-      setDarkColor()
-    }
-  }
-
-  /// This function helps to adjust the color of the ad content.
-  /// - Parameter color: Change the title color of the buttons and the border color. Default is **#87A605**.
-  public func setTheme(color: UIColor) {
-    callToActionButton.setTitleColor(color, for: .normal)
-    skeletonView.layer.borderColor = color.cgColor
-  }
-
   /// Change the color of animated.
   /// - Parameter base: Basic background color. Default is **gray**.
   /// - Parameter secondary: Animated colors. Default is **white**.
   public func setAnimatedColor(base: UIColor? = nil, secondary: UIColor? = nil) {
     if let secondary = secondary {
-      secondaryColor = secondary
+      self.secondaryColor = secondary
     }
     if let base = base {
       baseColor = base
@@ -232,26 +203,6 @@ extension NativeAdvancedAdCollectionViewCell {
     }
   }
 
-  private func setLightColor() {
-    storeLabel.textColor = UIColor(rgb: 0x000000)
-    priceLabel.textColor = UIColor(rgb: 0x000000)
-    bodyLabel.textColor = UIColor(rgb: 0x000000)
-    advertiserLabel.textColor = UIColor(rgb: 0x000000, alpha: 0.5)
-    headlineLabel.textColor = UIColor(rgb: 0x000000)
-    adLabel.textColor = UIColor(rgb: 0x000000)
-    adLabel.backgroundColor = UIColor(rgb: 0xFFB500)
-  }
-
-  private func setDarkColor() {
-    storeLabel.textColor = UIColor(rgb: 0xFFFFFF)
-    priceLabel.textColor = UIColor(rgb: 0xFFFFFF)
-    bodyLabel.textColor = UIColor(rgb: 0xFFFFFF)
-    advertiserLabel.textColor = UIColor(rgb: 0xFFFFFF, alpha: 0.5)
-    headlineLabel.textColor = UIColor(rgb: 0xFFFFFF)
-    adLabel.textColor = UIColor(rgb: 0xFFFFFF)
-    adLabel.backgroundColor = UIColor(rgb: 0x004AFF)
-  }
-
   private func startAnimation() {
     priceLabel.isHidden = true
     storeLabel.isHidden = true
@@ -267,4 +218,3 @@ extension NativeAdvancedAdCollectionViewCell {
     bodyLabel.text = nil
   }
 }
-
