@@ -7,8 +7,9 @@
 
 import Foundation
 import Network
+import Combine
 
-@available(iOS 12.0, *)
+@available(iOS 13.0, *)
 final class NetworkMonitor {
   static let shared = NetworkMonitor()
 
@@ -18,19 +19,15 @@ final class NetworkMonitor {
     case ethernet
     case unknown
   }
-
-  private let queue = DispatchQueue.global()
+  
+  @Published public private(set) var isConnected: Bool = false
+  @Published public private(set) var connectionType: ConnectionType = .unknown
+  private let queue = DispatchQueue.global(qos: .background)
   private let monitor: NWPathMonitor
-  private var connectState = false
-  private var connectionType: ConnectionType = .unknown
 
   init() {
     monitor = NWPathMonitor()
     startMonitoring()
-  }
-
-  func isConnected() -> Bool {
-    return connectState
   }
 
   private func startMonitoring() {
@@ -39,7 +36,7 @@ final class NetworkMonitor {
       guard let self = self else {
         return
       }
-      self.connectState = path.status == .satisfied
+      self.isConnected = path.status == .satisfied
       self.setConnectionType(path)
     }
   }
