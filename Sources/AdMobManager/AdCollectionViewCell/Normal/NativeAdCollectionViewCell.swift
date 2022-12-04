@@ -26,7 +26,7 @@ public class NativeAdCollectionViewCell: BaseCollectionViewCell {
     return NativeAdView()
   }()
   
-  public override func addSubview(_ view: UIView) {
+  override func addComponents() {
     addSubview(adView)
   }
   

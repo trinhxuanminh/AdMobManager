@@ -26,7 +26,7 @@ import GoogleMobileAds
     return NativeAdvancedAdView()
   }()
   
-  public override func addSubview(_ view: UIView) {
+  override func addComponents() {
     addSubview(adView)
   }
   
