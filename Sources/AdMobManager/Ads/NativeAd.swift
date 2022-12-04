@@ -17,8 +17,11 @@ class NativeAd: NSObject {
   private var retryAttempt = 0.0
   private var binding: (() -> Void)?
   
-  func setAdUnitID(_ adUnitID: String, isFullScreen: Bool = false) {
-    self.adUnitID = adUnitID
+  func setAdUnitID(_ id: String, isFullScreen: Bool = false) {
+    guard adUnitID == nil else {
+      return
+    }
+    self.adUnitID = id
     self.isFullScreen = isFullScreen
     load()
   }

@@ -15,8 +15,7 @@ import NVActivityIndicatorView
 /// import AdMobManager
 /// ```
 /// Can be instantiated programmatically or Interface Builder. Use as UIView. Ad display is automatic.
-/// Minimum height is **100**
-/// - Warning: Native Ad will not be displayed without adding ID.
+/// - Warning: NativeAd will not be displayed without adding ID.
 @IBDesignable public class NativeAdView: BaseView {
   @IBOutlet var contentView: UIView!
   @IBOutlet var nativeAdView: GADNativeAdView!
@@ -112,6 +111,73 @@ import NVActivityIndicatorView
     }
     self.nativeAd = nativeAd
   }
+  
+  public func changeColor(
+    title: UIColor? = nil,
+    advertiser: UIColor? = nil,
+    ad: UIColor? = nil,
+    adBackground: UIColor? = nil,
+    callToAction: UIColor? = nil,
+    callToActionBackground: UIColor? = nil
+  ) {
+    if let title = title {
+      headlineLabel.textColor = title
+    }
+    if let advertiser = advertiser {
+      advertiserLabel.textColor = advertiser
+    }
+    if let ad = ad {
+      adLabel.textColor = ad
+      adLabel.layer.borderColor = ad.cgColor
+    }
+    if let adBackground = adBackground {
+      adLabel.backgroundColor = adBackground
+    }
+    if let callToAction = callToAction {
+      callToActionButton.setTitleColor(callToAction, for: .normal)
+    }
+    if let callToActionBackground = callToActionBackground {
+      callToActionButton.backgroundColor = callToActionBackground
+    }
+  }
+  
+  public func changeFont(
+    title: UIFont? = nil,
+    advertiser: UIFont? = nil,
+    ad: UIFont? = nil,
+    callToAction: UIFont? = nil
+  ) {
+    if let title = title {
+      headlineLabel.font = title
+    }
+    if let advertiser = advertiser {
+      advertiserLabel.font = advertiser
+    }
+    if let ad = ad {
+      adLabel.font = ad
+    }
+    if let callToAction = callToAction {
+      callToActionButton.titleLabel?.font = callToAction
+    }
+  }
+  
+  public func changeLoading(type: NVActivityIndicatorType? = nil, color: UIColor? = nil) {
+    var isAnimating = false
+    if loadingView.isAnimating {
+      isAnimating = true
+      loadingView.stopAnimating()
+    }
+    if let type = type {
+      loadingView.type = type
+    }
+    if let color = color {
+      loadingView.color = color
+    }
+    guard isAnimating else {
+      return
+    }
+    loadingView.startAnimating()
+  }
 }
 
 extension NativeAdView {
@@ -143,18 +209,5 @@ extension NativeAdView {
 
     (nativeAdView.advertiserView as? UILabel)?.text = nativeAd.advertiser
     nativeAdView.advertiserView?.isHidden = nativeAd.advertiser == nil
-  }
-  
-  private func changeLoadingColor(_ color: UIColor) {
-    var isAnimating = false
-    if loadingView.isAnimating {
-      isAnimating = true
-      loadingView.stopAnimating()
-    }
-    loadingView.color = color
-    guard isAnimating else {
-      return
-    }
-    loadingView.startAnimating()
   }
 }
