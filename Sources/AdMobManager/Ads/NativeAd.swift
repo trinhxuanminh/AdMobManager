@@ -23,7 +23,7 @@ class NativeAd: NSObject {
     }
     self.adUnitID = id
     self.isFullScreen = isFullScreen
-    load()
+//    load()
   }
   
   func getAd() -> GADNativeAd? {
