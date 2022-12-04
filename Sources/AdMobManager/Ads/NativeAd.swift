@@ -54,21 +54,24 @@ class NativeAd: NSObject {
     }
 
     self.isLoading = true
-//    print("NativeAd: start load!")
-//    var options: [GADAdLoaderOptions]? = nil
-//    if isFullScreen {
-//      let aspectRatioOption = GADNativeAdMediaAdLoaderOptions()
-//      aspectRatioOption.mediaAspectRatio = .portrait
-//      options = [aspectRatioOption]
-//    }
-//    
-//    self.adLoader = GADAdLoader(
-//      adUnitID: adUnitID,
-//      rootViewController: rootViewController,
-//      adTypes: [.native],
-//      options: options)
-//    adLoader?.delegate = self
-//    adLoader?.load(GADRequest())
+    print("NativeAd: start load!")
+    var options: [GADAdLoaderOptions]? = nil
+    if isFullScreen {
+      let aspectRatioOption = GADNativeAdMediaAdLoaderOptions()
+      aspectRatioOption.mediaAspectRatio = .portrait
+      options = [aspectRatioOption]
+    }
+
+    DispatchQueue.main.async {
+      let adLoader = GADAdLoader(
+        adUnitID: adUnitID,
+        rootViewController: rootViewController,
+        adTypes: [.native],
+        options: options)
+      adLoader.delegate = self
+      adLoader.load(GADRequest())
+      self.adLoader = adLoader
+    }
   }
 
   private func isExist() -> Bool {
