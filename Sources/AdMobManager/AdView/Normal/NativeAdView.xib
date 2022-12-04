@@ -14,6 +14,7 @@
                 <outlet property="callToActionButton" destination="cRI-p7-ahc" id="mEQ-BM-64n"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="9VF-wK-23W"/>
                 <outlet property="headlineLabel" destination="Wzh-ea-UuP" id="QNK-wz-sZL"/>
+                <outlet property="iconImageView" destination="baK-Oy-Gyk" id="CLg-Xp-h0x"/>
                 <outlet property="nativeAdView" destination="NMf-nG-9Vw" id="c1T-yj-ToP"/>
             </connections>
         </placeholder>

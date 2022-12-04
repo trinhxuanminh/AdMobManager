@@ -29,12 +29,12 @@
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KKQ-6A-tTy" customClass="GADNativeAdView">
                     <rect key="frame" x="0.0" y="0.0" width="424" height="780"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E6k-Oh-sKS">
+                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E6k-Oh-sKS">
                             <rect key="frame" x="0.0" y="0.0" width="424" height="780"/>
                             <subviews>
                                 <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="rz6-Iq-jx4" customClass="GADMediaView">
                                     <rect key="frame" x="0.0" y="0.0" width="424" height="780"/>
-                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4tK-Gs-2Xf">
                                     <rect key="frame" x="16" y="714" width="50" height="50"/>
@@ -47,18 +47,21 @@
                                         <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
                                     </userDefinedRuntimeAttributes>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Advertiser" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X8N-kA-wGL">
-                                    <rect key="frame" x="16" y="21" width="392" height="14.333333333333336"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Advertiser" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X8N-kA-wGL">
+                                    <rect key="frame" x="16" y="40" width="392" height="17"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="17" id="VR2-im-vWk"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
                                     </userDefinedRuntimeAttributes>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Body that is really really long and can take up to two lines or sometimes even more." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ZK-jj-0Ne">
-                                    <rect key="frame" x="76" y="715.66666666666663" width="242" height="46.666666666666629"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Body" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ZK-jj-0Ne">
+                                    <rect key="frame" x="76" y="730.66666666666663" width="216" height="17"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" systemColor="systemGray2Color"/>
                                     <nil key="highlightedColor"/>
                                     <userDefinedRuntimeAttributes>
@@ -66,13 +69,13 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QHP-PC-0rw">
-                                    <rect key="frame" x="328" y="726.66666666666663" width="80" height="25"/>
+                                    <rect key="frame" x="308" y="724" width="100" height="30"/>
                                     <color key="backgroundColor" red="0.231372565" green="0.52156865600000002" blue="0.38431376220000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="25" id="HeK-3C-AYN"/>
-                                        <constraint firstAttribute="width" constant="80" id="hh6-8x-iWu"/>
+                                        <constraint firstAttribute="height" constant="30" id="HeK-3C-AYN"/>
+                                        <constraint firstAttribute="width" constant="100" id="hh6-8x-iWu"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
+                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <state key="normal" title="Install">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -83,8 +86,11 @@
                                     </userDefinedRuntimeAttributes>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Headline" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RE5-AH-QAF">
-                                    <rect key="frame" x="16" y="686" width="392" height="18"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <rect key="frame" x="16" y="682" width="392" height="22"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="22" id="yAX-zo-zgS"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                     <userDefinedRuntimeAttributes>
@@ -92,7 +98,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ad" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uEB-SP-zFq">
-                                    <rect key="frame" x="384" y="0.0" width="40" height="20"/>
+                                    <rect key="frame" x="374" y="10" width="40" height="20"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="20" id="YTv-Js-vHe"/>
@@ -112,21 +118,21 @@
                                 <constraint firstAttribute="trailing" secondItem="X8N-kA-wGL" secondAttribute="trailing" constant="16" id="3J8-dT-vCW"/>
                                 <constraint firstItem="4tK-Gs-2Xf" firstAttribute="top" secondItem="RE5-AH-QAF" secondAttribute="bottom" constant="10" id="8H4-am-gDT"/>
                                 <constraint firstAttribute="trailing" secondItem="rz6-Iq-jx4" secondAttribute="trailing" id="Bsv-1f-zr3"/>
-                                <constraint firstItem="QHP-PC-0rw" firstAttribute="leading" secondItem="3ZK-jj-0Ne" secondAttribute="trailing" constant="10" id="Law-4n-H8p"/>
+                                <constraint firstItem="QHP-PC-0rw" firstAttribute="leading" secondItem="3ZK-jj-0Ne" secondAttribute="trailing" constant="16" id="Law-4n-H8p"/>
                                 <constraint firstItem="QHP-PC-0rw" firstAttribute="centerY" secondItem="4tK-Gs-2Xf" secondAttribute="centerY" id="S6v-ZO-z03"/>
                                 <constraint firstAttribute="trailing" secondItem="RE5-AH-QAF" secondAttribute="trailing" constant="16" id="Vn0-tE-zgF"/>
-                                <constraint firstItem="X8N-kA-wGL" firstAttribute="top" secondItem="E6k-Oh-sKS" secondAttribute="top" constant="21" id="bAb-3i-oM2"/>
                                 <constraint firstAttribute="bottom" secondItem="rz6-Iq-jx4" secondAttribute="bottom" id="cSM-Ej-4Tf"/>
                                 <constraint firstItem="rz6-Iq-jx4" firstAttribute="leading" secondItem="E6k-Oh-sKS" secondAttribute="leading" id="dYG-Vf-mfF"/>
                                 <constraint firstAttribute="bottom" secondItem="4tK-Gs-2Xf" secondAttribute="bottom" constant="16" id="fdj-LW-vcT"/>
                                 <constraint firstItem="4tK-Gs-2Xf" firstAttribute="leading" secondItem="E6k-Oh-sKS" secondAttribute="leading" constant="16" id="giE-N8-55e"/>
-                                <constraint firstAttribute="trailing" secondItem="uEB-SP-zFq" secondAttribute="trailing" id="iW3-3i-DKp"/>
+                                <constraint firstAttribute="trailing" secondItem="uEB-SP-zFq" secondAttribute="trailing" constant="10" id="iW3-3i-DKp"/>
                                 <constraint firstItem="3ZK-jj-0Ne" firstAttribute="centerY" secondItem="4tK-Gs-2Xf" secondAttribute="centerY" id="jem-eb-jGq"/>
                                 <constraint firstItem="X8N-kA-wGL" firstAttribute="leading" secondItem="E6k-Oh-sKS" secondAttribute="leading" constant="16" id="nVa-wY-zdy"/>
                                 <constraint firstAttribute="trailing" secondItem="QHP-PC-0rw" secondAttribute="trailing" constant="16" id="nld-no-wgq"/>
-                                <constraint firstItem="uEB-SP-zFq" firstAttribute="top" secondItem="E6k-Oh-sKS" secondAttribute="top" id="rfK-g6-oYp"/>
+                                <constraint firstItem="uEB-SP-zFq" firstAttribute="top" secondItem="E6k-Oh-sKS" secondAttribute="top" constant="10" id="rfK-g6-oYp"/>
                                 <constraint firstItem="3ZK-jj-0Ne" firstAttribute="leading" secondItem="4tK-Gs-2Xf" secondAttribute="trailing" constant="10" id="uwK-sz-DaK"/>
                                 <constraint firstItem="rz6-Iq-jx4" firstAttribute="top" secondItem="E6k-Oh-sKS" secondAttribute="top" id="yP9-Ad-pTa"/>
+                                <constraint firstItem="X8N-kA-wGL" firstAttribute="top" secondItem="uEB-SP-zFq" secondAttribute="bottom" constant="10" id="ycP-U6-4E2"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
@@ -150,7 +156,7 @@
                     </connections>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="KKQ-6A-tTy" secondAttribute="bottom" id="Fgc-Dn-LXo"/>
                 <constraint firstAttribute="trailing" secondItem="KKQ-6A-tTy" secondAttribute="trailing" id="T5v-nF-lNS"/>

@@ -24,6 +24,7 @@ import SnapKit
     let loadingView = NVActivityIndicatorView(frame: .zero)
     loadingView.type = .ballPulse
     loadingView.padding = 30.0
+    loadingView.color = UIColor(rgb: 0xFFFFFF)
     return loadingView
   }()
   
@@ -55,8 +56,34 @@ import SnapKit
     }
   }
   
+  override func setProperties() {
+    backgroundColor = UIColor(rgb: 0x000000)
+    callToActionButton.layer.cornerRadius = 4.0
+    
+    adLabel.layer.borderWidth = 1.0
+    adLabel.layer.cornerRadius = 4.0
+  }
+  
+  override func setColor() {
+    iconImageView.backgroundColor = UIColor(rgb: 0xF2F2F7)
+    
+    adLabel.backgroundColor = UIColor(rgb: 0xFFFFFF)
+    adLabel.textColor = UIColor(rgb: 0x456631)
+    adLabel.layer.borderColor = UIColor(rgb: 0x456631).cgColor
+    
+    headlineLabel.textColor = UIColor(rgb: 0xFFFFFF)
+    
+    advertiserLabel.textColor = UIColor(rgb: 0xFFFFFF)
+    
+    bodyLabel.textColor = UIColor(rgb: 0xFFFFFF, alpha: 0.6)
+    
+    callToActionButton.setTitleColor(UIColor(rgb: 0xFFFFFF), for: .normal)
+    callToActionButton.backgroundColor = UIColor(rgb: 0x6399F0)
+  }
+  
   public func setID(_ id: String) {
-    guard nativeAd == nil else {
+    if let nativeAd = nativeAd {
+      binding(ad: nativeAd.getAd())
       return
     }
     let nativeAd = NativeAd()
@@ -69,6 +96,8 @@ import SnapKit
     }
     self.nativeAd = nativeAd
   }
+  
+  
 }
 
 extension NativeFullScreenAdView {

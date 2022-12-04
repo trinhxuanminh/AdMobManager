@@ -15,6 +15,7 @@
                 <outlet property="callToActionButton" destination="8bd-Qk-fUY" id="VvW-CC-zzs"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="bP3-al-wbz"/>
                 <outlet property="headlineLabel" destination="tJx-XH-1rT" id="QWK-wu-W12"/>
+                <outlet property="iconImageView" destination="UJv-Nz-7Lr" id="jhr-LT-oLf"/>
                 <outlet property="mediaView" destination="yH0-bL-6aS" id="jUm-fV-ST5"/>
                 <outlet property="nativeAdView" destination="QAY-e9-imc" id="7LD-2c-rmf"/>
             </connections>
@@ -66,7 +67,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8bd-Qk-fUY">
-                                    <rect key="frame" x="322" y="340.5" width="72" height="25"/>
+                                    <rect key="frame" x="322" y="340.33333333333331" width="72" height="25"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="25" id="odl-dc-MWA"/>
                                     </constraints>
@@ -93,7 +94,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="yH0-bL-6aS" customClass="GADMediaView">
-                                    <rect key="frame" x="20" y="120" width="374" height="210.5"/>
+                                    <rect key="frame" x="20" y="120.00000000000001" width="374" height="210.33333333333337"/>
                                     <constraints>
                                         <constraint firstAttribute="width" secondItem="yH0-bL-6aS" secondAttribute="height" multiplier="16:9" id="oxP-Yr-YbV"/>
                                     </constraints>

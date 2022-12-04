@@ -26,6 +26,7 @@ import NVActivityIndicatorView
   @IBOutlet weak var adLabel: UILabel!
   @IBOutlet weak var nativeAdView: GADNativeAdView!
   @IBOutlet weak var mediaView: GADMediaView!
+  @IBOutlet weak var iconImageView: UIImageView!
   private lazy var loadingView: NVActivityIndicatorView = {
     let loadingView = NVActivityIndicatorView(frame: .zero)
     loadingView.type = .ballPulse
@@ -60,6 +61,30 @@ import NVActivityIndicatorView
       make.width.height.equalTo(20)
     }
   }
+  
+  override func setProperties() {
+    callToActionButton.layer.cornerRadius = 4.0
+    
+    adLabel.layer.borderWidth = 1.0
+    adLabel.layer.cornerRadius = 4.0
+  }
+  
+  override func setColor() {
+    iconImageView.backgroundColor = UIColor(rgb: 0xF2F2F7)
+    
+    adLabel.backgroundColor = UIColor(rgb: 0xFFFFFF)
+    adLabel.textColor = UIColor(rgb: 0x456631)
+    adLabel.layer.borderColor = UIColor(rgb: 0x456631).cgColor
+    
+    headlineLabel.textColor = UIColor(rgb: 0xFFFFFF)
+    
+    advertiserLabel.textColor = UIColor(rgb: 0xFFFFFF)
+    
+    bodyLabel.textColor = UIColor(rgb: 0xFFFFFF, alpha: 0.6)
+    
+    callToActionButton.setTitleColor(UIColor(rgb: 0xFFFFFF), for: .normal)
+    callToActionButton.backgroundColor = UIColor(rgb: 0x6399F0)
+  }
 
   /// This function returns the minimum recommended height for NativeAdvancedAdView.
   public class func adHeightMinimum(width: CGFloat) -> CGFloat {
@@ -67,7 +92,8 @@ import NVActivityIndicatorView
   }
   
   public func setID(_ id: String) {
-    guard nativeAd == nil else {
+    if let nativeAd = nativeAd {
+      binding(ad: nativeAd.getAd())
       return
     }
     let nativeAd = NativeAd()
