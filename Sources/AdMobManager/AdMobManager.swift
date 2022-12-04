@@ -9,7 +9,7 @@ import UIKit
 import GoogleMobileAds
 import Foundation
 
-/// An ad management structure. It supports setting InterstitialAd, RewardAd, AppOpenAd, NativeAd, BannerAd.
+/// An ad management structure. It supports setting InterstitialAd, RewardedAd, RewardedInterstitialAd, AppOpenAd, NativeAd, BannerAd.
 /// ```
 /// import AdMobManager
 /// ```
@@ -19,17 +19,20 @@ public struct AdMobManager {
   
   public enum AdType: Int {
     case interstitial
-    case reward
+    case rewarded
     case appOpen
+    case rewardedInterstitial
     
     func createAd() -> AdProtocol {
       switch self {
       case .interstitial:
         return InterstitialAd()
-      case .reward:
-        return RewardAd()
+      case .rewarded:
+        return RewardedAd()
       case .appOpen:
         return AppOpenAd()
+      case .rewardedInterstitial:
+        return RewardedInterstitialAd()
       }
     }
   }
@@ -71,7 +74,7 @@ public struct AdMobManager {
       return
     }
     guard !checkIsPresent() else {
-      print("Ads display failure - Other ads is showing!")
+      print("Ads display failure - other ads is showing!")
       return
     }
     ad.show(

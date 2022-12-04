@@ -1,15 +1,15 @@
 //
-//  RewardAd.swift
+//  RewardedInterstitialAd.swift
 //  
 //
-//  Created by Trịnh Xuân Minh on 02/12/2022.
+//  Created by Trịnh Xuân Minh on 05/12/2022.
 //
 
 import UIKit
 import GoogleMobileAds
 
-class RewardAd: NSObject, AdProtocol {
-  private var rewardAd: GADRewardedAd?
+class RewardedInterstitialAd: NSObject, AdProtocol {
+  private var rewardedInterstitialAd: GADRewardedInterstitialAd?
   private var adUnitID: String?
   private var timeBetween = 10.0
   private var presentState = false
@@ -31,7 +31,7 @@ class RewardAd: NSObject, AdProtocol {
   
   func setTimeBetween(_ timeBetween: Double) {
     guard timeBetween > 0.0 else {
-      print("RewardAd: set time between failed - invalid time!")
+      print("RewardedInterstitialAd: set time between failed - invalid time!")
       return
     }
     self.timeBetween = timeBetween
@@ -51,14 +51,14 @@ class RewardAd: NSObject, AdProtocol {
     }
     
     guard let adUnitID = adUnitID else {
-      print("RewardAd: failed to load - not initialized yet! Please install ID.")
+      print("RewardedInterstitialAd: failed to load - not initialized yet! Please install ID.")
       return
     }
     
     self.isLoading = true
-    print("RewardAd: start load!")
+    print("RewardedInterstitialAd: start load!")
     let request = GADRequest()
-    GADRewardedAd.load(
+    GADRewardedInterstitialAd.load(
       withAdUnitID: adUnitID,
       request: request
     ) { [weak self] (ad, error) in
@@ -69,19 +69,19 @@ class RewardAd: NSObject, AdProtocol {
       guard error == nil, let ad = ad else {
         self.retryAttempt += 1
         let delaySec = pow(2.0, min(5.0, self.retryAttempt))
-        print("RewardAd: did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
+        print("RewardedInterstitialAd: did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
         DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: self.load)
         return
       }
-      print("RewardAd: did load!")
+      print("RewardedInterstitialAd: did load!")
       self.retryAttempt = 0
       ad.fullScreenContentDelegate = self
-      self.rewardAd = ad
+      self.rewardedInterstitialAd = ad
     }
   }
   
   func isExist() -> Bool {
-    return rewardAd != nil
+    return rewardedInterstitialAd != nil
   }
   
   func isReady() -> Bool {
@@ -94,33 +94,33 @@ class RewardAd: NSObject, AdProtocol {
             didFail: (() -> Void)?
   ) {
     guard isReady() else {
-      print("RewardAd: display failure - not ready to show!")
+      print("RewardedInterstitialAd: display failure - not ready to show!")
       return
     }
     guard !presentState else {
-      print("RewardAd: display failure - ads are being displayed!")
+      print("RewardedInterstitialAd: display failure - ads are being displayed!")
       return
     }
     guard let topViewController = UIApplication.topStackViewController() else {
-      print("RewardAd: display failure - can't find RootViewController!")
+      print("RewardedInterstitialAd: display failure - can't find RootViewController!")
       return
     }
-    print("RewardAd: requested to show!")
+    print("RewardedInterstitialAd: requested to show!")
     self.willPresent = willPresent
     self.willDismiss = willDismiss
     self.didDismiss = didDismiss
     self.didFail = didFail
-    rewardAd?.present(fromRootViewController: topViewController, userDidEarnRewardHandler: {})
+    rewardedInterstitialAd?.present(fromRootViewController: topViewController, userDidEarnRewardHandler: {})
   }
 }
 
-extension RewardAd: GADFullScreenContentDelegate {
+extension RewardedInterstitialAd: GADFullScreenContentDelegate {
   func ad(_ ad: GADFullScreenPresentingAd,
           didFailToPresentFullScreenContentWithError error: Error
   ) {
     print("RewardAd: did fail to show content!")
     didFail?()
-    self.rewardAd = nil
+    self.rewardedInterstitialAd = nil
     load()
   }
   
@@ -138,14 +138,14 @@ extension RewardAd: GADFullScreenContentDelegate {
   func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
     print("RewardAd: did hide!")
     didDismiss?()
-    self.rewardAd = nil
+    self.rewardedInterstitialAd = nil
     self.presentState = false
     load()
     self.lastTimeDisplay = Date()
   }
 }
 
-extension RewardAd {
+extension RewardedInterstitialAd {
   private func wasLoadTimeLessThanNHoursAgo() -> Bool {
     let now = Date()
     let timeIntervalBetweenNowAndLoadTime = now.timeIntervalSince(lastTimeDisplay)
