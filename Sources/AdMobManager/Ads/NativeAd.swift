@@ -48,7 +48,7 @@ class NativeAd: NSObject {
       return
     }
 
-    DispatchQueue.global(qos: .background).async {
+    DispatchQueue.global().async {
       guard let rootViewController = UIApplication.topStackViewController() else {
         print("NativeAd: failed to load - can't find RootViewController!")
         return
