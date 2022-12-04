@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import GoogleMobileAds
+import SnapKit
 
 /// This class returns a UICollectionViewCell displaying NativeAd.
 /// ```
@@ -21,7 +21,7 @@ import GoogleMobileAds
 /// }
 /// ```
 /// - Warning: Native Ad will not be displayed without adding ID.
-@IBDesignable public class NativeAdvancedAdCollectionViewCell: BaseCollectionViewCell {
+public class NativeAdvancedAdCollectionViewCell: BaseCollectionViewCell {
   public lazy var adView: NativeAdvancedAdView = {
     return NativeAdvancedAdView()
   }()

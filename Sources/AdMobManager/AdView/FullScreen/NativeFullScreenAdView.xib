@@ -60,7 +60,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Body" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ZK-jj-0Ne">
-                                    <rect key="frame" x="76" y="730.66666666666663" width="216" height="17"/>
+                                    <rect key="frame" x="76" y="730.66666666666663" width="196" height="17"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" systemColor="systemGray2Color"/>
                                     <nil key="highlightedColor"/>
@@ -69,11 +69,11 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QHP-PC-0rw">
-                                    <rect key="frame" x="308" y="724" width="100" height="30"/>
+                                    <rect key="frame" x="288" y="721.66666666666663" width="120" height="35"/>
                                     <color key="backgroundColor" red="0.231372565" green="0.52156865600000002" blue="0.38431376220000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="30" id="HeK-3C-AYN"/>
-                                        <constraint firstAttribute="width" constant="100" id="hh6-8x-iWu"/>
+                                        <constraint firstAttribute="height" constant="35" id="HeK-3C-AYN"/>
+                                        <constraint firstAttribute="width" constant="120" id="hh6-8x-iWu"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

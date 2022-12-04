@@ -35,7 +35,7 @@ import SnapKit
   }()
   
   private var nativeAd: NativeAd?
-  private var didStart = false
+  private var didStartAnimation = false
   
   public override func removeFromSuperview() {
     self.nativeAd = nil
@@ -44,10 +44,10 @@ import SnapKit
   
   public override func draw(_ rect: CGRect) {
     super.draw(rect)
-    guard !didStart else {
+    guard !didStartAnimation else {
       return
     }
-    self.didStart = true
+    self.didStartAnimation = true
     startAnimation()
   }
   
@@ -56,7 +56,7 @@ import SnapKit
     addSubview(contentView)
     addSubview(loadingView)
   }
-
+  
   override func setConstraints() {
     contentView.frame = bounds
     contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -212,26 +212,26 @@ extension NativeFullScreenAdView {
     }
     
     stopAnimation()
-
+    
     nativeAdView.nativeAd = nativeAd
-
+    
     (nativeAdView.headlineView as? UILabel)?.text = nativeAd.headline
-
+    
     nativeAdView.mediaView?.mediaContent = nativeAd.mediaContent
     mediaView.isHidden = false
     let mediaContent = nativeAd.mediaContent
     if mediaContent.hasVideoContent {
       mediaContent.videoController.delegate = self
     }
-
+    
     (nativeAdView.bodyView as? UILabel)?.text = nativeAd.body
     nativeAdView.bodyView?.isHidden = nativeAd.body == nil
-
+    
     (nativeAdView.callToActionView as? UIButton)?.setTitle(nativeAd.callToAction, for: .normal)
     nativeAdView.callToActionView?.isUserInteractionEnabled = false
-
+    
     (nativeAdView.iconView as? UIImageView)?.image = nativeAd.icon?.image
-
+    
     (nativeAdView.advertiserView as? UILabel)?.text = nativeAd.advertiser
     nativeAdView.advertiserView?.isHidden = nativeAd.advertiser == nil
   }

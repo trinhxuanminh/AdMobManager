@@ -32,10 +32,10 @@ import NVActivityIndicatorView
     loadingView.padding = 30.0
     return loadingView
   }()
-
+  
   private var nativeAd: NativeAd?
-  private var didStart = false
-
+  private var didStartAnimation = false
+  
   public override func removeFromSuperview() {
     self.nativeAd = nil
     super.removeFromSuperview()
@@ -43,13 +43,13 @@ import NVActivityIndicatorView
   
   public override func draw(_ rect: CGRect) {
     super.draw(rect)
-    guard !didStart else {
+    guard !didStartAnimation else {
       return
     }
-    self.didStart = true
+    self.didStartAnimation = true
     startAnimation()
   }
-
+  
   override func addComponents() {
     Bundle.module.loadNibNamed(String(describing: NativeAdvancedAdView.self),
                                owner: self,
@@ -57,7 +57,7 @@ import NVActivityIndicatorView
     addSubview(contentView)
     addSubview(loadingView)
   }
-
+  
   override func setConstraints() {
     contentView.frame = bounds
     contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -97,7 +97,7 @@ import NVActivityIndicatorView
     
     mediaView.backgroundColor = UIColor(rgb: 0x000000)
   }
-
+  
   /// This function returns the minimum recommended height for NativeAdvancedAdView.
   public class func adHeightMinimum(width: CGFloat) -> CGFloat {
     return (width - 100) / 16 * 9 + 185
@@ -216,26 +216,26 @@ extension NativeAdvancedAdView {
     }
     
     stopAnimation()
-
+    
     nativeAdView.nativeAd = nativeAd
-
+    
     (nativeAdView.headlineView as? UILabel)?.text = nativeAd.headline
-
+    
     nativeAdView.mediaView?.mediaContent = nativeAd.mediaContent
     mediaView.isHidden = false
     let mediaContent = nativeAd.mediaContent
     if mediaContent.hasVideoContent {
       mediaContent.videoController.delegate = self
     }
-
+    
     (nativeAdView.bodyView as? UILabel)?.text = nativeAd.body
     nativeAdView.bodyView?.isHidden = nativeAd.body == nil
-
+    
     (nativeAdView.callToActionView as? UIButton)?.setTitle(nativeAd.callToAction, for: .normal)
     nativeAdView.callToActionView?.isUserInteractionEnabled = false
-
+    
     (nativeAdView.iconView as? UIImageView)?.image = nativeAd.icon?.image
-
+    
     (nativeAdView.advertiserView as? UILabel)?.text = nativeAd.advertiser
     nativeAdView.advertiserView?.isHidden = nativeAd.advertiser == nil
   }

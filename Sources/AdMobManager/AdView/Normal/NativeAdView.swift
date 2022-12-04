@@ -33,7 +33,7 @@ import NVActivityIndicatorView
   }()
   
   private var nativeAd: NativeAd?
-  private var didStart = false
+  private var didStartAnimation = false
   
   public override func removeFromSuperview() {
     self.nativeAd = nil
@@ -42,10 +42,10 @@ import NVActivityIndicatorView
   
   public override func draw(_ rect: CGRect) {
     super.draw(rect)
-    guard !didStart else {
+    guard !didStartAnimation else {
       return
     }
-    self.didStart = true
+    self.didStartAnimation = true
     startAnimation()
   }
   
@@ -54,7 +54,7 @@ import NVActivityIndicatorView
     addSubview(contentView)
     addSubview(loadingView)
   }
-
+  
   override func setConstraints() {
     contentView.frame = bounds
     contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -90,7 +90,7 @@ import NVActivityIndicatorView
     callToActionButton.setTitleColor(UIColor(rgb: 0xFFFFFF), for: .normal)
     callToActionButton.backgroundColor = UIColor(rgb: 0x6399F0)
   }
-
+  
   /// This function returns the minimum recommended height for NativeAdView.
   public class func adHeightMinimum() -> CGFloat {
     return 100.0
@@ -197,16 +197,16 @@ extension NativeAdView {
     }
     
     stopAnimation()
-
+    
     nativeAdView.nativeAd = nativeAd
-
+    
     (nativeAdView.headlineView as? UILabel)?.text = nativeAd.headline
-
+    
     (nativeAdView.callToActionView as? UIButton)?.setTitle(nativeAd.callToAction, for: .normal)
     nativeAdView.callToActionView?.isUserInteractionEnabled = false
-
+    
     (nativeAdView.iconView as? UIImageView)?.image = nativeAd.icon?.image
-
+    
     (nativeAdView.advertiserView as? UILabel)?.text = nativeAd.advertiser
     nativeAdView.advertiserView?.isHidden = nativeAd.advertiser == nil
   }
