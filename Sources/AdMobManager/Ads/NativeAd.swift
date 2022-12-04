@@ -83,19 +83,12 @@ extension NativeAd: GADNativeAdLoaderDelegate {
     self.retryAttempt += 1
     let delaySec = pow(2.0, min(5.0, retryAttempt))
     print("NativeAd: did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
-    DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: load)
+    DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + delaySec, execute: load)
   }
 
   func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
     print("NativeAd: did load!")
     self.nativeAd = nativeAd
-    DispatchQueue.main.async { [weak self] in
-      guard
-        let self = self,
-        let binding = self.binding else {
-        return
-      }
-      binding()
-    }
+    binding?()
   }
 }

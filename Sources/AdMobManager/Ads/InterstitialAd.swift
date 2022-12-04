@@ -70,7 +70,7 @@ class InterstitialAd: NSObject, AdProtocol {
         self.retryAttempt += 1
         let delaySec = pow(2.0, min(5.0, self.retryAttempt))
         print("InterstitialAd: did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
-        DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: self.load)
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + delaySec, execute: self.load)
         return
       }
       print("InterstitialAd: did load!")
