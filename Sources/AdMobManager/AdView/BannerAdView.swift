@@ -7,7 +7,6 @@
 
 import UIKit
 import GoogleMobileAds
-import SkeletonView
 import SnapKit
 
 /// This class returns a UIView displaying BannerAd.
@@ -28,8 +27,6 @@ import SnapKit
   private var isExist = false
   private var didFirstLoadAd = false
   private var retryAttempt = 0.0
-  private var baseColor = UIColor(rgb: 0x808080)
-  private var secondaryColor = UIColor(rgb: 0xFFFFFF)
 
   public override func draw(_ rect: CGRect) {
     super.draw(rect)
@@ -54,30 +51,6 @@ import SnapKit
     bannerAdView.snp.makeConstraints { make in
       make.edges.equalToSuperview()
     }
-  }
-
-  override func setProperties() {
-    isSkeletonable = true
-    showAnimatedGradientSkeleton(
-      usingGradient: SkeletonGradient(
-        baseColor: baseColor,
-        secondaryColor: secondaryColor))
-  }
-
-  /// Change the color of animated.
-  /// - Parameter base: Basic background color. Default is **gray**.
-  /// - Parameter secondary: Animated colors. Default is **white**.
-  public func setAnimatedColor(base: UIColor? = nil, secondary: UIColor? = nil) {
-    if let secondary = secondary {
-      self.secondaryColor = secondary
-    }
-    if let base = base {
-      self.baseColor = base
-    }
-    updateAnimatedGradientSkeleton(
-      usingGradient: SkeletonGradient(
-        baseColor: baseColor,
-        secondaryColor: secondaryColor))
   }
 
   private func load() {
@@ -123,6 +96,5 @@ extension BannerAdView: GADBannerViewDelegate {
     print("BannerAd: did load!")
     self.retryAttempt = 0
     isExist = true
-    hideSkeleton(reloadDataAfter: true)
   }
 }

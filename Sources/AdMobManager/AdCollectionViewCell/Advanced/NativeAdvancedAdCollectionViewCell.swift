@@ -7,7 +7,6 @@
 
 import UIKit
 import GoogleMobileAds
-import SkeletonView
 
 /// This class returns a UICollectionViewCell displaying NativeAd.
 /// ```
