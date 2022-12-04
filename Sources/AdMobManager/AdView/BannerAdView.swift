@@ -111,6 +111,7 @@ extension BannerAdView: GADBannerViewDelegate {
     print("BannerAd: did load!")
     self.retryAttempt = 0
     isExist = true
+    stopAnimation()
   }
 }
 
