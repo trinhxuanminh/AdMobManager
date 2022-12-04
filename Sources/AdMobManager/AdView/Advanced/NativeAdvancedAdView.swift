@@ -68,10 +68,15 @@ import NVActivityIndicatorView
   }
   
   override func setProperties() {
+    iconImageView.clipsToBounds = true
+    iconImageView.layer.cornerRadius = 4.0
+    
     callToActionButton.layer.cornerRadius = 4.0
+    callToActionButton.clipsToBounds = true
     
     adLabel.layer.borderWidth = 1.0
     adLabel.layer.cornerRadius = 4.0
+    adLabel.clipsToBounds = true
   }
   
   override func setColor() {
@@ -89,6 +94,8 @@ import NVActivityIndicatorView
     
     callToActionButton.setTitleColor(UIColor(rgb: 0xFFFFFF), for: .normal)
     callToActionButton.backgroundColor = UIColor(rgb: 0x6399F0)
+    
+    mediaView.backgroundColor = UIColor(rgb: 0x000000)
   }
 
   /// This function returns the minimum recommended height for NativeAdvancedAdView.

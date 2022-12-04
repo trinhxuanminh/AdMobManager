@@ -63,6 +63,9 @@ import SnapKit
   
   override func setProperties() {
     backgroundColor = UIColor(rgb: 0x000000)
+    iconImageView.clipsToBounds = true
+    iconImageView.layer.cornerRadius = 4.0
+    
     callToActionButton.layer.cornerRadius = 4.0
     callToActionButton.clipsToBounds = true
     
@@ -86,6 +89,8 @@ import SnapKit
     
     callToActionButton.setTitleColor(UIColor(rgb: 0xFFFFFF), for: .normal)
     callToActionButton.backgroundColor = UIColor(rgb: 0x6399F0)
+    
+    mediaView.backgroundColor = UIColor(rgb: 0x000000)
   }
   
   public func setID(_ id: String) {

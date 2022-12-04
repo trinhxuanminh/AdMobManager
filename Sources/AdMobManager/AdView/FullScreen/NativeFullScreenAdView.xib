@@ -48,7 +48,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Advertiser" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X8N-kA-wGL">
-                                    <rect key="frame" x="16" y="40" width="392" height="17"/>
+                                    <rect key="frame" x="16" y="36" width="392" height="17"/>
                                     <constraints>
                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="17" id="VR2-im-vWk"/>
                                     </constraints>
@@ -98,11 +98,11 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ad" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uEB-SP-zFq">
-                                    <rect key="frame" x="374" y="10" width="40" height="20"/>
+                                    <rect key="frame" x="389" y="10" width="25" height="16"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="20" id="YTv-Js-vHe"/>
-                                        <constraint firstAttribute="width" constant="40" id="cyP-xG-onf"/>
+                                        <constraint firstAttribute="height" constant="16" id="YTv-Js-vHe"/>
+                                        <constraint firstAttribute="width" constant="25" id="cyP-xG-onf"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                     <color key="textColor" red="0.27058823529411763" green="0.40000000000000002" blue="0.19215686274509802" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>

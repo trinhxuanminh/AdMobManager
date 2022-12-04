@@ -29,6 +29,7 @@ import NVActivityIndicatorView
     let loadingView = NVActivityIndicatorView(frame: .zero)
     loadingView.type = .ballPulse
     loadingView.padding = 30.0
+    loadingView.color = UIColor(rgb: 0xFFFFFF)
     return loadingView
   }()
   
@@ -66,16 +67,20 @@ import NVActivityIndicatorView
   }
   
   override func setProperties() {
+    iconImageView.clipsToBounds = true
+    iconImageView.layer.cornerRadius = 4.0
+    
     callToActionButton.layer.cornerRadius = 4.0
+    callToActionButton.clipsToBounds = true
     
     adLabel.layer.borderWidth = 1.0
     adLabel.layer.cornerRadius = 4.0
+    adLabel.clipsToBounds = true
   }
   
   override func setColor() {
     iconImageView.backgroundColor = UIColor(rgb: 0xF2F2F7)
     
-    adLabel.backgroundColor = UIColor(rgb: 0xFFFFFF)
     adLabel.textColor = UIColor(rgb: 0x456631)
     adLabel.layer.borderColor = UIColor(rgb: 0x456631).cgColor
     
