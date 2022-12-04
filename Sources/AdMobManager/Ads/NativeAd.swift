@@ -48,30 +48,28 @@ class NativeAd: NSObject {
       return
     }
 
-    DispatchQueue.global().async {
-      guard let rootViewController = UIApplication.topStackViewController() else {
-        print("NativeAd: failed to load - can't find RootViewController!")
-        return
-      }
-
-      self.isLoading = true
-      print("NativeAd: start load!")
-      
-      var options: [GADAdLoaderOptions]? = nil
-      if self.isFullScreen {
-        let aspectRatioOption = GADNativeAdMediaAdLoaderOptions()
-        aspectRatioOption.mediaAspectRatio = .portrait
-        options = [aspectRatioOption]
-      }
-      let adLoader = GADAdLoader(
-        adUnitID: adUnitID,
-        rootViewController: rootViewController,
-        adTypes: [.native],
-        options: options)
-      adLoader.delegate = self
-      adLoader.load(GADRequest())
-      self.adLoader = adLoader
+    guard let rootViewController = UIApplication.topStackViewController() else {
+      print("NativeAd: failed to load - can't find RootViewController!")
+      return
     }
+
+    self.isLoading = true
+    print("NativeAd: start load!")
+    
+    var options: [GADAdLoaderOptions]? = nil
+    if self.isFullScreen {
+      let aspectRatioOption = GADNativeAdMediaAdLoaderOptions()
+      aspectRatioOption.mediaAspectRatio = .portrait
+      options = [aspectRatioOption]
+    }
+    let adLoader = GADAdLoader(
+      adUnitID: adUnitID,
+      rootViewController: rootViewController,
+      adTypes: [.native],
+      options: options)
+    adLoader.delegate = self
+    adLoader.load(GADRequest())
+    self.adLoader = adLoader
   }
 
   private func isExist() -> Bool {
@@ -92,6 +90,6 @@ extension NativeAd: GADNativeAdLoaderDelegate {
   func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
     print("NativeAd: did load!")
     self.nativeAd = nativeAd
-//    binding?()
+    binding?()
   }
 }
