@@ -48,15 +48,15 @@ class NativeAd: NSObject {
       return
     }
 
-    guard let rootViewController = UIApplication.topStackViewController() else {
-      print("NativeAd: failed to load - can't find RootViewController!")
-      return
-    }
-
-    self.isLoading = true
-    print("NativeAd: start load!")
-
     DispatchQueue.global(qos: .background).async {
+      guard let rootViewController = UIApplication.topStackViewController() else {
+        print("NativeAd: failed to load - can't find RootViewController!")
+        return
+      }
+
+      self.isLoading = true
+      print("NativeAd: start load!")
+      
       var options: [GADAdLoaderOptions]? = nil
       if self.isFullScreen {
         let aspectRatioOption = GADNativeAdMediaAdLoaderOptions()
