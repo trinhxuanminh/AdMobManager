@@ -13,7 +13,7 @@ import GoogleMobileAds
 /// import AdMobManager
 /// ```
 /// ```
-/// collectionView.registerAds(ofType: NativeAdvancedAdCollectionViewCell.self)
+/// collectionView.register(ofType NativeAdvancedAdCollectionViewCell.self)
 /// ```
 /// ```
 /// func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
