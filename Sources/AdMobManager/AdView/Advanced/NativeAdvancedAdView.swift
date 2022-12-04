@@ -100,7 +100,7 @@ import NVActivityIndicatorView
 
   /// This function returns the minimum recommended height for NativeAdvancedAdView.
   public class func adHeightMinimum(width: CGFloat) -> CGFloat {
-    return width / 16 * 9 + 160
+    return (width - 100) / 16 * 9 + 150
   }
   
   public func setID(_ id: String) {
