@@ -62,7 +62,7 @@ class NativeAd: NSObject {
       options = [aspectRatioOption]
     }
 
-    DispatchQueue.main.async {
+    DispatchQueue.global(qos: .background).async {
       let adLoader = GADAdLoader(
         adUnitID: adUnitID,
         rootViewController: rootViewController,
@@ -92,6 +92,6 @@ extension NativeAd: GADNativeAdLoaderDelegate {
   func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
     print("NativeAd: did load!")
     self.nativeAd = nativeAd
-//    binding?()
+    binding?()
   }
 }
