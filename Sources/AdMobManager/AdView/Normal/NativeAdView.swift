@@ -209,5 +209,6 @@ extension NativeAdView {
     
     (nativeAdView.advertiserView as? UILabel)?.text = nativeAd.advertiser
     nativeAdView.advertiserView?.isHidden = nativeAd.advertiser == nil
+    print(nativeAd.advertiser as Any)
   }
 }

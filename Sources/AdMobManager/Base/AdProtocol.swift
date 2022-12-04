@@ -8,7 +8,7 @@
 import Foundation
 
 protocol AdProtocol {
-  func setAdUnitID(_ adUnitID: String)
+  func setAdUnitID(_ id: String)
   func isPresent() -> Bool
   func load()
   func isExist() -> Bool

@@ -20,12 +20,15 @@ class RewardAd: NSObject, AdProtocol {
   private var willDismiss: (() -> Void)?
   private var didDismiss: (() -> Void)?
   private var didFail: (() -> Void)?
-
-  func setAdUnitID(_ adUnitID: String) {
-    self.adUnitID = adUnitID
+  
+  func setAdUnitID(_ id: String) {
+    guard adUnitID == nil else {
+      return
+    }
+    self.adUnitID = id
     load()
   }
-
+  
   func setTimeBetween(_ timeBetween: Double) {
     guard timeBetween > 0.0 else {
       print("RewardAd: set time between failed - invalid time!")
@@ -33,25 +36,25 @@ class RewardAd: NSObject, AdProtocol {
     }
     self.timeBetween = timeBetween
   }
-
+  
   func isPresent() -> Bool {
     return presentState
   }
-
+  
   func load() {
     guard !isLoading else {
       return
     }
-
+    
     guard !isExist() else {
       return
     }
-
+    
     guard let adUnitID = adUnitID else {
       print("RewardAd: failed to load - not initialized yet! Please install ID.")
       return
     }
-
+    
     self.isLoading = true
     print("RewardAd: start load!")
     let request = GADRequest()
@@ -76,15 +79,15 @@ class RewardAd: NSObject, AdProtocol {
       self.rewardAd = ad
     }
   }
-
+  
   func isExist() -> Bool {
     return rewardAd != nil
   }
-
+  
   func isReady() -> Bool {
     return isExist() && wasLoadTimeLessThanNHoursAgo()
   }
-
+  
   func show(willPresent: (() -> Void)?,
             willDismiss: (() -> Void)?,
             didDismiss: (() -> Void)?,
@@ -126,12 +129,12 @@ extension RewardAd: GADFullScreenContentDelegate {
     self.presentState = true
     willPresent?()
   }
-
+  
   func adWillDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
     print("RewardAd: will hide!")
     willDismiss?()
   }
-
+  
   func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
     print("RewardAd: did hide!")
     didDismiss?()
