@@ -47,6 +47,7 @@ import NVActivityIndicatorView
   override func addComponents() {
     Bundle.module.loadNibNamed(String(describing: NativeAdView.self), owner: self, options: nil)
     addSubview(contentView)
+    addSubview(loadingView)
   }
 
   override func setConstraints() {
