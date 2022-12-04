@@ -59,9 +59,11 @@ import SnapKit
   override func setProperties() {
     backgroundColor = UIColor(rgb: 0x000000)
     callToActionButton.layer.cornerRadius = 4.0
+    callToActionButton.clipsToBounds = true
     
     adLabel.layer.borderWidth = 1.0
     adLabel.layer.cornerRadius = 4.0
+    adLabel.clipsToBounds = true
   }
   
   override func setColor() {
