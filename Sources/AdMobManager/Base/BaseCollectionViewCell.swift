@@ -15,6 +15,18 @@ public class BaseCollectionViewCell: UICollectionViewCell, ViewProtocol {
     setProperties()
     setColor()
   }
+  
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    addComponents()
+    setConstraints()
+    setProperties()
+    setColor()
+  }
+
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+  }
 
   func addComponents() {}
 
