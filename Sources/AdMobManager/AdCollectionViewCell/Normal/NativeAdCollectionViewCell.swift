@@ -13,7 +13,7 @@ import SnapKit
 /// import AdMobManager
 /// ```
 /// ```
-/// collectionView.registerAds(ofType: NativeAdCollectionViewCell.self)
+/// collectionView.register(ofType NativeAdCollectionViewCell.self)
 /// ```
 /// ```
 /// func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
