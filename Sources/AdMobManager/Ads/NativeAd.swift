@@ -12,28 +12,22 @@ class NativeAd: NSObject {
   private var nativeAd: GADNativeAd?
   private var adLoader: GADAdLoader?
   private var adUnitID: String?
-  private var didAddID = false
   private var isLoading = false
+  private var isFullScreen = false
   private var retryAttempt = 0.0
-  private var index: Int?
-  private var binding: ((Int) -> Void)?
-
-  override init() {
-    super.init()
-    guard !didAddID else {
-      return
-    }
-    self.didAddID = true
-    self.adUnitID = AdMobManager.shared.getNativeID()
+  private var binding: (() -> Void)?
+  
+  func setAdUnitID(_ adUnitID: String, isFullScreen: Bool = false) {
+    self.adUnitID = adUnitID
+    self.isFullScreen = isFullScreen
     load()
   }
-
-  func ad() -> GADNativeAd? {
+  
+  func getAd() -> GADNativeAd? {
     return nativeAd
   }
 
-  func setBinding(index: Int, binding: ((Int) -> Void)?) {
-    self.index = index
+  func setBinding(_ binding: (() -> Void)?) {
     self.binding = binding
   }
 
@@ -58,11 +52,18 @@ class NativeAd: NSObject {
 
     self.isLoading = true
     print("NativeAd: start load!")
+    var options: [GADAdLoaderOptions]? = nil
+    if isFullScreen {
+      let aspectRatioOption = GADNativeAdMediaAdLoaderOptions()
+      aspectRatioOption.mediaAspectRatio = .portrait
+      options = [aspectRatioOption]
+    }
+    
     self.adLoader = GADAdLoader(
       adUnitID: adUnitID,
       rootViewController: rootViewController,
       adTypes: [.native],
-      options: nil)
+      options: options)
     adLoader?.delegate = self
     adLoader?.load(GADRequest())
   }
@@ -77,21 +78,21 @@ extension NativeAd: GADNativeAdLoaderDelegate {
                 didFailToReceiveAdWithError error: Error) {
     self.isLoading = false
     self.retryAttempt += 1
-    let delaySec = pow(2.0, min(5.0, self.retryAttempt))
+    let delaySec = pow(2.0, min(5.0, retryAttempt))
     print("NativeAd: did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
-    DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: self.load)
+    DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: load)
   }
 
   func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
+    print("NativeAd: did load!")
     self.nativeAd = nativeAd
     DispatchQueue.main.async { [weak self] in
       guard
         let self = self,
-        let binding = self.binding,
-        let index = self.index else {
+        let binding = self.binding else {
         return
       }
-      binding(index)
+      binding()
     }
   }
 }

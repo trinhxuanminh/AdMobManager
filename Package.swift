@@ -16,7 +16,7 @@ let package = Package(
     // Dependencies declare other packages that this package depends on.
     // .package(url: /* package url */, from: "1.0.0"),
     .package(name: "GoogleMobileAds", url: "https://github.com/googleads/swift-package-manager-google-mobile-ads.git", from: "9.6.0"),
-    .package(name: "SkeletonView", url: "https://github.com/Juanpe/SkeletonView.git", from: "1.29.3"),
+    .package(name: "NVActivityIndicatorView", url: "https://github.com/ninjaprox/NVActivityIndicatorView", from: "5.1.1"),
     .package(name: "SnapKit", url: "https://github.com/SnapKit/SnapKit", from: "5.6.0"),
   ],
   targets: [
@@ -26,7 +26,7 @@ let package = Package(
       name: "AdMobManager",
       dependencies: [
         "GoogleMobileAds",
-        "SkeletonView",
+        "NVActivityIndicatorView",
         "SnapKit",
       ],
       resources: [

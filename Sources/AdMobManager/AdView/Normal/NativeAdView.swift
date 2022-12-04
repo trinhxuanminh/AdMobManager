@@ -7,7 +7,8 @@
 
 import UIKit
 import GoogleMobileAds
-import SkeletonView
+import SnapKit
+import NVActivityIndicatorView
 
 /// This class returns a UIView displaying NativeAd.
 /// ```
@@ -23,41 +24,22 @@ import SkeletonView
   @IBOutlet weak var adLabel: UILabel!
   @IBOutlet weak var advertiserLabel: UILabel!
   @IBOutlet weak var callToActionButton: UIButton!
-  @IBOutlet weak var skeletonView: UIView!
-
-  private var listAd: [NativeAd?] = [NativeAd()]
-  private var indexState: Int = 0
-  private var baseColor = UIColor(rgb: 0x808080)
-  private var secondaryColor = UIColor(rgb: 0xFFFFFF)
-  private var isLoading = false
-  private var didFirstLoadAd = false
-
-  public override func awakeFromNib() {
-    super.awakeFromNib()
-    setAd()
-  }
-
-  public override init(frame: CGRect) {
-    super.init(frame: frame)
-    setAd()
-  }
-
-  required init?(coder: NSCoder) {
-    super.init(coder: coder)
-  }
-
+  private lazy var loadingView: NVActivityIndicatorView = {
+    let loadingView = NVActivityIndicatorView(frame: .zero)
+    loadingView.type = .ballPulse
+    loadingView.padding = 30.0
+    return loadingView
+  }()
+  
+  private var nativeAd: NativeAd?
+  
   public override func removeFromSuperview() {
-    for index in 0..<listAd.count {
-      self.listAd[index] = nil
-    }
+    self.nativeAd = nil
     super.removeFromSuperview()
   }
-
+  
   public override func draw(_ rect: CGRect) {
     super.draw(rect)
-    guard isLoading else {
-      return
-    }
     startAnimation()
   }
   
@@ -69,98 +51,75 @@ import SkeletonView
   override func setConstraints() {
     contentView.frame = bounds
     contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    
+    loadingView.snp.makeConstraints { make in
+      make.center.equalToSuperview()
+      make.width.height.equalTo(20)
+    }
   }
 
   /// This function returns the minimum recommended height for NativeAdView.
   public class func adHeightMinimum() -> CGFloat {
     return 100.0
   }
-
-  /// This function helps to change the ads in the cell.
-  /// - Parameter index: Index of ads to show in the list.
-  public func setAd(index: Int = 0) {
-    guard index >= 0 else {
+  
+  public func setID(_ id: String) {
+    guard nativeAd == nil else {
       return
     }
-    self.indexState = index
-    if index >= listAd.count {
-      for _ in listAd.count..<index {
-        self.listAd.append(nil)
-      }
-      self.listAd.append(NativeAd())
-    } else if listAd[index] == nil {
-      self.listAd[index] = NativeAd()
-    }
-    configData(ad: listAd[index]?.ad(), index: index)
-    listAd[index]?.setBinding(index: index) { [weak self] index in
+    let nativeAd = NativeAd()
+    nativeAd.setAdUnitID(id)
+    nativeAd.setBinding { [weak self] in
       guard let self = self else {
         return
       }
-      self.configData(ad: self.listAd[index]?.ad(), index: index)
+      self.binding(ad: nativeAd.getAd())
     }
-  }
-
-  /// Change the color of animated.
-  /// - Parameter base: Basic background color. Default is **gray**.
-  /// - Parameter secondary: Animated colors. Default is **white**.
-  public func setAnimatedColor(base: UIColor? = nil, secondary: UIColor? = nil) {
-    if let secondary = secondary {
-      self.secondaryColor = secondary
-    }
-    if let base = base {
-      self.baseColor = base
-    }
-    guard isLoading else {
-      return
-    }
-    skeletonView.updateAnimatedGradientSkeleton(
-      usingGradient: SkeletonGradient(
-        baseColor: baseColor,
-        secondaryColor: secondaryColor))
+    self.nativeAd = nativeAd
   }
 }
 
 extension NativeAdView {
-  private func configData(ad: GADNativeAd?, index: Int) {
-    guard index == indexState else {
-      return
-    }
+  private func startAnimation() {
+    nativeAdView.isHidden = true
+    loadingView.startAnimating()
+  }
+  
+  private func stopAnimation() {
+    nativeAdView.isHidden = false
+    loadingView.stopAnimating()
+  }
+  
+  private func binding(ad: GADNativeAd?) {
     guard let nativeAd = ad else {
-      self.isLoading = true
-      guard didFirstLoadAd else {
-        return
-      }
-      startAnimation()
       return
     }
-
-    self.didFirstLoadAd = true
-
-    if isLoading {
-      self.isLoading = false
-      skeletonView.hideSkeleton(reloadDataAfter: true)
-    }
+    
+    stopAnimation()
 
     nativeAdView.nativeAd = nativeAd
 
     (nativeAdView.headlineView as? UILabel)?.text = nativeAd.headline
 
+    (nativeAdView.callToActionView as? UIButton)?.setTitle(nativeAd.callToAction, for: .normal)
+    nativeAdView.callToActionView?.isUserInteractionEnabled = false
+
     (nativeAdView.iconView as? UIImageView)?.image = nativeAd.icon?.image
 
     (nativeAdView.advertiserView as? UILabel)?.text = nativeAd.advertiser
     nativeAdView.advertiserView?.isHidden = nativeAd.advertiser == nil
-
-    (nativeAdView.callToActionView as? UIButton)?.setTitle(nativeAd.callToAction, for: .normal)
-    nativeAdView.callToActionView?.isUserInteractionEnabled = false
   }
-
-  private func startAnimation() {
-    advertiserLabel.isHidden = true
-    skeletonView.showAnimatedGradientSkeleton(
-      usingGradient: SkeletonGradient(
-        baseColor: baseColor,
-        secondaryColor: secondaryColor))
-    headlineLabel.text = nil
-    callToActionButton.setTitle(nil, for: .normal)
+  
+  private func changeLoadingColor(_ color: UIColor) {
+    var isAnimating = false
+    if loadingView.isAnimating {
+      isAnimating = true
+      loadingView.stopAnimating()
+    }
+    loadingView.color = color
+    guard isAnimating else {
+      return
+    }
+    loadingView.startAnimating()
   }
 }

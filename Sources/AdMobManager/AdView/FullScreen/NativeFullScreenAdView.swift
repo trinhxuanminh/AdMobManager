@@ -1,30 +1,24 @@
 //
-//  NativeAdvancedAdView.swift
-//  AdMobManager
+//  NativeFullScreenAdView.swift
+//  
 //
-//  Created by Trịnh Xuân Minh on 27/03/2022.
+//  Created by Trịnh Xuân Minh on 04/12/2022.
 //
 
 import UIKit
 import GoogleMobileAds
-import SnapKit
 import NVActivityIndicatorView
+import SnapKit
 
-/// This class returns a UIView displaying NativeAd.
-/// ```
-/// import AdMobManager
-/// ```
-/// Can be instantiated programmatically or Interface Builder. Use as UIView. Ad display is automatic.
-/// Minimum **height** = width  / 16 * 9 + 160
-/// - Warning: Native Ad will not be displayed without adding ID.
-@IBDesignable public class NativeAdvancedAdView: BaseView, GADVideoControllerDelegate {
+@IBDesignable public class NativeFullScreenAdView: BaseView, GADVideoControllerDelegate {
   @IBOutlet var contentView: UIView!
+  @IBOutlet weak var nativeAdView: GADNativeAdView!
   @IBOutlet weak var callToActionButton: UIButton!
   @IBOutlet weak var bodyLabel: UILabel!
   @IBOutlet weak var advertiserLabel: UILabel!
   @IBOutlet weak var headlineLabel: UILabel!
   @IBOutlet weak var adLabel: UILabel!
-  @IBOutlet weak var nativeAdView: GADNativeAdView!
+  @IBOutlet weak var iconImageView: UIImageView!
   @IBOutlet weak var mediaView: GADMediaView!
   private lazy var loadingView: NVActivityIndicatorView = {
     let loadingView = NVActivityIndicatorView(frame: .zero)
@@ -32,9 +26,9 @@ import NVActivityIndicatorView
     loadingView.padding = 30.0
     return loadingView
   }()
-
+  
   private var nativeAd: NativeAd?
-
+  
   public override func removeFromSuperview() {
     self.nativeAd = nil
     super.removeFromSuperview()
@@ -44,9 +38,9 @@ import NVActivityIndicatorView
     super.draw(rect)
     startAnimation()
   }
-
+  
   override func addComponents() {
-    Bundle.module.loadNibNamed(String(describing: NativeAdvancedAdView.self), owner: self, options: nil)
+    Bundle.module.loadNibNamed(String(describing: NativeFullScreenAdView.self), owner: self, options: nil)
     addSubview(contentView)
     addSubview(loadingView)
   }
@@ -60,18 +54,13 @@ import NVActivityIndicatorView
       make.width.height.equalTo(20)
     }
   }
-
-  /// This function returns the minimum recommended height for NativeAdvancedAdView.
-  public class func adHeightMinimum(width: CGFloat) -> CGFloat {
-    return width / 16 * 9 + 160
-  }
   
   public func setID(_ id: String) {
     guard nativeAd == nil else {
       return
     }
     let nativeAd = NativeAd()
-    nativeAd.setAdUnitID(id)
+    nativeAd.setAdUnitID(id, isFullScreen: true)
     nativeAd.setBinding { [weak self] in
       guard let self = self else {
         return
@@ -82,7 +71,7 @@ import NVActivityIndicatorView
   }
 }
 
-extension NativeAdvancedAdView {
+extension NativeFullScreenAdView {
   private func startAnimation() {
     nativeAdView.isHidden = true
     loadingView.startAnimating()
