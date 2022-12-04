@@ -83,6 +83,7 @@ import NVActivityIndicatorView
   override func setColor() {
     iconImageView.backgroundColor = UIColor(rgb: 0xF2F2F7)
     
+    adLabel.backgroundColor = UIColor(rgb: 0xFFFFFF)
     adLabel.textColor = UIColor(rgb: 0x456631)
     adLabel.layer.borderColor = UIColor(rgb: 0x456631).cgColor
     
@@ -103,7 +104,7 @@ import NVActivityIndicatorView
     return (width - 100) / 16 * 9 + 185
   }
   
-  public func setID(_ id: String) {
+  public func register(id: String) {
     if let nativeAd = nativeAd {
       binding(ad: nativeAd.getAd())
       return

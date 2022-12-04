@@ -99,7 +99,7 @@ import SnapKit
     mediaView.backgroundColor = UIColor(rgb: 0x000000)
   }
   
-  public func setID(_ id: String) {
+  public func register(id: String) {
     if let nativeAd = nativeAd {
       binding(ad: nativeAd.getAd())
       return

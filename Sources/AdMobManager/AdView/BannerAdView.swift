@@ -69,7 +69,7 @@ import NVActivityIndicatorView
     return 60.0
   }
   
-  public func setID(_ id: String) {
+  public func register(id: String) {
     guard adUnitID == nil else {
       return
     }

@@ -5,8 +5,9 @@ A package to help support the implementation of ads on your **iOS** app.
 - Support for apps from iOS 10.0 or newer.
 
 ## Ad Type
-- SplashAd
 - InterstitialAd
+- RewardedAd
+- RewardedInterstitialAd
 - AppOpenAd
 - NativeAd
 - BannerAd
@@ -43,39 +44,33 @@ import AdMobManager
 ### 1. Parameter setting
 
 #### Advertising ID
-This function helps to change the ad ID, available for the next load.
-- Ad parameters is nil will not load the corresponding ad type.
+This function helps to register ads by unique key.
 ```swift
-AdMobManager.shared.setID(
-  splash: String?,
-  interstitial: String?,
-  appOpen: String?,
-  native: String?,
-  banner: String?)
+AdMobManager.shared.register(key: String, type: AdType, id: String)
 ```
 
 #### Deployment Time (Optional)
 This function helps to set the date to start showing ads.
 - Default is _**nil**_, the ad will be displayed as soon as it is ready.
-- Changes only for `SplashAd`, `InterstitialAd`, `AppOpenAd`.
+- Changes only for `InterstitialAd`, `RewardedAd`, `RewardedInterstitialAd`, `AppOpenAd`.
 ```swift
 AdMobManager.shared.showFullFeature(from: Date)
 ```
 
 #### Time between (Optional)
 This function helps to change the minimum display time between ads of the same type.
-- Default is _**5 seconds**_.
-- Changes only for `InterstitialAd`, `AppOpenAd`.
+- Default is _**10 seconds**_.
 ```swift
-AdMobManager.shared.setTimeBetween(_ time: Double, ad type: ReuseAdType)
+AdMobManager.shared.setTimeBetween(key: String, time: Double)
 ```
 
 ### 2. Control
 
 #### isReady()
 This function returns a value _**true/false**_ indicating if the ad is ready to be displayed.
+- Returns _**nil**_ when there is no advertisement with the corresponding key.
 ```swift
-AdMobManager.shared.isReady(ad type: AdType)
+AdMobManager.shared.isReady(key: String) -> Bool?
 ```
 
 #### show()
@@ -85,9 +80,10 @@ This function will display ads when ready.
 - willPresent: The block executes after the ad is about to show.
 - willDismiss: The block executes after the ad is about to disappear.
 - didDismiss: The block executes after the ad has disappeared.
+- didFail: The block executes after the ad failed to display the content.
 
 ```swift
-AdMobManager.shared.show(ad type: AdType)
+AdMobManager.shared.show(key: String)
 ```
 
 ### 3. NativeAd
@@ -98,81 +94,52 @@ This class returns a UICollectionViewCell displaying NativeAd.
 
 ##### Register
 ```swift
-collectionView.registerAds(ofType: NativeAdCollectionViewCell.self)
+collectionView.register(ofType: NativeAdCollectionViewCell.self)
 ```
 ```swift
-collectionView.registerAds(ofType: NativeAdvancedAdCollectionViewCell.self)
+collectionView.register(ofType: NativeAdvancedAdCollectionViewCell.self)
 ```
 
 ##### Datasource
 ```swift
 func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-  let collectionViewCell = collectionView.dequeueCell(ofType: NativeAdCollectionViewCell.self, indexPath: indexPath)
+  let cell = collectionView.dequeue(ofType: NativeAdCollectionViewCell.self, indexPath: indexPath)
+  cell.adView.register(id: String)
 //            Optional
-  return collectionViewCell
+  return cell
 }
 ```
 ```swift
 func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-  let collectionViewCell = collectionView.dequeueCell(ofType: NativeAdvancedAdCollectionViewCell.self, indexPath: indexPath)
+  let cell = collectionView.dequeue(ofType: NativeAdvancedAdCollectionViewCell.self, indexPath: indexPath)
+  cell.adView.register(id: String)
 //            Optional
-  return collectionViewCell
+  return cell
 }
 ```
 
-#### **b) NativeAdTableViewCell / NativeAdvancedAdTableViewCell**
-This class returns a UITableViewCell displaying NativeAd.
-
-##### Register
-```swift
-tableView.registerAds(ofType: NativeAdTableViewCell.self)
-```
-```swift
-tableView.registerAds(ofType: NativeAdvancedAdTableViewCell.self)
-```
-
-##### Datasource
-```swift
-func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-  let tableViewCell = tableView.dequeueCell(ofType: NativeAdTableViewCell.self, indexPath: indexPath)
-//            Optional
-  return tableViewCell
-}
-```
-```swift
-func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-  let tableViewCell = tableView.dequeueCell(ofType: NativeAdvancedAdTableViewCell.self, indexPath: indexPath)
-//            Optional
-  return tableViewCell
-}
-```
-
-#### **c) NativeAdView / NativeAdvancedAdView**
+#### **b) NativeAdView / NativeAdvancedAdView**
 Then, there are two ways you can create `NativeAdView` / `NativeAdvancedAdView`:
 - By storyboard, changing class of any `UIView` to `NativeAdView` / `NativeAdvancedAdView`. _**Note**: Set `Module` to `AdMobManager`._
 - By code, using initializer.
 
-#### **d) Determine the height**
-
+#### **c) Determine the height**
 ```swift
 NativeAdCollectionViewCell.adHeightMinimum()
 ```
 ```swift
-NativeAdvancedAdTableViewCell.adHeightMinimum(width: tableView.frame.width)
+NativeAdvancedAdCollectionViewCell.adHeightMinimum(width: collectionView.frame.width)
 ```
 
-#### **e) Optional**
+#### **d) Optional**
 ```swift
-.setAd(index: Int = 0)
+.changeColor()
 ```
 ```swift
-.setInterface(style: AdMobManager.Style)
+.changeFont()
 ```
 ```swift
-.setTheme(color: UIColor)
-```
-```swift
-.setAnimatedColor(base: UIColor? = nil, secondary: UIColor? = nil)
+.changeLoading()
 ```
 
 ### 4. BannerAd
@@ -181,32 +148,6 @@ Then, there are two ways you can create `BannerAdView`:
 - By storyboard, changing class of any `UIView` to `BannerAdView`. _**Note**: Set `Module` to `AdMobManager`._
 - By code, using initializer.
 
-### 5. Error handling options
-
-#### Limit reloading
-This function helps to limit the reload of the ad when an error occurs.
-- Time reload ads after failed load.
-- Unit is milliseconds.
-- Default is _**1000 milliseconds**_, ad will be reloaded immediately.
-```swift
-AdMobManager.shared.reloadingOfAds(after time: Double)
-```
-_**Note**: For iOS 11.4 and below, `InterstitialAd` and `AppOpenAd` will reload immediately after the failed impression._
-
-#### Stop loading SplashAd
-This function helps to block reloading of OnceAdType.
-- Recommended when ads don’t need to appear anymore.
-```swift
-AdMobManager.shared.stopLoading(ad type: OnceAdType)
-```
-
-#### isConnected()
-This function return about an value for know the path is available to establish connections and send data.
-- Available for iOS 12.0 or newer.
-```swift
-AdMobManager.shared.isConnected()
-```
-
 ## License
 ### [ProX Global](https://proxglobal.com)
-### Copyright (c) Trịnh Xuân Minh 2022 [@trinhxuanminh](https://www.facebook.com/minhtx.developer)
+### Copyright (c) Trịnh Xuân Minh 2022 [@trinhxuanminh](minhtx@proxglobal.com)
