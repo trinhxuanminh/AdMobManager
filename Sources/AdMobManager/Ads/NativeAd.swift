@@ -62,14 +62,13 @@ class NativeAd: NSObject {
       aspectRatioOption.mediaAspectRatio = .portrait
       options = [aspectRatioOption]
     }
-    let adLoader = GADAdLoader(
+    self.adLoader = GADAdLoader(
       adUnitID: adUnitID,
       rootViewController: rootViewController,
       adTypes: [.native],
       options: options)
 //    adLoader.delegate = self
-    adLoader.load(GADRequest())
-    self.adLoader = adLoader
+    adLoader?.load(GADRequest())
   }
 
   private func isExist() -> Bool {
