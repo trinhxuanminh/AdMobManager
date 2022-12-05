@@ -30,9 +30,9 @@ let package = Package(
         "SnapKit",
       ],
       resources: [
-        .process("AdView/Normal/NativeAdView.xib"),
-        .process("AdView/Advanced/NativeAdvancedAdView.xib"),
-        .process("AdView/FullScreen/NativeFullScreenAdView.xib"),
+        .process("AdView/Small/SmallNativeAdView.xib"),
+        .process("AdView/Big/BigNativeAdView.xib"),
+        .process("AdView/FullScreen/FullScreenNativeAdView.xib"),
       ]
     )
   ]

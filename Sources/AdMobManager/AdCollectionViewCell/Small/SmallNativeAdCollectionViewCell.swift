@@ -1,5 +1,5 @@
 //
-//  NativeAdCollectionViewCell.swift
+//  SmallNativeAdCollectionViewCell.swift
 //  AdMobManager
 //
 //  Created by Trịnh Xuân Minh on 25/03/2022.
@@ -13,17 +13,17 @@ import SnapKit
 /// import AdMobManager
 /// ```
 /// ```
-/// collectionView.register(ofType NativeAdCollectionViewCell.self)
+/// collectionView.register(ofType SmallNativeAdCollectionViewCell.self)
 /// ```
 /// ```
 /// func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-///   return collectionView.dequeue(ofType: NativeAdCollectionViewCell.self, indexPath: indexPath)
+///   return collectionView.dequeue(ofType: SmallNativeAdCollectionViewCell.self, indexPath: indexPath)
 /// }
 /// ```
 /// - Warning: Native Ad will not be displayed without adding ID.
-public class NativeAdCollectionViewCell: BaseCollectionViewCell {
-  public lazy var adView: NativeAdView = {
-    return NativeAdView()
+public class SmallNativeAdCollectionViewCell: BaseCollectionViewCell {
+  public lazy var adView: SmallNativeAdView = {
+    return SmallNativeAdView()
   }()
   
   override func addComponents() {

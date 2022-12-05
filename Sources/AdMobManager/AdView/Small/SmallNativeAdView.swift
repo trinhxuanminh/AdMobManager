@@ -1,14 +1,14 @@
 //
-//  NativeFullScreenAdView.swift
-//  
+//  SmallNativeAdView.swift
+//  AdMobManager
 //
-//  Created by Trịnh Xuân Minh on 04/12/2022.
+//  Created by Trịnh Xuân Minh on 27/03/2022.
 //
 
 import UIKit
 import GoogleMobileAds
-import NVActivityIndicatorView
 import SnapKit
+import NVActivityIndicatorView
 
 /// This class returns a UIView displaying NativeAd.
 /// ```
@@ -16,16 +16,14 @@ import SnapKit
 /// ```
 /// Can be instantiated programmatically or Interface Builder. Use as UIView. Ad display is automatic.
 /// - Warning: NativeAd will not be displayed without adding ID.
-@IBDesignable public class NativeFullScreenAdView: BaseView, GADVideoControllerDelegate {
+@IBDesignable public class SmallNativeAdView: BaseView {
   @IBOutlet var contentView: UIView!
-  @IBOutlet weak var nativeAdView: GADNativeAdView!
-  @IBOutlet weak var callToActionButton: UIButton!
-  @IBOutlet weak var bodyLabel: UILabel!
-  @IBOutlet weak var advertiserLabel: UILabel!
+  @IBOutlet var nativeAdView: GADNativeAdView!
   @IBOutlet weak var headlineLabel: UILabel!
   @IBOutlet weak var adLabel: UILabel!
+  @IBOutlet weak var advertiserLabel: UILabel!
+  @IBOutlet weak var callToActionButton: UIButton!
   @IBOutlet weak var iconImageView: UIImageView!
-  @IBOutlet weak var mediaView: GADMediaView!
   private lazy var loadingView: NVActivityIndicatorView = {
     let loadingView = NVActivityIndicatorView(frame: .zero)
     loadingView.type = .ballPulse
@@ -52,7 +50,7 @@ import SnapKit
   }
   
   override func addComponents() {
-    Bundle.module.loadNibNamed(String(describing: NativeFullScreenAdView.self), owner: self, options: nil)
+    Bundle.module.loadNibNamed(String(describing: SmallNativeAdView.self), owner: self, options: nil)
     addSubview(contentView)
     addSubview(loadingView)
   }
@@ -68,7 +66,6 @@ import SnapKit
   }
   
   override func setProperties() {
-    backgroundColor = UIColor(rgb: 0x000000)
     iconImageView.clipsToBounds = true
     iconImageView.layer.cornerRadius = 4.0
     
@@ -91,12 +88,13 @@ import SnapKit
     
     advertiserLabel.textColor = UIColor(rgb: 0xFFFFFF)
     
-    bodyLabel.textColor = UIColor(rgb: 0xFFFFFF, alpha: 0.6)
-    
     callToActionButton.setTitleColor(UIColor(rgb: 0xFFFFFF), for: .normal)
     callToActionButton.backgroundColor = UIColor(rgb: 0x6399F0)
-    
-    mediaView.backgroundColor = UIColor(rgb: 0x000000)
+  }
+  
+  /// This function returns the minimum recommended height for NativeAdView.
+  public class func adHeightMinimum() -> CGFloat {
+    return 100.0
   }
   
   public func register(id: String) {
@@ -105,7 +103,7 @@ import SnapKit
       return
     }
     let nativeAd = NativeAd()
-    nativeAd.setAdUnitID(id, isFullScreen: true)
+    nativeAd.setAdUnitID(id)
     nativeAd.setBinding { [weak self] in
       guard let self = self else {
         return
@@ -120,8 +118,6 @@ import SnapKit
     advertiser: UIColor? = nil,
     ad: UIColor? = nil,
     adBackground: UIColor? = nil,
-    body: UIColor? = nil,
-    mediaBackground: UIColor? = nil,
     callToAction: UIColor? = nil,
     callToActionBackground: UIColor? = nil
   ) {
@@ -138,12 +134,6 @@ import SnapKit
     if let adBackground = adBackground {
       adLabel.backgroundColor = adBackground
     }
-    if let body = body {
-      bodyLabel.textColor = body
-    }
-    if let mediaBackground = mediaBackground {
-      mediaView.backgroundColor = mediaBackground
-    }
     if let callToAction = callToAction {
       callToActionButton.setTitleColor(callToAction, for: .normal)
     }
@@ -156,7 +146,6 @@ import SnapKit
     title: UIFont? = nil,
     advertiser: UIFont? = nil,
     ad: UIFont? = nil,
-    body: UIFont? = nil,
     callToAction: UIFont? = nil
   ) {
     if let title = title {
@@ -167,9 +156,6 @@ import SnapKit
     }
     if let ad = ad {
       adLabel.font = ad
-    }
-    if let body = body {
-      bodyLabel.font = body
     }
     if let callToAction = callToAction {
       callToActionButton.titleLabel?.font = callToAction
@@ -195,7 +181,7 @@ import SnapKit
   }
 }
 
-extension NativeFullScreenAdView {
+extension SmallNativeAdView {
   private func startAnimation() {
     nativeAdView.isHidden = true
     loadingView.startAnimating()
@@ -216,16 +202,6 @@ extension NativeFullScreenAdView {
     nativeAdView.nativeAd = nativeAd
     
     (nativeAdView.headlineView as? UILabel)?.text = nativeAd.headline
-    
-    nativeAdView.mediaView?.mediaContent = nativeAd.mediaContent
-    mediaView.isHidden = false
-    let mediaContent = nativeAd.mediaContent
-    if mediaContent.hasVideoContent {
-      mediaContent.videoController.delegate = self
-    }
-    
-    (nativeAdView.bodyView as? UILabel)?.text = nativeAd.body
-    nativeAdView.bodyView?.isHidden = nativeAd.body == nil
     
     (nativeAdView.callToActionView as? UIButton)?.setTitle(nativeAd.callToAction, for: .normal)
     nativeAdView.callToActionView?.isUserInteractionEnabled = false

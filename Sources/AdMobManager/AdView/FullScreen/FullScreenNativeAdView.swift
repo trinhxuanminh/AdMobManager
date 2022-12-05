@@ -1,14 +1,14 @@
 //
-//  NativeAdvancedAdView.swift
-//  AdMobManager
+//  FullScreenNativeAdView.swift
+//  
 //
-//  Created by Trịnh Xuân Minh on 27/03/2022.
+//  Created by Trịnh Xuân Minh on 04/12/2022.
 //
 
 import UIKit
 import GoogleMobileAds
-import SnapKit
 import NVActivityIndicatorView
+import SnapKit
 
 /// This class returns a UIView displaying NativeAd.
 /// ```
@@ -16,20 +16,21 @@ import NVActivityIndicatorView
 /// ```
 /// Can be instantiated programmatically or Interface Builder. Use as UIView. Ad display is automatic.
 /// - Warning: NativeAd will not be displayed without adding ID.
-@IBDesignable public class NativeAdvancedAdView: BaseView, GADVideoControllerDelegate {
+@IBDesignable public class FullScreenNativeAdView: BaseView, GADVideoControllerDelegate {
   @IBOutlet var contentView: UIView!
+  @IBOutlet weak var nativeAdView: GADNativeAdView!
   @IBOutlet weak var callToActionButton: UIButton!
   @IBOutlet weak var bodyLabel: UILabel!
   @IBOutlet weak var advertiserLabel: UILabel!
   @IBOutlet weak var headlineLabel: UILabel!
   @IBOutlet weak var adLabel: UILabel!
-  @IBOutlet weak var nativeAdView: GADNativeAdView!
-  @IBOutlet weak var mediaView: GADMediaView!
   @IBOutlet weak var iconImageView: UIImageView!
+  @IBOutlet weak var mediaView: GADMediaView!
   private lazy var loadingView: NVActivityIndicatorView = {
     let loadingView = NVActivityIndicatorView(frame: .zero)
     loadingView.type = .ballPulse
     loadingView.padding = 30.0
+    loadingView.color = UIColor(rgb: 0xFFFFFF)
     return loadingView
   }()
   
@@ -51,9 +52,7 @@ import NVActivityIndicatorView
   }
   
   override func addComponents() {
-    Bundle.module.loadNibNamed(String(describing: NativeAdvancedAdView.self),
-                               owner: self,
-                               options: nil)
+    Bundle.module.loadNibNamed(String(describing: FullScreenNativeAdView.self), owner: self, options: nil)
     addSubview(contentView)
     addSubview(loadingView)
   }
@@ -69,6 +68,7 @@ import NVActivityIndicatorView
   }
   
   override func setProperties() {
+    backgroundColor = UIColor(rgb: 0x000000)
     iconImageView.clipsToBounds = true
     iconImageView.layer.cornerRadius = 4.0
     
@@ -95,13 +95,6 @@ import NVActivityIndicatorView
     
     callToActionButton.setTitleColor(UIColor(rgb: 0xFFFFFF), for: .normal)
     callToActionButton.backgroundColor = UIColor(rgb: 0x6399F0)
-    
-    mediaView.backgroundColor = UIColor(rgb: 0x000000)
-  }
-  
-  /// This function returns the minimum recommended height for NativeAdvancedAdView.
-  public class func adHeightMinimum(width: CGFloat) -> CGFloat {
-    return (width - 100) / 16 * 9 + 185
   }
   
   public func register(id: String) {
@@ -110,7 +103,7 @@ import NVActivityIndicatorView
       return
     }
     let nativeAd = NativeAd()
-    nativeAd.setAdUnitID(id)
+    nativeAd.setAdUnitID(id, isFullScreen: true)
     nativeAd.setBinding { [weak self] in
       guard let self = self else {
         return
@@ -200,7 +193,7 @@ import NVActivityIndicatorView
   }
 }
 
-extension NativeAdvancedAdView {
+extension FullScreenNativeAdView {
   private func startAnimation() {
     nativeAdView.isHidden = true
     loadingView.startAnimating()

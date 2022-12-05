@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NativeAdvancedAdView" customModule="AdMobManager">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BigNativeAdView" customModule="AdMobManager">
             <connections>
                 <outlet property="adLabel" destination="bDj-US-PUf" id="spn-Q4-9nj"/>
                 <outlet property="advertiserLabel" destination="kEy-Ch-uMU" id="aX6-qg-mFc"/>
@@ -80,7 +80,7 @@
                                 </label>
                                 <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="yH0-bL-6aS" customClass="GADMediaView">
                                     <rect key="frame" x="50" y="130.5" width="328" height="184.5"/>
-                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="width" secondItem="yH0-bL-6aS" secondAttribute="height" multiplier="16:9" id="fbZ-pL-yfl"/>
                                     </constraints>

@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NativeAdView" customModule="AdMobManager">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SmallNativeAdView" customModule="AdMobManager">
             <connections>
                 <outlet property="adLabel" destination="tOS-am-PkC" id="ErK-Lx-NtN"/>
                 <outlet property="advertiserLabel" destination="ext-Ii-t8I" id="44B-Ab-xeC"/>
