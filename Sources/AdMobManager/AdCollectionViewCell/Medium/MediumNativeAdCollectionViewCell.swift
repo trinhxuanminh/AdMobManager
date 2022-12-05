@@ -35,9 +35,4 @@ public class MediumNativeAdCollectionViewCell: BaseCollectionViewCell {
       make.edges.equalToSuperview()
     }
   }
-  
-  public override func draw(_ rect: CGRect) {
-    super.draw(rect)
-    print(adView.mediaView.frame)
-  }
 }

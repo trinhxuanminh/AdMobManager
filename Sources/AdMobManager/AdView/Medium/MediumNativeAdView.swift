@@ -41,6 +41,7 @@ import NVActivityIndicatorView
   
   public override func draw(_ rect: CGRect) {
     super.draw(rect)
+    print(self.frame, mediaView.frame)
     guard !didStartAnimation else {
       return
     }
@@ -90,7 +91,7 @@ import NVActivityIndicatorView
   /// This function returns the minimum recommended height for NativeAdvancedAdView.
   public class func adHeightMinimum(width: CGFloat) -> CGFloat {
     let mediaHeight = (width - 10) / 16 * 9
-    return mediaHeight < 120 ? 120 : mediaHeight + 60
+    return (mediaHeight < 120 ? 120 : mediaHeight) + 60
   }
   
   public func register(id: String) {
