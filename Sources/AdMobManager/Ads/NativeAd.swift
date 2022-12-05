@@ -67,7 +67,7 @@ class NativeAd: NSObject {
       rootViewController: rootViewController,
       adTypes: [.native],
       options: options)
-    adLoader.delegate = self
+//    adLoader.delegate = self
     adLoader.load(GADRequest())
     self.adLoader = adLoader
   }
@@ -90,6 +90,6 @@ extension NativeAd: GADNativeAdLoaderDelegate {
   func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
     print("NativeAd: did load!")
     self.nativeAd = nativeAd
-    binding?()
+//    binding?()
   }
 }
