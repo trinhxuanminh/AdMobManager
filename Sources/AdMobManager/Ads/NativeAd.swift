@@ -68,7 +68,7 @@ class NativeAd: NSObject {
       adTypes: [.native],
       options: options)
 //    adLoader.delegate = self
-//    adLoader.load(GADRequest())
+    adLoader.load(GADRequest())
 //    self.adLoader = adLoader
   }
 
