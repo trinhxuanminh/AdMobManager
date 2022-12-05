@@ -68,7 +68,9 @@ class NativeAd: NSObject {
       adTypes: [.native],
       options: options)
     adLoader?.delegate = self
-//    adLoader?.load(GADRequest())
+    DispatchQueue.global().async {
+      self.adLoader?.load(GADRequest())
+    }
   }
 
   private func isExist() -> Bool {
