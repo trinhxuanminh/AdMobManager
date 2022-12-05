@@ -62,15 +62,14 @@ class NativeAd: NSObject {
       aspectRatioOption.mediaAspectRatio = .portrait
       options = [aspectRatioOption]
     }
-    self.adLoader = GADAdLoader(
+    let adLoader = GADAdLoader(
       adUnitID: adUnitID,
       rootViewController: rootViewController,
       adTypes: [.native],
       options: options)
-    adLoader?.delegate = self
-    DispatchQueue.global().async {
-      self.adLoader?.load(GADRequest())
-    }
+    adLoader.delegate = self
+    adLoader.load(GADRequest())
+    self.adLoader = adLoader
   }
 
   private func isExist() -> Bool {
@@ -91,6 +90,6 @@ extension NativeAd: GADNativeAdLoaderDelegate {
   func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
     print("NativeAd: did load!")
     self.nativeAd = nativeAd
-//    binding?()
+    binding?()
   }
 }

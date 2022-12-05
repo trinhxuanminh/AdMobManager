@@ -104,12 +104,12 @@ import NVActivityIndicatorView
     }
     let nativeAd = NativeAd()
     nativeAd.setAdUnitID(id)
-//    nativeAd.setBinding { [weak self] in
-//      guard let self = self else {
-//        return
-//      }
-//      self.binding(ad: nativeAd.getAd())
-//    }
+    nativeAd.setBinding { [weak self] in
+      guard let self = self else {
+        return
+      }
+      self.binding(ad: nativeAd.getAd())
+    }
     self.nativeAd = nativeAd
   }
   
