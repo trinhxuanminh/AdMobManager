@@ -69,7 +69,7 @@ class NativeAd: NSObject {
       options: options)
 //    adLoader.delegate = self
     adLoader.load(GADRequest())
-//    self.adLoader = adLoader
+    self.adLoader = adLoader
   }
 
   private func isExist() -> Bool {
