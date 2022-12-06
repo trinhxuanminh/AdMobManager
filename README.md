@@ -89,21 +89,24 @@ AdMobManager.shared.show(key: String)
 ### 3. NativeAd
 Ads are displayed automatically.
 
-#### **a) NativeAdCollectionViewCell / NativeAdvancedAdCollectionViewCell**
+#### **a) CollectionViewCell**
 This class returns a UICollectionViewCell displaying NativeAd.
 
 ##### Register
 ```swift
-collectionView.register(ofType: NativeAdCollectionViewCell.self)
+collectionView.register(ofType: SmallNativeAdCollectionViewCell.self)
 ```
 ```swift
-collectionView.register(ofType: NativeAdvancedAdCollectionViewCell.self)
+collectionView.register(ofType: MediumNativeAdCollectionViewCell.self)
+```
+```swift
+collectionView.register(ofType: BigNativeAdCollectionViewCell.self)
 ```
 
 ##### Datasource
 ```swift
 func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-  let cell = collectionView.dequeue(ofType: NativeAdCollectionViewCell.self, indexPath: indexPath)
+  let cell = collectionView.dequeue(ofType: SmallNativeAdCollectionViewCell.self, indexPath: indexPath)
   cell.adView.register(id: String)
 //            Optional
   return cell
@@ -111,24 +114,32 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
 ```
 ```swift
 func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-  let cell = collectionView.dequeue(ofType: NativeAdvancedAdCollectionViewCell.self, indexPath: indexPath)
+  let cell = collectionView.dequeue(ofType: MediumNativeAdCollectionViewCell.self, indexPath: indexPath)
+  cell.adView.register(id: String)
+//            Optional
+  return cell
+}
+```
+```swift
+func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+  let cell = collectionView.dequeue(ofType: BigNativeAdCollectionViewCell.self, indexPath: indexPath)
   cell.adView.register(id: String)
 //            Optional
   return cell
 }
 ```
 
-#### **b) NativeAdView / NativeAdvancedAdView**
-Then, there are two ways you can create `NativeAdView` / `NativeAdvancedAdView`:
-- By storyboard, changing class of any `UIView` to `NativeAdView` / `NativeAdvancedAdView`. _**Note**: Set `Module` to `AdMobManager`._
+#### **b) View**
+There are two ways you can create a UIView displaying NativeAd:
+- By storyboard, changing class of any `UIView` to `SmallNativeAdView` / `MediumNativeAdView` / `BigNativeAdView` / `FullScreenNativeAdView`. _**Note**: Set `Module` to `AdMobManager`._
 - By code, using initializer.
 
 #### **c) Determine the height**
 ```swift
-NativeAdCollectionViewCell.adHeightMinimum()
+SmallNativeAdCollectionViewCell.adHeightMinimum()
 ```
 ```swift
-NativeAdvancedAdCollectionViewCell.adHeightMinimum(width: collectionView.frame.width)
+BigNativeAdCollectionViewCell.adHeightMinimum(width: collectionView.frame.width)
 ```
 
 #### **d) Optional**
