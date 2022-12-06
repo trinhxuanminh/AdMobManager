@@ -41,7 +41,6 @@ import NVActivityIndicatorView
   
   public override func draw(_ rect: CGRect) {
     super.draw(rect)
-    print(self.frame, mediaView.frame)
     guard !didStartAnimation else {
       return
     }
