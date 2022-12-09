@@ -11,7 +11,7 @@ import Combine
 
 @available(iOS 13.0, *)
 final public class NetworkMonitor {
-  static let shared = NetworkMonitor()
+  public static let shared = NetworkMonitor()
 
   public enum ConnectionType {
     case wifi
