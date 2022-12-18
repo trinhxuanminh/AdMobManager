@@ -15,6 +15,14 @@ public class BaseTableViewCell: UITableViewCell, ViewProtocol {
     setProperties()
     setColor()
   }
+  
+  public required init?(coder: NSCoder) {
+    super.init(coder: coder)
+    addComponents()
+    setConstraints()
+    setProperties()
+    setColor()
+  }
 
   func addComponents() {}
 
