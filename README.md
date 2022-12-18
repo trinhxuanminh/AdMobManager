@@ -35,6 +35,8 @@ Set the _-ObjC_ linker flag at `Info.plist`:
   <true/>
 ```
 
+**Note**: If you have Firebase, install [it](https://github.com/firebase/firebase-ios-sdk) using Swift Package Manager to avoid conflicts.
+
 ## Usage
 Firstly, import `AdMobManager`.
 ```swift
@@ -59,7 +61,7 @@ AdMobManager.shared.showFullFeature(from: Date)
 
 #### Time between (Optional)
 This function helps to change the minimum display time between ads of the same type.
-- Default is _**10 seconds**_.
+- Default is _**0 seconds**_.
 ```swift
 AdMobManager.shared.setTimeBetween(key: String, time: Double)
 ```
@@ -129,20 +131,69 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
 }
 ```
 
-#### **b) View**
+#### **b) TableViewCell**
+This class returns a UITableViewCell displaying NativeAd.
+
+##### Register
+```swift
+tableView.register(ofType: SmallNativeAdTableViewCell.self)
+```
+```swift
+tableView.register(ofType: MediumNativeAdTableViewCell.self)
+```
+```swift
+tableView.register(ofType: BigNativeAdTableViewCell.self)
+```
+
+##### Datasource
+```swift
+func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+  let cell = tableView.dequeue(ofType: SmallNativeAdTableViewCell.self, indexPath: indexPath)
+//            Optional
+  return cell
+}
+```
+```swift
+func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+  let cell = tableView.dequeue(ofType: MediumNativeAdTableViewCell.self, indexPath: indexPath)
+//            Optional
+  return cell
+}
+```
+```swift
+func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+  let cell = tableView.dequeue(ofType: BigNativeAdTableViewCell.self, indexPath: indexPath)
+//            Optional
+  return cell
+}
+```
+
+#### **c) View**
 There are two ways you can create a UIView displaying NativeAd:
 - By storyboard, changing class of any `UIView` to `SmallNativeAdView` / `MediumNativeAdView` / `BigNativeAdView` / `FullScreenNativeAdView`. _**Note**: Set `Module` to `AdMobManager`._
 - By code, using initializer.
 
-#### **c) Determine the height**
+#### **d) Determine the height**
 ```swift
 SmallNativeAdCollectionViewCell.adHeightMinimum()
 ```
 ```swift
+MediumNativeAdCollectionViewCell.adHeightMinimum(width: collectionView.frame.width)
+```
+```swift
 BigNativeAdCollectionViewCell.adHeightMinimum(width: collectionView.frame.width)
 ```
+```swift
+SmallNativeAdTableViewCell.adHeightMinimum()
+```
+```swift
+MediumNativeAdTableViewCell.adHeightMinimum(width: tableView.frame.width)
+```
+```swift
+BigNativeAdTableViewCell.adHeightMinimum(width: tableView.frame.width)
+```
 
-#### **d) Optional**
+#### **e) Optional**
 ```swift
 .changeColor()
 ```

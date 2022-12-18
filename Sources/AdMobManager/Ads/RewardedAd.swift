@@ -11,7 +11,7 @@ import GoogleMobileAds
 class RewardedAd: NSObject, AdProtocol {
   private var rewardedAd: GADRewardedAd?
   private var adUnitID: String?
-  private var timeBetween = 10.0
+  private var timeBetween = 0.0
   private var presentState = false
   private var lastTimeDisplay = Date()
   private var isLoading = false
@@ -30,7 +30,7 @@ class RewardedAd: NSObject, AdProtocol {
   }
   
   func setTimeBetween(_ timeBetween: Double) {
-    guard timeBetween > 0.0 else {
+    guard timeBetween >= 0.0 else {
       print("RewardAd: set time between failed - invalid time!")
       return
     }
@@ -149,6 +149,6 @@ extension RewardedAd {
   private func wasLoadTimeLessThanNHoursAgo() -> Bool {
     let now = Date()
     let timeIntervalBetweenNowAndLoadTime = now.timeIntervalSince(lastTimeDisplay)
-    return timeIntervalBetweenNowAndLoadTime > timeBetween
+    return timeIntervalBetweenNowAndLoadTime >= timeBetween
   }
 }

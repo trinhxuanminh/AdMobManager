@@ -11,7 +11,7 @@ import GoogleMobileAds
 class AppOpenAd: NSObject, AdProtocol {
   private var appOpenAd: GADAppOpenAd?
   private var adUnitID: String?
-  private var timeBetween = 10.0
+  private var timeBetween = 0.0
   private var presentState = false
   private var lastTimeDisplay = Date()
   private var isLoading = false
@@ -30,7 +30,7 @@ class AppOpenAd: NSObject, AdProtocol {
   }
   
   func setTimeBetween(_ timeBetween: Double) {
-    guard timeBetween > 0.0 else {
+    guard timeBetween >= 0.0 else {
       print("AppOpenAd: set time between failed - invalid time!")
       return
     }
@@ -150,6 +150,6 @@ extension AppOpenAd {
   private func wasLoadTimeLessThanNHoursAgo() -> Bool {
     let now = Date()
     let timeIntervalBetweenNowAndLoadTime = now.timeIntervalSince(lastTimeDisplay)
-    return timeIntervalBetweenNowAndLoadTime > timeBetween
+    return timeIntervalBetweenNowAndLoadTime >= timeBetween
   }
 }

@@ -1,16 +1,16 @@
 //
-//  SmallNativeAdCollectionViewCell.swift
-//  AdMobManager
+//  SmallNativeAdTableViewCell.swift
+//  
 //
-//  Created by Trịnh Xuân Minh on 25/03/2022.
+//  Created by Trịnh Xuân Minh on 18/12/2022.
 //
 
 import UIKit
 import SnapKit
 
-/// This class returns a UICollectionViewCell displaying NativeAd.
+/// This class returns a UITableViewCell displaying NativeAd.
 /// - Warning: Native Ad will not be displayed without adding ID.
-public class SmallNativeAdCollectionViewCell: BaseCollectionViewCell {
+public class SmallNativeAdTableViewCell: BaseTableViewCell {
   public lazy var adView: SmallNativeAdView = {
     return SmallNativeAdView()
   }()
@@ -25,7 +25,7 @@ public class SmallNativeAdCollectionViewCell: BaseCollectionViewCell {
     }
   }
   
-  /// This function returns the minimum recommended height for NativeAdCollectionViewCell.
+  /// This function returns the minimum recommended height for NativeAdTableViewCell.
   public class func adHeightMinimum() -> CGFloat {
     return 100.0
   }
