@@ -48,10 +48,10 @@ class NativeAd: NSObject {
       return
     }
 
-    guard let rootViewController = UIApplication.topStackViewController() else {
-      print("NativeAd: failed to load - can't find RootViewController!")
-      return
-    }
+//    guard let rootViewController = UIApplication.topStackViewController() else {
+//      print("NativeAd: failed to load - can't find RootViewController!")
+//      return
+//    }
 
     self.isLoading = true
     print("NativeAd: start load!")
@@ -64,7 +64,7 @@ class NativeAd: NSObject {
     }
     let adLoader = GADAdLoader(
       adUnitID: adUnitID,
-      rootViewController: rootViewController,
+      rootViewController: nil,
       adTypes: [.native],
       options: options)
     adLoader.delegate = self
