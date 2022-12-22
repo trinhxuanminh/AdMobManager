@@ -23,7 +23,9 @@ class NativeAd: NSObject {
     }
     self.adUnitID = id
     self.isFullScreen = isFullScreen
-    load()
+    DispatchQueue.global(qos: .background).async {
+      self.load()
+    }
   }
   
   func getAd() -> GADNativeAd? {
