@@ -23,60 +23,60 @@ class NativeAd: NSObject {
     }
     self.adUnitID = id
     self.isFullScreen = isFullScreen
-    DispatchQueue.global().async { [weak self] in
-      guard let self = self else {
-        return
-      }
-      self.load()
-    }
+    self.load()
   }
   
   func getAd() -> GADNativeAd? {
     return nativeAd
   }
-
+  
   func setBinding(_ binding: (() -> Void)?) {
     self.binding = binding
   }
-
+  
   private func load() {
     guard !isLoading else {
       return
     }
-
+    
     guard !isExist() else {
       return
     }
-
+    
     guard let adUnitID = adUnitID else {
       print("NativeAd: failed to load - not initialized yet! Please install ID.")
       return
     }
-
-    guard let rootViewController = UIApplication.topStackViewController() else {
-      print("NativeAd: failed to load - can't find RootViewController!")
-      return
-    }
-
-    self.isLoading = true
-    print("NativeAd: start load!")
     
-    var options: [GADAdLoaderOptions]? = nil
-    if self.isFullScreen {
-      let aspectRatioOption = GADNativeAdMediaAdLoaderOptions()
-      aspectRatioOption.mediaAspectRatio = .portrait
-      options = [aspectRatioOption]
+    DispatchQueue.main.async { [weak self] in
+      guard let self = self else {
+        return
+      }
+      guard let rootViewController = UIApplication.topStackViewController() else {
+        print("NativeAd: failed to load - can't find RootViewController!")
+        return
+      }
+      
+      self.isLoading = true
+      print("NativeAd: start load!")
+      
+      var options: [GADAdLoaderOptions]? = nil
+      if self.isFullScreen {
+        let aspectRatioOption = GADNativeAdMediaAdLoaderOptions()
+        aspectRatioOption.mediaAspectRatio = .portrait
+        options = [aspectRatioOption]
+      }
+      let adLoader = GADAdLoader(
+        adUnitID: adUnitID,
+        rootViewController: rootViewController,
+        adTypes: [.native],
+        options: options)
+      adLoader.delegate = self
+      adLoader.load(GADRequest())
+      self.adLoader = adLoader
     }
-    let adLoader = GADAdLoader(
-      adUnitID: adUnitID,
-      rootViewController: rootViewController,
-      adTypes: [.native],
-      options: options)
-    adLoader.delegate = self
-    adLoader.load(GADRequest())
-    self.adLoader = adLoader
   }
-
+  
   private func isExist() -> Bool {
     return nativeAd != nil
   }
@@ -91,7 +91,7 @@ extension NativeAd: GADNativeAdLoaderDelegate {
     print("NativeAd: did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
     DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: load)
   }
-
+  
   func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
     print("NativeAd: did load!")
     self.nativeAd = nativeAd
