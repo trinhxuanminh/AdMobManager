@@ -104,7 +104,9 @@ import NVActivityIndicatorView
       guard let self = self else {
         return
       }
-      self.binding(ad: nativeAd.getAd())
+      DispatchQueue.main.async {
+        self.binding(ad: nativeAd.getAd())
+      }
     }
     self.nativeAd = nativeAd
   }
