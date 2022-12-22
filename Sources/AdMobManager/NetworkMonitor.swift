@@ -22,7 +22,7 @@ final public class NetworkMonitor {
   
   @Published public private(set) var isConnected: Bool = true
   @Published public private(set) var connectionType: ConnectionType = .unknown
-  private let queue = DispatchQueue.global(qos: .background)
+  private let queue = DispatchQueue.global()
   private let monitor: NWPathMonitor
 
   init() {

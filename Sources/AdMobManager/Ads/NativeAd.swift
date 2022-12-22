@@ -52,10 +52,6 @@ class NativeAd: NSObject {
       guard let self = self else {
         return
       }
-      guard let rootViewController = UIApplication.topStackViewController() else {
-        print("NativeAd: failed to load - can't find RootViewController!")
-        return
-      }
       
       self.isLoading = true
       print("NativeAd: start load!")
@@ -68,7 +64,7 @@ class NativeAd: NSObject {
       }
       let adLoader = GADAdLoader(
         adUnitID: adUnitID,
-        rootViewController: rootViewController,
+        rootViewController: nil,
         adTypes: [.native],
         options: options)
       adLoader.delegate = self
@@ -95,14 +91,6 @@ extension NativeAd: GADNativeAdLoaderDelegate {
   func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
     print("NativeAd: did load!")
     self.nativeAd = nativeAd
-    DispatchQueue.main.async { [weak self] in
-      guard
-        let self = self,
-        let binding = self.binding
-      else {
-        return
-      }
-      binding()
-    }
+    binding?()
   }
 }

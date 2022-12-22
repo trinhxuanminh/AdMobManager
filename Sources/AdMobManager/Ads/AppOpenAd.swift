@@ -55,29 +55,36 @@ class AppOpenAd: NSObject, AdProtocol {
       return
     }
     
-    self.isLoading = true
-    print("AppOpenAd: start load!")
-    let request = GADRequest()
-    GADAppOpenAd.load(
-      withAdUnitID: adUnitID,
-      request: request,
-      orientation: UIInterfaceOrientation.portrait
-    ) { [weak self] (ad, error) in
+    DispatchQueue.main.async { [weak self] in
       guard let self = self else {
         return
       }
-      self.isLoading = false
-      guard error == nil, let ad = ad else {
-        self.retryAttempt += 1
-        let delaySec = pow(2.0, min(5.0, self.retryAttempt))
-        print("AppOpenAd: did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + delaySec, execute: self.load)
-        return
+      
+      self.isLoading = true
+      print("AppOpenAd: start load!")
+      
+      let request = GADRequest()
+      GADAppOpenAd.load(
+        withAdUnitID: adUnitID,
+        request: request,
+        orientation: UIInterfaceOrientation.portrait
+      ) { [weak self] (ad, error) in
+        guard let self = self else {
+          return
+        }
+        self.isLoading = false
+        guard error == nil, let ad = ad else {
+          self.retryAttempt += 1
+          let delaySec = pow(2.0, min(5.0, self.retryAttempt))
+          print("AppOpenAd: did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
+          DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: self.load)
+          return
+        }
+        print("AppOpenAd: did load!")
+        self.retryAttempt = 0
+        ad.fullScreenContentDelegate = self
+        self.appOpenAd = ad
       }
-      print("AppOpenAd: did load!")
-      self.retryAttempt = 0
-      ad.fullScreenContentDelegate = self
-      self.appOpenAd = ad
     }
   }
   
