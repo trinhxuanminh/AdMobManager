@@ -23,7 +23,7 @@ class NativeAd: NSObject {
     }
     self.adUnitID = id
     self.isFullScreen = isFullScreen
-    DispatchQueue.main.async { [weak self] in
+    DispatchQueue.global().async { [weak self] in
       guard let self = self else {
         return
       }
@@ -89,7 +89,7 @@ extension NativeAd: GADNativeAdLoaderDelegate {
     self.retryAttempt += 1
     let delaySec = pow(2.0, min(5.0, retryAttempt))
     print("NativeAd: did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
-    DispatchQueue.main.asyncAfter(deadline: .now() + delaySec, execute: load)
+    DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: load)
   }
 
   func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
