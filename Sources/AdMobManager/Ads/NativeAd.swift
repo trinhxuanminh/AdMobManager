@@ -23,7 +23,10 @@ class NativeAd: NSObject {
     }
     self.adUnitID = id
     self.isFullScreen = isFullScreen
-    DispatchQueue.global(qos: .background).async {
+    DispatchQueue.main.async { [weak self] in
+      guard let self = self else {
+        return
+      }
       self.load()
     }
   }
@@ -50,10 +53,10 @@ class NativeAd: NSObject {
       return
     }
 
-//    guard let rootViewController = UIApplication.topStackViewController() else {
-//      print("NativeAd: failed to load - can't find RootViewController!")
-//      return
-//    }
+    guard let rootViewController = UIApplication.topStackViewController() else {
+      print("NativeAd: failed to load - can't find RootViewController!")
+      return
+    }
 
     self.isLoading = true
     print("NativeAd: start load!")
@@ -66,7 +69,7 @@ class NativeAd: NSObject {
     }
     let adLoader = GADAdLoader(
       adUnitID: adUnitID,
-      rootViewController: nil,
+      rootViewController: rootViewController,
       adTypes: [.native],
       options: options)
     adLoader.delegate = self
@@ -86,12 +89,20 @@ extension NativeAd: GADNativeAdLoaderDelegate {
     self.retryAttempt += 1
     let delaySec = pow(2.0, min(5.0, retryAttempt))
     print("NativeAd: did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
-    DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + delaySec, execute: load)
+    DispatchQueue.main.asyncAfter(deadline: .now() + delaySec, execute: load)
   }
 
   func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
     print("NativeAd: did load!")
     self.nativeAd = nativeAd
-    binding?()
+    DispatchQueue.main.async { [weak self] in
+      guard
+        let self = self,
+        let binding = self.binding
+      else {
+        return
+      }
+      binding()
+    }
   }
 }
