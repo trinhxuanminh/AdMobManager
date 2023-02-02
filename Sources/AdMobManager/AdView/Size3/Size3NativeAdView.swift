@@ -87,7 +87,7 @@ import NVActivityIndicatorView
   
   /// This function returns the minimum recommended height.
   public class func adHeight() -> CGFloat {
-    return 165.0
+    return 134.0
   }
   
   public func register(id: String) {
