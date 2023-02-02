@@ -74,8 +74,8 @@ import NVActivityIndicatorView
   }
   
   override func setColor() {
-    adLabel.backgroundColor = UIColor(rgb: 0xFFFFFF)
-    adLabel.textColor = UIColor(rgb: 0xFCB41C)
+    adLabel.backgroundColor = UIColor(rgb: 0xFCB41C)
+    adLabel.textColor = UIColor(rgb: 0xFFFFFF)
     
     headlineLabel.textColor = UIColor(rgb: 0x000000)
     
@@ -87,7 +87,7 @@ import NVActivityIndicatorView
   
   /// This function returns the minimum recommended height for Size1NativeAdView.
   public class func adHeight() -> CGFloat {
-    return 113.0
+    return 93.0
   }
   
   public func register(id: String) {
