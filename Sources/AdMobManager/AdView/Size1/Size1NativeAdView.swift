@@ -85,7 +85,7 @@ import NVActivityIndicatorView
     callToActionButton.backgroundColor = UIColor(rgb: 0x00A9A8)
   }
   
-  /// This function returns the minimum recommended height for Size1NativeAdView.
+  /// This function returns the minimum recommended height.
   public class func adHeight() -> CGFloat {
     return 93.0
   }

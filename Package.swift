@@ -31,7 +31,7 @@ let package = Package(
       ],
       resources: [
         .process("AdView/Small/SmallNativeAdView.xib"),
-        .process("AdView/Big/BigNativeAdView.xib"),
+        .process("AdView/Size5/Size5NativeAdView.xib"),
         .process("AdView/FullScreen/FullScreenNativeAdView.xib"),
         .process("AdView/Medium/MediumNativeAdView.xib"),
         .process("AdView/Size1/Size1NativeAdView.xib"),

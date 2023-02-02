@@ -1,5 +1,5 @@
 //
-//  BigNativeAdView.swift
+//  Size5NativeAdView.swift
 //  AdMobManager
 //
 //  Created by Trịnh Xuân Minh on 27/03/2022.
@@ -16,7 +16,7 @@ import NVActivityIndicatorView
 /// ```
 /// Can be instantiated programmatically or Interface Builder. Use as UIView. Ad display is automatic.
 /// - Warning: NativeAd will not be displayed without adding ID.
-@IBDesignable public class BigNativeAdView: BaseView, GADVideoControllerDelegate {
+@IBDesignable public class Size5NativeAdView: BaseView, GADVideoControllerDelegate {
   @IBOutlet var contentView: UIView!
   @IBOutlet weak var callToActionButton: UIButton!
   @IBOutlet weak var bodyLabel: UILabel!
@@ -26,6 +26,7 @@ import NVActivityIndicatorView
   @IBOutlet weak var nativeAdView: GADNativeAdView!
   @IBOutlet weak var mediaView: GADMediaView!
   @IBOutlet weak var iconImageView: UIImageView!
+  @IBOutlet weak var priceLabel: UILabel!
   private lazy var loadingView: NVActivityIndicatorView = {
     let loadingView = NVActivityIndicatorView(frame: .zero)
     loadingView.type = .ballPulse
@@ -51,7 +52,7 @@ import NVActivityIndicatorView
   }
   
   override func addComponents() {
-    Bundle.module.loadNibNamed(String(describing: BigNativeAdView.self),
+    Bundle.module.loadNibNamed(String(describing: Size5NativeAdView.self),
                                owner: self,
                                options: nil)
     addSubview(contentView)
@@ -70,37 +71,36 @@ import NVActivityIndicatorView
   
   override func setProperties() {
     iconImageView.clipsToBounds = true
-    iconImageView.layer.cornerRadius = 4.0
     
-    callToActionButton.layer.cornerRadius = 4.0
+    callToActionButton.layer.cornerRadius = 8.0
     callToActionButton.clipsToBounds = true
     
-    adLabel.layer.borderWidth = 1.0
-    adLabel.layer.cornerRadius = 4.0
+    adLabel.layer.cornerRadius = 1.0
     adLabel.clipsToBounds = true
   }
   
   override func setColor() {
-    iconImageView.backgroundColor = UIColor(rgb: 0xF2F2F7)
+    iconImageView.backgroundColor = UIColor(rgb: 0xD9D9D9)
     
-    adLabel.backgroundColor = UIColor(rgb: 0xFFFFFF)
-    adLabel.textColor = UIColor(rgb: 0x456631)
-    adLabel.layer.borderColor = UIColor(rgb: 0x456631).cgColor
+    adLabel.backgroundColor = UIColor(rgb: 0xFCB41C)
+    adLabel.textColor = UIColor(rgb: 0xFFFFFF)
     
-    headlineLabel.textColor = UIColor(rgb: 0xFFFFFF)
+    headlineLabel.textColor = UIColor(rgb: 0x000000)
     
-    advertiserLabel.textColor = UIColor(rgb: 0xFFFFFF)
+    advertiserLabel.textColor = UIColor(rgb: 0x27303E)
     
-    bodyLabel.textColor = UIColor(rgb: 0xFFFFFF, alpha: 0.6)
+    bodyLabel.textColor = UIColor(rgb: 0x27303E)
+    
+    priceLabel.textColor = UIColor(rgb: 0x3168C9)
     
     callToActionButton.setTitleColor(UIColor(rgb: 0xFFFFFF), for: .normal)
-    callToActionButton.backgroundColor = UIColor(rgb: 0x6399F0)
+    callToActionButton.backgroundColor = UIColor(rgb: 0x00A9A8)
   }
   
-  /// This function returns the minimum recommended height for NativeAdvancedAdView.
+  /// This function returns the minimum recommended height.
   public class func adHeightMinimum(width: CGFloat) -> CGFloat {
-    let mediaHeight = (width - 100) / 16 * 9
-    return (mediaHeight < 120 ? 120 : mediaHeight) + 185
+    let mediaHeight = (width - 20) / 16 * 9
+    return (mediaHeight < 120 ? 120 : mediaHeight) + 173
   }
   
   public func register(id: String) {
@@ -122,6 +122,7 @@ import NVActivityIndicatorView
   public func changeColor(
     title: UIColor? = nil,
     advertiser: UIColor? = nil,
+    price: UIColor? = nil,
     ad: UIColor? = nil,
     adBackground: UIColor? = nil,
     body: UIColor? = nil,
@@ -134,6 +135,9 @@ import NVActivityIndicatorView
     }
     if let advertiser = advertiser {
       advertiserLabel.textColor = advertiser
+    }
+    if let price = price {
+      priceLabel.textColor = price
     }
     if let ad = ad {
       adLabel.textColor = ad
@@ -159,6 +163,7 @@ import NVActivityIndicatorView
   public func changeFont(
     title: UIFont? = nil,
     advertiser: UIFont? = nil,
+    price: UIFont? = nil,
     ad: UIFont? = nil,
     body: UIFont? = nil,
     callToAction: UIFont? = nil
@@ -168,6 +173,9 @@ import NVActivityIndicatorView
     }
     if let advertiser = advertiser {
       advertiserLabel.font = advertiser
+    }
+    if let price = price {
+      priceLabel.font = price
     }
     if let ad = ad {
       adLabel.font = ad
@@ -199,7 +207,7 @@ import NVActivityIndicatorView
   }
 }
 
-extension BigNativeAdView {
+extension Size5NativeAdView {
   private func startAnimation() {
     nativeAdView.isHidden = true
     loadingView.startAnimating()
@@ -238,5 +246,8 @@ extension BigNativeAdView {
     
     (nativeAdView.advertiserView as? UILabel)?.text = nativeAd.advertiser
     nativeAdView.advertiserView?.isHidden = nativeAd.advertiser == nil
+    
+    (nativeAdView.priceView as? UILabel)?.text = nativeAd.price
+    nativeAdView.priceView?.isHidden = nativeAd.price == nil
   }
 }

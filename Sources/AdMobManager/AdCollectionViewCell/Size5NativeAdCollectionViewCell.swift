@@ -1,5 +1,5 @@
 //
-//  BigNativeAdCollectionViewCell.swift
+//  Size5NativeAdCollectionViewCell.swift
 //  AdMobManager
 //
 //  Created by Trịnh Xuân Minh on 25/03/2022.
@@ -10,9 +10,9 @@ import SnapKit
 
 /// This class returns a UICollectionViewCell displaying NativeAd.
 /// - Warning: Native Ad will not be displayed without adding ID.
-public class BigNativeAdCollectionViewCell: BaseCollectionViewCell {
-  public lazy var adView: BigNativeAdView = {
-    return BigNativeAdView()
+public class Size5NativeAdCollectionViewCell: BaseCollectionViewCell {
+  public lazy var adView: Size5NativeAdView = {
+    return Size5NativeAdView()
   }()
   
   override func addComponents() {
@@ -27,7 +27,6 @@ public class BigNativeAdCollectionViewCell: BaseCollectionViewCell {
   
   /// This function returns the minimum recommended height for NativeAdCollectionViewCell.
   public class func adHeightMinimum(width: CGFloat) -> CGFloat {
-    let mediaHeight = (width - 100) / 16 * 9
-    return (mediaHeight < 120 ? 120 : mediaHeight) + 185
+    return Size5NativeAdView.adHeightMinimum(width: width)
   }
 }

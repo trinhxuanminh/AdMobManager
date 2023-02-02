@@ -29,9 +29,9 @@
                             <rect key="frame" x="0.0" y="0.0" width="428" height="93"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Body that is really really long and can take up to two lines or sometimes even more." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pAy-Jx-yo0">
-                                    <rect key="frame" x="10" y="51" width="404" height="32"/>
+                                    <rect key="frame" x="10" y="51" width="408" height="33"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="32" id="eVP-FH-6i6"/>
+                                        <constraint firstAttribute="height" constant="33" id="eVP-FH-6i6"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -55,7 +55,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8bd-Qk-fUY">
-                                    <rect key="frame" x="330" y="10" width="84" height="36"/>
+                                    <rect key="frame" x="334" y="10" width="84" height="36"/>
                                     <color key="backgroundColor" red="0.0" green="0.66274509803921566" blue="0.6588235294117647" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="36" id="90q-c9-QnN"/>
@@ -72,7 +72,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Headline" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tJx-XH-1rT">
-                                    <rect key="frame" x="39" y="10" width="281" height="27"/>
+                                    <rect key="frame" x="39" y="10" width="285" height="27"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="27" id="Igt-1v-PsM"/>
                                     </constraints>
@@ -89,13 +89,13 @@
                                 <constraint firstItem="bDj-US-PUf" firstAttribute="top" secondItem="zS2-od-J8R" secondAttribute="top" constant="16" id="2bg-vn-lmu"/>
                                 <constraint firstItem="8bd-Qk-fUY" firstAttribute="top" secondItem="zS2-od-J8R" secondAttribute="top" constant="10" id="G0c-Jv-mkE"/>
                                 <constraint firstItem="pAy-Jx-yo0" firstAttribute="leading" secondItem="zS2-od-J8R" secondAttribute="leading" constant="10" id="Jre-sx-krZ"/>
-                                <constraint firstAttribute="trailing" secondItem="8bd-Qk-fUY" secondAttribute="trailing" constant="14" id="MfR-wS-vDM"/>
+                                <constraint firstAttribute="trailing" secondItem="8bd-Qk-fUY" secondAttribute="trailing" constant="10" id="MfR-wS-vDM"/>
                                 <constraint firstItem="8bd-Qk-fUY" firstAttribute="leading" secondItem="tJx-XH-1rT" secondAttribute="trailing" constant="10" id="ZaR-qY-DBX"/>
                                 <constraint firstItem="bDj-US-PUf" firstAttribute="leading" secondItem="zS2-od-J8R" secondAttribute="leading" constant="10" id="Zrx-l5-Qqi"/>
                                 <constraint firstItem="tJx-XH-1rT" firstAttribute="leading" secondItem="bDj-US-PUf" secondAttribute="trailing" constant="10" id="oVE-by-QSU"/>
                                 <constraint firstItem="pAy-Jx-yo0" firstAttribute="top" secondItem="8bd-Qk-fUY" secondAttribute="bottom" constant="5" id="rHh-Bo-gTU"/>
                                 <constraint firstItem="tJx-XH-1rT" firstAttribute="top" secondItem="8bd-Qk-fUY" secondAttribute="top" id="s6U-ne-IOy"/>
-                                <constraint firstAttribute="trailing" secondItem="pAy-Jx-yo0" secondAttribute="trailing" constant="14" id="vAe-l2-Yk8"/>
+                                <constraint firstAttribute="trailing" secondItem="pAy-Jx-yo0" secondAttribute="trailing" constant="10" id="vAe-l2-Yk8"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
