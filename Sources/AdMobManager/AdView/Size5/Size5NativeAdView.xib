@@ -54,7 +54,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Price" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bc4-KA-maa">
-                                    <rect key="frame" x="94" y="87" width="35.5" height="16"/>
+                                    <rect key="frame" x="94" y="90" width="35.5" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="16" id="xbM-kr-hKC"/>
                                     </constraints>
@@ -77,7 +77,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Advertiser" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lHI-JD-Oc5">
-                                    <rect key="frame" x="94" y="65" width="233" height="16"/>
+                                    <rect key="frame" x="94" y="68" width="233" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="16" id="gj4-zg-7bv"/>
                                     </constraints>
@@ -101,7 +101,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Headline" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pmK-ii-3db">
-                                    <rect key="frame" x="94" y="35" width="233" height="24"/>
+                                    <rect key="frame" x="94" y="38" width="233" height="24"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="24" id="B0A-nZ-peX"/>
                                     </constraints>
@@ -133,7 +133,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstItem="lHI-JD-Oc5" firstAttribute="top" secondItem="pmK-ii-3db" secondAttribute="bottom" constant="6" id="2QM-UJ-PRL"/>
-                                <constraint firstItem="pmK-ii-3db" firstAttribute="top" secondItem="c3h-QI-r3g" secondAttribute="top" id="3HD-S4-QsD"/>
+                                <constraint firstItem="pmK-ii-3db" firstAttribute="top" secondItem="c3h-QI-r3g" secondAttribute="top" constant="3" id="3HD-S4-QsD"/>
                                 <constraint firstItem="5HU-di-nRG" firstAttribute="top" secondItem="EX5-gn-laz" secondAttribute="bottom" constant="10" id="C35-c9-IcP"/>
                                 <constraint firstItem="EX5-gn-laz" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="10" id="DP4-Zq-ReM"/>
                                 <constraint firstItem="c3h-QI-r3g" firstAttribute="top" secondItem="FFo-C0-5Mt" secondAttribute="bottom" constant="10" id="FfS-oR-ytC"/>

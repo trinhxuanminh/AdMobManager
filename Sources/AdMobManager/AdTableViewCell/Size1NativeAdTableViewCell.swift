@@ -1,5 +1,5 @@
 //
-//  SmallNativeAdTableViewCell.swift
+//  Size1NativeAdTableViewCell.swift
 //  
 //
 //  Created by Trịnh Xuân Minh on 18/12/2022.
@@ -10,9 +10,9 @@ import SnapKit
 
 /// This class returns a UITableViewCell displaying NativeAd.
 /// - Warning: Native Ad will not be displayed without adding ID.
-public class SmallNativeAdTableViewCell: BaseTableViewCell {
-  public lazy var adView: SmallNativeAdView = {
-    return SmallNativeAdView()
+public class Size1NativeAdTableViewCell: BaseTableViewCell {
+  public lazy var adView: Size1NativeAdView = {
+    return Size1NativeAdView()
   }()
   
   override func addComponents() {
@@ -25,8 +25,8 @@ public class SmallNativeAdTableViewCell: BaseTableViewCell {
     }
   }
   
-  /// This function returns the minimum recommended height for NativeAdTableViewCell.
-  public class func adHeightMinimum() -> CGFloat {
-    return 100.0
+  /// This function returns the minimum recommended height.
+  public class func adHeight() -> CGFloat {
+    return Size1NativeAdView.adHeight()
   }
 }

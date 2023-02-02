@@ -25,7 +25,7 @@ public class Size5NativeAdCollectionViewCell: BaseCollectionViewCell {
     }
   }
   
-  /// This function returns the minimum recommended height for NativeAdCollectionViewCell.
+  /// This function returns the minimum recommended height.
   public class func adHeightMinimum(width: CGFloat) -> CGFloat {
     return Size5NativeAdView.adHeightMinimum(width: width)
   }

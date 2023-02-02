@@ -25,7 +25,7 @@ public class MediumNativeAdCollectionViewCell: BaseCollectionViewCell {
     }
   }
   
-  /// This function returns the minimum recommended height for NativeAdCollectionViewCell.
+  /// This function returns the minimum recommended height.
   public class func adHeightMinimum(width: CGFloat) -> CGFloat {
     let mediaHeight = (width - 10) / 16 * 9
     return (mediaHeight < 120 ? 120 : mediaHeight) + 60
