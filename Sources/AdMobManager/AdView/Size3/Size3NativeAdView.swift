@@ -66,7 +66,7 @@ import NVActivityIndicatorView
   }
   
   override func setProperties() {
-    callToActionButton.layer.cornerRadius = 8.0
+    callToActionButton.layer.cornerRadius = 23.0
     callToActionButton.clipsToBounds = true
     
     adLabel.layer.cornerRadius = 1.0
