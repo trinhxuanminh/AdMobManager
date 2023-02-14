@@ -80,6 +80,8 @@ import NVActivityIndicatorView
   }
   
   override func setColor() {
+    changeLoading(color: UIColor(rgb: 0x000000))
+    
     iconImageView.backgroundColor = UIColor(rgb: 0xD9D9D9)
     
     adLabel.layer.borderColor = UIColor(rgb: 0x39BA19).cgColor

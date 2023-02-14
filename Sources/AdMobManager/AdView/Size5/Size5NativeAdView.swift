@@ -70,6 +70,8 @@ import NVActivityIndicatorView
   }
   
   override func setProperties() {
+    changeLoading(color: UIColor(rgb: 0x000000))
+    
     iconImageView.clipsToBounds = true
     
     callToActionButton.layer.cornerRadius = 8.0

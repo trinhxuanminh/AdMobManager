@@ -64,6 +64,10 @@ import NVActivityIndicatorView
     }
   }
   
+  override func setColor() {
+    changeLoading(color: UIColor(rgb: 0x000000))
+  }
+  
   /// This function returns the minimum recommended height for BannerAdView.
   public class func adHeightMinimum() -> CGFloat {
     return 60.0
