@@ -90,41 +90,23 @@ AdMobManager.shared.show(key: String)
 
 ### 3. NativeAd
 Ads are displayed automatically.
+Includes types:
+`Bonus`
+`Medium`
+`Size1`...`Size6`
 
 #### **a) CollectionViewCell**
 This class returns a UICollectionViewCell displaying NativeAd.
 
 ##### Register
 ```swift
-collectionView.register(ofType: SmallNativeAdCollectionViewCell.self)
-```
-```swift
-collectionView.register(ofType: MediumNativeAdCollectionViewCell.self)
-```
-```swift
-collectionView.register(ofType: BigNativeAdCollectionViewCell.self)
+collectionView.register(ofType: Size1NativeAdCollectionViewCell.self)
 ```
 
 ##### Datasource
 ```swift
 func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-  let cell = collectionView.dequeue(ofType: SmallNativeAdCollectionViewCell.self, indexPath: indexPath)
-  cell.adView.register(id: String)
-//            Optional
-  return cell
-}
-```
-```swift
-func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-  let cell = collectionView.dequeue(ofType: MediumNativeAdCollectionViewCell.self, indexPath: indexPath)
-  cell.adView.register(id: String)
-//            Optional
-  return cell
-}
-```
-```swift
-func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-  let cell = collectionView.dequeue(ofType: BigNativeAdCollectionViewCell.self, indexPath: indexPath)
+  let cell = collectionView.dequeue(ofType: Size1NativeAdCollectionViewCell.self, indexPath: indexPath)
   cell.adView.register(id: String)
 //            Optional
   return cell
@@ -136,33 +118,13 @@ This class returns a UITableViewCell displaying NativeAd.
 
 ##### Register
 ```swift
-tableView.register(ofType: SmallNativeAdTableViewCell.self)
-```
-```swift
-tableView.register(ofType: MediumNativeAdTableViewCell.self)
-```
-```swift
-tableView.register(ofType: BigNativeAdTableViewCell.self)
+tableView.register(ofType: Size1NativeAdTableViewCell.self)
 ```
 
 ##### Datasource
 ```swift
 func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-  let cell = tableView.dequeue(ofType: SmallNativeAdTableViewCell.self, indexPath: indexPath)
-//            Optional
-  return cell
-}
-```
-```swift
-func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-  let cell = tableView.dequeue(ofType: MediumNativeAdTableViewCell.self, indexPath: indexPath)
-//            Optional
-  return cell
-}
-```
-```swift
-func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-  let cell = tableView.dequeue(ofType: BigNativeAdTableViewCell.self, indexPath: indexPath)
+  let cell = tableView.dequeue(ofType: Size1NativeAdTableViewCell.self, indexPath: indexPath)
 //            Optional
   return cell
 }
@@ -170,27 +132,15 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 
 #### **c) View**
 There are two ways you can create a UIView displaying NativeAd:
-- By storyboard, changing class of any `UIView` to `SmallNativeAdView` / `MediumNativeAdView` / `BigNativeAdView` / `FullScreenNativeAdView`. _**Note**: Set `Module` to `AdMobManager`._
+- By storyboard, changing class of any `UIView` to `Size1NativeAdView`. _**Note**: Set `Module` to `AdMobManager`._
 - By code, using initializer.
 
 #### **d) Determine the height**
 ```swift
-SmallNativeAdCollectionViewCell.adHeightMinimum()
+Size1NativeAdView.adHeight()
 ```
 ```swift
-MediumNativeAdCollectionViewCell.adHeightMinimum(width: collectionView.frame.width)
-```
-```swift
-BigNativeAdCollectionViewCell.adHeightMinimum(width: collectionView.frame.width)
-```
-```swift
-SmallNativeAdTableViewCell.adHeightMinimum()
-```
-```swift
-MediumNativeAdTableViewCell.adHeightMinimum(width: tableView.frame.width)
-```
-```swift
-BigNativeAdTableViewCell.adHeightMinimum(width: tableView.frame.width)
+Size5NativeAdCollectionViewCell.adHeightMinimum(width: collectionView.frame.width)
 ```
 
 #### **e) Optional**

@@ -76,7 +76,10 @@ import NVActivityIndicatorView
   }
   
   override func setColor() {
-    iconImageView.backgroundColor = UIColor(rgb: 0xF2F2F7)
+    backgroundColor = UIColor(rgb: 0x000000)
+    changeLoading(color: UIColor(rgb: 0xFFFFFF))
+    
+    iconImageView.backgroundColor = UIColor(rgb: 0xD9D9D9)
     
     adLabel.backgroundColor = UIColor(rgb: 0xFFFFFF)
     adLabel.textColor = UIColor(rgb: 0x456631)

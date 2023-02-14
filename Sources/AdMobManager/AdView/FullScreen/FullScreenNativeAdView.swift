@@ -30,7 +30,6 @@ import SnapKit
     let loadingView = NVActivityIndicatorView(frame: .zero)
     loadingView.type = .ballPulse
     loadingView.padding = 30.0
-    loadingView.color = UIColor(rgb: 0xFFFFFF)
     return loadingView
   }()
   
@@ -68,6 +67,8 @@ import SnapKit
   }
   
   override func setProperties() {
+    changeLoading(color: UIColor(rgb: 0xFFFFFF))
+    
     backgroundColor = UIColor(rgb: 0x000000)
     iconImageView.clipsToBounds = true
     iconImageView.layer.cornerRadius = 4.0
