@@ -68,7 +68,7 @@
                                         <constraint firstAttribute="height" constant="15" id="hjB-Hf-76r"/>
                                         <constraint firstAttribute="width" constant="19" id="tK4-RT-ZUx"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="9"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                     <userDefinedRuntimeAttributes>

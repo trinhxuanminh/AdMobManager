@@ -74,7 +74,7 @@ import NVActivityIndicatorView
     callToActionButton.layer.cornerRadius = 5.0
     callToActionButton.clipsToBounds = true
     
-    adLabel.layer.cornerRadius = 1.0
+    adLabel.layer.cornerRadius = 4.0
     adLabel.layer.borderWidth = 1.0
     adLabel.clipsToBounds = true
   }
