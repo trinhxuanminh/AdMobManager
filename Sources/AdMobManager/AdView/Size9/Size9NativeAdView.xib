@@ -84,11 +84,11 @@
                                     </userDefinedRuntimeAttributes>
                                 </button>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PLf-IM-y7H">
-                                    <rect key="frame" x="-25" y="70" width="50" height="50"/>
+                                    <rect key="frame" x="-20" y="70" width="45" height="45"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="50" id="j89-or-64h"/>
-                                        <constraint firstAttribute="height" constant="50" id="zim-Ap-NbL"/>
+                                        <constraint firstAttribute="width" constant="45" id="j89-or-64h"/>
+                                        <constraint firstAttribute="height" constant="45" id="zim-Ap-NbL"/>
                                     </constraints>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ad" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FFo-C0-5Mt">
@@ -127,8 +127,8 @@
                                 <constraint firstItem="FFo-C0-5Mt" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" id="Xxd-8L-Plz"/>
                                 <constraint firstItem="MTF-Qc-wMI" firstAttribute="leading" secondItem="c3h-QI-r3g" secondAttribute="trailing" constant="12" id="ay0-JG-TuW"/>
                                 <constraint firstItem="pmK-ii-3db" firstAttribute="leading" secondItem="c3h-QI-r3g" secondAttribute="trailing" constant="12" id="bDK-jx-U6y"/>
-                                <constraint firstItem="PLf-IM-y7H" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="-25" id="cFD-Qx-9TH"/>
-                                <constraint firstAttribute="bottom" secondItem="PLf-IM-y7H" secondAttribute="bottom" constant="-25" id="cxn-Wy-3Fp"/>
+                                <constraint firstItem="PLf-IM-y7H" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="-20" id="cFD-Qx-9TH"/>
+                                <constraint firstAttribute="bottom" secondItem="PLf-IM-y7H" secondAttribute="bottom" constant="-20" id="cxn-Wy-3Fp"/>
                                 <constraint firstAttribute="trailing" secondItem="pmK-ii-3db" secondAttribute="trailing" constant="7" id="gqU-KQ-ESy"/>
                                 <constraint firstItem="MTF-Qc-wMI" firstAttribute="bottom" secondItem="c3h-QI-r3g" secondAttribute="bottom" id="kRV-sh-b0B"/>
                                 <constraint firstItem="pmK-ii-3db" firstAttribute="top" secondItem="c3h-QI-r3g" secondAttribute="top" id="vXa-yq-VEY"/>

@@ -130,6 +130,7 @@ import NVActivityIndicatorView
     }
     if let ad = ad {
       adLabel.textColor = ad
+      adLabel.layer.borderColor = ad.cgColor
     }
     if let adBackground = adBackground {
       adLabel.backgroundColor = adBackground
