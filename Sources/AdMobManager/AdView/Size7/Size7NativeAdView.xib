@@ -54,11 +54,11 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Et9-bB-rdQ">
-                                    <rect key="frame" x="317" y="-25" width="50" height="50"/>
+                                    <rect key="frame" x="320" y="-22" width="44" height="44"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="50" id="KeC-Nq-xlC"/>
-                                        <constraint firstAttribute="width" constant="50" id="PyF-vW-ETM"/>
+                                        <constraint firstAttribute="height" constant="44" id="KeC-Nq-xlC"/>
+                                        <constraint firstAttribute="width" constant="44" id="PyF-vW-ETM"/>
                                     </constraints>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ad" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FFo-C0-5Mt">
@@ -76,7 +76,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Headline" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pmK-ii-3db">
-                                    <rect key="frame" x="63" y="16" width="244" height="16"/>
+                                    <rect key="frame" x="63" y="16" width="247" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="16" id="6Jl-yw-bLS"/>
                                     </constraints>
@@ -93,7 +93,7 @@
                                 <constraint firstItem="c3h-QI-r3g" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="10" id="0d3-0S-bys"/>
                                 <constraint firstAttribute="trailing" secondItem="FFo-C0-5Mt" secondAttribute="trailing" id="7QX-pW-Yu9"/>
                                 <constraint firstItem="Zbd-yH-XAq" firstAttribute="leading" secondItem="c3h-QI-r3g" secondAttribute="trailing" constant="12" id="9Sw-a7-tNb"/>
-                                <constraint firstAttribute="trailing" secondItem="Et9-bB-rdQ" secondAttribute="trailing" constant="-25" id="9zG-Gc-hB3"/>
+                                <constraint firstAttribute="trailing" secondItem="Et9-bB-rdQ" secondAttribute="trailing" constant="-22" id="9zG-Gc-hB3"/>
                                 <constraint firstItem="FFo-C0-5Mt" firstAttribute="top" secondItem="Okb-TH-4F2" secondAttribute="top" constant="3" id="DPn-Wy-EQg"/>
                                 <constraint firstItem="pmK-ii-3db" firstAttribute="top" secondItem="c3h-QI-r3g" secondAttribute="top" id="F5b-Ou-gCr"/>
                                 <constraint firstItem="pmK-ii-3db" firstAttribute="leading" secondItem="c3h-QI-r3g" secondAttribute="trailing" constant="12" id="MmM-0d-4yu"/>
@@ -101,7 +101,7 @@
                                 <constraint firstItem="c3h-QI-r3g" firstAttribute="centerY" secondItem="Okb-TH-4F2" secondAttribute="centerY" id="cKX-lW-gjV"/>
                                 <constraint firstItem="Et9-bB-rdQ" firstAttribute="leading" secondItem="pmK-ii-3db" secondAttribute="trailing" constant="10" id="gV8-bd-6Pf"/>
                                 <constraint firstItem="Zbd-yH-XAq" firstAttribute="top" secondItem="pmK-ii-3db" secondAttribute="bottom" constant="5" id="ucv-pV-uDq"/>
-                                <constraint firstItem="Et9-bB-rdQ" firstAttribute="top" secondItem="Okb-TH-4F2" secondAttribute="top" constant="-25" id="xe2-0g-W4e"/>
+                                <constraint firstItem="Et9-bB-rdQ" firstAttribute="top" secondItem="Okb-TH-4F2" secondAttribute="top" constant="-22" id="xe2-0g-W4e"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
