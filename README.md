@@ -91,9 +91,10 @@ AdMobManager.shared.show(key: String)
 ### 3. NativeAd
 Ads are displayed automatically.
 Includes types:
+`FullScreen`
 `Bonus`
 `Medium`
-`Size1`...`Size6`
+`Size1`...`Size9`
 
 #### **a) CollectionViewCell**
 This class returns a UICollectionViewCell displaying NativeAd.
