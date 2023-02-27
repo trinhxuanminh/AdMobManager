@@ -54,7 +54,7 @@
                                         <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
                                     </userDefinedRuntimeAttributes>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Headline" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pmK-ii-3db">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Headline" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pmK-ii-3db">
                                     <rect key="frame" x="60" y="6" width="150" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="15" id="XmN-XS-OnI"/>
@@ -118,7 +118,7 @@
                                 <constraint firstAttribute="trailing" secondItem="Zbd-yH-XAq" secondAttribute="trailing" constant="7" id="0Yi-JV-Ndi"/>
                                 <constraint firstAttribute="bottom" secondItem="5HU-di-nRG" secondAttribute="bottom" constant="6" id="5lZ-sG-nzQ"/>
                                 <constraint firstAttribute="bottom" secondItem="FFo-C0-5Mt" secondAttribute="bottom" constant="3" id="6Zw-Ev-F7S"/>
-                                <constraint firstItem="MTF-Qc-wMI" firstAttribute="top" relation="greaterThanOrEqual" secondItem="pmK-ii-3db" secondAttribute="bottom" constant="6" id="7Lw-ds-fOj"/>
+                                <constraint firstItem="MTF-Qc-wMI" firstAttribute="top" relation="greaterThanOrEqual" secondItem="pmK-ii-3db" secondAttribute="bottom" id="7Lw-ds-fOj"/>
                                 <constraint firstItem="Zbd-yH-XAq" firstAttribute="top" secondItem="c3h-QI-r3g" secondAttribute="bottom" id="95N-zv-Cfa"/>
                                 <constraint firstItem="c3h-QI-r3g" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="7" id="9FM-OF-0RQ"/>
                                 <constraint firstItem="Zbd-yH-XAq" firstAttribute="leading" secondItem="c3h-QI-r3g" secondAttribute="leading" id="Cwg-9D-gCf"/>
