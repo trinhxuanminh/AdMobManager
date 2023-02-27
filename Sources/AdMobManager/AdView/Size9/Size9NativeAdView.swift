@@ -211,8 +211,8 @@ extension Size9NativeAdView {
     
     (nativeAdView.iconView as? UIImageView)?.image = nativeAd.icon?.image
     
-    (nativeAdView.starRatingView as? UIImageView)?.image = imageOfStars(from: nativeAd.starRating)
-    nativeAdView.starRatingView?.isHidden = nativeAd.starRating == nil
+    starImageView.image = imageOfStars(from: nativeAd.starRating)
+    starImageView.isHidden = nativeAd.starRating == nil
   }
   
   private func imageOfStars(from starRating: NSDecimalNumber?) -> UIImage? {
