@@ -66,11 +66,11 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lnj-F2-zxW">
-                                    <rect key="frame" x="385" y="47" width="50" height="50"/>
+                                    <rect key="frame" x="388" y="50" width="44" height="44"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="50" id="30s-zg-Qce"/>
-                                        <constraint firstAttribute="height" constant="50" id="bNQ-Cm-TDZ"/>
+                                        <constraint firstAttribute="width" constant="44" id="30s-zg-Qce"/>
+                                        <constraint firstAttribute="height" constant="44" id="bNQ-Cm-TDZ"/>
                                     </constraints>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ad" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FFo-C0-5Mt">
@@ -80,7 +80,7 @@
                                         <constraint firstAttribute="height" constant="15" id="XG0-eT-KuO"/>
                                         <constraint firstAttribute="width" constant="19" id="b0c-Y8-ldd"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="9"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                     <userDefinedRuntimeAttributes>
@@ -93,12 +93,12 @@
                                 <constraint firstAttribute="trailing" secondItem="FFo-C0-5Mt" secondAttribute="trailing" id="1Kp-Kk-igw"/>
                                 <constraint firstItem="Zbd-yH-XAq" firstAttribute="leading" secondItem="c3h-QI-r3g" secondAttribute="trailing" constant="12" id="6oA-6G-Xmk"/>
                                 <constraint firstItem="pmK-ii-3db" firstAttribute="leading" secondItem="c3h-QI-r3g" secondAttribute="trailing" constant="12" id="Hur-up-aqf"/>
-                                <constraint firstAttribute="trailing" secondItem="lnj-F2-zxW" secondAttribute="trailing" constant="-25" id="MFJ-hs-zhJ"/>
+                                <constraint firstAttribute="trailing" secondItem="lnj-F2-zxW" secondAttribute="trailing" constant="-22" id="MFJ-hs-zhJ"/>
                                 <constraint firstItem="Zbd-yH-XAq" firstAttribute="top" secondItem="pmK-ii-3db" secondAttribute="bottom" constant="3" id="MQk-qd-m5u"/>
                                 <constraint firstItem="c3h-QI-r3g" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="6" id="PQE-CB-tfo"/>
                                 <constraint firstItem="c3h-QI-r3g" firstAttribute="top" secondItem="Okb-TH-4F2" secondAttribute="top" constant="6" id="WM2-VN-w1R"/>
                                 <constraint firstAttribute="bottom" secondItem="FFo-C0-5Mt" secondAttribute="bottom" constant="3" id="cHY-kj-9nK"/>
-                                <constraint firstAttribute="bottom" secondItem="lnj-F2-zxW" secondAttribute="bottom" constant="-25" id="e0b-HX-Zjd"/>
+                                <constraint firstAttribute="bottom" secondItem="lnj-F2-zxW" secondAttribute="bottom" constant="-22" id="e0b-HX-Zjd"/>
                                 <constraint firstAttribute="trailing" secondItem="Zbd-yH-XAq" secondAttribute="trailing" constant="40" id="f8q-ox-UPz"/>
                                 <constraint firstAttribute="bottom" secondItem="c3h-QI-r3g" secondAttribute="bottom" constant="6" id="iaj-ui-vaE"/>
                                 <constraint firstAttribute="trailing" secondItem="pmK-ii-3db" secondAttribute="trailing" constant="10" id="wAz-0N-tPT"/>

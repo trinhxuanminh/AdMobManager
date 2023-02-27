@@ -35,7 +35,7 @@
                                         <constraint firstAttribute="width" constant="19" id="SOY-bd-z8S"/>
                                         <constraint firstAttribute="height" constant="15" id="Ycu-z7-T6H"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="9"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                     <userDefinedRuntimeAttributes>

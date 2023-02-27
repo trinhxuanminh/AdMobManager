@@ -84,9 +84,9 @@ import SnapKit
   override func setColor() {
     iconImageView.backgroundColor = UIColor(rgb: 0xF2F2F7)
     
-    adLabel.backgroundColor = UIColor(rgb: 0xFFFFFF)
-    adLabel.textColor = UIColor(rgb: 0x456631)
-    adLabel.layer.borderColor = UIColor(rgb: 0x456631).cgColor
+    adLabel.backgroundColor = UIColor(rgb: 0x39BA19)
+    adLabel.textColor = UIColor(rgb: 0xFFFFFF)
+    adLabel.layer.borderColor = UIColor(rgb: 0x39BA19).cgColor
     
     headlineLabel.textColor = UIColor(rgb: 0xFFFFFF)
     

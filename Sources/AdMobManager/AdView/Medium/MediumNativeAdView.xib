@@ -62,13 +62,13 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ad" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bDj-US-PUf">
-                                    <rect key="frame" x="5" y="5" width="16" height="16"/>
+                                    <rect key="frame" x="5" y="5" width="19" height="15"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="16" id="9VI-Nr-JgA"/>
-                                        <constraint firstAttribute="height" constant="16" id="SZ2-vw-QGe"/>
+                                        <constraint firstAttribute="width" constant="19" id="9VI-Nr-JgA"/>
+                                        <constraint firstAttribute="height" constant="15" id="SZ2-vw-QGe"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="9"/>
                                     <color key="textColor" red="0.27058823529999998" green="0.40000000000000002" blue="0.19215686269999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <nil key="highlightedColor"/>
                                     <userDefinedRuntimeAttributes>

@@ -104,7 +104,7 @@
                                         <constraint firstAttribute="height" constant="16" id="YTv-Js-vHe"/>
                                         <constraint firstAttribute="width" constant="25" id="cyP-xG-onf"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="9"/>
                                     <color key="textColor" red="0.27058823529411763" green="0.40000000000000002" blue="0.19215686274509802" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <nil key="highlightedColor"/>
                                     <userDefinedRuntimeAttributes>

@@ -77,6 +77,7 @@ import NVActivityIndicatorView
     
     iconImageView.backgroundColor = UIColor(rgb: 0xD9D9D9)
     
+    adBackgroundView.backgroundColor = UIColor(rgb: 0xFCB41C)
     adLabel.textColor = UIColor(rgb: 0xFFFFFF)
     
     headlineLabel.textColor = UIColor(rgb: 0x000000)

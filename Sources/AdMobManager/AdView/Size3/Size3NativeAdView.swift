@@ -69,15 +69,17 @@ import NVActivityIndicatorView
     callToActionButton.layer.cornerRadius = 23.0
     callToActionButton.clipsToBounds = true
     
-    adLabel.layer.cornerRadius = 1.0
+    adLabel.layer.cornerRadius = 4.0
     adLabel.clipsToBounds = true
+    adLabel.layer.borderWidth = 1.0
   }
   
   override func setColor() {
     changeLoading(color: UIColor(rgb: 0x000000))
     
-    adLabel.backgroundColor = UIColor(rgb: 0xFCB41C)
-    adLabel.textColor = UIColor(rgb: 0xFFFFFF)
+    adLabel.backgroundColor = .clear
+    adLabel.textColor = UIColor(rgb: 0x39BA19)
+    adLabel.layer.borderColor = UIColor(rgb: 0x39BA19).cgColor
     
     headlineLabel.textColor = UIColor(rgb: 0x000000)
     

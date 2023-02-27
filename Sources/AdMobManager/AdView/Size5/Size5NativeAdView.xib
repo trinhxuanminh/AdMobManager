@@ -46,7 +46,7 @@
                                         <constraint firstAttribute="width" constant="19" id="0ET-e4-yLV"/>
                                         <constraint firstAttribute="height" constant="15" id="5T9-iZ-Voc"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="9"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                     <userDefinedRuntimeAttributes>
@@ -54,11 +54,11 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Price" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bc4-KA-maa">
-                                    <rect key="frame" x="94" y="90" width="35.5" height="16"/>
+                                    <rect key="frame" x="94" y="90" width="37" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="16" id="xbM-kr-hKC"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                    <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="14"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                     <userDefinedRuntimeAttributes>
