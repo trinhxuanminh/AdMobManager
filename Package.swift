@@ -39,6 +39,8 @@ let package = Package(
         .process("AdView/Size7/Size7NativeAdView.xib"),
         .process("AdView/Size8/Size8NativeAdView.xib"),
         .process("AdView/Size9/Size9NativeAdView.xib"),
+        .process("AdView/Size8/Size10NativeAdView.xib"),
+        .process("AdView/Size9/Size11NativeAdView.xib"),
         .process("AdView/Bonus/BonusNativeAdView.xib"),
         .process("AdView/FullScreen/FullScreenNativeAdView.xib"),
         .process("AdView/Medium/MediumNativeAdView.xib"),
