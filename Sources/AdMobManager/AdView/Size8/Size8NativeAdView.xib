@@ -4,11 +4,13 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="Size8NativeAdView" customModule="AdMobManager">
             <connections>
+                <outlet property="adBackgroundView" destination="kbC-S6-S5n" id="ZnV-ra-lfR"/>
                 <outlet property="adLabel" destination="FFo-C0-5Mt" id="dqX-Kn-rF2"/>
                 <outlet property="bodyLabel" destination="Zbd-yH-XAq" id="Mvu-Ra-RGe"/>
                 <outlet property="callToActionButton" destination="5HU-di-nRG" id="d4H-lA-xvW"/>
@@ -67,20 +69,6 @@
                                         <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
                                     </userDefinedRuntimeAttributes>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ad" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FFo-C0-5Mt">
-                                    <rect key="frame" x="90" y="2" width="19" height="15"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="19" id="AOf-aM-Qtu"/>
-                                        <constraint firstAttribute="height" constant="15" id="H40-Qi-d0F"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="9"/>
-                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
-                                    </userDefinedRuntimeAttributes>
-                                </label>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0_star" translatesAutoresizingMaskIntoConstraints="NO" id="MTF-Qc-wMI">
                                     <rect key="frame" x="52" y="41" width="53" height="9"/>
                                     <constraints>
@@ -100,23 +88,47 @@
                                         <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
                                     </userDefinedRuntimeAttributes>
                                 </label>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kbC-S6-S5n">
+                                    <rect key="frame" x="-22" y="136" width="44" height="44"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="44" id="Yxs-Nx-O9L"/>
+                                        <constraint firstAttribute="height" constant="44" id="zit-gX-jcK"/>
+                                    </constraints>
+                                </view>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ad" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FFo-C0-5Mt">
+                                    <rect key="frame" x="0.0" y="140" width="19" height="15"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="19" id="AOf-aM-Qtu"/>
+                                        <constraint firstAttribute="height" constant="15" id="H40-Qi-d0F"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="9"/>
+                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                    </userDefinedRuntimeAttributes>
+                                </label>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="5HU-di-nRG" secondAttribute="trailing" constant="5" id="1sz-P6-yHF"/>
                                 <constraint firstItem="pmK-ii-3db" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="6" id="4dY-hE-QdJ"/>
                                 <constraint firstItem="5HU-di-nRG" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Zbd-yH-XAq" secondAttribute="bottom" constant="3" id="6rN-0x-GNf"/>
+                                <constraint firstAttribute="bottom" secondItem="kbC-S6-S5n" secondAttribute="bottom" constant="-22" id="E8f-4K-CAw"/>
+                                <constraint firstAttribute="bottom" secondItem="FFo-C0-5Mt" secondAttribute="bottom" constant="3" id="K2W-lu-KY2"/>
                                 <constraint firstItem="MTF-Qc-wMI" firstAttribute="bottom" secondItem="c3h-QI-r3g" secondAttribute="bottom" id="MrY-8Y-kaB"/>
                                 <constraint firstItem="MTF-Qc-wMI" firstAttribute="leading" secondItem="c3h-QI-r3g" secondAttribute="trailing" constant="5" id="Nbx-c5-p1f"/>
                                 <constraint firstAttribute="trailing" secondItem="Zbd-yH-XAq" secondAttribute="trailing" constant="5" id="OI9-9L-Yca"/>
                                 <constraint firstAttribute="trailing" secondItem="pmK-ii-3db" secondAttribute="trailing" constant="5" id="RlG-VD-qVW"/>
                                 <constraint firstItem="c3h-QI-r3g" firstAttribute="top" secondItem="Okb-TH-4F2" secondAttribute="top" constant="9" id="Ryq-Wv-TKZ"/>
                                 <constraint firstItem="pmK-ii-3db" firstAttribute="top" secondItem="c3h-QI-r3g" secondAttribute="bottom" constant="5" id="XXW-Il-Imh"/>
-                                <constraint firstItem="FFo-C0-5Mt" firstAttribute="top" secondItem="Okb-TH-4F2" secondAttribute="top" constant="2" id="cXE-07-oUr"/>
                                 <constraint firstAttribute="bottom" secondItem="5HU-di-nRG" secondAttribute="bottom" constant="5" id="eZA-kX-dqA"/>
                                 <constraint firstItem="c3h-QI-r3g" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="6" id="kn6-WL-dBo"/>
                                 <constraint firstItem="Zbd-yH-XAq" firstAttribute="top" secondItem="pmK-ii-3db" secondAttribute="bottom" constant="3" id="pXz-gq-b5A"/>
-                                <constraint firstAttribute="trailing" secondItem="FFo-C0-5Mt" secondAttribute="trailing" constant="2" id="qHt-rF-c0T"/>
+                                <constraint firstItem="FFo-C0-5Mt" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" id="sxL-Fh-CMK"/>
+                                <constraint firstItem="kbC-S6-S5n" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="-22" id="vVD-WP-AS8"/>
                                 <constraint firstItem="Zbd-yH-XAq" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="6" id="vbS-Ib-OCJ"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
@@ -152,5 +164,8 @@
     </objects>
     <resources>
         <image name="0_star" width="212" height="36"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

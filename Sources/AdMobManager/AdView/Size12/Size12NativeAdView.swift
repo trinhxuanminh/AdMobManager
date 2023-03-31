@@ -1,5 +1,5 @@
 //
-//  Size8NativeAdView.swift
+//  Size12NativeAdView.swift
 //  AdMobManager
 //
 //  Created by Trịnh Xuân Minh on 27/03/2022.
@@ -16,15 +16,14 @@ import NVActivityIndicatorView
 /// ```
 /// Can be instantiated programmatically or Interface Builder. Use as UIView. Ad display is automatic.
 /// - Warning: NativeAd will not be displayed without adding ID.
-@IBDesignable public class Size8NativeAdView: BaseView, GADVideoControllerDelegate {
+@IBDesignable public class Size12NativeAdView: BaseView, GADVideoControllerDelegate {
   @IBOutlet var contentView: UIView!
   @IBOutlet weak var callToActionButton: UIButton!
-  @IBOutlet weak var bodyLabel: UILabel!
   @IBOutlet weak var headlineLabel: UILabel!
   @IBOutlet weak var adLabel: UILabel!
+  @IBOutlet weak var adBackgroundView: UIView!
   @IBOutlet weak var nativeAdView: GADNativeAdView!
   @IBOutlet weak var iconImageView: UIImageView!
-  @IBOutlet weak var adBackgroundView: UIView!
   @IBOutlet weak var starImageView: UIImageView!
   private lazy var loadingView: NVActivityIndicatorView = {
     let loadingView = NVActivityIndicatorView(frame: .zero)
@@ -52,7 +51,7 @@ import NVActivityIndicatorView
   }
   
   override func addComponents() {
-    Bundle.module.loadNibNamed(String(describing: Size8NativeAdView.self),
+    Bundle.module.loadNibNamed(String(describing: Size12NativeAdView.self),
                                owner: self,
                                options: nil)
     addSubview(contentView)
@@ -87,15 +86,13 @@ import NVActivityIndicatorView
     
     headlineLabel.textColor = UIColor(rgb: 0x000000)
     
-    bodyLabel.textColor = UIColor(rgb: 0x27303E)
-    
     callToActionButton.setTitleColor(UIColor(rgb: 0xFFFFFF), for: .normal)
     callToActionButton.backgroundColor = UIColor(rgb: 0x00A9A8)
   }
   
   /// This function returns the minimum recommended height.
   public class func adHeight() -> CGFloat {
-    return 158.0
+    return 62.0
   }
   
   public func register(id: String) {
@@ -118,7 +115,6 @@ import NVActivityIndicatorView
     title: UIColor? = nil,
     ad: UIColor? = nil,
     adBackground: UIColor? = nil,
-    body: UIColor? = nil,
     callToAction: UIColor? = nil,
     callToActionBackground: UIColor? = nil
   ) {
@@ -131,9 +127,6 @@ import NVActivityIndicatorView
     if let adBackground = adBackground {
       adBackgroundView.backgroundColor = adBackground
     }
-    if let body = body {
-      bodyLabel.textColor = body
-    }
     if let callToAction = callToAction {
       callToActionButton.setTitleColor(callToAction, for: .normal)
     }
@@ -145,7 +138,6 @@ import NVActivityIndicatorView
   public func changeFont(
     title: UIFont? = nil,
     ad: UIFont? = nil,
-    body: UIFont? = nil,
     callToAction: UIFont? = nil
   ) {
     if let title = title {
@@ -153,9 +145,6 @@ import NVActivityIndicatorView
     }
     if let ad = ad {
       adLabel.font = ad
-    }
-    if let body = body {
-      bodyLabel.font = body
     }
     if let callToAction = callToAction {
       callToActionButton.titleLabel?.font = callToAction
@@ -181,7 +170,7 @@ import NVActivityIndicatorView
   }
 }
 
-extension Size8NativeAdView {
+extension Size12NativeAdView {
   private func startAnimation() {
     nativeAdView.isHidden = true
     loadingView.startAnimating()
