@@ -155,10 +155,10 @@ extension BannerAdView {
 
       self.isLoading = true
       print("BannerAd: start load!")
-      bannerAdView?.adUnitID = adUnitID
-      bannerAdView?.delegate = self
-      bannerAdView?.rootViewController = rootViewController
-      bannerAdView?.load(GADRequest())
+      self.bannerAdView?.adUnitID = adUnitID
+      self.bannerAdView?.delegate = self
+      self.bannerAdView?.rootViewController = rootViewController
+      self.bannerAdView?.load(GADRequest())
     }
   }
 }
