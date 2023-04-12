@@ -143,17 +143,22 @@ extension BannerAdView {
       print("BannerAd: failed to load - not initialized yet! Please install ID.")
       return
     }
+    
+    DispatchQueue.main.async { [weak self] in
+      guard let self = self else {
+        return
+      }
+      guard let rootViewController = UIApplication.topStackViewController() else {
+        print("BannerAd: display failure - can't find RootViewController!")
+        return
+      }
 
-    guard let rootViewController = UIApplication.topStackViewController() else {
-      print("BannerAd: display failure - can't find RootViewController!")
-      return
+      self.isLoading = true
+      print("BannerAd: start load!")
+      bannerAdView?.adUnitID = adUnitID
+      bannerAdView?.delegate = self
+      bannerAdView?.rootViewController = rootViewController
+      bannerAdView?.load(GADRequest())
     }
-
-    isLoading = true
-    print("BannerAd: start load!")
-    bannerAdView?.adUnitID = adUnitID
-    bannerAdView?.delegate = self
-    bannerAdView?.rootViewController = rootViewController
-    bannerAdView?.load(GADRequest())
   }
 }
