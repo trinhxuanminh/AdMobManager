@@ -1,5 +1,5 @@
 //
-//  BannerAdView.swift
+//  BannerAdMobView.swift
 //  AdMobManager
 //
 //  Created by Trịnh Xuân Minh on 25/03/2022.
@@ -16,7 +16,7 @@ import NVActivityIndicatorView
 /// ```
 /// Can be instantiated programmatically or Interface Builder. Use as UIView. Ad display is automatic.
 /// - Warning: Ad will not be displayed without adding ID.
-@IBDesignable public class BannerAdView: BaseView {
+@IBDesignable public class BannerAdMobView: BaseView {
   private lazy var bannerAdView: GADBannerView! = {
     let bannerView = GADBannerView()
     return bannerView
@@ -100,7 +100,7 @@ import NVActivityIndicatorView
   }
 }
 
-extension BannerAdView: GADBannerViewDelegate {
+extension BannerAdMobView: GADBannerViewDelegate {
   public func bannerView(_ bannerView: GADBannerView,
                          didFailToReceiveAdWithError error: Error
   ) {
@@ -119,7 +119,7 @@ extension BannerAdView: GADBannerViewDelegate {
   }
 }
 
-extension BannerAdView {
+extension BannerAdMobView {
   private func startAnimation() {
     bannerAdView.isHidden = true
     loadingView.startAnimating()
