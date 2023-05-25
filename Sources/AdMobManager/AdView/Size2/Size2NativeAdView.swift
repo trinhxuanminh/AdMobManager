@@ -67,6 +67,9 @@ import NVActivityIndicatorView
   }
   
   override func setProperties() {
+    nativeAdView.layer.cornerRadius = 8.0
+    nativeAdView.layer.borderWidth = 0.5
+    
     iconImageView.clipsToBounds = true
     
     callToActionButton.layer.cornerRadius = 8.0
@@ -78,20 +81,22 @@ import NVActivityIndicatorView
   }
   
   override func setColor() {
-    changeLoading(color: UIColor(rgb: 0x000000))
+    nativeAdView.layer.borderColor = UIColor.white.cgColor
     
-    iconImageView.backgroundColor = UIColor(rgb: 0xD9D9D9)
+    changeLoading(color: UIColor.white)
+    
+    iconImageView.backgroundColor = UIColor.gray
     
     adLabel.backgroundColor = .clear
-    adLabel.textColor = UIColor(rgb: 0x39BA19)
-    adLabel.layer.borderColor = UIColor(rgb: 0x39BA19).cgColor
+    adLabel.textColor = UIColor.white
+    adLabel.layer.borderColor = UIColor.white.cgColor
     
-    headlineLabel.textColor = UIColor(rgb: 0x000000)
+    headlineLabel.textColor = UIColor.white
     
-    bodyLabel.textColor = UIColor(rgb: 0x27303E)
+    bodyLabel.textColor = UIColor.white
     
-    callToActionButton.setTitleColor(UIColor(rgb: 0xFFFFFF), for: .normal)
-    callToActionButton.backgroundColor = UIColor(rgb: 0x00A9A8)
+    callToActionButton.setTitleColor(UIColor.black, for: .normal)
+    callToActionButton.backgroundColor = UIColor(rgb: 0x90EBFF)
   }
   
   /// This function returns the minimum recommended height.
@@ -116,6 +121,7 @@ import NVActivityIndicatorView
   }
   
   public func changeColor(
+    border: UIColor? = nil,
     title: UIColor? = nil,
     ad: UIColor? = nil,
     adBackground: UIColor? = nil,
@@ -123,6 +129,9 @@ import NVActivityIndicatorView
     callToAction: UIColor? = nil,
     callToActionBackground: UIColor? = nil
   ) {
+    if let border = border {
+      nativeAdView.layer.borderColor = border.cgColor
+    }
     if let title = title {
       headlineLabel.textColor = title
     }
