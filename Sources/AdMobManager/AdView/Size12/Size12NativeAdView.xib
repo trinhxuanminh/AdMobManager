@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -60,9 +60,9 @@
                                         <constraint firstAttribute="width" constant="60" id="QiP-0U-XRy"/>
                                         <constraint firstAttribute="height" constant="19" id="Uhy-cR-ucb"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
+                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="8"/>
                                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <state key="normal" title="INSTALL">
+                                    <state key="normal" title="Install">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
@@ -79,7 +79,7 @@
                                     </constraints>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ad" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FFo-C0-5Mt">
-                                    <rect key="frame" x="0.0" y="46" width="19" height="15"/>
+                                    <rect key="frame" x="0.0" y="47" width="19" height="15"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="19" id="fiM-2A-Jx3"/>
@@ -103,7 +103,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="bottom" secondItem="5HU-di-nRG" secondAttribute="bottom" constant="6" id="5lZ-sG-nzQ"/>
-                                <constraint firstAttribute="bottom" secondItem="FFo-C0-5Mt" secondAttribute="bottom" constant="1" id="6Zw-Ev-F7S"/>
+                                <constraint firstAttribute="bottom" secondItem="FFo-C0-5Mt" secondAttribute="bottom" id="6Zw-Ev-F7S"/>
                                 <constraint firstItem="MTF-Qc-wMI" firstAttribute="top" secondItem="pmK-ii-3db" secondAttribute="bottom" constant="5" id="7Lw-ds-fOj"/>
                                 <constraint firstItem="c3h-QI-r3g" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="3" id="9FM-OF-0RQ"/>
                                 <constraint firstAttribute="trailing" secondItem="5HU-di-nRG" secondAttribute="trailing" constant="7" id="SFL-ZR-O4H"/>

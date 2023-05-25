@@ -73,7 +73,7 @@
                                         <constraint firstAttribute="width" constant="78" id="QiP-0U-XRy"/>
                                         <constraint firstAttribute="height" constant="23" id="Uhy-cR-ucb"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
+                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="10"/>
                                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <state key="normal" title="INSTALL">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
