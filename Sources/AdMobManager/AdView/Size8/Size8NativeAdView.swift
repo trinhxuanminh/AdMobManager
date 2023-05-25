@@ -73,6 +73,7 @@ import NVActivityIndicatorView
     nativeAdView.layer.borderWidth = 0.5
     
     adBackgroundView.layer.cornerRadius = 20.0
+    adBackgroundView.layer.maskedCorners = [.layerMaxXMinYCorner]
     
     iconImageView.clipsToBounds = true
     iconImageView.layer.cornerRadius = 10.0
