@@ -82,20 +82,20 @@ import SnapKit
   }
   
   override func setColor() {
-    iconImageView.backgroundColor = UIColor(rgb: 0xF2F2F7)
+    iconImageView.backgroundColor = UIColor.gray
     
-    adLabel.backgroundColor = UIColor(rgb: 0x39BA19)
-    adLabel.textColor = UIColor(rgb: 0xFFFFFF)
-    adLabel.layer.borderColor = UIColor(rgb: 0x39BA19).cgColor
+    adLabel.backgroundColor = UIColor.clear
+    adLabel.textColor = UIColor.white
+    adLabel.layer.borderColor = UIColor.white.cgColor
     
-    headlineLabel.textColor = UIColor(rgb: 0xFFFFFF)
+    headlineLabel.textColor = UIColor.white
     
-    advertiserLabel.textColor = UIColor(rgb: 0xFFFFFF)
+    advertiserLabel.textColor = UIColor.white
     
-    bodyLabel.textColor = UIColor(rgb: 0xFFFFFF, alpha: 0.6)
+    bodyLabel.textColor = UIColor.white
     
-    callToActionButton.setTitleColor(UIColor(rgb: 0xFFFFFF), for: .normal)
-    callToActionButton.backgroundColor = UIColor(rgb: 0x6399F0)
+    callToActionButton.setTitleColor(UIColor.black, for: .normal)
+    callToActionButton.backgroundColor = UIColor(rgb: 0x90EBFF)
   }
   
   public func register(id: String) {
