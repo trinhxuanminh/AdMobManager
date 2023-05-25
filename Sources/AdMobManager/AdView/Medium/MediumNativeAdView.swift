@@ -67,6 +67,9 @@ import NVActivityIndicatorView
   }
   
   override func setProperties() {
+    nativeAdView.layer.cornerRadius = 8.0
+    nativeAdView.layer.borderWidth = 0.5
+    
     iconImageView.clipsToBounds = true
     iconImageView.layer.cornerRadius = 4.0
     
@@ -76,18 +79,19 @@ import NVActivityIndicatorView
   }
   
   override func setColor() {
-    backgroundColor = UIColor(rgb: 0x000000)
-    changeLoading(color: UIColor(rgb: 0xFFFFFF))
+    nativeAdView.layer.borderColor = UIColor.white.cgColor
     
-    iconImageView.backgroundColor = UIColor(rgb: 0xD9D9D9)
+    changeLoading(color: UIColor.white)
     
-    adLabel.backgroundColor = UIColor(rgb: 0x39BA19)
-    adLabel.textColor = UIColor(rgb: 0xFFFFFF)
-    adLabel.layer.borderColor = UIColor(rgb: 0x39BA19).cgColor
+    iconImageView.backgroundColor = UIColor.gray
     
-    headlineLabel.textColor = UIColor(rgb: 0xFFFFFF)
+    adLabel.backgroundColor = UIColor.white
+    adLabel.textColor = UIColor.black
+    adLabel.layer.borderColor = UIColor.black.cgColor
     
-    advertiserLabel.textColor = UIColor(rgb: 0xFFFFFF)
+    headlineLabel.textColor = UIColor.white
+    
+    advertiserLabel.textColor = UIColor.white
   }
   
   /// This function returns the minimum recommended height for NativeAdvancedAdView.
@@ -115,12 +119,16 @@ import NVActivityIndicatorView
   }
   
   public func changeColor(
+    border: UIColor? = nil,
     title: UIColor? = nil,
     advertiser: UIColor? = nil,
     ad: UIColor? = nil,
     adBackground: UIColor? = nil,
     mediaBackground: UIColor? = nil
   ) {
+    if let border = border {
+      nativeAdView.layer.borderColor = border.cgColor
+    }
     if let title = title {
       headlineLabel.textColor = title
     }
