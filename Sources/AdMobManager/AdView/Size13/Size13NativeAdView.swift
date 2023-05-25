@@ -101,7 +101,7 @@ import NVActivityIndicatorView
   /// This function returns the minimum recommended height.
   public class func adHeightMinimum(width: CGFloat) -> CGFloat {
     let mediaHeight = width / 16 * 9
-    return (mediaHeight < 120 ? 120 : mediaHeight) + 121
+    return (mediaHeight < 120 ? 120 : mediaHeight) + 112
   }
   
   public func register(id: String) {
