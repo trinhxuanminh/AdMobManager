@@ -25,7 +25,7 @@ import NVActivityIndicatorView
     let loadingView = NVActivityIndicatorView(frame: .zero)
     loadingView.type = .ballPulse
     loadingView.padding = 30.0
-    loadingView.color = UIColor(rgb: 0xFFFFFF)
+    loadingView.color = UIColor.white
     return loadingView
   }()
 
@@ -65,7 +65,7 @@ import NVActivityIndicatorView
   }
   
   override func setColor() {
-    changeLoading(color: UIColor(rgb: 0x000000))
+    changeLoading(color: UIColor.white)
   }
   
   /// This function returns the minimum recommended height for BannerAdView.
