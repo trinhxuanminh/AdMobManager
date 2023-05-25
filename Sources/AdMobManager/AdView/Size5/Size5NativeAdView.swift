@@ -2,7 +2,7 @@
 //  Size5NativeAdView.swift
 //  AdMobManager
 //
-//  Created by Trịnh Xuân Minh on 27/03/2022.
+//  Created by Trịnh Xuân Minh on 27/03/2022. 
 //
 
 import UIKit
