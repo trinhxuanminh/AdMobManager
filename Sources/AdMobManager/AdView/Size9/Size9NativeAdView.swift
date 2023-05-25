@@ -83,6 +83,8 @@ import NVActivityIndicatorView
   }
   
   override func setColor() {
+    nativeAdView.layer.borderColor = UIColor.white.cgColor
+    
     changeLoading(color: UIColor.white)
     
     iconImageView.backgroundColor = UIColor.gray
