@@ -46,7 +46,6 @@ import NVActivityIndicatorView
     }
     self.didStartAnimation = true
     startAnimation()
-    adBackgroundView.transform = CGAffineTransform(rotationAngle: .pi / 4)
   }
   
   override func addComponents() {
@@ -68,23 +67,29 @@ import NVActivityIndicatorView
   }
   
   override func setProperties() {
+    nativeAdView.layer.cornerRadius = 8.0
+    nativeAdView.layer.borderWidth = 0.5
+    
+    adBackgroundView.layer.cornerRadius = 20.0
+    adBackgroundView.layer.maskedCorners = [.layerMinXMinYCorner]
+    
     iconImageView.clipsToBounds = true
     iconImageView.layer.cornerRadius = 10.0
   }
   
   override func setColor() {
-    changeLoading(color: UIColor(rgb: 0x000000))
+    nativeAdView.layer.borderColor = UIColor.white.cgColor
     
-    iconImageView.backgroundColor = UIColor(rgb: 0xD9D9D9)
+    changeLoading(color: UIColor.white)
     
-    adBackgroundView.backgroundColor = UIColor(rgb: 0xFCB41C)
-    adLabel.textColor = UIColor(rgb: 0xFFFFFF)
+    iconImageView.backgroundColor = UIColor.gray
     
-    headlineLabel.textColor = UIColor(rgb: 0x000000)
+    adBackgroundView.backgroundColor = UIColor.white
+    adLabel.textColor = UIColor.black
     
-    bodyLabel.textColor = UIColor(rgb: 0x000000, alpha: 0.5)
+    headlineLabel.textColor = UIColor.white
     
-    adBackgroundView.backgroundColor = UIColor(rgb: 0xFCB41C)
+    bodyLabel.textColor = UIColor.white
   }
   
   /// This function returns the minimum recommended height.
@@ -109,11 +114,15 @@ import NVActivityIndicatorView
   }
   
   public func changeColor(
+    border: UIColor? = nil,
     title: UIColor? = nil,
     ad: UIColor? = nil,
     adBackground: UIColor? = nil,
     body: UIColor? = nil
   ) {
+    if let border = border {
+      nativeAdView.layer.borderColor = border.cgColor
+    }
     if let title = title {
       headlineLabel.textColor = title
     }
