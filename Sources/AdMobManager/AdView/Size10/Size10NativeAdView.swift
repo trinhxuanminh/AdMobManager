@@ -45,7 +45,6 @@ import NVActivityIndicatorView
     }
     self.didStartAnimation = true
     startAnimation()
-    layer.cornerRadius = 36.5
   }
   
   override func addComponents() {
