@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -89,11 +89,11 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kbC-S6-S5n">
-                                    <rect key="frame" x="-22" y="136" width="44" height="44"/>
+                                    <rect key="frame" x="0.0" y="138" width="20" height="20"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="44" id="Yxs-Nx-O9L"/>
-                                        <constraint firstAttribute="height" constant="44" id="zit-gX-jcK"/>
+                                        <constraint firstAttribute="width" constant="20" id="Yxs-Nx-O9L"/>
+                                        <constraint firstAttribute="height" constant="20" id="zit-gX-jcK"/>
                                     </constraints>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ad" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FFo-C0-5Mt">
@@ -116,7 +116,7 @@
                                 <constraint firstAttribute="trailing" secondItem="5HU-di-nRG" secondAttribute="trailing" constant="5" id="1sz-P6-yHF"/>
                                 <constraint firstItem="pmK-ii-3db" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="6" id="4dY-hE-QdJ"/>
                                 <constraint firstItem="5HU-di-nRG" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Zbd-yH-XAq" secondAttribute="bottom" constant="3" id="6rN-0x-GNf"/>
-                                <constraint firstAttribute="bottom" secondItem="kbC-S6-S5n" secondAttribute="bottom" constant="-22" id="E8f-4K-CAw"/>
+                                <constraint firstAttribute="bottom" secondItem="kbC-S6-S5n" secondAttribute="bottom" id="E8f-4K-CAw"/>
                                 <constraint firstAttribute="bottom" secondItem="FFo-C0-5Mt" secondAttribute="bottom" constant="3" id="K2W-lu-KY2"/>
                                 <constraint firstItem="MTF-Qc-wMI" firstAttribute="bottom" secondItem="c3h-QI-r3g" secondAttribute="bottom" id="MrY-8Y-kaB"/>
                                 <constraint firstItem="MTF-Qc-wMI" firstAttribute="leading" secondItem="c3h-QI-r3g" secondAttribute="trailing" constant="5" id="Nbx-c5-p1f"/>
@@ -128,7 +128,7 @@
                                 <constraint firstItem="c3h-QI-r3g" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="6" id="kn6-WL-dBo"/>
                                 <constraint firstItem="Zbd-yH-XAq" firstAttribute="top" secondItem="pmK-ii-3db" secondAttribute="bottom" constant="3" id="pXz-gq-b5A"/>
                                 <constraint firstItem="FFo-C0-5Mt" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" id="sxL-Fh-CMK"/>
-                                <constraint firstItem="kbC-S6-S5n" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="-22" id="vVD-WP-AS8"/>
+                                <constraint firstItem="kbC-S6-S5n" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" id="vVD-WP-AS8"/>
                                 <constraint firstItem="Zbd-yH-XAq" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="6" id="vbS-Ib-OCJ"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
