@@ -48,7 +48,6 @@ import NVActivityIndicatorView
     }
     self.didStartAnimation = true
     startAnimation()
-    adBackgroundView.transform = CGAffineTransform(rotationAngle: .pi / 4)
   }
   
   override func addComponents() {
@@ -70,6 +69,12 @@ import NVActivityIndicatorView
   }
   
   override func setProperties() {
+    nativeAdView.layer.cornerRadius = 8.0
+    nativeAdView.layer.borderWidth = 0.5
+    
+    adBackgroundView.layer.cornerRadius = 20.0
+    adBackgroundView.layer.maskedCorners = [.layerMaxXMinYCorner]
+    
     iconImageView.clipsToBounds = true
     iconImageView.layer.cornerRadius = 10.0
     
@@ -78,19 +83,19 @@ import NVActivityIndicatorView
   }
   
   override func setColor() {
-    changeLoading(color: UIColor(rgb: 0x000000))
+    changeLoading(color: UIColor.white)
     
-    iconImageView.backgroundColor = UIColor(rgb: 0xD9D9D9)
+    iconImageView.backgroundColor = UIColor.gray
     
-    adBackgroundView.backgroundColor = UIColor(rgb: 0xFCB41C)
-    adLabel.textColor = UIColor(rgb: 0xFFFFFF)
+    adBackgroundView.backgroundColor = UIColor.white
+    adLabel.textColor = UIColor.black
     
-    headlineLabel.textColor = UIColor(rgb: 0x000000)
+    headlineLabel.textColor = UIColor.white
     
-    bodyLabel.textColor = UIColor(rgb: 0x27303E)
+    bodyLabel.textColor = UIColor.white
     
-    callToActionButton.setTitleColor(UIColor(rgb: 0xFFFFFF), for: .normal)
-    callToActionButton.backgroundColor = UIColor(rgb: 0x00A9A8)
+    callToActionButton.setTitleColor(UIColor.black, for: .normal)
+    callToActionButton.backgroundColor = UIColor(rgb: 0x90EBFF)
   }
   
   /// This function returns the minimum recommended height.
@@ -115,6 +120,7 @@ import NVActivityIndicatorView
   }
   
   public func changeColor(
+    border: UIColor? = nil,
     title: UIColor? = nil,
     ad: UIColor? = nil,
     adBackground: UIColor? = nil,
@@ -122,6 +128,9 @@ import NVActivityIndicatorView
     callToAction: UIColor? = nil,
     callToActionBackground: UIColor? = nil
   ) {
+    if let border = border {
+      nativeAdView.layer.borderColor = border.cgColor
+    }
     if let title = title {
       headlineLabel.textColor = title
     }
