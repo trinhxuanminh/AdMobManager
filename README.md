@@ -94,7 +94,7 @@ Includes types:
 `FullScreen`
 `Bonus`
 `Medium`
-`Size1`...`Size9`
+`Size1`...`Size13`
 
 #### **a) CollectionViewCell**
 This class returns a UICollectionViewCell displaying NativeAd.
