@@ -14,7 +14,7 @@ class NativeAd: NSObject {
   private var adUnitID: String?
   private var isLoading = false
   private var isFullScreen = false
-  private var retryAttempt = 0.0
+  private var retryAttempt = 0
   private var binding: Handler?
   
   func setAdUnitID(_ id: String, isFullScreen: Bool = false) {
@@ -32,6 +32,10 @@ class NativeAd: NSObject {
   
   func setBinding(_ binding: Handler?) {
     self.binding = binding
+  }
+  
+  func isFail() -> Bool {
+    return retryAttempt >= 1
   }
   
   private func load() {
@@ -83,9 +87,6 @@ extension NativeAd: GADNativeAdLoaderDelegate {
                 didFailToReceiveAdWithError error: Error) {
     self.isLoading = false
     self.retryAttempt += 1
-    let delaySec = pow(2.0, min(5.0, retryAttempt))
-    print("NativeAd: did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
-    DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: load)
   }
   
   func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {

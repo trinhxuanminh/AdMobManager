@@ -32,20 +32,10 @@ import NVActivityIndicatorView
   }()
   
   private var nativeAd: NativeAd?
-  private var didStartAnimation = false
   
   public override func removeFromSuperview() {
     self.nativeAd = nil
     super.removeFromSuperview()
-  }
-  
-  public override func draw(_ rect: CGRect) {
-    super.draw(rect)
-    guard !didStartAnimation else {
-      return
-    }
-    self.didStartAnimation = true
-    startAnimation()
   }
   
   override func addComponents() {
@@ -98,6 +88,7 @@ import NVActivityIndicatorView
   }
   
   public func register(id: String) {
+    startAnimation()
     if let nativeAd = nativeAd {
       binding(ad: nativeAd.getAd())
       return
