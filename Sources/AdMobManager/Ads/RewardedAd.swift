@@ -15,7 +15,7 @@ class RewardedAd: NSObject, AdProtocol {
   private var presentState = false
   private var lastTimeDisplay = Date()
   private var isLoading = false
-  private var retryAttempt = 0.0
+  private var retryAttempt = 0
   private var willPresent: Handler?
   private var willDismiss: Handler?
   private var didDismiss: Handler?
@@ -74,7 +74,10 @@ class RewardedAd: NSObject, AdProtocol {
         self.isLoading = false
         guard error == nil, let ad = ad else {
           self.retryAttempt += 1
-          let delaySec = pow(2.0, min(5.0, self.retryAttempt))
+          guard self.retryAttempt == 1 else {
+            return
+          }
+          let delaySec = 10.0
           print("RewardAd: did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
           DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: self.load)
           return
@@ -92,6 +95,9 @@ class RewardedAd: NSObject, AdProtocol {
   }
   
   func isReady() -> Bool {
+    if rewardedAd == nil, retryAttempt >= 2 {
+      load()
+    }
     return isExist() && wasLoadTimeLessThanNHoursAgo()
   }
   
