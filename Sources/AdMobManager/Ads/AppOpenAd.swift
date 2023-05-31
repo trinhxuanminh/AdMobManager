@@ -92,13 +92,13 @@ class AppOpenAd: NSObject, AdProtocol {
   }
   
   func isExist() -> Bool {
-    if appOpenAd == nil, retryAttempt >= 2 {
-      load()
-    }
     return appOpenAd != nil
   }
   
   func isReady() -> Bool {
+    if appOpenAd == nil, retryAttempt >= 2 {
+      load()
+    }
     return isExist() && wasLoadTimeLessThanNHoursAgo()
   }
   
