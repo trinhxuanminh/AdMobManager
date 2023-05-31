@@ -14,8 +14,8 @@ protocol AdProtocol {
   func isExist() -> Bool
   func isReady() -> Bool
   func setTimeBetween(_ timeBetween: Double)
-  func show(willPresent: (() -> Void)?,
-            willDismiss: (() -> Void)?,
-            didDismiss: (() -> Void)?,
-            didFail: (() -> Void)?)
+  func show(willPresent: Handler?,
+            willDismiss: Handler?,
+            didDismiss: Handler?,
+            didFail: Handler?)
 }

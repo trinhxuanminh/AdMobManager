@@ -15,11 +15,11 @@ class AppOpenAd: NSObject, AdProtocol {
   private var presentState = false
   private var lastTimeDisplay = Date()
   private var isLoading = false
-  private var retryAttempt = 0.0
-  private var willPresent: (() -> Void)?
-  private var willDismiss: (() -> Void)?
-  private var didDismiss: (() -> Void)?
-  private var didFail: (() -> Void)?
+  private var retryAttempt = 0
+  private var willPresent: Handler?
+  private var willDismiss: Handler?
+  private var didDismiss: Handler?
+  private var didFail: Handler?
   
   func setAdUnitID(_ id: String) {
     guard adUnitID == nil else {
@@ -75,7 +75,10 @@ class AppOpenAd: NSObject, AdProtocol {
         self.isLoading = false
         guard error == nil, let ad = ad else {
           self.retryAttempt += 1
-          let delaySec = pow(2.0, min(5.0, self.retryAttempt))
+          guard self.retryAttempt == 1 else {
+            return
+          }
+          let delaySec = 10.0
           print("AppOpenAd: did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
           DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: self.load)
           return
@@ -89,6 +92,9 @@ class AppOpenAd: NSObject, AdProtocol {
   }
   
   func isExist() -> Bool {
+    if appOpenAd == nil, retryAttempt >= 2 {
+      load()
+    }
     return appOpenAd != nil
   }
   
@@ -96,10 +102,10 @@ class AppOpenAd: NSObject, AdProtocol {
     return isExist() && wasLoadTimeLessThanNHoursAgo()
   }
   
-  func show(willPresent: (() -> Void)?,
-            willDismiss: (() -> Void)?,
-            didDismiss: (() -> Void)?,
-            didFail: (() -> Void)?
+  func show(willPresent: Handler?,
+            willDismiss: Handler?,
+            didDismiss: Handler?,
+            didFail: Handler?
   ) {
     guard isReady() else {
       print("AppOpenAd: display failure - not ready to show!")

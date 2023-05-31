@@ -16,10 +16,10 @@ class RewardedInterstitialAd: NSObject, AdProtocol {
   private var lastTimeDisplay = Date()
   private var isLoading = false
   private var retryAttempt = 0.0
-  private var willPresent: (() -> Void)?
-  private var willDismiss: (() -> Void)?
-  private var didDismiss: (() -> Void)?
-  private var didFail: (() -> Void)?
+  private var willPresent: Handler?
+  private var willDismiss: Handler?
+  private var didDismiss: Handler?
+  private var didFail: Handler?
   
   func setAdUnitID(_ id: String) {
     guard adUnitID == nil else {
@@ -95,10 +95,10 @@ class RewardedInterstitialAd: NSObject, AdProtocol {
     return isExist() && wasLoadTimeLessThanNHoursAgo()
   }
   
-  func show(willPresent: (() -> Void)?,
-            willDismiss: (() -> Void)?,
-            didDismiss: (() -> Void)?,
-            didFail: (() -> Void)?
+  func show(willPresent: Handler?,
+            willDismiss: Handler?,
+            didDismiss: Handler?,
+            didFail: Handler?
   ) {
     guard isReady() else {
       print("RewardedInterstitialAd: display failure - not ready to show!")

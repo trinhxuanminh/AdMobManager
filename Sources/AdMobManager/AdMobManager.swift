@@ -64,10 +64,10 @@ public struct AdMobManager {
   
   public func show(
     key: String,
-    willPresent: (() -> Void)? = nil,
-    willDismiss: (() -> Void)? = nil,
-    didDismiss: (() -> Void)? = nil,
-    didFail: (() -> Void)? = nil
+    willPresent: Handler? = nil,
+    willDismiss: Handler? = nil,
+    didDismiss: Handler? = nil,
+    didFail: Handler? = nil
   ) {
     guard let ad = listAds[key] else {
       print("Ads do not exist!")

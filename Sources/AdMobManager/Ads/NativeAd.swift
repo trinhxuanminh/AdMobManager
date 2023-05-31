@@ -15,7 +15,7 @@ class NativeAd: NSObject {
   private var isLoading = false
   private var isFullScreen = false
   private var retryAttempt = 0.0
-  private var binding: (() -> Void)?
+  private var binding: Handler?
   
   func setAdUnitID(_ id: String, isFullScreen: Bool = false) {
     guard adUnitID == nil else {
@@ -30,7 +30,7 @@ class NativeAd: NSObject {
     return nativeAd
   }
   
-  func setBinding(_ binding: (() -> Void)?) {
+  func setBinding(_ binding: Handler?) {
     self.binding = binding
   }
   
