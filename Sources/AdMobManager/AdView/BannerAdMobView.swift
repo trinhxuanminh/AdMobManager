@@ -32,7 +32,17 @@ import NVActivityIndicatorView
   private var adUnitID: String?
   private var isLoading = false
   private var isExist = false
-  private var retryAttempt = 0.0
+  private var didStartAnimation = false
+  private var retryAttempt = 0
+
+  public override func draw(_ rect: CGRect) {
+    super.draw(rect)
+    guard !didStartAnimation else {
+      return
+    }
+    didStartAnimation = true
+    startAnimation()
+  }
 
   public override func removeFromSuperview() {
     self.bannerAdView = nil
@@ -64,7 +74,6 @@ import NVActivityIndicatorView
   }
   
   public func register(id: String) {
-    startAnimation()
     guard adUnitID == nil else {
       return
     }
@@ -97,7 +106,16 @@ extension BannerAdMobView: GADBannerViewDelegate {
   ) {
     isLoading = false
     self.retryAttempt += 1
-    let delaySec = pow(2.0, min(5.0, retryAttempt))
+    guard retryAttempt == 1 else {
+      DispatchQueue.main.async { [weak self] in
+        guard let self = self else {
+          return
+        }
+        self.isHidden = true
+      }
+      return
+    }
+    let delaySec = 10.0
     print("BannerAd: did fail to load. Reload after \(delaySec)s! (\(error))")
     DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: load)
   }
