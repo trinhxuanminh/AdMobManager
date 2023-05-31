@@ -32,17 +32,7 @@ import NVActivityIndicatorView
   private var adUnitID: String?
   private var isLoading = false
   private var isExist = false
-  private var didStartAnimation = false
   private var retryAttempt = 0.0
-
-  public override func draw(_ rect: CGRect) {
-    super.draw(rect)
-    guard !didStartAnimation else {
-      return
-    }
-    didStartAnimation = true
-    startAnimation()
-  }
 
   public override func removeFromSuperview() {
     self.bannerAdView = nil
@@ -74,6 +64,7 @@ import NVActivityIndicatorView
   }
   
   public func register(id: String) {
+    startAnimation()
     guard adUnitID == nil else {
       return
     }
