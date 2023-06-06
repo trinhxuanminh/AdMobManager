@@ -167,7 +167,14 @@ extension BannerAdMobView {
       self.bannerAdView?.adUnitID = adUnitID
       self.bannerAdView?.delegate = self
       self.bannerAdView?.rootViewController = rootViewController
-      self.bannerAdView?.load(GADRequest())
+      
+      let request = GADRequest()
+      let extras = GADExtras()
+      extras.additionalParameters = ["collapsible": "top"]
+
+      request.register(extras)
+
+      self.bannerAdView?.load(request)
     }
   }
 }
