@@ -28,12 +28,18 @@ import NVActivityIndicatorView
     loadingView.color = UIColor.white
     return loadingView
   }()
+  
+  public enum Anchored: String {
+    case top
+    case bottom
+  }
 
   private var adUnitID: String?
   private var isLoading = false
   private var isExist = false
   private var didStartAnimation = false
   private var retryAttempt = 0
+  private var anchored: Anchored?
 
   public override func draw(_ rect: CGRect) {
     super.draw(rect)
@@ -73,11 +79,12 @@ import NVActivityIndicatorView
     return 60.0
   }
   
-  public func register(id: String) {
+  public func register(id: String, collapsible anchored: Anchored? = nil) {
     guard adUnitID == nil else {
       return
     }
     self.adUnitID = id
+    self.anchored = anchored
     load()
   }
   
@@ -169,10 +176,12 @@ extension BannerAdMobView {
       self.bannerAdView?.rootViewController = rootViewController
       
       let request = GADRequest()
-      let extras = GADExtras()
-      extras.additionalParameters = ["collapsible": "bottom"]
-
-      request.register(extras)
+      
+      if let anchored = anchored {
+        let extras = GADExtras()
+        extras.additionalParameters = ["collapsible": anchored.rawValue]
+        request.register(extras)
+      }
 
       self.bannerAdView?.load(request)
     }
