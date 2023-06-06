@@ -177,7 +177,7 @@ extension BannerAdMobView {
       
       let request = GADRequest()
       
-      if let anchored = anchored {
+      if let anchored = self.anchored {
         let extras = GADExtras()
         extras.additionalParameters = ["collapsible": anchored.rawValue]
         request.register(extras)
