@@ -170,7 +170,7 @@ extension BannerAdMobView {
       
       let request = GADRequest()
       let extras = GADExtras()
-      extras.additionalParameters = ["collapsible": "top"]
+      extras.additionalParameters = ["collapsible": "bottom"]
 
       request.register(extras)
 
