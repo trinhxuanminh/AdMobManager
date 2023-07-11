@@ -73,6 +73,7 @@ open class NativeAdMobView: UIView, AdMobViewProtocol, GADVideoControllerDelegat
   }
   
   public func binding(nativeAdView: GADNativeAdView, didReceive: @escaping Handler) {
+    self.nativeAdView = nativeAdView
     self.didReceive = didReceive
   }
 }
