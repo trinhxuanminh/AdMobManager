@@ -15,10 +15,28 @@ import GoogleMobileAds
 /// Inherit this class with custom layout
 /// Loading ads is automatic.
 /// - Warning: NativeAd will not load without adding ID.
-open class NativeAdMobView: BaseAdMobView, GADVideoControllerDelegate {
+open class NativeAdMobView: UIView, AdMobViewProtocol, GADVideoControllerDelegate {
   private var nativeAdView: GADNativeAdView?
   private var nativeAd: NativeAd?
   private var didReceive: Handler?
+  
+  public override func awakeFromNib() {
+    super.awakeFromNib()
+    addComponents()
+    setConstraints()
+    setProperties()
+  }
+
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    addComponents()
+    setConstraints()
+    setProperties()
+  }
+
+  required public init?(coder: NSCoder) {
+    super.init(coder: coder)
+  }
   
   public override func removeFromSuperview() {
     self.nativeAd = nil
@@ -27,19 +45,16 @@ open class NativeAdMobView: BaseAdMobView, GADVideoControllerDelegate {
   
   open override func draw(_ rect: CGRect) {
     super.draw(rect)
+    setColor()
   }
   
-  public override func awakeFromNib() {
-    super.awakeFromNib()
-  }
+  public func addComponents() {}
   
-  public override init(frame: CGRect) {
-    super.init(frame: frame)
-  }
+  public func setConstraints() {}
   
-  required public init?(coder: NSCoder) {
-    super.init(coder: coder)
-  }
+  public func setProperties() {}
+  
+  public func setColor() {}
   
   public func register(id: String, isFullScreen: Bool) {
     if let nativeAd = nativeAd {

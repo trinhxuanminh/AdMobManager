@@ -10,4 +10,6 @@ import Foundation
 protocol AdMobViewProtocol {
   func addComponents()
   func setConstraints()
+  func setProperties()
+  func setColor()
 }

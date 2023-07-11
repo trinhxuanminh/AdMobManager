@@ -14,7 +14,7 @@ import GoogleMobileAds
 /// ```
 /// Ad display is automatic.
 /// - Warning: Ad will not be displayed without adding ID.
-open class BannerAdMobView: BaseAdMobView {
+open class BannerAdMobView: UIView, AdMobViewProtocol {
   private lazy var bannerAdView: GADBannerView! = {
     let bannerView = GADBannerView()
     bannerView.translatesAutoresizingMaskIntoConstraints = false
@@ -33,6 +33,24 @@ open class BannerAdMobView: BaseAdMobView {
   private var anchored: Anchored?
   private var didReceive: Handler?
   
+  public override func awakeFromNib() {
+    super.awakeFromNib()
+    addComponents()
+    setConstraints()
+    setProperties()
+  }
+
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    addComponents()
+    setConstraints()
+    setProperties()
+  }
+
+  required public init?(coder: NSCoder) {
+    super.init(coder: coder)
+  }
+  
   public override func removeFromSuperview() {
     self.bannerAdView = nil
     super.removeFromSuperview()
@@ -40,25 +58,14 @@ open class BannerAdMobView: BaseAdMobView {
   
   open override func draw(_ rect: CGRect) {
     super.draw(rect)
+    setColor()
   }
   
-  public override func awakeFromNib() {
-    super.awakeFromNib()
-  }
-  
-  public override init(frame: CGRect) {
-    super.init(frame: frame)
-  }
-  
-  required public init?(coder: NSCoder) {
-    super.init(coder: coder)
-  }
-  
-  override func addComponents() {
+  public func addComponents() {
     addSubview(bannerAdView)
   }
   
-  override func setConstraints() {
+  public func setConstraints() {
     let constraints = [
       bannerAdView.topAnchor.constraint(equalTo: self.topAnchor),
       bannerAdView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
@@ -67,6 +74,10 @@ open class BannerAdMobView: BaseAdMobView {
     ]
     NSLayoutConstraint.activate(constraints)
   }
+  
+  public func setProperties() {}
+  
+  public func setColor() {}
   
   public func register(id: String, collapsible anchored: Anchored? = nil) {
     guard adUnitID == nil else {
