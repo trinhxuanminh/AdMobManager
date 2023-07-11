@@ -14,7 +14,7 @@ import GoogleMobileAds
 /// ```
 /// Ad display is automatic.
 /// - Warning: Ad will not be displayed without adding ID.
-open class BannerAdMobView: UIView, AdMobViewProtocol {
+open class BannerAdMobView: UIView {
   private lazy var bannerAdView: GADBannerView! = {
     let bannerView = GADBannerView()
     bannerView.translatesAutoresizingMaskIntoConstraints = false
@@ -37,14 +37,12 @@ open class BannerAdMobView: UIView, AdMobViewProtocol {
     super.awakeFromNib()
     addComponents()
     setConstraints()
-    setProperties()
   }
 
   override init(frame: CGRect) {
     super.init(frame: frame)
     addComponents()
     setConstraints()
-    setProperties()
   }
 
   required public init?(coder: NSCoder) {
@@ -56,16 +54,11 @@ open class BannerAdMobView: UIView, AdMobViewProtocol {
     super.removeFromSuperview()
   }
   
-  open override func draw(_ rect: CGRect) {
-    super.draw(rect)
-    setColor()
-  }
-  
-  public func addComponents() {
+  func addComponents() {
     addSubview(bannerAdView)
   }
   
-  public func setConstraints() {
+  func setConstraints() {
     let constraints = [
       bannerAdView.topAnchor.constraint(equalTo: self.topAnchor),
       bannerAdView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
@@ -74,10 +67,6 @@ open class BannerAdMobView: UIView, AdMobViewProtocol {
     ]
     NSLayoutConstraint.activate(constraints)
   }
-  
-  public func setProperties() {}
-  
-  public func setColor() {}
   
   public func register(id: String, collapsible anchored: Anchored? = nil) {
     guard adUnitID == nil else {
