@@ -17,6 +17,7 @@ import GoogleMobileAds
 open class BannerAdMobView: BaseAdMobView {
   private lazy var bannerAdView: GADBannerView! = {
     let bannerView = GADBannerView()
+    bannerView.translatesAutoresizingMaskIntoConstraints = false
     return bannerView
   }()
   
