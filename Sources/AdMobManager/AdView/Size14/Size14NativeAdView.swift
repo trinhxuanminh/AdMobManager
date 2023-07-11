@@ -66,7 +66,10 @@ import NVActivityIndicatorView
     callToActionButton.clipsToBounds = true
     
     firstAdBackgroundView.layer.cornerRadius = 20.0
+    firstAdBackgroundView.layer.maskedCorners = [.layerMinXMinYCorner]
+    
     secondAdBackgroundView.layer.cornerRadius = 20.0
+    secondAdBackgroundView.layer.maskedCorners = [.layerMaxXMaxYCorner]
   }
   
   override func setColor() {
@@ -89,7 +92,7 @@ import NVActivityIndicatorView
   
   /// This function returns the minimum recommended height.
   public class func adHeight() -> CGFloat {
-    return 188.0
+    return 276.0
   }
   
   public func register(id: String) {
