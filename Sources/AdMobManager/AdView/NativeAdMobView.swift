@@ -15,7 +15,7 @@ import GoogleMobileAds
 /// Inherit this class with custom layout
 /// Loading ads is automatic.
 /// - Warning: NativeAd will not load without adding ID.
-public class NativeAdMobView: BaseAdMobView, GADVideoControllerDelegate {
+open class NativeAdMobView: BaseAdMobView, GADVideoControllerDelegate {
   private var nativeAdView: GADNativeAdView?
   private var nativeAd: NativeAd?
   private var didReceive: Handler?

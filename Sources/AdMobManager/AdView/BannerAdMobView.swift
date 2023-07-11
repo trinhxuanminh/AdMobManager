@@ -14,7 +14,7 @@ import GoogleMobileAds
 /// ```
 /// Ad display is automatic.
 /// - Warning: Ad will not be displayed without adding ID.
-public class BannerAdMobView: BaseAdMobView {
+open class BannerAdMobView: BaseAdMobView {
   private lazy var bannerAdView: GADBannerView! = {
     let bannerView = GADBannerView()
     return bannerView

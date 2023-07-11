@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class BaseAdMobView: UIView, AdMobViewProtocol {
+open class BaseAdMobView: UIView, AdMobViewProtocol {
   public override func awakeFromNib() {
     super.awakeFromNib()
     addComponents()
@@ -20,7 +20,7 @@ public class BaseAdMobView: UIView, AdMobViewProtocol {
     setConstraints()
   }
 
-  required init?(coder: NSCoder) {
+  required public init?(coder: NSCoder) {
     super.init(coder: coder)
   }
 
