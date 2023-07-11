@@ -20,7 +20,7 @@ open class NativeAdMobView: UIView, AdMobViewProtocol, GADVideoControllerDelegat
   private var nativeAd: NativeAd?
   private var didReceive: Handler?
   
-  public override func awakeFromNib() {
+  open override func awakeFromNib() {
     super.awakeFromNib()
     addComponents()
     setConstraints()
@@ -48,13 +48,13 @@ open class NativeAdMobView: UIView, AdMobViewProtocol, GADVideoControllerDelegat
     setColor()
   }
   
-  public func addComponents() {}
+  open func addComponents() {}
   
-  public func setConstraints() {}
+  open func setConstraints() {}
   
-  public func setProperties() {}
+  open func setProperties() {}
   
-  public func setColor() {}
+  open func setColor() {}
   
   public func register(id: String, isFullScreen: Bool) {
     if let nativeAd = nativeAd {
