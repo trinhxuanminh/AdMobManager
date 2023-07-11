@@ -7,76 +7,48 @@
 
 import UIKit
 import GoogleMobileAds
-import SnapKit
-import NVActivityIndicatorView
 
 /// This class returns a UIView displaying BannerAd.
 /// ```
 /// import AdMobManager
 /// ```
-/// Can be instantiated programmatically or Interface Builder. Use as UIView. Ad display is automatic.
+/// Ad display is automatic.
 /// - Warning: Ad will not be displayed without adding ID.
-@IBDesignable public class BannerAdMobView: BaseView {
+public class BannerAdMobView: BaseAdMobView {
   private lazy var bannerAdView: GADBannerView! = {
     let bannerView = GADBannerView()
     return bannerView
-  }()
-  private lazy var loadingView: NVActivityIndicatorView = {
-    let loadingView = NVActivityIndicatorView(frame: .zero)
-    loadingView.type = .ballPulse
-    loadingView.padding = 30.0
-    loadingView.color = UIColor.white
-    return loadingView
   }()
   
   public enum Anchored: String {
     case top
     case bottom
   }
-
-  private var adUnitID: String?
+  
   private var isLoading = false
+  private var adUnitID: String?
   private var isExist = false
-  private var didStartAnimation = false
   private var retryAttempt = 0
   private var anchored: Anchored?
-
-  public override func draw(_ rect: CGRect) {
-    super.draw(rect)
-    guard !didStartAnimation else {
-      return
-    }
-    didStartAnimation = true
-    startAnimation()
-  }
-
+  private var didReceive: Handler?
+  
   public override func removeFromSuperview() {
     self.bannerAdView = nil
     super.removeFromSuperview()
   }
-
+  
   override func addComponents() {
     addSubview(bannerAdView)
-    addSubview(loadingView)
   }
-
+  
   override func setConstraints() {
-    bannerAdView.snp.makeConstraints { make in
-      make.edges.equalToSuperview()
-    }
-    loadingView.snp.makeConstraints { make in
-      make.center.equalToSuperview()
-      make.width.height.equalTo(20)
-    }
-  }
-  
-  override func setColor() {
-    changeLoading(color: UIColor.white)
-  }
-  
-  /// This function returns the minimum recommended height for BannerAdView.
-  public class func adHeightMinimum() -> CGFloat {
-    return 60.0
+    let constraints = [
+      bannerAdView.topAnchor.constraint(equalTo: self.topAnchor),
+      bannerAdView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+      bannerAdView.leftAnchor.constraint(equalTo: self.leftAnchor),
+      bannerAdView.rightAnchor.constraint(equalTo: self.rightAnchor)
+    ]
+    NSLayoutConstraint.activate(constraints)
   }
   
   public func register(id: String, collapsible anchored: Anchored? = nil) {
@@ -88,22 +60,8 @@ import NVActivityIndicatorView
     load()
   }
   
-  public func changeLoading(type: NVActivityIndicatorType? = nil, color: UIColor? = nil) {
-    var isAnimating = false
-    if loadingView.isAnimating {
-      isAnimating = true
-      loadingView.stopAnimating()
-    }
-    if let type = type {
-      loadingView.type = type
-    }
-    if let color = color {
-      loadingView.color = color
-    }
-    guard isAnimating else {
-      return
-    }
-    loadingView.startAnimating()
+  public func binding(didReceive: @escaping Handler) {
+    self.didReceive = didReceive
   }
 }
 
@@ -126,35 +84,25 @@ extension BannerAdMobView: GADBannerViewDelegate {
     print("BannerAd: did fail to load. Reload after \(delaySec)s! (\(error))")
     DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: load)
   }
-
+  
   public func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
     print("BannerAd: did load!")
     self.retryAttempt = 0
     isExist = true
-    stopAnimation()
+    didReceive?()
   }
 }
 
 extension BannerAdMobView {
-  private func startAnimation() {
-    bannerAdView.isHidden = true
-    loadingView.startAnimating()
-  }
-  
-  private func stopAnimation() {
-    bannerAdView.isHidden = false
-    loadingView.stopAnimating()
-  }
-  
   private func load() {
     guard !isLoading else {
       return
     }
-
+    
     guard !isExist else {
       return
     }
-
+    
     guard let adUnitID = adUnitID else {
       print("BannerAd: failed to load - not initialized yet! Please install ID.")
       return
@@ -168,7 +116,7 @@ extension BannerAdMobView {
         print("BannerAd: display failure - can't find RootViewController!")
         return
       }
-
+      
       self.isLoading = true
       print("BannerAd: start load!")
       self.bannerAdView?.adUnitID = adUnitID
@@ -182,7 +130,7 @@ extension BannerAdMobView {
         extras.additionalParameters = ["collapsible": anchored.rawValue]
         request.register(extras)
       }
-
+      
       self.bannerAdView?.load(request)
     }
   }

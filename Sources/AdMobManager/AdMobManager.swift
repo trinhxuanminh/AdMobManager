@@ -38,13 +38,8 @@ public struct AdMobManager {
   }
   
   private var listAds: [String: AdProtocol] = [:]
-  private var startDate: Date?
   
   public mutating func register(key: String, type: AdType, id: String) {
-    guard allowShowFullFeature() else {
-      print("Ads are not allowed to load!")
-      return
-    }
     guard listAds[key] == nil else {
       print("Key already exists!")
       return
@@ -84,10 +79,6 @@ public struct AdMobManager {
       didFail: didFail)
   }
   
-  public mutating func showFullFeature(from date: Date) {
-    self.startDate = date
-  }
-  
   public func setTimeBetween(key: String, time: Double) {
     guard let ad = listAds[key] else {
       print("Ads do not exist!")
@@ -98,13 +89,6 @@ public struct AdMobManager {
 }
 
 extension AdMobManager {
-  private func allowShowFullFeature() -> Bool {
-    guard let startDate = startDate, Date().timeIntervalSince(startDate) < 0 else {
-      return true
-    }
-    return false
-  }
-  
   private func checkIsPresent() -> Bool {
     for ad in listAds {
       if ad.value.isPresent() {

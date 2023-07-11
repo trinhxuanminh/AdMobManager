@@ -29,30 +29,12 @@
         }
       },
       {
-        "package": "NVActivityIndicatorView",
-        "repositoryURL": "https://github.com/ninjaprox/NVActivityIndicatorView",
-        "state": {
-          "branch": null,
-          "revision": "bcb52371f2259254bac6690f92bb474a61768c47",
-          "version": "5.1.1"
-        }
-      },
-      {
         "package": "Promises",
         "repositoryURL": "https://github.com/google/promises.git",
         "state": {
           "branch": null,
           "revision": "3e4e743631e86c8c70dbc6efdc7beaa6e90fd3bb",
           "version": "2.1.1"
-        }
-      },
-      {
-        "package": "SnapKit",
-        "repositoryURL": "https://github.com/SnapKit/SnapKit",
-        "state": {
-          "branch": null,
-          "revision": "f222cbdf325885926566172f6f5f06af95473158",
-          "version": "5.6.0"
         }
       },
       {

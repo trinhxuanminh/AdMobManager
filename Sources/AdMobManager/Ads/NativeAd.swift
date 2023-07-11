@@ -16,7 +16,7 @@ class NativeAd: NSObject {
   private var isFullScreen = false
   private var binding: Handler?
   
-  func setAdUnitID(_ id: String, isFullScreen: Bool = false) {
+  func setAdUnitID(_ id: String, isFullScreen: Bool) {
     guard adUnitID == nil else {
       return
     }
