@@ -25,6 +25,22 @@ open class NativeAdMobView: BaseAdMobView, GADVideoControllerDelegate {
     super.removeFromSuperview()
   }
   
+  open override func draw(_ rect: CGRect) {
+    super.draw(rect)
+  }
+  
+  public override func awakeFromNib() {
+    super.awakeFromNib()
+  }
+  
+  public override init(frame: CGRect) {
+    super.init(frame: frame)
+  }
+  
+  required public init?(coder: NSCoder) {
+    super.init(coder: coder)
+  }
+  
   public func register(id: String, isFullScreen: Bool) {
     if let nativeAd = nativeAd {
       config(ad: nativeAd.getAd())

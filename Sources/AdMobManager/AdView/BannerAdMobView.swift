@@ -38,6 +38,22 @@ open class BannerAdMobView: BaseAdMobView {
     super.removeFromSuperview()
   }
   
+  open override func draw(_ rect: CGRect) {
+    super.draw(rect)
+  }
+  
+  public override func awakeFromNib() {
+    super.awakeFromNib()
+  }
+  
+  public override init(frame: CGRect) {
+    super.init(frame: frame)
+  }
+  
+  required public init?(coder: NSCoder) {
+    super.init(coder: coder)
+  }
+  
   override func addComponents() {
     addSubview(bannerAdView)
   }
