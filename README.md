@@ -51,14 +51,6 @@ This function helps to register ads by unique key.
 AdMobManager.shared.register(key: String, type: AdType, id: String)
 ```
 
-#### Deployment Time (Optional)
-This function helps to set the date to start showing ads.
-- Default is _**nil**_, the ad will be displayed as soon as it is ready.
-- Changes only for `InterstitialAd`, `RewardedAd`, `RewardedInterstitialAd`, `AppOpenAd`.
-```swift
-AdMobManager.shared.showFullFeature(from: Date)
-```
-
 #### Time between (Optional)
 This function helps to change the minimum display time between ads of the same type.
 - Default is _**0 seconds**_.
@@ -89,77 +81,37 @@ AdMobManager.shared.show(key: String)
 ```
 
 ### 3. NativeAd
-Ads are displayed automatically.
-Includes types:
-`FullScreen`
-`Bonus`
-`Medium`
-`Size1`...`Size13`
-
-#### **a) CollectionViewCell**
-This class returns a UICollectionViewCell displaying NativeAd.
-
-##### Register
+- Download & add file [`CustomNativeAdView.xib`](https://github.com/trinhxuanminh/AdMobManager/blob/main/Sources/AdMobManager/AdView/CustomNativeAdView.xib).
+**Note**: Linked outlets to views, update constraints only.
+- Create the corresponding `File's owner`, inherit `NativeAdMobView`.
 ```swift
-collectionView.register(ofType: Size1NativeAdCollectionViewCell.self)
-```
-
-##### Datasource
-```swift
-func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-  let cell = collectionView.dequeue(ofType: Size1NativeAdCollectionViewCell.self, indexPath: indexPath)
-  cell.adView.register(id: String)
-//            Optional
-  return cell
+class CustomNativeAdView: NativeAdMobView {
+  override func setProperties() {
+    startAnimation()
+    binding(nativeAdView: nativeAdView) { [weak self] in
+      guard let self = self else {
+        return
+      }
+      self.stopAnimation()
+    }
+    register(id: "ca-app-pub-3940256099942544/3986624511", isFullScreen: false)
+  }
 }
 ```
-
-#### **b) TableViewCell**
-This class returns a UITableViewCell displaying NativeAd.
-
-##### Register
-```swift
-tableView.register(ofType: Size1NativeAdTableViewCell.self)
-```
-
-##### Datasource
-```swift
-func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-  let cell = tableView.dequeue(ofType: Size1NativeAdTableViewCell.self, indexPath: indexPath)
-//            Optional
-  return cell
-}
-```
-
-#### **c) View**
-There are two ways you can create a UIView displaying NativeAd:
-- By storyboard, changing class of any `UIView` to `Size1NativeAdView`. _**Note**: Set `Module` to `AdMobManager`._
-- By code, using initializer.
-
-#### **d) Determine the height**
-```swift
-Size1NativeAdView.adHeight()
-```
-```swift
-Size5NativeAdCollectionViewCell.adHeightMinimum(width: collectionView.frame.width)
-```
-
-#### **e) Optional**
-```swift
-.changeColor()
-```
-```swift
-.changeFont()
-```
-```swift
-.changeLoading()
-```
+- Ads will be loaded automatically.
+- Call `binding` method to display ads when loading successfully.
+- Call `register` method to load ads.
 
 ### 4. BannerAd
-Ads are displayed automatically.
-Then, there are two ways you can create `BannerAdView`:
-- By storyboard, changing class of any `UIView` to `BannerAdView`. _**Note**: Set `Module` to `AdMobManager`._
+Ads will be loaded automatically.
+Then, there are two ways you can create `BannerAdMobView`:
+- By storyboard, changing class of any `UIView` to `BannerAdMobView`. _**Note**: Set `Module` to `AdMobManager`._
 - By code, using initializer.
+
+```swift
+bannerAdMobView.register(id: "ca-app-pub-3940256099942544/2934735716",
+                          collapsible: .top)
+```
 
 ## License
 ### [ProX Global](https://proxglobal.com)
