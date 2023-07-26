@@ -16,16 +16,18 @@ class RewardedAd: NSObject, AdProtocol {
   private var lastTimeDisplay = Date()
   private var isLoading = false
   private var retryAttempt = 0
+  private var isOnceUsed = false
   private var willPresent: Handler?
   private var willDismiss: Handler?
   private var didDismiss: Handler?
   private var didFail: Handler?
   
-  func setAdUnitID(_ id: String) {
+  func setAdUnitID(_ id: String, isOnceUsed: Bool) {
     guard adUnitID == nil else {
       return
     }
     self.adUnitID = id
+    self.isOnceUsed = isOnceUsed
     load()
   }
   
@@ -153,7 +155,9 @@ extension RewardedAd: GADFullScreenContentDelegate {
     didDismiss?()
     self.rewardedAd = nil
     self.presentState = false
-    load()
+    if !isOnceUsed {
+      load()
+    }
     self.lastTimeDisplay = Date()
   }
 }

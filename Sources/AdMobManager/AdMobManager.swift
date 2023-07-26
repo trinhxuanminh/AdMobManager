@@ -39,13 +39,13 @@ public struct AdMobManager {
   
   private var listAds: [String: AdProtocol] = [:]
   
-  public mutating func register(key: String, type: AdType, id: String) {
+  public mutating func register(key: String, type: AdType, id: String, isOnceUsed: Bool = false) {
     guard listAds[key] == nil else {
       print("Key already exists!")
       return
     }
     let ad = type.createAd()
-    ad.setAdUnitID(id)
+    ad.setAdUnitID(id, isOnceUsed: isOnceUsed)
     self.listAds[key] = ad
   }
   
