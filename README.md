@@ -29,11 +29,10 @@ Initial setup as documented by _Google AdMob_:
 - [Update your Info.plist](https://developers.google.com/admob/ios/quick-start?hl=vi#update_your_infoplist)
 - [Initialize the Mobile Ads SDK](https://developers.google.com/admob/ios/quick-start?hl=vi#initialize_the_mobile_ads_sdk)
 
-Set the _-ObjC_ linker flag at `Info.plist`:
-```swift
-<key>GADIsAdManagerApp</key>
-  <true/>
-```
+Manually add the `-ObjC` linker flag to `Other Linker Flags` in your target's build settings:
+- Select target project.
+- Select tab `All`, find `Other Linker Flags`.
+- You must set the `-ObjC` flag for both the `Debug` and `Release` configurations.
 
 **Note**: If you have Firebase, install [it](https://github.com/firebase/firebase-ios-sdk) using Swift Package Manager to avoid conflicts.
 
