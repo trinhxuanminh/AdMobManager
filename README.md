@@ -2,7 +2,7 @@
 
 A package to help support the implementation of ads on your **iOS** app.
 - For Swift 5.3, Xcode 12.5 (macOS Big Sur) or later.
-- Support for apps from iOS 10.0 or newer.
+- Support for apps from iOS 12.0 or newer.
 
 ## Ad Type
 - InterstitialAd

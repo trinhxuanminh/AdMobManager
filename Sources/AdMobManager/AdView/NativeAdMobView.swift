@@ -56,7 +56,7 @@ open class NativeAdMobView: UIView, AdMobViewProtocol, GADVideoControllerDelegat
   
   open func setColor() {}
   
-  public func register(id: String, isFullScreen: Bool) {
+  public func register(id: String, isFullScreen: Bool = false) {
     if let nativeAd = nativeAd {
       config(ad: nativeAd.getAd())
       return
