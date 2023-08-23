@@ -29,7 +29,6 @@ open class BannerAdMobView: UIView {
   private var isLoading = false
   private var adUnitID: String?
   private var isExist = false
-  private var retryAttempt = 0
   private var anchored: Anchored?
   private var didReceive: Handler?
   
@@ -68,12 +67,17 @@ open class BannerAdMobView: UIView {
     NSLayoutConstraint.activate(constraints)
   }
   
-  public func register(id: String, collapsible anchored: Anchored? = nil) {
+  public func load(name: String) {
     guard adUnitID == nil else {
       return
     }
-    self.adUnitID = id
-    self.anchored = anchored
+    guard let ad = AdMobManager.shared.getOnceUsedAd(type: .banner, name: name) as? Banner else {
+      return
+    }
+    self.adUnitID = ad.id
+    if let anchored = ad.anchored {
+      self.anchored = Anchored(rawValue: anchored)
+    }
     load()
   }
   
@@ -86,25 +90,11 @@ extension BannerAdMobView: GADBannerViewDelegate {
   public func bannerView(_ bannerView: GADBannerView,
                          didFailToReceiveAdWithError error: Error
   ) {
-    isLoading = false
-    self.retryAttempt += 1
-    guard retryAttempt == 1 else {
-      DispatchQueue.main.async { [weak self] in
-        guard let self = self else {
-          return
-        }
-        self.isHidden = true
-      }
-      return
-    }
-    let delaySec = 10.0
-    print("BannerAd: did fail to load. Reload after \(delaySec)s! (\(error))")
-    DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: load)
+    self.isLoading = false
   }
   
   public func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
     print("BannerAd: did load!")
-    self.retryAttempt = 0
     isExist = true
     didReceive?()
   }

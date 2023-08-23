@@ -56,13 +56,16 @@ open class NativeAdMobView: UIView, AdMobViewProtocol, GADVideoControllerDelegat
   
   open func setColor() {}
   
-  public func register(id: String, isFullScreen: Bool = false) {
+  public func load(name: String) {
     if let nativeAd = nativeAd {
       config(ad: nativeAd.getAd())
       return
     }
+    guard let ad = AdMobManager.shared.getOnceUsedAd(type: .native, name: name) as? Native else {
+      return
+    }
     let nativeAd = NativeAd()
-    nativeAd.setAdUnitID(id, isFullScreen: isFullScreen)
+    nativeAd.config(ad: ad)
     nativeAd.setBinding { [weak self] in
       guard let self = self else {
         return

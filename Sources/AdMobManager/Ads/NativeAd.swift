@@ -16,12 +16,12 @@ class NativeAd: NSObject {
   private var isFullScreen = false
   private var binding: Handler?
   
-  func setAdUnitID(_ id: String, isFullScreen: Bool) {
+  func config(ad: Native) {
     guard adUnitID == nil else {
       return
     }
-    self.adUnitID = id
-    self.isFullScreen = isFullScreen
+    self.adUnitID = ad.id
+    self.isFullScreen = ad.isFullScreen
     self.load()
   }
   

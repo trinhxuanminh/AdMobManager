@@ -11,32 +11,23 @@ import GoogleMobileAds
 class AppOpenAd: NSObject, AdProtocol {
   private var appOpenAd: GADAppOpenAd?
   private var adUnitID: String?
-  private var timeBetween = 0.0
   private var presentState = false
-  private var lastTimeDisplay = Date()
   private var isLoading = false
   private var retryAttempt = 0
-  private var isOnceUsed = false
   private var willPresent: Handler?
   private var willDismiss: Handler?
   private var didDismiss: Handler?
   private var didFail: Handler?
   
-  func setAdUnitID(_ id: String, isOnceUsed: Bool) {
+  func config(ad: Any) {
+    guard let ad = ad as? AppOpen else {
+      return
+    }
     guard adUnitID == nil else {
       return
     }
-    self.adUnitID = id
-    self.isOnceUsed = isOnceUsed
+    self.adUnitID = ad.id
     load()
-  }
-  
-  func setTimeBetween(_ timeBetween: Double) {
-    guard timeBetween >= 0.0 else {
-      print("AppOpenAd: set time between failed - invalid time!")
-      return
-    }
-    self.timeBetween = timeBetween
   }
   
   func isPresent() -> Bool {
@@ -101,7 +92,7 @@ class AppOpenAd: NSObject, AdProtocol {
     if appOpenAd == nil, retryAttempt >= 2 {
       load()
     }
-    return isExist() && wasLoadTimeLessThanNHoursAgo()
+    return isExist()
   }
   
   func show(willPresent: Handler?,
@@ -156,17 +147,5 @@ extension AppOpenAd: GADFullScreenContentDelegate {
     didDismiss?()
     self.appOpenAd = nil
     self.presentState = false
-    if !isOnceUsed {
-      load()
-    }
-    self.lastTimeDisplay = Date()
-  }
-}
-
-extension AppOpenAd {
-  private func wasLoadTimeLessThanNHoursAgo() -> Bool {
-    let now = Date()
-    let timeIntervalBetweenNowAndLoadTime = now.timeIntervalSince(lastTimeDisplay)
-    return timeIntervalBetweenNowAndLoadTime >= timeBetween
   }
 }

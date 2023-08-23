@@ -11,9 +11,7 @@ import GoogleMobileAds
 class InterstitialAd: NSObject, AdProtocol {
   private var interstitialAd: GADInterstitialAd?
   private var adUnitID: String?
-  private var timeBetween = 0.0
   private var presentState = false
-  private var lastTimeDisplay = Date()
   private var isLoading = false
   private var retryAttempt = 0
   private var isOnceUsed = false
@@ -22,21 +20,16 @@ class InterstitialAd: NSObject, AdProtocol {
   private var didDismiss: Handler?
   private var didFail: Handler?
   
-  func setAdUnitID(_ id: String, isOnceUsed: Bool) {
+  func config(ad: Any) {
+    guard let ad = ad as? Interstitial else {
+      return
+    }
     guard adUnitID == nil else {
       return
     }
-    self.adUnitID = id
-    self.isOnceUsed = isOnceUsed
+    self.adUnitID = ad.id
+    self.isOnceUsed = ad.isOnceUsed
     load()
-  }
-  
-  func setTimeBetween(_ timeBetween: Double) {
-    guard timeBetween >= 0.0 else {
-      print("InterstitialAd: set time between failed - invalid time!")
-      return
-    }
-    self.timeBetween = timeBetween
   }
   
   func isPresent() -> Bool {
@@ -100,7 +93,7 @@ class InterstitialAd: NSObject, AdProtocol {
     if interstitialAd == nil, retryAttempt >= 2 {
       load()
     }
-    return isExist() && wasLoadTimeLessThanNHoursAgo()
+    return isExist()
   }
   
   func show(willPresent: Handler?,
@@ -158,14 +151,6 @@ extension InterstitialAd: GADFullScreenContentDelegate {
     if !isOnceUsed {
       load()
     }
-    self.lastTimeDisplay = Date()
   }
 }
 
-extension InterstitialAd {
-  private func wasLoadTimeLessThanNHoursAgo() -> Bool {
-    let now = Date()
-    let timeIntervalBetweenNowAndLoadTime = now.timeIntervalSince(lastTimeDisplay)
-    return timeIntervalBetweenNowAndLoadTime >= timeBetween
-  }
-}

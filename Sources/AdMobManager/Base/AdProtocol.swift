@@ -8,12 +8,11 @@
 import Foundation
 
 protocol AdProtocol {
-  func setAdUnitID(_ id: String, isOnceUsed: Bool)
+  func config(ad: Any)
   func isPresent() -> Bool
   func load()
   func isExist() -> Bool
   func isReady() -> Bool
-  func setTimeBetween(_ timeBetween: Double)
   func show(willPresent: Handler?,
             willDismiss: Handler?,
             didDismiss: Handler?,
