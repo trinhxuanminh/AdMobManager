@@ -46,7 +46,7 @@ class InterstitialAd: NSObject, AdProtocol {
     }
     
     guard let adUnitID = adUnitID else {
-      print("InterstitialAd: failed to load - not initialized yet! Please install ID.")
+      print("AdMobManager: InterstitialAd failed to load - not initialized yet! Please install ID.")
       return
     }
     
@@ -56,7 +56,7 @@ class InterstitialAd: NSObject, AdProtocol {
       }
       
       self.isLoading = true
-      print("InterstitialAd: start load!")
+      print("AdMobManager: InterstitialAd start load!")
       
       let request = GADRequest()
       GADInterstitialAd.load(
@@ -73,11 +73,11 @@ class InterstitialAd: NSObject, AdProtocol {
             return
           }
           let delaySec = 10.0
-          print("InterstitialAd: did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
+          print("AdMobManager: InterstitialAd did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
           DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: self.load)
           return
         }
-        print("InterstitialAd: did load!")
+        print("AdMobManager: InterstitialAd did load!")
         self.retryAttempt = 0
         ad.fullScreenContentDelegate = self
         self.interstitialAd = ad
@@ -102,18 +102,18 @@ class InterstitialAd: NSObject, AdProtocol {
             didFail: Handler?
   ) {
     guard isReady() else {
-      print("InterstitialAd: display failure - not ready to show!")
+      print("AdMobManager: InterstitialAd display failure - not ready to show!")
       return
     }
     guard !presentState else {
-      print("InterstitialAd: display failure - ads are being displayed!")
+      print("AdMobManager: InterstitialAd display failure - ads are being displayed!")
       return
     }
     guard let topViewController = UIApplication.topStackViewController() else {
-      print("InterstitialAd: display failure - can't find RootViewController!")
+      print("AdMobManager: InterstitialAd display failure - can't find RootViewController!")
       return
     }
-    print("InterstitialAd: requested to show!")
+    print("AdMobManager: InterstitialAd requested to show!")
     self.willPresent = willPresent
     self.willDismiss = willDismiss
     self.didDismiss = didDismiss
@@ -126,25 +126,25 @@ extension InterstitialAd: GADFullScreenContentDelegate {
   func ad(_ ad: GADFullScreenPresentingAd,
           didFailToPresentFullScreenContentWithError error: Error
   ) {
-    print("InterstitialAd: did fail to show content!")
+    print("AdMobManager: InterstitialAd did fail to show content!")
     didFail?()
     self.interstitialAd = nil
     load()
   }
   
   func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-    print("InterstitialAd: will display!")
+    print("AdMobManager: InterstitialAd will display!")
     self.presentState = true
     willPresent?()
   }
   
   func adWillDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-    print("InterstitialAd: will hide!")
+    print("AdMobManager: InterstitialAd will hide!")
     willDismiss?()
   }
   
   func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-    print("InterstitialAd: did hide!")
+    print("AdMobManager: InterstitialAd did hide!")
     didDismiss?()
     self.interstitialAd = nil
     self.presentState = false

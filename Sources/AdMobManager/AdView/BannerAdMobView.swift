@@ -94,7 +94,7 @@ extension BannerAdMobView: GADBannerViewDelegate {
   }
   
   public func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
-    print("BannerAd: did load!")
+    print("AdMobManager: BannerAd did load!")
     isExist = true
     didReceive?()
   }
@@ -111,7 +111,7 @@ extension BannerAdMobView {
     }
     
     guard let adUnitID = adUnitID else {
-      print("BannerAd: failed to load - not initialized yet! Please install ID.")
+      print("AdMobManager: BannerAd failed to load - not initialized yet! Please install ID.")
       return
     }
     
@@ -120,12 +120,12 @@ extension BannerAdMobView {
         return
       }
       guard let rootViewController = UIApplication.topStackViewController() else {
-        print("BannerAd: display failure - can't find RootViewController!")
+        print("AdMobManager: BannerAd display failure - can't find RootViewController!")
         return
       }
       
       self.isLoading = true
-      print("BannerAd: start load!")
+      print("AdMobManager: BannerAd start load!")
       self.bannerAdView?.adUnitID = adUnitID
       self.bannerAdView?.delegate = self
       self.bannerAdView?.rootViewController = rootViewController

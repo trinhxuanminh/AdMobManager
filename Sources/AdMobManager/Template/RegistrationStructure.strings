@@ -1,0 +1,59 @@
+"status": true,
+  "appOpens": [
+    {
+      "name": "App_Open",
+      "status": true,
+      "id": "ca-app-pub-3940256099942544/5662855259"
+    }
+  ],
+  "rewardeds": [
+    {
+      "name": "Rewarded",
+      "status": true,
+      "id": "ca-app-pub-3940256099942544/1712485313"
+    }
+  ],
+  "rewardedInterstitials": [
+    {
+      "name": "Rewarded_Interstitial",
+      "status": true,
+      "id": "ca-app-pub-3940256099942544/6978759866"
+    }
+  ],
+  "interstitials": [
+    {
+      "name": "Interstitial",
+      "status": true,
+      "id": "ca-app-pub-3940256099942544/4411468910",
+      "isOnceUsed": false
+    }
+  ],
+  "banners": [
+    {
+      "name": "Banner_1",
+      "status": true,
+      "id": "ca-app-pub-3940256099942544/2934735716",
+      "anchored": null
+    },
+    {
+      "name": "Banner_2",
+      "status": true,
+      "id": "ca-app-pub-3940256099942544/2934735716",
+      "anchored": "top"
+    },
+    {
+      "name": "Banner_3",
+      "status": true,
+      "id": "ca-app-pub-3940256099942544/2934735716",
+      "anchored": "bottom"
+    }
+  ],
+  "natives": [
+    {
+      "name": "Native",
+      "status": true,
+      "id": "ca-app-pub-3940256099942544/3986624511",
+      "isFullScreen": false
+    }
+  ]
+}

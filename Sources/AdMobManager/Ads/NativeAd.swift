@@ -46,7 +46,7 @@ class NativeAd: NSObject {
     }
     
     guard let adUnitID = adUnitID else {
-      print("NativeAd: failed to load - not initialized yet! Please install ID.")
+      print("AdMobManager: NativeAd failed to load - not initialized yet! Please install ID.")
       return
     }
     
@@ -56,7 +56,7 @@ class NativeAd: NSObject {
       }
       
       self.isLoading = true
-      print("NativeAd: start load!")
+      print("AdMobManager: NativeAd start load!")
       
       var options: [GADAdLoaderOptions]? = nil
       if self.isFullScreen {
@@ -87,7 +87,7 @@ extension NativeAd: GADNativeAdLoaderDelegate {
   }
   
   func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
-    print("NativeAd: did load!")
+    print("AdMobManager: NativeAd did load!")
     self.isLoading = false
     self.nativeAd = nativeAd
     binding?()

@@ -44,7 +44,7 @@ class RewardedInterstitialAd: NSObject, AdProtocol {
     }
     
     guard let adUnitID = adUnitID else {
-      print("RewardedInterstitialAd: failed to load - not initialized yet! Please install ID.")
+      print("AdMobManager: RewardedInterstitialAd failed to load - not initialized yet! Please install ID.")
       return
     }
     
@@ -54,7 +54,7 @@ class RewardedInterstitialAd: NSObject, AdProtocol {
       }
       
       self.isLoading = true
-      print("RewardedInterstitialAd: start load!")
+      print("AdMobManager: RewardedInterstitialAd start load!")
       
       let request = GADRequest()
       GADRewardedInterstitialAd.load(
@@ -71,11 +71,11 @@ class RewardedInterstitialAd: NSObject, AdProtocol {
             return
           }
           let delaySec = 10.0
-          print("RewardedInterstitialAd: did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
+          print("AdMobManager: RewardedInterstitialAd did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
           DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: self.load)
           return
         }
-        print("RewardedInterstitialAd: did load!")
+        print("AdMobManager: RewardedInterstitialAd did load!")
         self.retryAttempt = 0
         ad.fullScreenContentDelegate = self
         self.rewardedInterstitialAd = ad
@@ -100,18 +100,18 @@ class RewardedInterstitialAd: NSObject, AdProtocol {
             didFail: Handler?
   ) {
     guard isReady() else {
-      print("RewardedInterstitialAd: display failure - not ready to show!")
+      print("AdMobManager: RewardedInterstitialAd display failure - not ready to show!")
       return
     }
     guard !presentState else {
-      print("RewardedInterstitialAd: display failure - ads are being displayed!")
+      print("AdMobManager: RewardedInterstitialAd display failure - ads are being displayed!")
       return
     }
     guard let topViewController = UIApplication.topStackViewController() else {
-      print("RewardedInterstitialAd: display failure - can't find RootViewController!")
+      print("AdMobManager: RewardedInterstitialAd display failure - can't find RootViewController!")
       return
     }
-    print("RewardedInterstitialAd: requested to show!")
+    print("AdMobManager: RewardedInterstitialAd requested to show!")
     self.willPresent = willPresent
     self.willDismiss = willDismiss
     self.didDismiss = didDismiss
@@ -124,25 +124,25 @@ extension RewardedInterstitialAd: GADFullScreenContentDelegate {
   func ad(_ ad: GADFullScreenPresentingAd,
           didFailToPresentFullScreenContentWithError error: Error
   ) {
-    print("RewardAd: did fail to show content!")
+    print("AdMobManager: RewardedInterstitialAd did fail to show content!")
     didFail?()
     self.rewardedInterstitialAd = nil
     load()
   }
   
   func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-    print("RewardAd: will display!")
+    print("AdMobManager: RewardedInterstitialAd will display!")
     self.presentState = true
     willPresent?()
   }
   
   func adWillDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-    print("RewardAd: will hide!")
+    print("AdMobManager: RewardedInterstitialAd will hide!")
     willDismiss?()
   }
   
   func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-    print("RewardAd: did hide!")
+    print("AdMobManager: RewardedInterstitialAd did hide!")
     didDismiss?()
     self.rewardedInterstitialAd = nil
     self.presentState = false

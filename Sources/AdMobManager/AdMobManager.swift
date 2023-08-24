@@ -146,7 +146,7 @@ public class AdMobManager {
 
   public func isReady(name: String) -> Bool? {
     guard let ad = listAds[name] else {
-      print("Ads do not exist!")
+      print("AdMobManager: Ads do not exist!")
       return nil
     }
     return ad.isReady()
@@ -160,11 +160,11 @@ public class AdMobManager {
     didFail: Handler? = nil
   ) {
     guard let ad = listAds[name] else {
-      print("Ads do not exist!")
+      print("AdMobManager: Ads do not exist!")
       return
     }
     guard !checkIsPresent() else {
-      print("Ads display failure - other ads is showing!")
+      print("AdMobManager: Ads display failure - other ads is showing!")
       return
     }
     ad.show(
