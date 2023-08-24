@@ -2,7 +2,7 @@
 
 A package to help support the implementation of ads on your **iOS** app.
 - For Swift 5.3, Xcode 12.5 (macOS Big Sur) or later.
-- Support for apps from iOS 12.0 or newer.
+- Support for apps from iOS 13.0 or newer.
 
 ## Ad Type
 - InterstitialAd
@@ -16,7 +16,7 @@ A package to help support the implementation of ads on your **iOS** app.
 
 ### Swift Package Manager
 
-The Swift Package Manager is a tool for managing the distribution of **Swift** code. To use AdMobManager with Swift Package Manger, add it to dependencies in your Package.swift
+The Swift Package Manager is a tool for managing the distribution of **Swift** code. To use `AdMobManager` with Swift Package Manger, add it to dependencies in your `Package.swift`.
 ```swift
   dependencies: [
     .package(url: "https://github.com/trinhxuanminh/AdMobManager.git")
@@ -24,7 +24,6 @@ The Swift Package Manager is a tool for managing the distribution of **Swift** c
 ```
 
 ## Get started
-
 Initial setup as documented by _Google AdMob_:
 - [Update your Info.plist](https://developers.google.com/admob/ios/quick-start?hl=vi#update_your_infoplist)
 - [Initialize the Mobile Ads SDK](https://developers.google.com/admob/ios/quick-start?hl=vi#initialize_the_mobile_ads_sdk)
@@ -34,7 +33,11 @@ Manually add the `-ObjC` linker flag to `Other Linker Flags` in your target's bu
 - Select tab `All`, find `Other Linker Flags`.
 - You must set the `-ObjC` flag for both the `Debug` and `Release` configurations.
 
-**Note**: If you have Firebase, install [it](https://github.com/firebase/firebase-ios-sdk) using Swift Package Manager to avoid conflicts.
+Integrate Firebase RemoteConfig with any `Key name` and configure it in [this json format](https://github.com/trinhxuanminh/AdMobManager/blob/main/Sources/AdMobManager/Template/RegistrationStructure.strings).
+**Note**: The name of each ad is unique.
+
+## Demo
+Refer to the following [Demo project](https://github.com/trinhxuanminh/DemoAdMobManager) to implement the ad.
 
 ## Usage
 Firstly, import `AdMobManager`.
@@ -44,26 +47,39 @@ import AdMobManager
 
 ### 1. Parameter setting
 
-#### Advertising ID
-This function helps to register ads by unique key.
+#### Register advertising ID
 ```swift
-AdMobManager.shared.register(key: String, type: AdType, id: String)
+AdMobManager.shared.register(remoteKey: String, completed: Handler?)
 ```
-
-#### Time between (Optional)
-This function helps to change the minimum display time between ads of the same type.
-- Default is _**0 seconds**_.
-```swift
-AdMobManager.shared.setTimeBetween(key: String, time: Double)
-```
+- remoteKey: The `Key name` you have set on RemoteConfig.
+- completed: The block executes after the ad has successfully registered. If you need to load ads as soon as you open the app, you should call the load function here.
 
 ### 2. Control
 
+#### isRegisterSuccessfully()
+This function returns the value _**true/false**_ indicating whether the ad was successfully registered or not.
+```swift
+AdMobManager.shared.isRegisterSuccessfully() -> Bool
+```
+
+#### status()
+This function returns the value _**true/false**_ indicating whether the ad is allowed to show. You can call it to make UI changes, logic in your code.
+- Returns _**nil**_ when registration is not successful or there is no ad with the corresponding name.
+```swift
+AdMobManager.shared.status(type: AdType, name: String) -> Bool?
+```
+
+#### load()
+This function will start loading ads.
+```swift
+AdMobManager.shared.load(type: Reuse, name: String)
+```
+
 #### isReady()
 This function returns a value _**true/false**_ indicating if the ad is ready to be displayed.
-- Returns _**nil**_ when there is no advertisement with the corresponding key.
+- Returns _**nil**_ when there is no advertisement with the corresponding name.
 ```swift
-AdMobManager.shared.isReady(key: String) -> Bool?
+AdMobManager.shared.isReady(name: String) -> Bool?
 ```
 
 #### show()
@@ -76,11 +92,11 @@ This function will display ads when ready.
 - didFail: The block executes after the ad failed to display the content.
 
 ```swift
-AdMobManager.shared.show(key: String)
+AdMobManager.shared.show(name: String)
 ```
 
 ### 3. NativeAd
-- Download & add file [`CustomNativeAdView.xib`](https://github.com/trinhxuanminh/AdMobManager/blob/main/Sources/AdMobManager/AdView/CustomNativeAdView.xib).
+- Download & add file [`CustomNativeAdView.xib`](https://github.com/trinhxuanminh/AdMobManager/blob/main/Sources/AdMobManager/Template/CustomNativeAdView.xib).
 **Note**: Linked outlets to views, update constraints only.
 - Create the corresponding `File's owner`, inherit `NativeAdMobView`.
 ```swift
@@ -93,13 +109,12 @@ class CustomNativeAdView: NativeAdMobView {
       }
       self.stopAnimation()
     }
-    register(id: "ca-app-pub-3940256099942544/3986624511", isFullScreen: false)
+    load(name: String)
   }
 }
 ```
 - Ads will be loaded automatically.
 - Call `binding` method to display ads when loading successfully.
-- Call `register` method to load ads.
 
 ### 4. BannerAd
 Ads will be loaded automatically.
@@ -108,8 +123,7 @@ Then, there are two ways you can create `BannerAdMobView`:
 - By code, using initializer.
 
 ```swift
-bannerAdMobView.register(id: "ca-app-pub-3940256099942544/2934735716",
-                          collapsible: .top)
+bannerAdMobView.load(name: String)
 ```
 
 ## License
