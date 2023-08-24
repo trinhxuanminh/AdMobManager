@@ -44,7 +44,7 @@ class AppOpenAd: NSObject, AdProtocol {
     }
     
     guard let adUnitID = adUnitID else {
-      print("AppOpenAd: failed to load - not initialized yet! Please install ID.")
+      print("AdMobManager: AppOpenAd failed to load - not initialized yet! Please install ID.")
       return
     }
     
@@ -54,7 +54,7 @@ class AppOpenAd: NSObject, AdProtocol {
       }
       
       self.isLoading = true
-      print("AppOpenAd: start load!")
+      print("AdMobManager: AppOpenAd start load!")
       
       let request = GADRequest()
       GADAppOpenAd.load(
@@ -72,11 +72,11 @@ class AppOpenAd: NSObject, AdProtocol {
             return
           }
           let delaySec = 10.0
-          print("AppOpenAd: did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
+          print("AdMobManager: AppOpenAd did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
           DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: self.load)
           return
         }
-        print("AppOpenAd: did load!")
+        print("AdMobManager: AppOpenAd did load!")
         self.retryAttempt = 0
         ad.fullScreenContentDelegate = self
         self.appOpenAd = ad
@@ -101,18 +101,18 @@ class AppOpenAd: NSObject, AdProtocol {
             didFail: Handler?
   ) {
     guard isReady() else {
-      print("AppOpenAd: display failure - not ready to show!")
+      print("AdMobManager: AppOpenAd display failure - not ready to show!")
       return
     }
     guard !presentState else {
-      print("AppOpenAd: display failure - ads are being displayed!")
+      print("AdMobManager: AppOpenAd display failure - ads are being displayed!")
       return
     }
     guard let topViewController = UIApplication.topStackViewController() else {
-      print("AppOpenAd: display failure - can't find RootViewController!")
+      print("AdMobManager: AppOpenAd display failure - can't find RootViewController!")
       return
     }
-    print("AppOpenAd: requested to show!")
+    print("AdMobManager: AppOpenAd requested to show!")
     self.willPresent = willPresent
     self.willDismiss = willDismiss
     self.didDismiss = didDismiss
@@ -125,25 +125,25 @@ extension AppOpenAd: GADFullScreenContentDelegate {
   func ad(_ ad: GADFullScreenPresentingAd,
           didFailToPresentFullScreenContentWithError error: Error
   ) {
-    print("AppOpenAd: did fail to show content!")
+    print("AdMobManager: AppOpenAd did fail to show content!")
     didFail?()
     self.appOpenAd = nil
     load()
   }
   
   func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-    print("AppOpenAd: will display!")
+    print("AdMobManager: AppOpenAd will display!")
     self.presentState = true
     willPresent?()
   }
   
   func adWillDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-    print("AppOpenAd: will hide!")
+    print("AdMobManager: AppOpenAd will hide!")
     willDismiss?()
   }
   
   func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-    print("AppOpenAd: did hide!")
+    print("AdMobManager: AppOpenAd did hide!")
     didDismiss?()
     self.appOpenAd = nil
     self.presentState = false

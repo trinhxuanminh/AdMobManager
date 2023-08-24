@@ -40,8 +40,10 @@ public class AdMobManager {
   private var subscriptions = [AnyCancellable]()
   private var adMobConfig: AdMobConfig?
   private var listAds: [String: AdProtocol] = [:]
+  private var registerCompletedHandler: Handler?
   
-  public func register(remoteKey: String) {
+  public func register(remoteKey: String, completed: Handler?) {
+    self.registerCompletedHandler = completed
     NetworkAdMob.shared.$isConnected.sink { [weak self] isConnected in
       guard let self = self else {
         return
@@ -52,7 +54,7 @@ public class AdMobManager {
     }.store(in: &subscriptions)
   }
   
-  public func isSuccessfully() -> Bool {
+  public func isRegisterSuccessfully() -> Bool {
     return loadRemoteConfigState == true
   }
   
@@ -224,5 +226,6 @@ extension AdMobManager {
     }
     self.loadRemoteConfigState = true
     self.adMobConfig = adMobConfig
+    registerCompletedHandler?()
   }
 }
