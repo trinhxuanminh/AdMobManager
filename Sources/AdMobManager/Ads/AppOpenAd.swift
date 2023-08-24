@@ -147,5 +147,6 @@ extension AppOpenAd: GADFullScreenContentDelegate {
     didDismiss?()
     self.appOpenAd = nil
     self.presentState = false
+    load()
   }
 }

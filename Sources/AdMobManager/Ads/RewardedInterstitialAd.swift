@@ -146,5 +146,6 @@ extension RewardedInterstitialAd: GADFullScreenContentDelegate {
     didDismiss?()
     self.rewardedInterstitialAd = nil
     self.presentState = false
+    load()
   }
 }

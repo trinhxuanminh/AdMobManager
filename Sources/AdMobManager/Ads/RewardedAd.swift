@@ -146,5 +146,6 @@ extension RewardedAd: GADFullScreenContentDelegate {
     didDismiss?()
     self.rewardedAd = nil
     self.presentState = false
+    load()
   }
 }
