@@ -31,8 +31,8 @@ public class AdMobManager {
   }
   
   public enum AdType {
-    case onceUsed(type: OnceUsed)
-    case reuse(type: Reuse)
+    case onceUsed(_ type: OnceUsed)
+    case reuse(_ type: Reuse)
   }
   
   private let remoteConfig = RemoteConfig.remoteConfig()
@@ -103,7 +103,7 @@ public class AdMobManager {
   }
   
   public func load(type: Reuse, name: String) {
-    guard status(type: .reuse(type: type), name: name) == true else {
+    guard status(type: .reuse(type), name: name) == true else {
       print("AdMobManager: Ads are not allowed to show!")
       return
     }
@@ -177,7 +177,7 @@ public class AdMobManager {
 
 extension AdMobManager {
   func getOnceUsedAd(type: OnceUsed, name: String) -> Any? {
-    guard status(type: .onceUsed(type: type), name: name) == true else {
+    guard status(type: .onceUsed(type), name: name) == true else {
       print("AdMobManager: Ads are not allowed to show!")
       return nil
     }
