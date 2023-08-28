@@ -220,6 +220,10 @@ extension AdMobManager {
   
   private func updateWithRCValues(_ key: String) {
     let adMobData = remoteConfig.configValue(forKey: key).dataValue
+    guard !adMobData.isEmpty else {
+      fetchRemoteConfig(key)
+      return
+    }
     guard let adMobConfig = try? JSONDecoder().decode(AdMobConfig.self, from: adMobData) else {
       self.loadRemoteConfigState = false
       return
