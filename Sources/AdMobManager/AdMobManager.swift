@@ -221,7 +221,12 @@ extension AdMobManager {
   private func updateWithRCValues(_ key: String) {
     let adMobData = remoteConfig.configValue(forKey: key).dataValue
     guard !adMobData.isEmpty else {
-      fetchRemoteConfig(key)
+      DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: { [weak self] in
+        guard let self = self else {
+          return
+        }
+        self.fetchRemoteConfig(key)
+      })
       return
     }
     guard let adMobConfig = try? JSONDecoder().decode(AdMobConfig.self, from: adMobData) else {
