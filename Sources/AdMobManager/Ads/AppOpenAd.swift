@@ -23,6 +23,9 @@ class AppOpenAd: NSObject, AdProtocol {
     guard let ad = ad as? AppOpen else {
       return
     }
+    guard ad.status else {
+      return
+    }
     guard adUnitID == nil else {
       return
     }
@@ -68,12 +71,6 @@ class AppOpenAd: NSObject, AdProtocol {
         self.isLoading = false
         guard error == nil, let ad = ad else {
           self.retryAttempt += 1
-          guard self.retryAttempt == 1 else {
-            return
-          }
-          let delaySec = 10.0
-          print("AdMobManager: AppOpenAd did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
-          DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: self.load)
           return
         }
         print("AdMobManager: AppOpenAd did load!")
@@ -89,13 +86,14 @@ class AppOpenAd: NSObject, AdProtocol {
   }
   
   func isReady() -> Bool {
-    if appOpenAd == nil, retryAttempt >= 2 {
+    if appOpenAd == nil, retryAttempt >= 1 {
       load()
     }
     return isExist()
   }
   
-  func show(willPresent: Handler?,
+  func show(rootViewController: UIViewController,
+            willPresent: Handler?,
             willDismiss: Handler?,
             didDismiss: Handler?,
             didFail: Handler?
@@ -108,16 +106,12 @@ class AppOpenAd: NSObject, AdProtocol {
       print("AdMobManager: AppOpenAd display failure - ads are being displayed!")
       return
     }
-    guard let topViewController = UIApplication.topStackViewController() else {
-      print("AdMobManager: AppOpenAd display failure - can't find RootViewController!")
-      return
-    }
     print("AdMobManager: AppOpenAd requested to show!")
     self.willPresent = willPresent
     self.willDismiss = willDismiss
     self.didDismiss = didDismiss
     self.didFail = didFail
-    appOpenAd?.present(fromRootViewController: topViewController)
+    appOpenAd?.present(fromRootViewController: rootViewController)
   }
 }
 

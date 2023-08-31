@@ -23,6 +23,9 @@ class RewardedInterstitialAd: NSObject, AdProtocol {
     guard let ad = ad as? RewardedInterstitial else {
       return
     }
+    guard ad.status else {
+      return
+    }
     guard adUnitID == nil else {
       return
     }
@@ -70,7 +73,7 @@ class RewardedInterstitialAd: NSObject, AdProtocol {
           guard self.retryAttempt == 1 else {
             return
           }
-          let delaySec = 10.0
+          let delaySec = 5.0
           print("AdMobManager: RewardedInterstitialAd did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
           DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: self.load)
           return
@@ -94,7 +97,8 @@ class RewardedInterstitialAd: NSObject, AdProtocol {
     return isExist()
   }
   
-  func show(willPresent: Handler?,
+  func show(rootViewController: UIViewController,
+            willPresent: Handler?,
             willDismiss: Handler?,
             didDismiss: Handler?,
             didFail: Handler?
@@ -107,16 +111,12 @@ class RewardedInterstitialAd: NSObject, AdProtocol {
       print("AdMobManager: RewardedInterstitialAd display failure - ads are being displayed!")
       return
     }
-    guard let topViewController = UIApplication.topStackViewController() else {
-      print("AdMobManager: RewardedInterstitialAd display failure - can't find RootViewController!")
-      return
-    }
     print("AdMobManager: RewardedInterstitialAd requested to show!")
     self.willPresent = willPresent
     self.willDismiss = willDismiss
     self.didDismiss = didDismiss
     self.didFail = didFail
-    rewardedInterstitialAd?.present(fromRootViewController: topViewController, userDidEarnRewardHandler: {})
+    rewardedInterstitialAd?.present(fromRootViewController: rootViewController, userDidEarnRewardHandler: {})
   }
 }
 

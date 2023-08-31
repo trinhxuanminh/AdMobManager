@@ -11,12 +11,17 @@ import GoogleMobileAds
 class NativeAd: NSObject {
   private var nativeAd: GADNativeAd?
   private var adLoader: GADAdLoader?
+  private var rootViewController: UIViewController?
   private var adUnitID: String?
   private var isLoading = false
   private var isFullScreen = false
   private var binding: Handler?
   
-  func config(ad: Native) {
+  func config(ad: Native, rootViewController: UIViewController) {
+    self.rootViewController = rootViewController
+    guard ad.status else {
+      return
+    }
     guard adUnitID == nil else {
       return
     }
@@ -66,7 +71,7 @@ class NativeAd: NSObject {
       }
       let adLoader = GADAdLoader(
         adUnitID: adUnitID,
-        rootViewController: nil,
+        rootViewController: rootViewController,
         adTypes: [.native],
         options: options)
       adLoader.delegate = self

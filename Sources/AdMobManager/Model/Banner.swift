@@ -12,4 +12,5 @@ struct Banner: Codable {
   let status: Bool
   let id: String
   let anchored: String?
+  let description: String
 }

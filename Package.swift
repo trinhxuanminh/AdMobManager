@@ -25,7 +25,8 @@ let package = Package(
       name: "AdMobManager",
       dependencies: [
         "GoogleMobileAds",
-        .product(name: "FirebaseRemoteConfig", package: "firebase-ios-sdk")
+        .product(name: "FirebaseRemoteConfig", package: "firebase-ios-sdk"),
+        .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk")
       ]
     )
   ]

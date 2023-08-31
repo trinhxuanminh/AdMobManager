@@ -5,7 +5,7 @@
 //  Created by Trịnh Xuân Minh on 23/06/2022.
 //
 
-import Foundation
+import UIKit
 
 protocol AdProtocol {
   func config(ad: Any)
@@ -13,7 +13,8 @@ protocol AdProtocol {
   func load()
   func isExist() -> Bool
   func isReady() -> Bool
-  func show(willPresent: Handler?,
+  func show(rootViewController: UIViewController,
+            willPresent: Handler?,
             willDismiss: Handler?,
             didDismiss: Handler?,
             didFail: Handler?)

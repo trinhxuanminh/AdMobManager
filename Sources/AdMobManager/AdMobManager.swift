@@ -5,7 +5,7 @@
 //  Created by Trịnh Xuân Minh on 25/03/2022.
 //
 
-import Foundation
+import UIKit
 import FirebaseRemoteConfig
 import GoogleMobileAds
 import Combine
@@ -36,28 +36,34 @@ public class AdMobManager {
   }
   
   private let remoteConfig = RemoteConfig.remoteConfig()
-  private var loadRemoteConfigState: Bool? = false
+  private var retryAttempt = 0
   private var subscriptions = [AnyCancellable]()
+  private var remoteKey: String?
+  private var defaultData: Data?
+  private var fetchRemoteCompletedHandler: Handler?
   private var adMobConfig: AdMobConfig?
   private var listAds: [String: AdProtocol] = [:]
-  private var registerCompletedHandler: Handler?
   
-  public func register(remoteKey: String, completed: Handler?) {
-    self.registerCompletedHandler = completed
+  public func register(remoteKey: String, defaultData: Data, completed: Handler?) {
+    guard self.remoteKey == nil else {
+      return
+    }
+    self.remoteKey = remoteKey
+    self.defaultData = defaultData
+    self.fetchRemoteCompletedHandler = completed
+    
+    fetchCache()
+    
     NetworkAdMob.shared.$isConnected.sink { [weak self] isConnected in
       guard let self = self else {
         return
       }
-      if isConnected, self.loadRemoteConfigState == false {
-        self.fetchRemoteConfig(remoteKey)
+      if isConnected, self.retryAttempt == 0 {
+        self.fetchRemote()
       }
     }.store(in: &subscriptions)
   }
-  
-  public func isRegisterSuccessfully() -> Bool {
-    return loadRemoteConfigState == true
-  }
-  
+
   public func status(type: AdType, name: String) -> Bool? {
     guard let adMobConfig = adMobConfig else {
       print("AdMobManager: Not yet registered!")
@@ -66,82 +72,103 @@ public class AdMobManager {
     guard adMobConfig.status else {
       return false
     }
+    guard let ad = getAd(type: type, name: name) else {
+      print("AdMobManager: Ads don't exist!")
+      return nil
+    }
+    
     switch type {
     case .onceUsed(let type):
       switch type {
       case .native:
-        for native in adMobConfig.natives where native.name == name {
+        if let native = ad as? Native {
           return native.status
         }
       case .banner:
-        for banner in adMobConfig.banners where banner.name == name {
+        if let banner = ad as? Banner {
           return banner.status
         }
       }
     case .reuse(let type):
       switch type {
       case .appOpen:
-        for appOpen in adMobConfig.appOpens where appOpen.name == name {
+        if let appOpen = ad as? AppOpen {
           return appOpen.status
         }
       case .interstitial:
-        for interstitial in adMobConfig.interstitials where interstitial.name == name {
+        if let interstitial = ad as? Interstitial {
           return interstitial.status
         }
       case .rewarded:
-        for rewarded in adMobConfig.rewardeds where rewarded.name == name {
+        if let rewarded = ad as? Rewarded {
           return rewarded.status
         }
       case .rewardedInterstitial:
-        for rewardedInterstitial in adMobConfig.rewardedInterstitials where rewardedInterstitial.name == name {
+        if let rewardedInterstitial = ad as? RewardedInterstitial {
           return rewardedInterstitial.status
         }
       }
     }
-    print("AdMobManager: Ads don't exist!")
+    print("AdMobManager: Format conversion error!")
     return nil
   }
-  
+
   public func load(type: Reuse, name: String) {
-    guard status(type: .reuse(type), name: name) == true else {
-      print("AdMobManager: Ads are not allowed to show!")
+    guard adMobConfig != nil else {
+      print("AdMobManager: Not yet registered!")
       return
     }
-    guard let adMobConfig = adMobConfig else {
+    switch status(type: .reuse(type), name: name) {
+    case false:
+      print("AdMobManager: Ads are not allowed to show!")
+      return
+    case true:
+      break
+    default:
       return
     }
     guard listAds[name] == nil else {
       print("AdMobManager: Ads are working!")
       return
     }
-    let ad: AdProtocol!
+    guard let ad = getAd(type: .reuse(type), name: name) else {
+      print("AdMobManager: Ads don't exist!")
+      return
+    }
+    
+    let adProtocol: AdProtocol!
     switch type {
     case .appOpen:
-      guard let appOpen = adMobConfig.appOpens.first(where: { $0.name == name }) else {
+      guard let appOpen = ad as? AppOpen else {
+        print("AdMobManager: Format conversion error!")
         return
       }
-      ad = AppOpenAd()
-      ad.config(ad: appOpen)
+      adProtocol = AppOpenAd()
+      adProtocol.config(ad: appOpen)
     case .interstitial:
-      guard let interstitial = adMobConfig.interstitials.first(where: { $0.name == name }) else {
+      guard let interstitial = ad as? Interstitial else {
+        print("AdMobManager: Format conversion error!")
         return
       }
-      ad = InterstitialAd()
-      ad.config(ad: interstitial)
+      adProtocol = InterstitialAd()
+      adProtocol.config(ad: interstitial)
     case .rewarded:
-      guard let rewarded = adMobConfig.rewardeds.first(where: { $0.name == name }) else {
+      guard let rewarded = ad as? Rewarded else {
+        print("AdMobManager: Format conversion error!")
         return
       }
-      ad = RewardedAd()
-      ad.config(ad: rewarded)
+      adProtocol = RewardedAd()
+      adProtocol.config(ad: rewarded)
     case .rewardedInterstitial:
-      guard let rewardedInterstitial = adMobConfig.rewardedInterstitials.first(where: { $0.name == name }) else {
+      guard let rewardedInterstitial = ad as? RewardedInterstitial else {
+        print("AdMobManager: Format conversion error!")
         return
       }
-      ad = RewardedInterstitialAd()
-      ad.config(ad: rewardedInterstitial)
+      adProtocol = RewardedInterstitialAd()
+      adProtocol.config(ad: rewardedInterstitial)
     }
-    self.listAds[name] = ad
+    
+    self.listAds[name] = adProtocol
   }
 
   public func isReady(name: String) -> Bool? {
@@ -154,6 +181,7 @@ public class AdMobManager {
 
   public func show(
     name: String,
+    rootViewController: UIViewController,
     willPresent: Handler? = nil,
     willDismiss: Handler? = nil,
     didDismiss: Handler? = nil,
@@ -167,74 +195,122 @@ public class AdMobManager {
       print("AdMobManager: Ads display failure - other ads is showing!")
       return
     }
-    ad.show(
-      willPresent: willPresent,
-      willDismiss: willDismiss,
-      didDismiss: didDismiss,
-      didFail: didFail)
+    ad.show(rootViewController: rootViewController,
+            willPresent: willPresent,
+            willDismiss: willDismiss,
+            didDismiss: didDismiss,
+            didFail: didFail)
   }
 }
 
 extension AdMobManager {
-  func getOnceUsedAd(type: OnceUsed, name: String) -> Any? {
-    guard status(type: .onceUsed(type), name: name) == true else {
-      print("AdMobManager: Ads are not allowed to show!")
-      return nil
-    }
+  func getAd(type: AdType, name: String) -> Any? {
     guard let adMobConfig = adMobConfig else {
       return nil
     }
     switch type {
-    case .native:
-      return adMobConfig.natives.first(where: { $0.name == name })
-    case .banner:
-      return adMobConfig.banners.first(where: { $0.name == name })
+    case .onceUsed(let type):
+      switch type {
+      case .banner:
+        return adMobConfig.banners.first(where: { $0.name == name })
+      case .native:
+        return adMobConfig.natives.first(where: { $0.name == name })
+      }
+    case .reuse(let type):
+      switch type {
+      case .appOpen:
+        return adMobConfig.appOpens.first(where: { $0.name == name })
+      case .interstitial:
+        return adMobConfig.interstitials.first(where: { $0.name == name })
+      case .rewarded:
+        return adMobConfig.rewardeds.first(where: { $0.name == name })
+      case .rewardedInterstitial:
+        return adMobConfig.rewardedInterstitials.first(where: { $0.name == name })
+      }
     }
   }
 }
 
 extension AdMobManager {
   private func checkIsPresent() -> Bool {
-    for ad in listAds {
-      if ad.value.isPresent() {
-        return true
-      }
+    for ad in listAds where ad.value.isPresent() {
+      return true
     }
     return false
   }
   
-  private func fetchRemoteConfig(_ key: String) {
-    self.loadRemoteConfigState = nil
+  private func updateCache() {
+    guard let remoteKey = remoteKey else {
+      return
+    }
+    guard let adMobConfig = adMobConfig else {
+      return
+    }
+    guard let data = try? JSONEncoder().encode(adMobConfig) else {
+      return
+    }
+    UserDefaults.standard.set(data, forKey: remoteKey)
+  }
+  
+  private func decoding(adMobData: Data) {
+    guard let adMobConfig = try? JSONDecoder().decode(AdMobConfig.self, from: adMobData) else {
+      print("AdMobManager: Invalid format!")
+      return
+    }
+    self.adMobConfig = adMobConfig
+    updateCache()
+  }
+  
+  private func fetchCache() {
+    guard let remoteKey = remoteKey else {
+      return
+    }
+    if let cacheData = UserDefaults.standard.data(forKey: remoteKey) {
+      decoding(adMobData: cacheData)
+    } else if let defaultData = defaultData {
+      decoding(adMobData: defaultData)
+    }
+  }
+  
+  private func retryFetchRemote() {
+    logErrorFetchRemote()
+    DispatchQueue.main.asyncAfter(deadline: .now() + 10.0, execute: fetchRemote)
+  }
+  
+  private func fetchRemote() {
+    self.retryAttempt += 1
+    guard retryAttempt <= 2 else {
+      return
+    }
+    guard let remoteKey = remoteKey else {
+      return
+    }
     remoteConfig.fetch(withExpirationDuration: 0) { [weak self] _, error in
       guard let self = self else {
         return
       }
       guard error == nil else {
-        self.loadRemoteConfigState = false
+        self.retryFetchRemote()
+        return
+      }
+      
+      let adMobData = remoteConfig.configValue(forKey: remoteKey).dataValue
+      guard !adMobData.isEmpty else {
+        self.retryFetchRemote()
         return
       }
       self.remoteConfig.activate()
-      self.updateWithRCValues(key)
+      self.decoding(adMobData: adMobData)
+      self.fetchRemoteCompletedHandler?()
     }
   }
   
-  private func updateWithRCValues(_ key: String) {
-    let adMobData = remoteConfig.configValue(forKey: key).dataValue
-    guard !adMobData.isEmpty else {
-      DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: { [weak self] in
-        guard let self = self else {
-          return
-        }
-        self.fetchRemoteConfig(key)
-      })
-      return
+  private func logErrorFetchRemote() {
+    let key = "AdMobManager_First_Open"
+    if UserDefaults.standard.bool(forKey: key) {
+      LogEventManager.shared.log(event: .remoteConfigLoadFailLaunchApp)
+    } else {
+      LogEventManager.shared.log(event: .remoteConfigLoadFailFirstOpen)
     }
-    guard let adMobConfig = try? JSONDecoder().decode(AdMobConfig.self, from: adMobData) else {
-      self.loadRemoteConfigState = false
-      return
-    }
-    self.loadRemoteConfigState = true
-    self.adMobConfig = adMobConfig
-    registerCompletedHandler?()
   }
 }

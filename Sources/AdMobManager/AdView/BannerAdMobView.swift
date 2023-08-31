@@ -26,6 +26,7 @@ open class BannerAdMobView: UIView {
     case bottom
   }
   
+  private var rootViewController: UIViewController?
   private var isLoading = false
   private var adUnitID: String?
   private var isExist = false
@@ -67,11 +68,15 @@ open class BannerAdMobView: UIView {
     NSLayoutConstraint.activate(constraints)
   }
   
-  public func load(name: String) {
+  public func load(name: String, rootViewController: UIViewController) {
+    self.rootViewController = rootViewController
     guard adUnitID == nil else {
       return
     }
-    guard let ad = AdMobManager.shared.getOnceUsedAd(type: .banner, name: name) as? Banner else {
+    guard let ad = AdMobManager.shared.getAd(type: .onceUsed(.banner), name: name) as? Banner else {
+      return
+    }
+    guard ad.status else {
       return
     }
     self.adUnitID = ad.id
@@ -119,11 +124,6 @@ extension BannerAdMobView {
       guard let self = self else {
         return
       }
-      guard let rootViewController = UIApplication.topStackViewController() else {
-        print("AdMobManager: BannerAd display failure - can't find RootViewController!")
-        return
-      }
-      
       self.isLoading = true
       print("AdMobManager: BannerAd start load!")
       self.bannerAdView?.adUnitID = adUnitID

@@ -56,16 +56,19 @@ open class NativeAdMobView: UIView, AdMobViewProtocol, GADVideoControllerDelegat
   
   open func setColor() {}
   
-  public func load(name: String) {
+  public func load(name: String, rootViewController: UIViewController) {
     if let nativeAd = nativeAd {
       config(ad: nativeAd.getAd())
       return
     }
-    guard let ad = AdMobManager.shared.getOnceUsedAd(type: .native, name: name) as? Native else {
+    guard let ad = AdMobManager.shared.getAd(type: .onceUsed(.native), name: name) as? Native else {
+      return
+    }
+    guard ad.status else {
       return
     }
     let nativeAd = NativeAd()
-    nativeAd.config(ad: ad)
+    nativeAd.config(ad: ad, rootViewController: rootViewController)
     nativeAd.setBinding { [weak self] in
       guard let self = self else {
         return

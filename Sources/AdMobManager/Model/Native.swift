@@ -12,4 +12,5 @@ struct Native: Codable {
   let status: Bool
   let id: String
   let isFullScreen: Bool
+  let description: String
 }

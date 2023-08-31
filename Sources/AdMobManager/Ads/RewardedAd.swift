@@ -23,6 +23,9 @@ class RewardedAd: NSObject, AdProtocol {
     guard let ad = ad as? Rewarded else {
       return
     }
+    guard ad.status else {
+      return
+    }
     guard adUnitID == nil else {
       return
     }
@@ -70,7 +73,7 @@ class RewardedAd: NSObject, AdProtocol {
           guard self.retryAttempt == 1 else {
             return
           }
-          let delaySec = 10.0
+          let delaySec = 5.0
           print("AdMobManager: RewardAd did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
           DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: self.load)
           return
@@ -94,7 +97,8 @@ class RewardedAd: NSObject, AdProtocol {
     return isExist()
   }
   
-  func show(willPresent: Handler?,
+  func show(rootViewController: UIViewController,
+            willPresent: Handler?,
             willDismiss: Handler?,
             didDismiss: Handler?,
             didFail: Handler?
@@ -107,16 +111,12 @@ class RewardedAd: NSObject, AdProtocol {
       print("AdMobManager: RewardAd display failure - ads are being displayed!")
       return
     }
-    guard let topViewController = UIApplication.topStackViewController() else {
-      print("AdMobManager: RewardAd display failure - can't find RootViewController!")
-      return
-    }
     print("AdMobManager: RewardAd requested to show!")
     self.willPresent = willPresent
     self.willDismiss = willDismiss
     self.didDismiss = didDismiss
     self.didFail = didFail
-    rewardedAd?.present(fromRootViewController: topViewController, userDidEarnRewardHandler: {})
+    rewardedAd?.present(fromRootViewController: rootViewController, userDidEarnRewardHandler: {})
   }
 }
 
