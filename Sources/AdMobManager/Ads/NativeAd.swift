@@ -17,7 +17,7 @@ class NativeAd: NSObject {
   private var isFullScreen = false
   private var binding: Handler?
   
-  func config(ad: Native, rootViewController: UIViewController) {
+  func config(ad: Native, rootViewController: UIViewController?) {
     self.rootViewController = rootViewController
     guard ad.status else {
       return

@@ -56,7 +56,7 @@ open class NativeAdMobView: UIView, AdMobViewProtocol, GADVideoControllerDelegat
   
   open func setColor() {}
   
-  public func load(name: String, rootViewController: UIViewController) {
+  public func load(name: String, rootViewController: UIViewController?) {
     if let nativeAd = nativeAd {
       config(ad: nativeAd.getAd())
       return

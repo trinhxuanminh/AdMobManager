@@ -68,7 +68,7 @@ open class BannerAdMobView: UIView {
     NSLayoutConstraint.activate(constraints)
   }
   
-  public func load(name: String, rootViewController: UIViewController) {
+  public func load(name: String, rootViewController: UIViewController?) {
     self.rootViewController = rootViewController
     guard adUnitID == nil else {
       return
