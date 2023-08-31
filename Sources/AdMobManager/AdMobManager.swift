@@ -283,8 +283,8 @@ extension AdMobManager {
   private func retryFetchRemote() {
     if retryAttempt == 1 {
       logErrorFetchRemote()
-      DispatchQueue.main.asyncAfter(deadline: .now() + 10.0, execute: fetchRemote)
-    } else {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 20.0, execute: fetchRemote)
+    } else if adMobConfig == nil {
       fetchDefault()
     }
   }
