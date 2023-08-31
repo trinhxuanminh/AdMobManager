@@ -15,6 +15,9 @@ class InterstitialAd: NSObject, AdProtocol {
   private var isLoading = false
   private var retryAttempt = 0
   private var isOnceUsed = false
+  private var start: Int?
+  private var frequency: Int?
+  private var countClick: Int = 0
   private var willPresent: Handler?
   private var willDismiss: Handler?
   private var didDismiss: Handler?
@@ -32,6 +35,8 @@ class InterstitialAd: NSObject, AdProtocol {
     }
     self.adUnitID = ad.id
     self.isOnceUsed = ad.isOnceUsed
+    self.start = ad.start
+    self.frequency = ad.frequency
     load()
   }
   
@@ -93,10 +98,11 @@ class InterstitialAd: NSObject, AdProtocol {
   }
   
   func isReady() -> Bool {
+    self.countClick += 1
     if !isOnceUsed, interstitialAd == nil, retryAttempt >= 2 {
       load()
     }
-    return isExist()
+    return checkFrequency() && isExist()
   }
   
   func show(rootViewController: UIViewController,
@@ -156,3 +162,14 @@ extension InterstitialAd: GADFullScreenContentDelegate {
   }
 }
 
+extension InterstitialAd {
+  private func checkFrequency() -> Bool {
+    guard
+      let start = start,
+      let frequency = frequency
+    else {
+      return true
+    }
+    return (countClick - start) % frequency == 0
+  }
+}

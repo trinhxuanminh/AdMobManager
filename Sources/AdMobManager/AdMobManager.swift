@@ -40,7 +40,7 @@ public class AdMobManager {
   private var subscriptions = [AnyCancellable]()
   private var remoteKey: String?
   private var defaultData: Data?
-  private var fetchRemoteCompletedHandler: Handler?
+  private var fetchCompletedHandler: Handler?
   private var adMobConfig: AdMobConfig?
   private var listAds: [String: AdProtocol] = [:]
   
@@ -50,7 +50,7 @@ public class AdMobManager {
     }
     self.remoteKey = remoteKey
     self.defaultData = defaultData
-    self.fetchRemoteCompletedHandler = completed
+    self.fetchCompletedHandler = completed
     
     fetchCache()
     
@@ -259,22 +259,34 @@ extension AdMobManager {
     }
     self.adMobConfig = adMobConfig
     updateCache()
+    fetchCompletedHandler?()
+    self.fetchCompletedHandler = nil
   }
   
   private func fetchCache() {
     guard let remoteKey = remoteKey else {
       return
     }
-    if let cacheData = UserDefaults.standard.data(forKey: remoteKey) {
-      decoding(adMobData: cacheData)
-    } else if let defaultData = defaultData {
-      decoding(adMobData: defaultData)
+    guard let cacheData = UserDefaults.standard.data(forKey: remoteKey) else {
+      return
     }
+    decoding(adMobData: cacheData)
+  }
+  
+  private func fetchDefault() {
+    guard let defaultData = defaultData else {
+      return
+    }
+    decoding(adMobData: defaultData)
   }
   
   private func retryFetchRemote() {
-    logErrorFetchRemote()
-    DispatchQueue.main.asyncAfter(deadline: .now() + 10.0, execute: fetchRemote)
+    if retryAttempt == 1 {
+      logErrorFetchRemote()
+      DispatchQueue.main.asyncAfter(deadline: .now() + 10.0, execute: fetchRemote)
+    } else {
+      fetchDefault()
+    }
   }
   
   private func fetchRemote() {
@@ -301,7 +313,6 @@ extension AdMobManager {
       }
       self.remoteConfig.activate()
       self.decoding(adMobData: adMobData)
-      self.fetchRemoteCompletedHandler?()
     }
   }
   
