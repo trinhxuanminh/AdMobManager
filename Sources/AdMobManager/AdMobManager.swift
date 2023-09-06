@@ -305,13 +305,12 @@ extension AdMobManager {
         self.retryFetchRemote()
         return
       }
-      
+      self.remoteConfig.activate()
       let adMobData = remoteConfig.configValue(forKey: remoteKey).dataValue
       guard !adMobData.isEmpty else {
         self.retryFetchRemote()
         return
       }
-      self.remoteConfig.activate()
       self.decoding(adMobData: adMobData)
     }
   }
@@ -322,6 +321,7 @@ extension AdMobManager {
       LogEventManager.shared.log(event: .remoteConfigLoadFailLaunchApp)
     } else {
       LogEventManager.shared.log(event: .remoteConfigLoadFailFirstOpen)
+      UserDefaults.standard.set(true, forKey: key)
     }
   }
 }
