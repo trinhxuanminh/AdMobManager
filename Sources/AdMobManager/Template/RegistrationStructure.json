@@ -4,7 +4,8 @@
     {
       "name": "App_Open",
       "status": true,
-      "id": "ca-app-pub-3940256099942544/5662855259"
+      "id": "ca-app-pub-3940256099942544/5662855259",
+      "description": ""
     }
   ],
   "rewardeds": [
@@ -18,23 +19,32 @@
     {
       "name": "Rewarded_Interstitial",
       "status": true,
-      "id": "ca-app-pub-3940256099942544/6978759866"
+      "id": "ca-app-pub-3940256099942544/6978759866",
+      "description": ""
     }
   ],
   "interstitials": [
     {
+      "name": "Splash",
+      "status": true,
+      "id": "ca-app-pub-3940256099942544/4411468910",
+      "isOnceUsed": true,
+      "description": ""
+    },
+    {
       "name": "Interstitial",
       "status": true,
       "id": "ca-app-pub-3940256099942544/4411468910",
-      "isOnceUsed": false
+      "start": 2,
+      "frequency": 2,
+      "description": ""
     }
   ],
   "banners": [
     {
       "name": "Banner_1",
       "status": true,
-      "id": "ca-app-pub-3940256099942544/2934735716",
-      "anchored": null
+      "id": "ca-app-pub-3940256099942544/2934735716"
     },
     {
       "name": "Banner_2",
@@ -46,7 +56,8 @@
       "name": "Banner_3",
       "status": true,
       "id": "ca-app-pub-3940256099942544/2934735716",
-      "anchored": "bottom"
+      "anchored": "bottom",
+      "description": ""
     }
   ],
   "natives": [
@@ -54,7 +65,7 @@
       "name": "Native",
       "status": true,
       "id": "ca-app-pub-3940256099942544/3986624511",
-      "isFullScreen": false
+      "description": ""
     }
   ]
 }
