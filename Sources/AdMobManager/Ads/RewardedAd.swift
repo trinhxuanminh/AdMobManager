@@ -14,9 +14,7 @@ class RewardedAd: NSObject, AdProtocol {
   private var presentState = false
   private var isLoading = false
   private var retryAttempt = 0
-  private var willPresent: Handler?
-  private var willDismiss: Handler?
-  private var didDismiss: Handler?
+  private var didShow: Handler?
   private var didFail: Handler?
   
   func config(ad: Any) {
@@ -86,35 +84,22 @@ class RewardedAd: NSObject, AdProtocol {
     }
   }
   
-  func isExist() -> Bool {
-    return rewardedAd != nil
-  }
-  
-  func isReady() -> Bool {
-    if rewardedAd == nil, retryAttempt >= 2 {
-      load()
-    }
-    return isExist()
-  }
-  
   func show(rootViewController: UIViewController,
-            willPresent: Handler?,
-            willDismiss: Handler?,
-            didDismiss: Handler?,
+            didShow: Handler?,
             didFail: Handler?
   ) {
-    guard isExist() else {
+    guard isReady() else {
       print("AdMobManager: RewardAd display failure - not ready to show!")
+      didFail?()
       return
     }
     guard !presentState else {
       print("AdMobManager: RewardAd display failure - ads are being displayed!")
+      didFail?()
       return
     }
     print("AdMobManager: RewardAd requested to show!")
-    self.willPresent = willPresent
-    self.willDismiss = willDismiss
-    self.didDismiss = didDismiss
+    self.didShow = didShow
     self.didFail = didFail
     rewardedAd?.present(fromRootViewController: rootViewController, userDidEarnRewardHandler: {})
   }
@@ -133,19 +118,26 @@ extension RewardedAd: GADFullScreenContentDelegate {
   func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
     print("AdMobManager: RewardAd will display!")
     self.presentState = true
-    willPresent?()
-  }
-  
-  func adWillDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-    print("AdMobManager: RewardAd will hide!")
-    willDismiss?()
   }
   
   func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
     print("AdMobManager: RewardAd did hide!")
-    didDismiss?()
+    didShow?()
     self.rewardedAd = nil
     self.presentState = false
     load()
+  }
+}
+
+extension RewardedAd {
+  private func isExist() -> Bool {
+    return rewardedAd != nil
+  }
+  
+  private func isReady() -> Bool {
+    if rewardedAd == nil, retryAttempt >= 2 {
+      load()
+    }
+    return isExist()
   }
 }

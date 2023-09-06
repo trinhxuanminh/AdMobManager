@@ -42,7 +42,23 @@ class NativeAd: NSObject {
   func setBinding(_ binding: Handler?) {
     self.binding = binding
   }
+}
+
+extension NativeAd: GADNativeAdLoaderDelegate {
+  func adLoader(_ adLoader: GADAdLoader,
+                didFailToReceiveAdWithError error: Error) {
+    self.isLoading = false
+  }
   
+  func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
+    print("AdMobManager: NativeAd did load!")
+    self.isLoading = false
+    self.nativeAd = nativeAd
+    binding?()
+  }
+}
+
+extension NativeAd {
   private func load() {
     guard !isLoading else {
       return
@@ -84,19 +100,5 @@ class NativeAd: NSObject {
   
   private func isExist() -> Bool {
     return nativeAd != nil
-  }
-}
-
-extension NativeAd: GADNativeAdLoaderDelegate {
-  func adLoader(_ adLoader: GADAdLoader,
-                didFailToReceiveAdWithError error: Error) {
-    self.isLoading = false
-  }
-  
-  func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
-    print("AdMobManager: NativeAd did load!")
-    self.isLoading = false
-    self.nativeAd = nativeAd
-    binding?()
   }
 }

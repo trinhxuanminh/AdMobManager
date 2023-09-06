@@ -33,7 +33,7 @@ Manually add the `-ObjC` linker flag to `Other Linker Flags` in your target's bu
 - Select tab `All`, find `Other Linker Flags`.
 - You must set the `-ObjC` flag for both the `Debug` and `Release` configurations.
 
-Integrate Firebase RemoteConfig with any `Key name` and configure it in [this json format](https://github.com/trinhxuanminh/AdMobManager/blob/develop/3.0.0/Sources/AdMobManager/Template/RegistrationStructure.strings).
+Integrate Firebase RemoteConfig with any `Key name` and configure it in [this json format](https://github.com/trinhxuanminh/AdMobManager/blob/develop/3.0.0/Sources/AdMobManager/Template/RegistrationStructure.json).
 **Note**: The name of each ad is unique.
 
 ## Demo
@@ -49,19 +49,13 @@ import AdMobManager
 
 #### Register advertising ID
 ```swift
-AdMobManager.shared.register(remoteKey: String, completed: Handler?)
+AdMobManager.shared.register(remoteKey: String, defaultData: Data, completed: Handler?)
 ```
 - remoteKey: The `Key name` you have set on RemoteConfig.
+- defaultData: The data of the default json string in the application, it is used when the remote cannot be loaded.
 - completed: The block executes after the ad has successfully registered. If you need to load ads as soon as you open the app, you should call the load function here.
 
 ### 2. Control
-
-#### isRegisterSuccessfully()
-This function returns the value _**true/false**_ indicating whether the ad was successfully registered or not.
-```swift
-AdMobManager.shared.isRegisterSuccessfully() -> Bool
-```
-
 #### status()
 This function returns the value _**true/false**_ indicating whether the ad is allowed to show. You can call it to make UI changes, logic in your code.
 - Returns _**nil**_ when registration is not successful or there is no ad with the corresponding name.
@@ -75,24 +69,18 @@ This function will start loading ads.
 AdMobManager.shared.load(type: Reuse, name: String)
 ```
 
-#### isReady()
-This function returns a value _**true/false**_ indicating if the ad is ready to be displayed.
-- Returns _**nil**_ when there is no advertisement with the corresponding name.
-```swift
-AdMobManager.shared.isReady(name: String) -> Bool?
-```
-
 #### show()
 This function will display ads when ready.
 
 ##### Parameters:
-- willPresent: The block executes after the ad is about to show.
-- willDismiss: The block executes after the ad is about to disappear.
-- didDismiss: The block executes after the ad has disappeared.
-- didFail: The block executes after the ad failed to display the content.
+- didShow: The block executes after the ad has disappeared.
+- didFail: The block executes after the ad is not displayed.
 
 ```swift
-AdMobManager.shared.show(name: String)
+AdMobManager.shared.show(name: String,
+                         rootViewController: UIViewController,
+                         didShow: Handler?,
+                         didFail: Handler?)
 ```
 
 ### 3. NativeAd
@@ -109,7 +97,7 @@ class CustomNativeAdView: NativeAdMobView {
       }
       self.stopAnimation()
     }
-    load(name: String)
+    load(name: String, rootViewController: nil)
   }
 }
 ```
@@ -123,7 +111,7 @@ Then, there are two ways you can create `BannerAdMobView`:
 - By code, using initializer.
 
 ```swift
-bannerAdMobView.load(name: String)
+bannerAdMobView.load(name: String, rootViewController: nil)
 ```
 
 ## License

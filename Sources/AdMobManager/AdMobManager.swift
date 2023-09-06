@@ -171,34 +171,23 @@ public class AdMobManager {
     self.listAds[name] = adProtocol
   }
 
-  public func isReady(name: String) -> Bool? {
-    guard let ad = listAds[name] else {
-      print("AdMobManager: Ads do not exist!")
-      return nil
-    }
-    return ad.isReady()
-  }
-
-  public func show(
-    name: String,
-    rootViewController: UIViewController,
-    willPresent: Handler? = nil,
-    willDismiss: Handler? = nil,
-    didDismiss: Handler? = nil,
-    didFail: Handler? = nil
+  public func show(name: String,
+                   rootViewController: UIViewController,
+                   didShow: Handler?,
+                   didFail: Handler?
   ) {
     guard let ad = listAds[name] else {
       print("AdMobManager: Ads do not exist!")
+      didFail?()
       return
     }
     guard !checkIsPresent() else {
       print("AdMobManager: Ads display failure - other ads is showing!")
+      didFail?()
       return
     }
     ad.show(rootViewController: rootViewController,
-            willPresent: willPresent,
-            willDismiss: willDismiss,
-            didDismiss: didDismiss,
+            didShow: didShow,
             didFail: didFail)
   }
 }

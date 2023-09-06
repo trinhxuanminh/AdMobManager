@@ -18,9 +18,7 @@ class InterstitialAd: NSObject, AdProtocol {
   private var start: Int?
   private var frequency: Int?
   private var countClick: Int = 0
-  private var willPresent: Handler?
-  private var willDismiss: Handler?
-  private var didDismiss: Handler?
+  private var didShow: Handler?
   private var didFail: Handler?
   
   func config(ad: Any) {
@@ -95,35 +93,22 @@ class InterstitialAd: NSObject, AdProtocol {
     }
   }
   
-  func isExist() -> Bool {
-    return interstitialAd != nil
-  }
-  
-  func isReady() -> Bool {
-    if !isOnceUsed, interstitialAd == nil, retryAttempt >= 2 {
-      load()
-    }
-    return isExist() && checkFrequency()
-  }
-  
   func show(rootViewController: UIViewController,
-            willPresent: Handler?,
-            willDismiss: Handler?,
-            didDismiss: Handler?,
+            didShow: Handler?,
             didFail: Handler?
   ) {
-    guard isExist() else {
+    guard isReady() else {
       print("AdMobManager: InterstitialAd display failure - not ready to show!")
+      didFail?()
       return
     }
     guard !presentState else {
       print("AdMobManager: InterstitialAd display failure - ads are being displayed!")
+      didFail?()
       return
     }
     print("AdMobManager: InterstitialAd requested to show!")
-    self.willPresent = willPresent
-    self.willDismiss = willDismiss
-    self.didDismiss = didDismiss
+    self.didShow = didShow
     self.didFail = didFail
     interstitialAd?.present(fromRootViewController: rootViewController)
   }
@@ -144,17 +129,11 @@ extension InterstitialAd: GADFullScreenContentDelegate {
   func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
     print("AdMobManager: InterstitialAd will display!")
     self.presentState = true
-    willPresent?()
-  }
-  
-  func adWillDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-    print("AdMobManager: InterstitialAd will hide!")
-    willDismiss?()
   }
   
   func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
     print("AdMobManager: InterstitialAd did hide!")
-    didDismiss?()
+    didShow?()
     self.interstitialAd = nil
     self.presentState = false
     if !isOnceUsed {
@@ -164,14 +143,29 @@ extension InterstitialAd: GADFullScreenContentDelegate {
 }
 
 extension InterstitialAd {
+  private func isExist() -> Bool {
+    return interstitialAd != nil
+  }
+  
+  private func isReady() -> Bool {
+    if !isOnceUsed, interstitialAd == nil, retryAttempt >= 2 {
+      load()
+    }
+    return checkFrequency() && isExist()
+  }
+  
   private func checkFrequency() -> Bool {
-    self.countClick += 1
     guard
       let start = start,
       let frequency = frequency
     else {
       return true
     }
-    return (countClick - start) % frequency == 0
+    self.countClick += 1
+    let isShow = (countClick - start) % frequency == 0
+    if isShow, !isExist() {
+      self.countClick -= 1
+    }
+    return isShow
   }
 }
