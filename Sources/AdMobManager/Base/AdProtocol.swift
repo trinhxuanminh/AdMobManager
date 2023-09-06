@@ -10,7 +10,6 @@ import UIKit
 protocol AdProtocol {
   func config(ad: Any)
   func isPresent() -> Bool
-  func load()
   func show(rootViewController: UIViewController,
             didShow: Handler?,
             didFail: Handler?)

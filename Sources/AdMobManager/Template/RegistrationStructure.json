@@ -1,13 +1,18 @@
 {
   "status": true,
-  "appOpens": [
-    {
-      "name": "App_Open",
-      "status": true,
-      "id": "ca-app-pub-3940256099942544/5662855259",
-      "description": ""
-    }
-  ],
+  "splash": {
+    "name": "Splash",
+    "status": true,
+    "id": "ca-app-pub-3940256099942544/4411468910",
+    "timeout": 30,
+    "description": ""
+  },
+  "appOpen": {
+    "name": "App_Open",
+    "status": true,
+    "id": "ca-app-pub-3940256099942544/5662855259",
+    "description": ""
+  },
   "rewardeds": [
     {
       "name": "Rewarded",
@@ -24,13 +29,6 @@
     }
   ],
   "interstitials": [
-    {
-      "name": "Splash",
-      "status": true,
-      "id": "ca-app-pub-3940256099942544/4411468910",
-      "isOnceUsed": true,
-      "description": ""
-    },
     {
       "name": "Interstitial",
       "status": true,

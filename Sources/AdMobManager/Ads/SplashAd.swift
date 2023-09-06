@@ -1,0 +1,153 @@
+//
+//  SplashAd.swift
+//  
+//
+//  Created by Trịnh Xuân Minh on 06/09/2023.
+//
+
+import UIKit
+import GoogleMobileAds
+
+class SplashAd: NSObject, AdProtocol {
+  private var adUnitID: String?
+  private var presentState = false
+  private var rootViewController: UIViewController?
+  private var isLoading = false
+  private var timeout: Double?
+  private var time = 0.0
+  private var timer: Timer?
+  private var timeInterval = 0.1
+  private var didShow: Handler?
+  private var didFail: Handler?
+  
+  func config(ad: Any) {
+    guard let ad = ad as? Splash else {
+      return
+    }
+    guard ad.status else {
+      return
+    }
+    guard adUnitID == nil else {
+      return
+    }
+    self.adUnitID = ad.id
+    self.timeout = ad.timeout
+  }
+  
+  func isPresent() -> Bool {
+    return presentState
+  }
+  
+  func show(rootViewController: UIViewController,
+            didShow: Handler?,
+            didFail: Handler?
+  ) {
+    guard !presentState else {
+      print("AdMobManager: SplashAd display failure - ads are being displayed!")
+      didFail?()
+      return
+    }
+    print("AdMobManager: SplashAd requested to show!")
+    self.didShow = didShow
+    self.didFail = didFail
+    self.rootViewController = rootViewController
+    load()
+  }
+}
+
+extension SplashAd: GADFullScreenContentDelegate {
+  func ad(_ ad: GADFullScreenPresentingAd,
+          didFailToPresentFullScreenContentWithError error: Error
+  ) {
+    print("AdMobManager: SplashAd did fail to show content!")
+    didFail?()
+  }
+  
+  func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+    print("AdMobManager: SplashAd will display!")
+    self.presentState = true
+  }
+  
+  func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+    print("AdMobManager: SplashAd did hide!")
+    didShow?()
+    self.presentState = false
+  }
+}
+
+extension SplashAd {
+  private func load() {
+    guard !isLoading else {
+      return
+    }
+    
+    guard let adUnitID = adUnitID else {
+      print("AdMobManager: SplashAd failed to load - not initialized yet! Please install ID.")
+      didFail?()
+      return
+    }
+    
+    guard let rootViewController = rootViewController else {
+      print("AdMobManager: SplashAd display failure - can't find RootViewController!")
+      didFail?()
+      return
+    }
+    
+    DispatchQueue.main.async { [weak self] in
+      guard let self = self else {
+        return
+      }
+      
+      self.isLoading = true
+      self.fire()
+      print("AdMobManager: SplashAd start load!")
+      
+      let request = GADRequest()
+      GADInterstitialAd.load(
+        withAdUnitID: adUnitID,
+        request: request
+      ) { [weak self] (ad, error) in
+        guard let self = self else {
+          return
+        }
+        self.invalidate()
+        guard error == nil, let ad = ad else {
+          self.didFail?()
+          return
+        }
+        print("AdMobManager: SplashAd did load!")
+        ad.fullScreenContentDelegate = self
+        ad.present(fromRootViewController: rootViewController)
+      }
+    }
+  }
+  
+  private func fire() {
+    DispatchQueue.main.async { [weak self] in
+      guard let self = self else {
+        return
+      }
+      self.timer = Timer.scheduledTimer(timeInterval: self.timeInterval,
+                                        target: self,
+                                        selector: #selector(self.isReady),
+                                        userInfo: nil,
+                                        repeats: true)
+    }
+  }
+  
+  private func invalidate() {
+    self.timer?.invalidate()
+    self.timer = nil
+    self.adUnitID = nil
+  }
+  
+  @objc private func isReady() {
+    self.time += timeInterval
+    
+    if let timeout = timeout, time < timeout {
+      return
+    }
+    invalidate()
+    didFail?()
+  }
+}

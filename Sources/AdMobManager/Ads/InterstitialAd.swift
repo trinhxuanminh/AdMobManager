@@ -14,7 +14,6 @@ class InterstitialAd: NSObject, AdProtocol {
   private var presentState = false
   private var isLoading = false
   private var retryAttempt = 0
-  private var isOnceUsed = false
   private var start: Int?
   private var frequency: Int?
   private var countClick: Int = 0
@@ -32,9 +31,6 @@ class InterstitialAd: NSObject, AdProtocol {
       return
     }
     self.adUnitID = ad.id
-    if let isOnceUsed = ad.isOnceUsed {
-      self.isOnceUsed = isOnceUsed
-    }
     self.start = ad.start
     self.frequency = ad.frequency
     load()
@@ -44,7 +40,79 @@ class InterstitialAd: NSObject, AdProtocol {
     return presentState
   }
   
-  func load() {
+  func show(rootViewController: UIViewController,
+            didShow: Handler?,
+            didFail: Handler?
+  ) {
+    guard isReady() else {
+      print("AdMobManager: InterstitialAd display failure - not ready to show!")
+      didFail?()
+      return
+    }
+    guard !presentState else {
+      print("AdMobManager: InterstitialAd display failure - ads are being displayed!")
+      didFail?()
+      return
+    }
+    print("AdMobManager: InterstitialAd requested to show!")
+    self.didShow = didShow
+    self.didFail = didFail
+    interstitialAd?.present(fromRootViewController: rootViewController)
+  }
+}
+
+extension InterstitialAd: GADFullScreenContentDelegate {
+  func ad(_ ad: GADFullScreenPresentingAd,
+          didFailToPresentFullScreenContentWithError error: Error
+  ) {
+    print("AdMobManager: InterstitialAd did fail to show content!")
+    didFail?()
+    self.interstitialAd = nil
+    load()
+  }
+  
+  func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+    print("AdMobManager: InterstitialAd will display!")
+    self.presentState = true
+  }
+  
+  func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+    print("AdMobManager: InterstitialAd did hide!")
+    didShow?()
+    self.interstitialAd = nil
+    self.presentState = false
+    load()
+  }
+}
+
+extension InterstitialAd {
+  private func isExist() -> Bool {
+    return interstitialAd != nil
+  }
+  
+  private func isReady() -> Bool {
+    if !isExist(), retryAttempt >= 2 {
+      load()
+    }
+    return checkFrequency() && isExist()
+  }
+  
+  private func checkFrequency() -> Bool {
+    guard
+      let start = start,
+      let frequency = frequency
+    else {
+      return true
+    }
+    self.countClick += 1
+    let isShow = (countClick - start) % frequency == 0
+    if isShow, !isExist() {
+      self.countClick -= 1
+    }
+    return isShow
+  }
+  
+  private func load() {
     guard !isLoading else {
       return
     }
@@ -77,7 +145,7 @@ class InterstitialAd: NSObject, AdProtocol {
         self.isLoading = false
         guard error == nil, let ad = ad else {
           self.retryAttempt += 1
-          guard self.retryAttempt == 1, !isOnceUsed else {
+          guard self.retryAttempt == 1 else {
             return
           }
           let delaySec = 5.0
@@ -91,81 +159,5 @@ class InterstitialAd: NSObject, AdProtocol {
         self.interstitialAd = ad
       }
     }
-  }
-  
-  func show(rootViewController: UIViewController,
-            didShow: Handler?,
-            didFail: Handler?
-  ) {
-    guard isReady() else {
-      print("AdMobManager: InterstitialAd display failure - not ready to show!")
-      didFail?()
-      return
-    }
-    guard !presentState else {
-      print("AdMobManager: InterstitialAd display failure - ads are being displayed!")
-      didFail?()
-      return
-    }
-    print("AdMobManager: InterstitialAd requested to show!")
-    self.didShow = didShow
-    self.didFail = didFail
-    interstitialAd?.present(fromRootViewController: rootViewController)
-  }
-}
-
-extension InterstitialAd: GADFullScreenContentDelegate {
-  func ad(_ ad: GADFullScreenPresentingAd,
-          didFailToPresentFullScreenContentWithError error: Error
-  ) {
-    print("AdMobManager: InterstitialAd did fail to show content!")
-    didFail?()
-    self.interstitialAd = nil
-    if !isOnceUsed {
-      load()
-    }
-  }
-  
-  func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-    print("AdMobManager: InterstitialAd will display!")
-    self.presentState = true
-  }
-  
-  func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-    print("AdMobManager: InterstitialAd did hide!")
-    didShow?()
-    self.interstitialAd = nil
-    self.presentState = false
-    if !isOnceUsed {
-      load()
-    }
-  }
-}
-
-extension InterstitialAd {
-  private func isExist() -> Bool {
-    return interstitialAd != nil
-  }
-  
-  private func isReady() -> Bool {
-    if !isOnceUsed, interstitialAd == nil, retryAttempt >= 2 {
-      load()
-    }
-    return checkFrequency() && isExist()
-  }
-  
-  private func checkFrequency() -> Bool {
-    guard
-      let start = start,
-      let frequency = frequency
-    else {
-      return true
-    }
-    self.countClick += 1
-    let isShow = (countClick - start) % frequency == 0
-    if isShow, !isExist() {
-      self.countClick -= 1
-    }
-    return isShow
   }
 }

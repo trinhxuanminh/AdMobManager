@@ -35,50 +35,6 @@ class AppOpenAd: NSObject, AdProtocol {
     return presentState
   }
   
-  func load() {
-    guard !isLoading else {
-      return
-    }
-    
-    guard !isExist() else {
-      return
-    }
-    
-    guard let adUnitID = adUnitID else {
-      print("AdMobManager: AppOpenAd failed to load - not initialized yet! Please install ID.")
-      return
-    }
-    
-    DispatchQueue.main.async { [weak self] in
-      guard let self = self else {
-        return
-      }
-      
-      self.isLoading = true
-      print("AdMobManager: AppOpenAd start load!")
-      
-      let request = GADRequest()
-      GADAppOpenAd.load(
-        withAdUnitID: adUnitID,
-        request: request,
-        orientation: UIInterfaceOrientation.portrait
-      ) { [weak self] (ad, error) in
-        guard let self = self else {
-          return
-        }
-        self.isLoading = false
-        guard error == nil, let ad = ad else {
-          self.retryAttempt += 1
-          return
-        }
-        print("AdMobManager: AppOpenAd did load!")
-        self.retryAttempt = 0
-        ad.fullScreenContentDelegate = self
-        self.appOpenAd = ad
-      }
-    }
-  }
-  
   func show(rootViewController: UIViewController,
             didShow: Handler?,
             didFail: Handler?
@@ -130,9 +86,53 @@ extension AppOpenAd {
   }
   
   private func isReady() -> Bool {
-    if appOpenAd == nil, retryAttempt >= 1 {
+    if !isExist(), retryAttempt >= 1 {
       load()
     }
     return isExist()
+  }
+  
+  private func load() {
+    guard !isLoading else {
+      return
+    }
+    
+    guard !isExist() else {
+      return
+    }
+    
+    guard let adUnitID = adUnitID else {
+      print("AdMobManager: AppOpenAd failed to load - not initialized yet! Please install ID.")
+      return
+    }
+    
+    DispatchQueue.main.async { [weak self] in
+      guard let self = self else {
+        return
+      }
+      
+      self.isLoading = true
+      print("AdMobManager: AppOpenAd start load!")
+      
+      let request = GADRequest()
+      GADAppOpenAd.load(
+        withAdUnitID: adUnitID,
+        request: request,
+        orientation: UIInterfaceOrientation.portrait
+      ) { [weak self] (ad, error) in
+        guard let self = self else {
+          return
+        }
+        self.isLoading = false
+        guard error == nil, let ad = ad else {
+          self.retryAttempt += 1
+          return
+        }
+        print("AdMobManager: AppOpenAd did load!")
+        self.retryAttempt = 0
+        ad.fullScreenContentDelegate = self
+        self.appOpenAd = ad
+      }
+    }
   }
 }

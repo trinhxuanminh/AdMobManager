@@ -24,6 +24,7 @@ public class AdMobManager {
   }
   
   public enum Reuse {
+    case splash
     case appOpen
     case interstitial
     case rewarded
@@ -91,6 +92,10 @@ public class AdMobManager {
       }
     case .reuse(let type):
       switch type {
+      case .splash:
+        if let splash = ad as? Splash {
+          return splash.status
+        }
       case .appOpen:
         if let appOpen = ad as? AppOpen {
           return appOpen.status
@@ -138,6 +143,13 @@ public class AdMobManager {
     
     let adProtocol: AdProtocol!
     switch type {
+    case .splash:
+      guard let splash = ad as? Splash else {
+        print("AdMobManager: Format conversion error!")
+        return
+      }
+      adProtocol = SplashAd()
+      adProtocol.config(ad: splash)
     case .appOpen:
       guard let appOpen = ad as? AppOpen else {
         print("AdMobManager: Format conversion error!")
@@ -207,8 +219,22 @@ extension AdMobManager {
       }
     case .reuse(let type):
       switch type {
+      case .splash:
+        guard
+          let splash = adMobConfig.splash,
+          splash.name == name
+        else {
+          return nil
+        }
+        return adMobConfig.splash
       case .appOpen:
-        return adMobConfig.appOpens?.first(where: { $0.name == name })
+        guard
+          let appOpen = adMobConfig.appOpen,
+          appOpen.name == name
+        else {
+          return nil
+        }
+        return adMobConfig.appOpen
       case .interstitial:
         return adMobConfig.interstitials?.first(where: { $0.name == name })
       case .rewarded:
