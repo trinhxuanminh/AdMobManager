@@ -9,6 +9,7 @@ import UIKit
 import GoogleMobileAds
 
 class SplashAd: NSObject, AdProtocol {
+  private var splashAd: GADInterstitialAd?
   private var adUnitID: String?
   private var presentState = false
   private var rootViewController: UIViewController?
@@ -61,6 +62,7 @@ extension SplashAd: GADFullScreenContentDelegate {
   ) {
     print("AdMobManager: SplashAd did fail to show content!")
     didFail?()
+    self.splashAd = nil
   }
   
   func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
@@ -72,6 +74,7 @@ extension SplashAd: GADFullScreenContentDelegate {
     print("AdMobManager: SplashAd did hide!")
     didShow?()
     self.presentState = false
+    self.splashAd = nil
   }
 }
 
@@ -118,6 +121,7 @@ extension SplashAd {
         print("AdMobManager: SplashAd did load!")
         ad.fullScreenContentDelegate = self
         ad.present(fromRootViewController: rootViewController)
+        self.splashAd = ad
       }
     }
   }
