@@ -34,7 +34,9 @@ class InterstitialAd: NSObject, AdProtocol {
       return
     }
     self.adUnitID = ad.id
-    self.isOnceUsed = ad.isOnceUsed
+    if let isOnceUsed = ad.isOnceUsed {
+      self.isOnceUsed = isOnceUsed
+    }
     self.start = ad.start
     self.frequency = ad.frequency
     load()

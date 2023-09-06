@@ -11,6 +11,6 @@ struct Native: Codable {
   let name: String
   let status: Bool
   let id: String
-  let isFullScreen: Bool
-  let description: String
+  let isFullScreen: Bool?
+  let description: String?
 }

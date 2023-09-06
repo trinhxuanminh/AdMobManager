@@ -11,8 +11,8 @@ struct Interstitial: Codable {
   let name: String
   let status: Bool
   let id: String
-  let isOnceUsed: Bool
+  let isOnceUsed: Bool?
   let start: Int?
   let frequency: Int?
-  let description: String
+  let description: String?
 }

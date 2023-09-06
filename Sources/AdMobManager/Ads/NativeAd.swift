@@ -26,7 +26,9 @@ class NativeAd: NSObject {
       return
     }
     self.adUnitID = ad.id
-    self.isFullScreen = ad.isFullScreen
+    if let isFullScreen = ad.isFullScreen {
+      self.isFullScreen = isFullScreen
+    }
     self.load()
   }
   
