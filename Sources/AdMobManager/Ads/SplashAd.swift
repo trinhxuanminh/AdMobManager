@@ -113,6 +113,9 @@ extension SplashAd {
         guard let self = self else {
           return
         }
+        guard let timeout = self.timeout, self.time < timeout else {
+          return
+        }
         self.invalidate()
         guard error == nil, let ad = ad else {
           self.didFail?()

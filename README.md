@@ -49,11 +49,16 @@ import AdMobManager
 
 #### Register advertising ID
 ```swift
-AdMobManager.shared.register(remoteKey: String, defaultData: Data, completed: Handler?)
+AdMobManager.shared.register(remoteKey: String, defaultData: Data)
 ```
 - remoteKey: The `Key name` you have set on RemoteConfig.
 - defaultData: The data of the default json string in the application, it is used when the remote cannot be loaded.
-- completed: The block executes after the ad has successfully registered. If you need to load ads as soon as you open the app, you should call the load function here.
+
+#### Complete registration
+Add actions after completing registration.
+```swift
+AdMobManager.shared.addActionSuccessRegister(_ handler: @escaping Handler)
+```
 
 ### 2. Control
 #### status()

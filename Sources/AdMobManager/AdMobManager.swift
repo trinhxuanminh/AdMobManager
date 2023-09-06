@@ -41,17 +41,16 @@ public class AdMobManager {
   private var subscriptions = [AnyCancellable]()
   private var remoteKey: String?
   private var defaultData: Data?
-  private var fetchCompletedHandler: Handler?
+  private var actions = [Handler]()
   private var adMobConfig: AdMobConfig?
   private var listAds: [String: AdProtocol] = [:]
   
-  public func register(remoteKey: String, defaultData: Data, completed: Handler?) {
+  public func register(remoteKey: String, defaultData: Data) {
     guard self.remoteKey == nil else {
       return
     }
     self.remoteKey = remoteKey
     self.defaultData = defaultData
-    self.fetchCompletedHandler = completed
     
     fetchCache()
     
@@ -63,6 +62,14 @@ public class AdMobManager {
         self.fetchRemote()
       }
     }.store(in: &subscriptions)
+  }
+  
+  public func addActionSuccessRegister(_ handler: @escaping Handler) {
+    if adMobConfig == nil {
+      actions.append(handler)
+    } else {
+      handler()
+    }
   }
 
   public func status(type: AdType, name: String) -> Bool? {
@@ -274,8 +281,8 @@ extension AdMobManager {
     }
     self.adMobConfig = adMobConfig
     updateCache()
-    fetchCompletedHandler?()
-    self.fetchCompletedHandler = nil
+    actions.forEach { $0() }
+    actions.removeAll()
   }
   
   private func fetchCache() {
