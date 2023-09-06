@@ -212,20 +212,20 @@ extension AdMobManager {
     case .onceUsed(let type):
       switch type {
       case .banner:
-        return adMobConfig.banners.first(where: { $0.name == name })
+        return adMobConfig.banners?.first(where: { $0.name == name })
       case .native:
-        return adMobConfig.natives.first(where: { $0.name == name })
+        return adMobConfig.natives?.first(where: { $0.name == name })
       }
     case .reuse(let type):
       switch type {
       case .appOpen:
-        return adMobConfig.appOpens.first(where: { $0.name == name })
+        return adMobConfig.appOpens?.first(where: { $0.name == name })
       case .interstitial:
-        return adMobConfig.interstitials.first(where: { $0.name == name })
+        return adMobConfig.interstitials?.first(where: { $0.name == name })
       case .rewarded:
-        return adMobConfig.rewardeds.first(where: { $0.name == name })
+        return adMobConfig.rewardeds?.first(where: { $0.name == name })
       case .rewardedInterstitial:
-        return adMobConfig.rewardedInterstitials.first(where: { $0.name == name })
+        return adMobConfig.rewardedInterstitials?.first(where: { $0.name == name })
       }
     }
   }

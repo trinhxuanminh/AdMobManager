@@ -98,7 +98,7 @@ class AppOpenAd: NSObject, AdProtocol {
             didDismiss: Handler?,
             didFail: Handler?
   ) {
-    guard isReady() else {
+    guard isExist() else {
       print("AdMobManager: AppOpenAd display failure - not ready to show!")
       return
     }

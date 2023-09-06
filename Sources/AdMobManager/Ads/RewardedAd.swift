@@ -103,7 +103,7 @@ class RewardedAd: NSObject, AdProtocol {
             didDismiss: Handler?,
             didFail: Handler?
   ) {
-    guard isReady() else {
+    guard isExist() else {
       print("AdMobManager: RewardAd display failure - not ready to show!")
       return
     }

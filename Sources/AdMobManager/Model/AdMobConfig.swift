@@ -9,10 +9,10 @@ import Foundation
 
 struct AdMobConfig: Codable {
   let status: Bool
-  var appOpens: [AppOpen] = []
-  var rewardeds: [Rewarded] = []
-  var interstitials: [Interstitial] = []
-  var rewardedInterstitials: [RewardedInterstitial] = []
-  var banners: [Banner] = []
-  var natives: [Native] = []
+  var appOpens: [AppOpen]?
+  var rewardeds: [Rewarded]?
+  var interstitials: [Interstitial]?
+  var rewardedInterstitials: [RewardedInterstitial]?
+  var banners: [Banner]?
+  var natives: [Native]?
 }

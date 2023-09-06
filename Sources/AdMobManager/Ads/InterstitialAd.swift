@@ -100,11 +100,10 @@ class InterstitialAd: NSObject, AdProtocol {
   }
   
   func isReady() -> Bool {
-    self.countClick += 1
     if !isOnceUsed, interstitialAd == nil, retryAttempt >= 2 {
       load()
     }
-    return checkFrequency() && isExist()
+    return isExist() && checkFrequency()
   }
   
   func show(rootViewController: UIViewController,
@@ -113,7 +112,7 @@ class InterstitialAd: NSObject, AdProtocol {
             didDismiss: Handler?,
             didFail: Handler?
   ) {
-    guard isReady() else {
+    guard isExist() else {
       print("AdMobManager: InterstitialAd display failure - not ready to show!")
       return
     }
@@ -166,6 +165,7 @@ extension InterstitialAd: GADFullScreenContentDelegate {
 
 extension InterstitialAd {
   private func checkFrequency() -> Bool {
+    self.countClick += 1
     guard
       let start = start,
       let frequency = frequency
