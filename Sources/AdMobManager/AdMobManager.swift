@@ -42,10 +42,19 @@ public class AdMobManager {
   private var remoteKey: String?
   private var defaultData: Data?
   private var actions = [Handler]()
+  private var isPremium = false
   private var adMobConfig: AdMobConfig?
   private var listAds: [String: AdProtocol] = [:]
   
+  public func upgradePremium() {
+    self.isPremium = true
+  }
+  
   public func register(remoteKey: String, defaultData: Data) {
+    guard !isPremium else {
+      print("AdMobManager: Premium!")
+      return
+    }
     guard self.remoteKey == nil else {
       return
     }
@@ -65,7 +74,7 @@ public class AdMobManager {
   }
   
   public func addActionSuccessRegister(_ handler: @escaping Handler) {
-    if adMobConfig == nil {
+    if adMobConfig == nil, !isPremium {
       actions.append(handler)
     } else {
       handler()
@@ -73,6 +82,11 @@ public class AdMobManager {
   }
 
   public func status(type: AdType, name: String) -> Bool? {
+    guard !isPremium else {
+      print("AdMobManager: Premium!")
+      return nil
+    }
+    
     guard let adMobConfig = adMobConfig else {
       print("AdMobManager: Not yet registered!")
       return nil
@@ -126,6 +140,10 @@ public class AdMobManager {
   }
 
   public func load(type: Reuse, name: String) {
+    guard !isPremium else {
+      print("AdMobManager: Premium!")
+      return
+    }
     guard adMobConfig != nil else {
       print("AdMobManager: Not yet registered!")
       return
@@ -195,6 +213,11 @@ public class AdMobManager {
                    didShow: Handler?,
                    didFail: Handler?
   ) {
+    guard !isPremium else {
+      print("AdMobManager: Premium!")
+      didFail?()
+      return
+    }
     guard let ad = listAds[name] else {
       print("AdMobManager: Ads do not exist!")
       didFail?()

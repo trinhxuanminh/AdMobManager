@@ -47,6 +47,13 @@ import AdMobManager
 
 ### 1. Parameter setting
 
+#### Upgrade premium
+This function will block registration, loading, and show ads.
+**Note**: Priority to use before registration and use after successful premium purchase.
+```swift
+AdMobManager.shared.upgradePremium()
+```
+
 #### Register advertising ID
 ```swift
 AdMobManager.shared.register(remoteKey: String, defaultData: Data)
