@@ -53,6 +53,7 @@ public class AdMobManager {
   public func register(remoteKey: String, defaultData: Data) {
     guard !isPremium else {
       print("AdMobManager: Premium!")
+      runActions()
       return
     }
     guard self.remoteKey == nil else {
@@ -304,8 +305,7 @@ extension AdMobManager {
     }
     self.adMobConfig = adMobConfig
     updateCache()
-    actions.forEach { $0() }
-    actions.removeAll()
+    runActions()
   }
   
   private func fetchCache() {
@@ -368,5 +368,10 @@ extension AdMobManager {
       LogEventManager.shared.log(event: .remoteConfigLoadFailFirstOpen)
       UserDefaults.standard.set(true, forKey: key)
     }
+  }
+  
+  private func runActions() {
+    actions.forEach { $0() }
+    actions.removeAll()
   }
 }
