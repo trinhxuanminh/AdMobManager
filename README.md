@@ -37,7 +37,7 @@ Integrate Firebase RemoteConfig with any `Key name` and configure it in [this js
 **Note**: The name of each ad is unique.
 
 ## Demo
-Refer to the following [Demo project](https://github.com/trinhxuanminh/DemoAdMobManager) to implement the ad.
+Refer to the following [Demo project](https://github.com/trinhxuanminh/DemoAdMobManager/tree/develop/3.0.0) to implement the ad.
 
 ## Usage
 Firstly, import `AdMobManager`.
