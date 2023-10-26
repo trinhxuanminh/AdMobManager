@@ -105,6 +105,9 @@ extension InterstitialAd {
       return true
     }
     self.countClick += 1
+    if countClick < start {
+      return false
+    }
     let isShow = (countClick - start) % frequency == 0
     if isShow, !isExist() {
       self.countClick -= 1
