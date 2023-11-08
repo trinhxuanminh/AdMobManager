@@ -41,6 +41,7 @@ public class AdMobManager {
   private var subscriptions = [AnyCancellable]()
   private var remoteKey: String?
   private var defaultData: Data?
+  private var configValue: ((RemoteConfig) -> Void)?
   private var actions = [Handler]()
   private var isPremium = false
   private var adMobConfig: AdMobConfig?
@@ -72,6 +73,10 @@ public class AdMobManager {
         self.fetchRemote()
       }
     }.store(in: &subscriptions)
+  }
+  
+  public func addActionConfigValue(_ handler: @escaping ((RemoteConfig) -> Void)) {
+    self.configValue = handler
   }
   
   public func addActionSuccessRegister(_ handler: @escaping Handler) {
@@ -351,6 +356,7 @@ extension AdMobManager {
         return
       }
       self.remoteConfig.activate()
+      self.configValue?(self.remoteConfig)
       let adMobData = remoteConfig.configValue(forKey: remoteKey).dataValue
       guard !adMobData.isEmpty else {
         self.retryFetchRemote()

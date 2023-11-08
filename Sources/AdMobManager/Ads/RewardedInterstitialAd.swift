@@ -52,7 +52,12 @@ class RewardedInterstitialAd: NSObject, AdProtocol {
     print("AdMobManager: RewardedInterstitialAd requested to show!")
     self.didShow = didShow
     self.didFail = didFail
-    rewardedInterstitialAd?.present(fromRootViewController: rootViewController, userDidEarnRewardHandler: {})
+    rewardedInterstitialAd?.present(fromRootViewController: rootViewController, userDidEarnRewardHandler: { [weak self] in
+      guard let self else {
+        return
+      }
+      self.didShow?()
+    })
   }
 }
 
@@ -73,7 +78,6 @@ extension RewardedInterstitialAd: GADFullScreenContentDelegate {
   
   func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
     print("AdMobManager: RewardedInterstitialAd did hide!")
-    didShow?()
     self.rewardedInterstitialAd = nil
     self.presentState = false
     load()

@@ -52,7 +52,12 @@ class RewardedAd: NSObject, AdProtocol {
     print("AdMobManager: RewardAd requested to show!")
     self.didShow = didShow
     self.didFail = didFail
-    rewardedAd?.present(fromRootViewController: rootViewController, userDidEarnRewardHandler: {})
+    rewardedAd?.present(fromRootViewController: rootViewController, userDidEarnRewardHandler: { [weak self] in
+      guard let self else {
+        return
+      }
+      self.didShow?()
+    })
   }
 }
 
@@ -73,7 +78,6 @@ extension RewardedAd: GADFullScreenContentDelegate {
   
   func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
     print("AdMobManager: RewardAd did hide!")
-    didShow?()
     self.rewardedAd = nil
     self.presentState = false
     load()
