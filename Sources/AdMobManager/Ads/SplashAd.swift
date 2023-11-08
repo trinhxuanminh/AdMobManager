@@ -125,9 +125,9 @@ extension SplashAd {
           return
         }
         print("AdMobManager: SplashAd did load!")
-        ad.fullScreenContentDelegate = self
-        ad.present(fromRootViewController: rootViewController)
         self.splashAd = ad
+        self.splashAd?.fullScreenContentDelegate = self
+        self.splashAd?.present(fromRootViewController: rootViewController)
       }
     }
   }

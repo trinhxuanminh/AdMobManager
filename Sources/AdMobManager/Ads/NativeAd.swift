@@ -87,14 +87,13 @@ extension NativeAd {
         aspectRatioOption.mediaAspectRatio = .portrait
         options = [aspectRatioOption]
       }
-      let adLoader = GADAdLoader(
+      self.adLoader = GADAdLoader(
         adUnitID: adUnitID,
         rootViewController: rootViewController,
         adTypes: [.native],
         options: options)
-      adLoader.delegate = self
-      adLoader.load(GADRequest())
-      self.adLoader = adLoader
+      self.adLoader?.delegate = self
+      self.adLoader?.load(GADRequest())
     }
   }
   

@@ -133,8 +133,8 @@ extension AppOpenAd {
         }
         print("AdMobManager: AppOpenAd did load!")
         self.retryAttempt = 0
-        ad.fullScreenContentDelegate = self
         self.appOpenAd = ad
+        self.appOpenAd?.fullScreenContentDelegate = self
       }
     }
   }

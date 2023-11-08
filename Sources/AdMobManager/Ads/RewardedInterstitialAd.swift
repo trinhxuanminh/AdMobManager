@@ -143,8 +143,8 @@ extension RewardedInterstitialAd {
         }
         print("AdMobManager: RewardedInterstitialAd did load!")
         self.retryAttempt = 0
-        ad.fullScreenContentDelegate = self
         self.rewardedInterstitialAd = ad
+        self.rewardedInterstitialAd?.fullScreenContentDelegate = self
       }
     }
   }

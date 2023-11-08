@@ -143,8 +143,8 @@ extension RewardedAd {
         }
         print("AdMobManager: RewardAd did load!")
         self.retryAttempt = 0
-        ad.fullScreenContentDelegate = self
         self.rewardedAd = ad
+        self.rewardedAd?.fullScreenContentDelegate = self
       }
     }
   }

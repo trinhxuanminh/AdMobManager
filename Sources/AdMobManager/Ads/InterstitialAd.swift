@@ -161,8 +161,8 @@ extension InterstitialAd {
         }
         print("AdMobManager: InterstitialAd did load!")
         self.retryAttempt = 0
-        ad.fullScreenContentDelegate = self
         self.interstitialAd = ad
+        self.interstitialAd?.fullScreenContentDelegate = self
       }
     }
   }
