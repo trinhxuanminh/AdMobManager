@@ -11,6 +11,7 @@ protocol AdProtocol {
   func config(ad: Any)
   func isPresent() -> Bool
   func show(rootViewController: UIViewController,
-            didShow: Handler?,
-            didFail: Handler?)
+            didFail: Handler?,
+            didEarnReward: Handler?,
+            didHide: Handler?)
 }

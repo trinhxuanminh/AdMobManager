@@ -51,6 +51,10 @@ public class AdMobManager {
     self.isPremium = true
   }
   
+  public func addActionConfigValue(_ handler: @escaping ((RemoteConfig) -> Void)) {
+    self.configValue = handler
+  }
+  
   public func register(remoteKey: String, defaultData: Data) {
     guard !isPremium else {
       print("AdMobManager: Premium!")
@@ -73,10 +77,6 @@ public class AdMobManager {
         self.fetchRemote()
       }
     }.store(in: &subscriptions)
-  }
-  
-  public func addActionConfigValue(_ handler: @escaping ((RemoteConfig) -> Void)) {
-    self.configValue = handler
   }
   
   public func addActionSuccessRegister(_ handler: @escaping Handler) {
@@ -216,8 +216,9 @@ public class AdMobManager {
 
   public func show(name: String,
                    rootViewController: UIViewController,
-                   didShow: Handler?,
-                   didFail: Handler?
+                   didFail: Handler?,
+                   didEarnReward: Handler? = nil,
+                   didHide: Handler?
   ) {
     guard !isPremium else {
       print("AdMobManager: Premium!")
@@ -235,8 +236,9 @@ public class AdMobManager {
       return
     }
     ad.show(rootViewController: rootViewController,
-            didShow: didShow,
-            didFail: didFail)
+            didFail: didFail,
+            didEarnReward: didEarnReward,
+            didHide: didHide)
   }
 }
 

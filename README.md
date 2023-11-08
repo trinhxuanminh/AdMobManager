@@ -54,6 +54,12 @@ This function will block registration, loading, and show ads.
 AdMobManager.shared.upgradePremium()
 ```
 
+#### ConfigValue
+The function allows receiving additional values from RemoteConfig.
+```swift
+AdMobManager.shared.addActionConfigValue(_ handler: @escaping ((RemoteConfig) -> Void))
+```
+
 #### Register advertising ID
 ```swift
 AdMobManager.shared.register(remoteKey: String, defaultData: Data)
@@ -85,14 +91,16 @@ AdMobManager.shared.load(type: Reuse, name: String)
 This function will display ads when ready.
 
 ##### Parameters:
-- didShow: The block executes after the ad has disappeared.
 - didFail: The block executes after the ad is not displayed.
+- didEarnReward: The block handle the reward for the user.
+- didHide: The block executes after the ad has disappeared.
 
 ```swift
 AdMobManager.shared.show(name: String,
                          rootViewController: UIViewController,
-                         didShow: Handler?,
-                         didFail: Handler?)
+                         didFail: Handler?,
+                         didEarnReward: Handler? = nil,
+                         didHide: Handler?)
 ```
 
 ### 3. NativeAd

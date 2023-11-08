@@ -14,8 +14,9 @@ class RewardedInterstitialAd: NSObject, AdProtocol {
   private var presentState = false
   private var isLoading = false
   private var retryAttempt = 0
-  private var didShow: Handler?
   private var didFail: Handler?
+  private var didEarnReward: Handler?
+  private var didHide: Handler?
   
   func config(ad: Any) {
     guard let ad = ad as? RewardedInterstitial else {
@@ -36,8 +37,9 @@ class RewardedInterstitialAd: NSObject, AdProtocol {
   }
   
   func show(rootViewController: UIViewController,
-            didShow: Handler?,
-            didFail: Handler?
+            didFail: Handler?,
+            didEarnReward: Handler?,
+            didHide: Handler?
   ) {
     guard isReady() else {
       print("AdMobManager: RewardedInterstitialAd display failure - not ready to show!")
@@ -50,13 +52,14 @@ class RewardedInterstitialAd: NSObject, AdProtocol {
       return
     }
     print("AdMobManager: RewardedInterstitialAd requested to show!")
-    self.didShow = didShow
     self.didFail = didFail
+    self.didHide = didHide
+    self.didEarnReward = didEarnReward
     rewardedInterstitialAd?.present(fromRootViewController: rootViewController, userDidEarnRewardHandler: { [weak self] in
       guard let self else {
         return
       }
-      self.didShow?()
+      self.didEarnReward?()
     })
   }
 }
@@ -78,6 +81,7 @@ extension RewardedInterstitialAd: GADFullScreenContentDelegate {
   
   func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
     print("AdMobManager: RewardedInterstitialAd did hide!")
+    didHide?()
     self.rewardedInterstitialAd = nil
     self.presentState = false
     load()

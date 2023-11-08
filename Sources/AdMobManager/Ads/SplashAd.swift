@@ -18,8 +18,9 @@ class SplashAd: NSObject, AdProtocol {
   private var time = 0.0
   private var timer: Timer?
   private var timeInterval = 0.1
-  private var didShow: Handler?
   private var didFail: Handler?
+  private var didEarnReward: Handler?
+  private var didHide: Handler?
   
   func config(ad: Any) {
     guard let ad = ad as? Splash else {
@@ -40,8 +41,9 @@ class SplashAd: NSObject, AdProtocol {
   }
   
   func show(rootViewController: UIViewController,
-            didShow: Handler?,
-            didFail: Handler?
+            didFail: Handler?,
+            didEarnReward: Handler?,
+            didHide: Handler?
   ) {
     guard !presentState else {
       print("AdMobManager: SplashAd display failure - ads are being displayed!")
@@ -49,8 +51,9 @@ class SplashAd: NSObject, AdProtocol {
       return
     }
     print("AdMobManager: SplashAd requested to show!")
-    self.didShow = didShow
     self.didFail = didFail
+    self.didHide = didHide
+    self.didEarnReward = didEarnReward
     self.rootViewController = rootViewController
     load()
   }
@@ -72,7 +75,7 @@ extension SplashAd: GADFullScreenContentDelegate {
   
   func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
     print("AdMobManager: SplashAd did hide!")
-    didShow?()
+    didHide?()
     self.presentState = false
     self.splashAd = nil
   }

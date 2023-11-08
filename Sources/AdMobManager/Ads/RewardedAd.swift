@@ -14,8 +14,9 @@ class RewardedAd: NSObject, AdProtocol {
   private var presentState = false
   private var isLoading = false
   private var retryAttempt = 0
-  private var didShow: Handler?
   private var didFail: Handler?
+  private var didEarnReward: Handler?
+  private var didHide: Handler?
   
   func config(ad: Any) {
     guard let ad = ad as? Rewarded else {
@@ -36,8 +37,9 @@ class RewardedAd: NSObject, AdProtocol {
   }
   
   func show(rootViewController: UIViewController,
-            didShow: Handler?,
-            didFail: Handler?
+            didFail: Handler?,
+            didEarnReward: Handler?,
+            didHide: Handler?
   ) {
     guard isReady() else {
       print("AdMobManager: RewardAd display failure - not ready to show!")
@@ -50,13 +52,14 @@ class RewardedAd: NSObject, AdProtocol {
       return
     }
     print("AdMobManager: RewardAd requested to show!")
-    self.didShow = didShow
     self.didFail = didFail
+    self.didHide = didHide
+    self.didEarnReward = didEarnReward
     rewardedAd?.present(fromRootViewController: rootViewController, userDidEarnRewardHandler: { [weak self] in
       guard let self else {
         return
       }
-      self.didShow?()
+      self.didEarnReward?()
     })
   }
 }
@@ -78,6 +81,7 @@ extension RewardedAd: GADFullScreenContentDelegate {
   
   func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
     print("AdMobManager: RewardAd did hide!")
+    didHide?()
     self.rewardedAd = nil
     self.presentState = false
     load()

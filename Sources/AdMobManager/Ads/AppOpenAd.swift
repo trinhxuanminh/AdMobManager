@@ -14,8 +14,9 @@ class AppOpenAd: NSObject, AdProtocol {
   private var presentState = false
   private var isLoading = false
   private var retryAttempt = 0
-  private var didShow: Handler?
   private var didFail: Handler?
+  private var didEarnReward: Handler?
+  private var didHide: Handler?
   
   func config(ad: Any) {
     guard let ad = ad as? AppOpen else {
@@ -36,8 +37,9 @@ class AppOpenAd: NSObject, AdProtocol {
   }
   
   func show(rootViewController: UIViewController,
-            didShow: Handler?,
-            didFail: Handler?
+            didFail: Handler?,
+            didEarnReward: Handler?,
+            didHide: Handler?
   ) {
     guard isReady() else {
       print("AdMobManager: AppOpenAd display failure - not ready to show!")
@@ -50,8 +52,9 @@ class AppOpenAd: NSObject, AdProtocol {
       return
     }
     print("AdMobManager: AppOpenAd requested to show!")
-    self.didShow = didShow
     self.didFail = didFail
+    self.didHide = didHide
+    self.didEarnReward = didEarnReward
     appOpenAd?.present(fromRootViewController: rootViewController)
   }
 }
@@ -73,7 +76,7 @@ extension AppOpenAd: GADFullScreenContentDelegate {
   
   func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
     print("AdMobManager: AppOpenAd did hide!")
-    didShow?()
+    didHide?()
     self.appOpenAd = nil
     self.presentState = false
     load()
