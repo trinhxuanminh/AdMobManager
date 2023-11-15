@@ -56,10 +56,9 @@ public class AdMobManager {
   }
   
   public func register(remoteKey: String, defaultData: Data) {
-    guard !isPremium else {
+    if isPremium {
       print("AdMobManager: Premium!")
       runActions()
-      return
     }
     guard self.remoteKey == nil else {
       return
@@ -92,7 +91,6 @@ public class AdMobManager {
       print("AdMobManager: Premium!")
       return nil
     }
-    
     guard let adMobConfig = adMobConfig else {
       print("AdMobManager: Not yet registered!")
       return nil
@@ -100,60 +98,14 @@ public class AdMobManager {
     guard adMobConfig.status else {
       return false
     }
-    guard let ad = getAd(type: type, name: name) else {
+    guard let adConfig = getAd(type: type, name: name) as? AdConfigProtocol else {
       print("AdMobManager: Ads don't exist!")
       return nil
     }
-    
-    switch type {
-    case .onceUsed(let type):
-      switch type {
-      case .native:
-        if let native = ad as? Native {
-          return native.status
-        }
-      case .banner:
-        if let banner = ad as? Banner {
-          return banner.status
-        }
-      }
-    case .reuse(let type):
-      switch type {
-      case .splash:
-        if let splash = ad as? Splash {
-          return splash.status
-        }
-      case .appOpen:
-        if let appOpen = ad as? AppOpen {
-          return appOpen.status
-        }
-      case .interstitial:
-        if let interstitial = ad as? Interstitial {
-          return interstitial.status
-        }
-      case .rewarded:
-        if let rewarded = ad as? Rewarded {
-          return rewarded.status
-        }
-      case .rewardedInterstitial:
-        if let rewardedInterstitial = ad as? RewardedInterstitial {
-          return rewardedInterstitial.status
-        }
-      }
-    }
-    print("AdMobManager: Format conversion error!")
-    return nil
+    return adConfig.status
   }
 
   public func load(type: Reuse, name: String) {
-    guard !isPremium else {
-      print("AdMobManager: Premium!")
-      return
-    }
-    guard adMobConfig != nil else {
-      print("AdMobManager: Not yet registered!")
-      return
-    }
     switch status(type: .reuse(type), name: name) {
     case false:
       print("AdMobManager: Ads are not allowed to show!")
@@ -163,75 +115,72 @@ public class AdMobManager {
     default:
       return
     }
-    guard listAds[name] == nil else {
-      print("AdMobManager: Ads are working!")
+    guard let adConfig = getAd(type: .reuse(type), name: name) as? AdConfigProtocol else {
+      print("AdMobManager: Ads don't exist!")
       return
     }
-    guard let ad = getAd(type: .reuse(type), name: name) else {
-      print("AdMobManager: Ads don't exist!")
+    guard listAds[adConfig.id] == nil else {
       return
     }
     
     let adProtocol: AdProtocol!
     switch type {
     case .splash:
-      guard let splash = ad as? Splash else {
+      guard let splash = adConfig as? Splash else {
         print("AdMobManager: Format conversion error!")
         return
       }
-      adProtocol = SplashAd()
-      adProtocol.config(ad: splash)
+      let splashAd = SplashAd()
+      splashAd.config(timeout: splash.timeout)
+      adProtocol = splashAd
     case .appOpen:
-      guard let appOpen = ad as? AppOpen else {
-        print("AdMobManager: Format conversion error!")
-        return
-      }
       adProtocol = AppOpenAd()
-      adProtocol.config(ad: appOpen)
     case .interstitial:
-      guard let interstitial = ad as? Interstitial else {
-        print("AdMobManager: Format conversion error!")
-        return
-      }
       adProtocol = InterstitialAd()
-      adProtocol.config(ad: interstitial)
     case .rewarded:
-      guard let rewarded = ad as? Rewarded else {
-        print("AdMobManager: Format conversion error!")
-        return
-      }
       adProtocol = RewardedAd()
-      adProtocol.config(ad: rewarded)
     case .rewardedInterstitial:
-      guard let rewardedInterstitial = ad as? RewardedInterstitial else {
-        print("AdMobManager: Format conversion error!")
-        return
-      }
       adProtocol = RewardedInterstitialAd()
-      adProtocol.config(ad: rewardedInterstitial)
     }
-    
-    self.listAds[name] = adProtocol
+    adProtocol.config(id: adConfig.id)
+    self.listAds[adConfig.id] = adProtocol
   }
 
-  public func show(name: String,
+  public func show(type: Reuse,
+                   name: String,
                    rootViewController: UIViewController,
                    didFail: Handler?,
                    didEarnReward: Handler? = nil,
                    didHide: Handler?
   ) {
-    guard !isPremium else {
-      print("AdMobManager: Premium!")
+    switch status(type: .reuse(type), name: name) {
+    case false:
+      print("AdMobManager: Ads are not allowed to show!")
+      didFail?()
+      return
+    case true:
+      break
+    default:
       didFail?()
       return
     }
-    guard let ad = listAds[name] else {
+    guard let adConfig = getAd(type: .reuse(type), name: name) as? AdConfigProtocol else {
+      print("AdMobManager: Ads don't exist!")
+      didFail?()
+      return
+    }
+    guard let ad = listAds[adConfig.id] else {
       print("AdMobManager: Ads do not exist!")
       didFail?()
       return
     }
     guard !checkIsPresent() else {
       print("AdMobManager: Ads display failure - other ads is showing!")
+      didFail?()
+      return
+    }
+    guard FrequencyManager.shared.check(adConfig) else {
+      print("AdMobManager: Ads hasn't been displayed yet!")
       didFail?()
       return
     }

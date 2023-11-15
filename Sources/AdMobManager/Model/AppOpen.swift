@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AppOpen: Codable {
+struct AppOpen: AdConfigProtocol {
   let name: String
   let status: Bool
   let id: String

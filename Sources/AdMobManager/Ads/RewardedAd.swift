@@ -18,17 +18,8 @@ class RewardedAd: NSObject, AdProtocol {
   private var didEarnReward: Handler?
   private var didHide: Handler?
   
-  func config(ad: Any) {
-    guard let ad = ad as? Rewarded else {
-      return
-    }
-    guard ad.status else {
-      return
-    }
-    guard adUnitID == nil else {
-      return
-    }
-    self.adUnitID = ad.id
+  func config(id: String) {
+    self.adUnitID = id
     load()
   }
   

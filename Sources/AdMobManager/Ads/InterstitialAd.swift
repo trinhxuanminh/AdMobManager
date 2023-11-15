@@ -14,26 +14,12 @@ class InterstitialAd: NSObject, AdProtocol {
   private var presentState = false
   private var isLoading = false
   private var retryAttempt = 0
-  private var start: Int?
-  private var frequency: Int?
-  private var countClick: Int = 0
   private var didFail: Handler?
   private var didEarnReward: Handler?
   private var didHide: Handler?
   
-  func config(ad: Any) {
-    guard let ad = ad as? Interstitial else {
-      return
-    }
-    guard ad.status else {
-      return
-    }
-    guard adUnitID == nil else {
-      return
-    }
-    self.adUnitID = ad.id
-    self.start = ad.start
-    self.frequency = ad.frequency
+  func config(id: String) {
+    self.adUnitID = id
     load()
   }
   
@@ -97,25 +83,7 @@ extension InterstitialAd {
     if !isExist(), retryAttempt >= 2 {
       load()
     }
-    return checkFrequency() && isExist()
-  }
-  
-  private func checkFrequency() -> Bool {
-    guard
-      let start = start,
-      let frequency = frequency
-    else {
-      return true
-    }
-    self.countClick += 1
-    if countClick < start {
-      return false
-    }
-    let isShow = (countClick - start) % frequency == 0
-    if isShow, !isExist() {
-      self.countClick -= 1
-    }
-    return isShow
+    return isExist()
   }
   
   private func load() {

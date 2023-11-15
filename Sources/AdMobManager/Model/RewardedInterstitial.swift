@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RewardedInterstitial: Codable {
+struct RewardedInterstitial: AdConfigProtocol {
   let name: String
   let status: Bool
   let id: String

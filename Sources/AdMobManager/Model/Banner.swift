@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct Banner: Codable {
+struct Banner: AdConfigProtocol {
   let name: String
   let status: Bool
   let id: String
-  let anchored: String?
   let description: String?
+  let anchored: String?
 }

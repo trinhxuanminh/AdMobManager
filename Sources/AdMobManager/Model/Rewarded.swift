@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Rewarded: Codable {
+struct Rewarded: AdConfigProtocol {
   let name: String
   let status: Bool
   let id: String

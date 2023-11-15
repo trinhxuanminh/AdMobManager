@@ -8,10 +8,14 @@
 import UIKit
 
 protocol AdProtocol {
-  func config(ad: Any)
+  func config(id: String)
   func isPresent() -> Bool
   func show(rootViewController: UIViewController,
             didFail: Handler?,
             didEarnReward: Handler?,
             didHide: Handler?)
+}
+
+extension AdProtocol {
+  func config(timeout: Double) {}
 }

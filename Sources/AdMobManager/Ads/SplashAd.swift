@@ -22,18 +22,12 @@ class SplashAd: NSObject, AdProtocol {
   private var didEarnReward: Handler?
   private var didHide: Handler?
   
-  func config(ad: Any) {
-    guard let ad = ad as? Splash else {
-      return
-    }
-    guard ad.status else {
-      return
-    }
-    guard adUnitID == nil else {
-      return
-    }
-    self.adUnitID = ad.id
-    self.timeout = ad.timeout
+  func config(id: String) {
+    self.adUnitID = id
+  }
+  
+  func config(timeout: Double) {
+    self.timeout = timeout
   }
   
   func isPresent() -> Bool {
