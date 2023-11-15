@@ -27,6 +27,10 @@ class AppOpenAd: NSObject, AdProtocol {
     return presentState
   }
   
+  func isExist() -> Bool {
+    return appOpenAd != nil
+  }
+  
   func show(rootViewController: UIViewController,
             didFail: Handler?,
             didEarnReward: Handler?,
@@ -75,10 +79,6 @@ extension AppOpenAd: GADFullScreenContentDelegate {
 }
 
 extension AppOpenAd {
-  private func isExist() -> Bool {
-    return appOpenAd != nil
-  }
-  
   private func isReady() -> Bool {
     if !isExist(), retryAttempt >= 1 {
       load()

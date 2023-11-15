@@ -14,24 +14,12 @@ class FrequencyManager {
 }
 
 extension FrequencyManager {
-  func check(_ adConfig: AdConfigProtocol) -> Bool {
-    guard
-      let interstitial = adConfig as? Interstitial,
-      let start = interstitial.start,
-      let frequency = interstitial.frequency
-    else {
-      return true
-    }
-    var countClick = 0
-    if let count = countClicks[adConfig.name] {
-      countClick = count
-    }
-    countClick += 1
-    countClicks[adConfig.name] = countClick
-    
-    guard countClick >= start else {
-      return false
-    }
-    return (countClick - start) % frequency == 0
+  func getCount(name: String) -> Int {
+    return countClicks[name] ?? 0
+  }
+  
+  func increaseCount(name: String) {
+    let count = getCount(name: name)
+    countClicks[name] = count + 1
   }
 }

@@ -18,4 +18,5 @@ protocol AdProtocol {
 
 extension AdProtocol {
   func config(timeout: Double) {}
+  func isExist() -> Bool { return false }
 }

@@ -31,11 +31,21 @@
                                         <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
                                     </userDefinedRuntimeAttributes>
                                 </label>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ynz-6s-5bO" userLabel="MediaView" customClass="GADMediaView">
+                                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wqc-FW-nUv">
                                     <rect key="frame" x="10" y="70" width="561" height="50"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ynz-6s-5bO" userLabel="MediaView" customClass="GADMediaView">
+                                            <rect key="frame" x="0.0" y="0.0" width="561" height="50"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </view>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="50" id="uaP-fr-MI5"/>
+                                        <constraint firstItem="ynz-6s-5bO" firstAttribute="top" secondItem="wqc-FW-nUv" secondAttribute="top" id="5ld-Ug-PPe"/>
+                                        <constraint firstAttribute="bottom" secondItem="ynz-6s-5bO" secondAttribute="bottom" id="Iy4-eG-T4U"/>
+                                        <constraint firstAttribute="trailing" secondItem="ynz-6s-5bO" secondAttribute="trailing" id="KrY-mh-Wi6"/>
+                                        <constraint firstAttribute="height" constant="50" id="RZo-sj-2aR"/>
+                                        <constraint firstItem="ynz-6s-5bO" firstAttribute="leading" secondItem="wqc-FW-nUv" secondAttribute="leading" id="tZP-Oz-s5A"/>
                                     </constraints>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Body..." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zbd-yH-XAq" userLabel="BodyView">
@@ -134,17 +144,18 @@
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="lHI-JD-Oc5" secondAttribute="trailing" constant="10" id="2Ln-qB-c5z"/>
                                 <constraint firstItem="Zbd-yH-XAq" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="10" id="2t7-2w-CHK"/>
+                                <constraint firstItem="wqc-FW-nUv" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="10" id="4TC-L5-MMk"/>
                                 <constraint firstAttribute="trailing" secondItem="6Il-rO-UNO" secondAttribute="trailing" constant="10" id="8tj-yG-O6Y"/>
                                 <constraint firstItem="6Il-rO-UNO" firstAttribute="top" secondItem="c3h-QI-r3g" secondAttribute="bottom" constant="10" id="9un-Mi-uJn"/>
-                                <constraint firstAttribute="trailing" secondItem="ynz-6s-5bO" secondAttribute="trailing" constant="10" id="AWg-kI-4Wx"/>
                                 <constraint firstAttribute="trailing" secondItem="c3h-QI-r3g" secondAttribute="trailing" constant="10" id="AaH-u8-Sk3"/>
                                 <constraint firstItem="c3h-QI-r3g" firstAttribute="top" secondItem="5HU-di-nRG" secondAttribute="bottom" constant="10" id="Bdk-eT-jkM"/>
                                 <constraint firstAttribute="trailing" secondItem="5HU-di-nRG" secondAttribute="trailing" constant="10" id="C5i-CH-kyN"/>
-                                <constraint firstItem="ynz-6s-5bO" firstAttribute="top" secondItem="pmK-ii-3db" secondAttribute="bottom" constant="10" id="CE8-yW-bt9"/>
                                 <constraint firstAttribute="trailing" secondItem="Zbd-yH-XAq" secondAttribute="trailing" constant="10" id="Ckh-zl-ehf"/>
                                 <constraint firstItem="lHI-JD-Oc5" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="10" id="Gun-sH-G3M"/>
                                 <constraint firstItem="5HU-di-nRG" firstAttribute="top" secondItem="Zbd-yH-XAq" secondAttribute="bottom" constant="10" id="K9Q-kD-fsy"/>
+                                <constraint firstItem="wqc-FW-nUv" firstAttribute="top" secondItem="pmK-ii-3db" secondAttribute="bottom" constant="10" id="OHJ-SU-Tk4"/>
                                 <constraint firstItem="pmK-ii-3db" firstAttribute="top" secondItem="Okb-TH-4F2" secondAttribute="top" constant="10" id="TX8-nO-1OJ"/>
+                                <constraint firstAttribute="trailing" secondItem="wqc-FW-nUv" secondAttribute="trailing" constant="10" id="UJ6-5C-51i"/>
                                 <constraint firstItem="lHI-JD-Oc5" firstAttribute="top" secondItem="bc4-KA-maa" secondAttribute="bottom" constant="10" id="XCl-N3-yT3"/>
                                 <constraint firstItem="bc4-KA-maa" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="10" id="bOf-cN-vki"/>
                                 <constraint firstItem="O4v-d5-7AJ" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="10" id="c6L-RP-Ldn"/>
@@ -153,14 +164,13 @@
                                 <constraint firstAttribute="trailing" secondItem="FFo-C0-5Mt" secondAttribute="trailing" id="hBu-VZ-Tor"/>
                                 <constraint firstItem="O4v-d5-7AJ" firstAttribute="top" secondItem="6Il-rO-UNO" secondAttribute="bottom" constant="10" id="jKj-Ko-ICb"/>
                                 <constraint firstItem="bc4-KA-maa" firstAttribute="top" secondItem="O4v-d5-7AJ" secondAttribute="bottom" constant="10" id="lFd-sF-jvg"/>
-                                <constraint firstItem="Zbd-yH-XAq" firstAttribute="top" secondItem="ynz-6s-5bO" secondAttribute="bottom" constant="10" id="m6A-kE-V8n"/>
                                 <constraint firstItem="FFo-C0-5Mt" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="10" id="n86-pC-w2Z"/>
                                 <constraint firstAttribute="trailing" secondItem="O4v-d5-7AJ" secondAttribute="trailing" constant="10" id="nUL-MB-ewC"/>
                                 <constraint firstAttribute="trailing" secondItem="pmK-ii-3db" secondAttribute="trailing" constant="10" id="nlH-Ec-Dby"/>
                                 <constraint firstItem="FFo-C0-5Mt" firstAttribute="top" secondItem="lHI-JD-Oc5" secondAttribute="bottom" constant="10" id="qFa-9c-aiA"/>
+                                <constraint firstItem="Zbd-yH-XAq" firstAttribute="top" secondItem="wqc-FW-nUv" secondAttribute="bottom" constant="10" id="tpS-tS-bXD"/>
                                 <constraint firstAttribute="trailing" secondItem="bc4-KA-maa" secondAttribute="trailing" constant="10" id="uXI-Ak-rYn"/>
                                 <constraint firstItem="6Il-rO-UNO" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="10" id="v92-Io-8Nv"/>
-                                <constraint firstItem="ynz-6s-5bO" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="10" id="wKY-n1-TcC"/>
                                 <constraint firstItem="pmK-ii-3db" firstAttribute="leading" secondItem="Okb-TH-4F2" secondAttribute="leading" constant="10" id="whV-I5-hgs"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>

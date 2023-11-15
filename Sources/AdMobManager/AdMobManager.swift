@@ -179,7 +179,7 @@ public class AdMobManager {
       didFail?()
       return
     }
-    guard FrequencyManager.shared.check(adConfig) else {
+    guard checkFrequency(adConfig: adConfig, ad: ad) else {
       print("AdMobManager: Ads hasn't been displayed yet!")
       didFail?()
       return
@@ -330,5 +330,25 @@ extension AdMobManager {
   private func runActions() {
     actions.forEach { $0() }
     actions.removeAll()
+  }
+  
+  private func checkFrequency(adConfig: AdConfigProtocol, ad: AdProtocol) -> Bool {
+    guard
+      let interstitial = adConfig as? Interstitial,
+      let start = interstitial.start,
+      let frequency = interstitial.frequency
+    else {
+      return true
+    }
+    let countClick = FrequencyManager.shared.getCount(name: adConfig.name) + 1
+    guard countClick >= start else {
+      FrequencyManager.shared.increaseCount(name: adConfig.name)
+      return false
+    }
+    let isShow = (countClick - start) % frequency == 0
+    if !isShow || ad.isExist() {
+      FrequencyManager.shared.increaseCount(name: adConfig.name)
+    }
+    return isShow
   }
 }

@@ -27,6 +27,10 @@ class RewardedInterstitialAd: NSObject, AdProtocol {
     return presentState
   }
   
+  func isExist() -> Bool {
+    return rewardedInterstitialAd != nil
+  }
+  
   func show(rootViewController: UIViewController,
             didFail: Handler?,
             didEarnReward: Handler?,
@@ -80,10 +84,6 @@ extension RewardedInterstitialAd: GADFullScreenContentDelegate {
 }
 
 extension RewardedInterstitialAd {
-  private func isExist() -> Bool {
-    return rewardedInterstitialAd != nil
-  }
-  
   private func isReady() -> Bool {
     if !isExist(), retryAttempt >= 2 {
       load()

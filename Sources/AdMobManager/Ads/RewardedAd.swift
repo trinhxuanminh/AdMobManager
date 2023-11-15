@@ -27,6 +27,10 @@ class RewardedAd: NSObject, AdProtocol {
     return presentState
   }
   
+  func isExist() -> Bool {
+    return rewardedAd != nil
+  }
+  
   func show(rootViewController: UIViewController,
             didFail: Handler?,
             didEarnReward: Handler?,
@@ -80,10 +84,6 @@ extension RewardedAd: GADFullScreenContentDelegate {
 }
 
 extension RewardedAd {
-  private func isExist() -> Bool {
-    return rewardedAd != nil
-  }
-  
   private func isReady() -> Bool {
     if !isExist(), retryAttempt >= 2 {
       load()
