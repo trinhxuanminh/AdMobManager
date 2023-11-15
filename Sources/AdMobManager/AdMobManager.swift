@@ -18,12 +18,12 @@ import Combine
 public class AdMobManager {
   public static var shared = AdMobManager()
   
-  public enum OnceUsed {
+  public enum OnceUsed: String {
     case native
     case banner
   }
   
-  public enum Reuse {
+  public enum Reuse: String {
     case splash
     case appOpen
     case interstitial
@@ -119,7 +119,7 @@ public class AdMobManager {
       print("AdMobManager: Ads don't exist!")
       return
     }
-    guard listAds[adConfig.id] == nil else {
+    guard listAds[type.rawValue + adConfig.id] == nil else {
       return
     }
     
@@ -143,7 +143,7 @@ public class AdMobManager {
       adProtocol = RewardedInterstitialAd()
     }
     adProtocol.config(id: adConfig.id)
-    self.listAds[adConfig.id] = adProtocol
+    self.listAds[type.rawValue + adConfig.id] = adProtocol
   }
 
   public func show(type: Reuse,
@@ -169,7 +169,7 @@ public class AdMobManager {
       didFail?()
       return
     }
-    guard let ad = listAds[adConfig.id] else {
+    guard let ad = listAds[type.rawValue + adConfig.id] else {
       print("AdMobManager: Ads do not exist!")
       didFail?()
       return
