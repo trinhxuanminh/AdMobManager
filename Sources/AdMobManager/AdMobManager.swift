@@ -346,7 +346,7 @@ extension AdMobManager {
       return false
     }
     let isShow = (countClick - start) % frequency == 0
-    if !isShow || ad.isExist() {
+    if !isShow || ad.isExist!() {
       FrequencyManager.shared.increaseCount(name: adConfig.name)
     }
     return isShow

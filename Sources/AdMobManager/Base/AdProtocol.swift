@@ -7,9 +7,10 @@
 
 import UIKit
 
-protocol AdProtocol {
+@objc protocol AdProtocol {
   func config(id: String)
   func isPresent() -> Bool
+  @objc optional func isExist() -> Bool
   func show(rootViewController: UIViewController,
             didFail: Handler?,
             didEarnReward: Handler?,
@@ -18,5 +19,4 @@ protocol AdProtocol {
 
 extension AdProtocol {
   func config(timeout: Double) {}
-  func isExist() -> Bool { return false }
 }
