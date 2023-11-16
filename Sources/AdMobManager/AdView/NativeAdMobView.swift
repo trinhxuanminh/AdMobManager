@@ -68,7 +68,7 @@ open class NativeAdMobView: UIView, AdMobViewProtocol, GADVideoControllerDelegat
       return
     }
     
-    if native.isPreload == true, let nativeAd = AdMobManager.shared.getNativePreload(name: name) {
+    if let nativeAd = AdMobManager.shared.getNativePreload(name: name) {
       self.nativeAd = nativeAd
       config(ad: nativeAd.getAd())
     } else {
