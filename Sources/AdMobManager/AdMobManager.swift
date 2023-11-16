@@ -45,7 +45,8 @@ public class AdMobManager {
   private var actions = [Handler]()
   private var isPremium = false
   private var adMobConfig: AdMobConfig?
-  private var listAds: [String: AdProtocol] = [:]
+  private var listReuseAd: [String: AdProtocol] = [:]
+  private var listNativeAd: [String: NativeAd] = [:]
   
   public func upgradePremium() {
     self.isPremium = true
@@ -119,7 +120,7 @@ public class AdMobManager {
       print("AdMobManager: Ads don't exist!")
       return
     }
-    guard listAds[type.rawValue + adConfig.id] == nil else {
+    guard listReuseAd[type.rawValue + adConfig.id] == nil else {
       return
     }
     
@@ -143,7 +144,33 @@ public class AdMobManager {
       adProtocol = RewardedInterstitialAd()
     }
     adProtocol.config(id: adConfig.id)
-    self.listAds[type.rawValue + adConfig.id] = adProtocol
+    self.listReuseAd[type.rawValue + adConfig.id] = adProtocol
+  }
+  
+  public func preloadNative(name: String) {
+    switch status(type: .onceUsed(.native), name: name) {
+    case false:
+      print("AdMobManager: Ads are not allowed to show!")
+      return
+    case true:
+      break
+    default:
+      return
+    }
+    guard let native = getAd(type: .onceUsed(.native), name: name) as? Native else {
+      print("AdMobManager: Ads don't exist!")
+      return
+    }
+    guard native.isPreload == true else {
+      print("AdMobManager: Ads are not preloaded!")
+      return
+    }
+    guard listNativeAd[name] == nil else {
+      return
+    }
+    let nativeAd = NativeAd()
+    nativeAd.config(ad: native, rootViewController: nil)
+    self.listNativeAd[name] = nativeAd
   }
 
   public func show(type: Reuse,
@@ -169,7 +196,7 @@ public class AdMobManager {
       didFail?()
       return
     }
-    guard let ad = listAds[type.rawValue + adConfig.id] else {
+    guard let ad = listReuseAd[type.rawValue + adConfig.id] else {
       print("AdMobManager: Ads do not exist!")
       didFail?()
       return
@@ -231,11 +258,15 @@ extension AdMobManager {
       }
     }
   }
+  
+  func getNativePreload(name: String) -> NativeAd? {
+    return listNativeAd[name]
+  }
 }
 
 extension AdMobManager {
   private func checkIsPresent() -> Bool {
-    for ad in listAds where ad.value.isPresent() {
+    for ad in listReuseAd where ad.value.isPresent() {
       return true
     }
     return false

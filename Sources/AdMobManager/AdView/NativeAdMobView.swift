@@ -61,21 +61,26 @@ open class NativeAdMobView: UIView, AdMobViewProtocol, GADVideoControllerDelegat
       config(ad: nativeAd.getAd())
       return
     }
-    guard let ad = AdMobManager.shared.getAd(type: .onceUsed(.native), name: name) as? Native else {
+    guard let native = AdMobManager.shared.getAd(type: .onceUsed(.native), name: name) as? Native else {
       return
     }
-    guard ad.status else {
+    guard native.status else {
       return
     }
-    let nativeAd = NativeAd()
-    nativeAd.config(ad: ad, rootViewController: rootViewController)
-    nativeAd.setBinding { [weak self] in
-      guard let self = self else {
+    
+    if native.isPreload == true, let nativeAd = AdMobManager.shared.getNativePreload(name: name) {
+      self.nativeAd = nativeAd
+      config(ad: nativeAd.getAd())
+    } else {
+      self.nativeAd = NativeAd()
+      nativeAd?.config(ad: native, rootViewController: rootViewController)
+    }
+    nativeAd?.setBinding { [weak self] in
+      guard let self else {
         return
       }
-      self.config(ad: nativeAd.getAd())
+      self.config(ad: self.nativeAd?.getAd())
     }
-    self.nativeAd = nativeAd
   }
   
   public func binding(nativeAdView: GADNativeAdView, didReceive: @escaping Handler) {
