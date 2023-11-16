@@ -87,6 +87,12 @@ This function will start loading ads.
 AdMobManager.shared.load(type: Reuse, name: String)
 ```
 
+#### preloadNative()
+This function will start preloading `NativeAd`.
+```swift
+AdMobManager.shared.preloadNative(name: String)
+```
+
 #### show()
 This function will display ads when ready.
 
@@ -96,7 +102,8 @@ This function will display ads when ready.
 - didHide: The block executes after the ad has disappeared.
 
 ```swift
-AdMobManager.shared.show(name: String,
+AdMobManager.shared.show(type: Reuse,
+                         name: String,
                          rootViewController: UIViewController,
                          didFail: Handler?,
                          didEarnReward: Handler? = nil,
@@ -117,7 +124,7 @@ class CustomNativeAdView: NativeAdMobView {
       }
       self.stopAnimation()
     }
-    load(name: String, rootViewController: nil)
+    load(name: String, rootViewController: UIViewController? = nil)
   }
 }
 ```
@@ -131,7 +138,7 @@ Then, there are two ways you can create `BannerAdMobView`:
 - By code, using initializer.
 
 ```swift
-bannerAdMobView.load(name: String, rootViewController: nil)
+bannerAdMobView.load(name: String, rootViewController: UIViewController)
 ```
 
 ## License
