@@ -4,8 +4,8 @@
     "name": "Splash",
     "status": true,
     "id": "ca-app-pub-3940256099942544/4411468910",
-    "timeout": 30,
-    "description": ""
+    "description": "",
+    "timeout": 30
   },
   "appOpen": {
     "name": "App_Open",
@@ -30,11 +30,17 @@
   ],
   "interstitials": [
     {
-      "name": "Interstitial",
+      "name": "Interstitial_1",
       "status": true,
       "id": "ca-app-pub-3940256099942544/4411468910",
+      "description": "",
       "start": 2,
-      "frequency": 2,
+      "frequency": 2
+    },
+    {
+      "name": "Interstitial_2",
+      "status": true,
+      "id": "ca-app-pub-3940256099942544/4411468910",
       "description": ""
     }
   ],
@@ -54,8 +60,8 @@
       "name": "Banner_3",
       "status": true,
       "id": "ca-app-pub-3940256099942544/2934735716",
-      "anchored": "bottom",
-      "description": ""
+      "description": "",
+      "anchored": "bottom"
     }
   ],
   "natives": [
@@ -63,7 +69,8 @@
       "name": "Native",
       "status": true,
       "id": "ca-app-pub-3940256099942544/3986624511",
-      "description": ""
+      "description": "",
+      "isPreload": true
     }
   ]
 }
