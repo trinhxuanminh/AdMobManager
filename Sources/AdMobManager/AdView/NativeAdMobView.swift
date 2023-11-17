@@ -27,7 +27,7 @@ open class NativeAdMobView: UIView, AdMobViewProtocol, GADVideoControllerDelegat
     setProperties()
   }
 
-  override init(frame: CGRect) {
+  public override init(frame: CGRect) {
     super.init(frame: frame)
     addComponents()
     setConstraints()
