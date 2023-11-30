@@ -12,7 +12,7 @@ class SplashAd: NSObject, AdProtocol {
   private var splashAd: GADInterstitialAd?
   private var adUnitID: String?
   private var presentState = false
-  private var rootViewController: UIViewController?
+  private weak var rootViewController: UIViewController?
   private var isLoading = false
   private var timeout: Double?
   private var time = 0.0

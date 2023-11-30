@@ -26,7 +26,7 @@ open class BannerAdMobView: UIView {
     case bottom
   }
   
-  private var rootViewController: UIViewController?
+  private weak var rootViewController: UIViewController?
   private var isLoading = false
   private var adUnitID: String?
   private var isExist = false

@@ -11,7 +11,7 @@ import GoogleMobileAds
 class NativeAd: NSObject {
   private var nativeAd: GADNativeAd?
   private var adLoader: GADAdLoader?
-  private var rootViewController: UIViewController?
+  private weak var rootViewController: UIViewController?
   private var adUnitID: String?
   private var isLoading = false
   private var isFullScreen = false
