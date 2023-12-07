@@ -26,7 +26,6 @@ open class NativeAdMobView: UIView, AdMobViewProtocol, GADVideoControllerDelegat
     addComponents()
     setConstraints()
     setProperties()
-    self.isHidden = false
   }
 
   public override init(frame: CGRect) {
@@ -34,7 +33,6 @@ open class NativeAdMobView: UIView, AdMobViewProtocol, GADVideoControllerDelegat
     addComponents()
     setConstraints()
     setProperties()
-    self.isHidden = false
   }
 
   required public init?(coder: NSCoder) {
