@@ -9,6 +9,7 @@ import UIKit
 import FirebaseRemoteConfig
 import GoogleMobileAds
 import Combine
+import UserMessagingPlatform
 
 /// An ad management structure. It supports setting InterstitialAd, RewardedAd, RewardedInterstitialAd, AppOpenAd, NativeAd, BannerAd.
 /// ```
@@ -36,11 +37,15 @@ public class AdMobManager {
     case reuse(_ type: Reuse)
   }
   
+  @Published public private(set) var canRequestAds = true
   private let remoteConfig = RemoteConfig.remoteConfig()
   private var retryAttempt = 0
   private var subscriptions = [AnyCancellable]()
   private var remoteKey: String?
   private var defaultData: Data?
+  private var didSetup = false
+  private var isDebug = false
+  private var testDeviceIdentifiers = [String]()
   private var configValue: ((RemoteConfig) -> Void)?
   private var actions = [Handler]()
   private var isPremium = false
@@ -80,7 +85,7 @@ public class AdMobManager {
   }
   
   public func addActionSuccessRegister(_ handler: @escaping Handler) {
-    if adMobConfig == nil, !isPremium {
+    if adMobConfig == nil, !isPremium, !didSetup {
       actions.append(handler)
     } else {
       handler()
@@ -92,8 +97,12 @@ public class AdMobManager {
       print("AdMobManager: Premium!")
       return nil
     }
-    guard let adMobConfig = adMobConfig else {
+    guard let adMobConfig else {
       print("AdMobManager: Not yet registered!")
+      return nil
+    }
+    guard canRequestAds else {
+      print("AdMobManager: Can't Request Ads!")
       return nil
     }
     guard adMobConfig.status else {
@@ -216,11 +225,60 @@ public class AdMobManager {
             didEarnReward: didEarnReward,
             didHide: didHide)
   }
+  
+  public func requestConsentUpdate() {
+    let parameters = UMPRequestParameters()
+    parameters.tagForUnderAgeOfConsent = false
+    
+    if isDebug {
+      let debugSettings = UMPDebugSettings()
+      debugSettings.testDeviceIdentifiers = testDeviceIdentifiers
+      debugSettings.geography = .EEA
+      parameters.debugSettings = debugSettings
+    }
+    
+    UMPConsentInformation.sharedInstance.requestConsentInfoUpdate(with: parameters) { [weak self] requestConsentError in
+      guard let self else {
+        return
+      }
+      if let requestConsentError {
+        print("AdMobManager: Request consent error - \(requestConsentError.localizedDescription)!")
+        return
+      }
+      
+      guard let topVC = UIApplication.topStackViewController() else {
+        return
+      }
+      
+      UMPConsentForm.loadAndPresentIfRequired(from: topVC) { [weak self] loadAndPresentError in
+        guard let self else {
+          return
+        }
+        if let loadAndPresentError {
+          print("AdMobManager: Load and present error - \(loadAndPresentError.localizedDescription)!")
+          return
+        }
+        
+        self.canRequestAds = UMPConsentInformation.sharedInstance.canRequestAds
+        if UMPConsentInformation.sharedInstance.canRequestAds {
+          self.startGoogleMobileAdsSDK()
+        }
+      }
+    }
+  }
+  
+  public func activeDebug(testDeviceIdentifiers: [String], reset: Bool) {
+    self.isDebug = true
+    self.testDeviceIdentifiers = testDeviceIdentifiers
+    if reset {
+      UMPConsentInformation.sharedInstance.reset()
+    }
+  }
 }
 
 extension AdMobManager {
   func getAd(type: AdType, name: String) -> Any? {
-    guard let adMobConfig = adMobConfig else {
+    guard let adMobConfig else {
       return nil
     }
     switch type {
@@ -273,10 +331,10 @@ extension AdMobManager {
   }
   
   private func updateCache() {
-    guard let remoteKey = remoteKey else {
+    guard let remoteKey else {
       return
     }
-    guard let adMobConfig = adMobConfig else {
+    guard let adMobConfig else {
       return
     }
     guard let data = try? JSONEncoder().encode(adMobConfig) else {
@@ -292,11 +350,11 @@ extension AdMobManager {
     }
     self.adMobConfig = adMobConfig
     updateCache()
-    runActions()
+    checkConsent()
   }
   
   private func fetchCache() {
-    guard let remoteKey = remoteKey else {
+    guard let remoteKey else {
       return
     }
     guard let cacheData = UserDefaults.standard.data(forKey: remoteKey) else {
@@ -306,7 +364,7 @@ extension AdMobManager {
   }
   
   private func fetchDefault() {
-    guard let defaultData = defaultData else {
+    guard let defaultData else {
       return
     }
     decoding(adMobData: defaultData)
@@ -326,7 +384,7 @@ extension AdMobManager {
     guard retryAttempt <= 2 else {
       return
     }
-    guard let remoteKey = remoteKey else {
+    guard let remoteKey else {
       return
     }
     remoteConfig.fetch(withExpirationDuration: 0) { [weak self] _, error in
@@ -381,5 +439,36 @@ extension AdMobManager {
       FrequencyManager.shared.increaseCount(name: adConfig.name)
     }
     return isShow
+  }
+  
+  private func checkConsent() {
+    guard let adMobConfig else {
+      return
+    }
+    guard adMobConfig.requestConsent else {
+      runActions()
+      return
+    }
+    requestConsentUpdate()
+    
+    self.canRequestAds = UMPConsentInformation.sharedInstance.canRequestAds
+    if UMPConsentInformation.sharedInstance.canRequestAds {
+      self.startGoogleMobileAdsSDK()
+    }
+  }
+  
+  private func startGoogleMobileAdsSDK() {
+    DispatchQueue.main.async { [weak self] in
+      guard let self else {
+        return
+      }
+      guard !didSetup else {
+        return
+      }
+      self.didSetup = true
+      
+      GADMobileAds.sharedInstance().start()
+      runActions()
+    }
   }
 }
