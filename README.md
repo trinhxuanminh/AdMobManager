@@ -33,11 +33,11 @@ Manually add the `-ObjC` linker flag to `Other Linker Flags` in your target's bu
 - Select tab `All`, find `Other Linker Flags`.
 - You must set the `-ObjC` flag for both the `Debug` and `Release` configurations.
 
-Integrate Firebase RemoteConfig with any `Key name` and configure it in [this json format](https://github.com/trinhxuanminh/AdMobManager/blob/develop/3.4.0/Sources/AdMobManager/Template/RegistrationStructure.json).
+Integrate Firebase RemoteConfig with any `Key name` and configure it in [this json format](https://github.com/trinhxuanminh/AdMobManager/blob/develop/3.5.0/Sources/AdMobManager/Template/RegistrationStructure.json).
 **Note**: The name of each ad is unique.
 
 ## Demo
-Refer to the following [Demo project](https://github.com/trinhxuanminh/DemoAdMobManager/tree/develop/3.4.0) to implement the ad.
+Refer to the following [Demo project](https://github.com/trinhxuanminh/DemoAdMobManager/tree/develop/3.5.0) to implement the ad.
 
 ## Usage
 Firstly, import `AdMobManager`.
@@ -66,12 +66,6 @@ AdMobManager.shared.register(remoteKey: String, defaultData: Data)
 ```
 - remoteKey: The `Key name` you have set on RemoteConfig.
 - defaultData: The data of the default json string in the application, it is used when the remote cannot be loaded.
-
-#### Complete registration
-Add actions after completing registration.
-```swift
-AdMobManager.shared.addActionSuccessRegister(_ handler: @escaping Handler)
-```
 
 ### 2. Control
 #### status()
@@ -110,21 +104,24 @@ AdMobManager.shared.show(type: Reuse,
                          didHide: Handler?)
 ```
 
+#### requestConsentUpdate()
+This function will display permission change form.
+```swift
+AdMobManager.shared.requestConsentUpdate()
+```
+
 ### 3. NativeAd
-- Download & add file [`CustomNativeAdView.xib`](https://github.com/trinhxuanminh/AdMobManager/blob/develop/3.4.0/Sources/AdMobManager/Template/CustomNativeAdView.xib).
+- Download & add file [`CustomNativeAdView.xib`](https://github.com/trinhxuanminh/AdMobManager/blob/develop/3.5.0/Sources/AdMobManager/Template/CustomNativeAdView.xib).
 **Note**: Linked outlets to views, update constraints only.
 - Create the corresponding `File's owner`, inherit `NativeAdMobView`.
 ```swift
 class CustomNativeAdView: NativeAdMobView {
   override func setProperties() {
-    startAnimation()
-    binding(nativeAdView: nativeAdView) { [weak self] in
-      guard let self = self else {
-        return
-      }
-      self.stopAnimation()
-    }
-    load(name: String, rootViewController: UIViewController? = nil)
+    load(name: String,
+         nativeAdView: GADNativeAdView,
+         rootViewController: UIViewController? = nil,
+         didReceive: Handler?,
+         didError: Handler?)
   }
 }
 ```
@@ -138,7 +135,7 @@ Then, there are two ways you can create `BannerAdMobView`:
 - By code, using initializer.
 
 ```swift
-bannerAdMobView.load(name: String, rootViewController: UIViewController)
+bannerAdMobView.load(name: String, rootViewController: UIViewController, didReceive: Handler?)
 ```
 
 ## License
