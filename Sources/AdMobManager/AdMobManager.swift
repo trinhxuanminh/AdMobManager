@@ -446,8 +446,8 @@ extension AdMobManager {
     
     if UMPConsentInformation.sharedInstance.canRequestAds {
       self.startGoogleMobileAdsSDK()
+      self.canRequestAds = true
     }
-    self.canRequestAds = UMPConsentInformation.sharedInstance.canRequestAds
   }
   
   private func startGoogleMobileAdsSDK() {
