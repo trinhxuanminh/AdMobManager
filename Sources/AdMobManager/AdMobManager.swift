@@ -37,7 +37,7 @@ public class AdMobManager {
     case reuse(_ type: Reuse)
   }
   
-  @Published public private(set) var canRequestAds = true
+  @Published public private(set) var canRequestAds: Bool?
   private let remoteConfig = RemoteConfig.remoteConfig()
   private var retryAttempt = 0
   private var subscriptions = [AnyCancellable]()
@@ -47,7 +47,6 @@ public class AdMobManager {
   private var isDebug = false
   private var testDeviceIdentifiers = [String]()
   private var configValue: ((RemoteConfig) -> Void)?
-  private var actions = [Handler]()
   private var isPremium = false
   private var adMobConfig: AdMobConfig?
   private var listReuseAd: [String: AdProtocol] = [:]
@@ -64,7 +63,7 @@ public class AdMobManager {
   public func register(remoteKey: String, defaultData: Data) {
     if isPremium {
       print("AdMobManager: Premium!")
-      runActions()
+      self.canRequestAds = false
     }
     guard self.remoteKey == nil else {
       return
@@ -83,14 +82,6 @@ public class AdMobManager {
       }
     }.store(in: &subscriptions)
   }
-  
-  public func addActionSuccessRegister(_ handler: @escaping Handler) {
-    if (adMobConfig == nil && !isPremium) || !didSetup {
-      actions.append(handler)
-    } else {
-      handler()
-    }
-  }
 
   public func status(type: AdType, name: String) -> Bool? {
     guard !isPremium else {
@@ -104,7 +95,7 @@ public class AdMobManager {
     guard adMobConfig.status else {
       return false
     }
-    guard canRequestAds else {
+    guard canRequestAds == true else {
       print("AdMobManager: Can't Request Ads!")
       return nil
     }
@@ -259,10 +250,10 @@ public class AdMobManager {
           return
         }
         
-        self.canRequestAds = UMPConsentInformation.sharedInstance.canRequestAds
         if UMPConsentInformation.sharedInstance.canRequestAds {
           self.startGoogleMobileAdsSDK()
         }
+        self.canRequestAds = UMPConsentInformation.sharedInstance.canRequestAds
       }
     }
   }
@@ -416,11 +407,6 @@ extension AdMobManager {
     }
   }
   
-  private func runActions() {
-    actions.forEach { $0() }
-    actions.removeAll()
-  }
-  
   private func checkFrequency(adConfig: AdConfigProtocol, ad: AdProtocol) -> Bool {
     guard
       let interstitial = adConfig as? Interstitial,
@@ -442,23 +428,26 @@ extension AdMobManager {
   }
   
   private func checkConsent() {
+    guard !isPremium else {
+      return
+    }
     guard let adMobConfig else {
       return
     }
     guard adMobConfig.status else {
-      runActions()
+      self.canRequestAds = false
       return
     }
     guard adMobConfig.requestConsent == true else {
-      runActions()
+      self.canRequestAds = true
       return
     }
     requestConsentUpdate()
     
-    self.canRequestAds = UMPConsentInformation.sharedInstance.canRequestAds
     if UMPConsentInformation.sharedInstance.canRequestAds {
       self.startGoogleMobileAdsSDK()
     }
+    self.canRequestAds = UMPConsentInformation.sharedInstance.canRequestAds
   }
   
   private func startGoogleMobileAdsSDK() {
@@ -472,7 +461,6 @@ extension AdMobManager {
       self.didSetup = true
       
       GADMobileAds.sharedInstance().start()
-      runActions()
     }
   }
 }
