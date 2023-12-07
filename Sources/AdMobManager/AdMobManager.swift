@@ -19,6 +19,12 @@ import UserMessagingPlatform
 public class AdMobManager {
   public static var shared = AdMobManager()
   
+  public enum State {
+    case unknow
+    case allow
+    case reject
+  }
+  
   public enum OnceUsed: String {
     case native
     case banner
@@ -37,7 +43,7 @@ public class AdMobManager {
     case reuse(_ type: Reuse)
   }
   
-  @Published public private(set) var canRequestAds: Bool?
+  @Published public private(set) var state: State = .unknow
   private let remoteConfig = RemoteConfig.remoteConfig()
   private var retryAttempt = 0
   private var subscriptions = [AnyCancellable]()
@@ -63,7 +69,7 @@ public class AdMobManager {
   public func register(remoteKey: String, defaultData: Data) {
     if isPremium {
       print("AdMobManager: Premium!")
-      self.canRequestAds = false
+      self.state = .reject
     }
     guard self.remoteKey == nil else {
       return
@@ -95,7 +101,7 @@ public class AdMobManager {
     guard adMobConfig.status else {
       return false
     }
-    guard canRequestAds == true else {
+    guard state == .allow else {
       print("AdMobManager: Can't Request Ads!")
       return nil
     }
@@ -253,7 +259,7 @@ public class AdMobManager {
         if UMPConsentInformation.sharedInstance.canRequestAds {
           self.startGoogleMobileAdsSDK()
         }
-        self.canRequestAds = UMPConsentInformation.sharedInstance.canRequestAds
+        self.state = UMPConsentInformation.sharedInstance.canRequestAds == true ? .allow : .reject
       }
     }
   }
@@ -435,18 +441,18 @@ extension AdMobManager {
       return
     }
     guard adMobConfig.status else {
-      self.canRequestAds = false
+      self.state = .reject
       return
     }
     guard adMobConfig.requestConsent == true else {
-      self.canRequestAds = true
+      self.state = .allow
       return
     }
     requestConsentUpdate()
     
     if UMPConsentInformation.sharedInstance.canRequestAds {
       self.startGoogleMobileAdsSDK()
-      self.canRequestAds = true
+      self.state = .allow
     }
   }
   
