@@ -85,7 +85,7 @@ public class AdMobManager {
   }
   
   public func addActionSuccessRegister(_ handler: @escaping Handler) {
-    if adMobConfig == nil, !isPremium, !didSetup {
+    if (adMobConfig == nil && !isPremium) || !didSetup {
       actions.append(handler)
     } else {
       handler()
