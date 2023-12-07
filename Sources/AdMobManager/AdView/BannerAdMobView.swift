@@ -27,10 +27,9 @@ open class BannerAdMobView: UIView {
   }
   
   private weak var rootViewController: UIViewController?
-  private var isLoading = false
   private var adUnitID: String?
-  private var isExist = false
   private var anchored: Anchored?
+  private var state: State = .wait
   private var didReceive: Handler?
   
   public override func awakeFromNib() {
@@ -95,24 +94,24 @@ extension BannerAdMobView: GADBannerViewDelegate {
   public func bannerView(_ bannerView: GADBannerView,
                          didFailToReceiveAdWithError error: Error
   ) {
-    self.isLoading = false
-    self.isHidden = true
+    self.state = .error
+    errored()
   }
   
   public func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
     print("AdMobManager: BannerAd did load!")
-    isExist = true
+    self.state = .receive
     didReceive?()
   }
 }
 
 extension BannerAdMobView {
+  private func errored() {
+    self.isHidden = true
+  }
+  
   private func load() {
-    guard !isLoading else {
-      return
-    }
-    
-    guard !isExist else {
+    guard state == .wait else {
       return
     }
     
@@ -121,12 +120,12 @@ extension BannerAdMobView {
       return
     }
     
+    print("AdMobManager: BannerAd start load!")
+    self.state = .loading
     DispatchQueue.main.async { [weak self] in
       guard let self = self else {
         return
       }
-      self.isLoading = true
-      print("AdMobManager: BannerAd start load!")
       self.bannerAdView?.adUnitID = adUnitID
       self.bannerAdView?.delegate = self
       self.bannerAdView?.rootViewController = rootViewController
