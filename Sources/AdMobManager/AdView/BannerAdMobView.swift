@@ -37,14 +37,12 @@ open class BannerAdMobView: UIView {
     super.awakeFromNib()
     addComponents()
     setConstraints()
-    setProperties()
   }
 
   public override init(frame: CGRect) {
     super.init(frame: frame)
     addComponents()
     setConstraints()
-    setProperties()
   }
 
   required public init?(coder: NSCoder) {
@@ -68,10 +66,6 @@ open class BannerAdMobView: UIView {
       bannerAdView.rightAnchor.constraint(equalTo: self.rightAnchor)
     ]
     NSLayoutConstraint.activate(constraints)
-  }
-
-  func setProperties() {
-    isHidden = true
   }
   
   public func load(name: String, rootViewController: UIViewController) {
@@ -102,12 +96,12 @@ extension BannerAdMobView: GADBannerViewDelegate {
                          didFailToReceiveAdWithError error: Error
   ) {
     self.isLoading = false
+    self.isHidden = true
   }
   
   public func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
     print("AdMobManager: BannerAd did load!")
     isExist = true
-    isHidden = false
     didReceive?()
   }
 }
