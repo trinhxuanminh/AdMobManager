@@ -73,14 +73,13 @@ extension NativeAd {
       return
     }
     
+    print("AdMobManager: NativeAd start load!")
+    self.state = .loading
+    
     DispatchQueue.main.async { [weak self] in
       guard let self = self else {
         return
       }
-      
-      self.state = .loading
-      print("AdMobManager: NativeAd start load!")
-      
       var options: [GADAdLoaderOptions]? = nil
       if self.isFullScreen {
         let aspectRatioOption = GADNativeAdMediaAdLoaderOptions()
