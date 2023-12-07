@@ -101,12 +101,12 @@ public class AdMobManager {
       print("AdMobManager: Not yet registered!")
       return nil
     }
+    guard adMobConfig.status else {
+      return false
+    }
     guard canRequestAds else {
       print("AdMobManager: Can't Request Ads!")
       return nil
-    }
-    guard adMobConfig.status else {
-      return false
     }
     guard let adConfig = getAd(type: type, name: name) as? AdConfigProtocol else {
       print("AdMobManager: Ads don't exist!")
@@ -445,7 +445,11 @@ extension AdMobManager {
     guard let adMobConfig else {
       return
     }
-    guard adMobConfig.requestConsent else {
+    guard adMobConfig.status else {
+      runActions()
+      return
+    }
+    guard adMobConfig.requestConsent == true else {
       runActions()
       return
     }
