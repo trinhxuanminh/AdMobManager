@@ -67,8 +67,10 @@ open class BannerAdMobView: UIView {
     NSLayoutConstraint.activate(constraints)
   }
   
-  public func load(name: String, rootViewController: UIViewController) {
+  public func load(name: String, rootViewController: UIViewController, didReceive: Handler?) {
+    self.didReceive = didReceive
     self.rootViewController = rootViewController
+    
     guard adUnitID == nil else {
       return
     }
@@ -83,10 +85,6 @@ open class BannerAdMobView: UIView {
       self.anchored = Anchored(rawValue: anchored)
     }
     load()
-  }
-  
-  public func bind(didReceive: @escaping Handler) {
-    self.didReceive = didReceive
   }
 }
 

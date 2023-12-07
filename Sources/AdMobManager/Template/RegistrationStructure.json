@@ -1,5 +1,6 @@
 {
   "status": true,
+  "requestConsent": true,
   "splash": {
     "name": "Splash",
     "status": true,
@@ -10,7 +11,7 @@
   "appOpen": {
     "name": "App_Open",
     "status": true,
-    "id": "ca-app-pub-3940256099942544/5662855259",
+    "id": "ca-app-pub-3940256099942544/5575463023",
     "description": ""
   },
   "rewardeds": [
@@ -34,7 +35,7 @@
       "status": true,
       "id": "ca-app-pub-3940256099942544/4411468910",
       "description": "",
-      "start": 2,
+      "start": 1,
       "frequency": 2
     },
     {
@@ -66,11 +67,23 @@
   ],
   "natives": [
     {
-      "name": "Native",
+      "name": "Native_1",
       "status": true,
       "id": "ca-app-pub-3940256099942544/3986624511",
       "description": "",
       "isPreload": true
+    },
+    {
+      "name": "Native_2",
+      "status": true,
+      "id": "ca-app-pub-3940256099942544/3986624511",
+      "description": ""
+    },
+    {
+      "name": "Native_3",
+      "status": true,
+      "id": "ca-app-pub-3940256099942544/3986624511",
+      "description": ""
     }
   ]
 }
