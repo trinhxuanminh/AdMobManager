@@ -25,6 +25,7 @@ open class NativeAdMobView: UIView, AdMobViewProtocol, GADVideoControllerDelegat
     addComponents()
     setConstraints()
     setProperties()
+    isHidden = true
   }
 
   public override init(frame: CGRect) {
@@ -32,6 +33,7 @@ open class NativeAdMobView: UIView, AdMobViewProtocol, GADVideoControllerDelegat
     addComponents()
     setConstraints()
     setProperties()
+    isHidden = true
   }
 
   required public init?(coder: NSCoder) {
@@ -97,6 +99,8 @@ extension NativeAdMobView {
     else {
       return
     }
+    isHidden = false
+
     (nativeAdView.headlineView as? UILabel)?.text = nativeAd.headline
     
     nativeAdView.mediaView?.mediaContent = nativeAd.mediaContent
