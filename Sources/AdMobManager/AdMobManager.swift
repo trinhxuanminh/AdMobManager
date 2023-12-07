@@ -224,43 +224,22 @@ public class AdMobManager {
   }
   
   public func requestConsentUpdate() {
-    let parameters = UMPRequestParameters()
-    parameters.tagForUnderAgeOfConsent = false
-    
-    if isDebug {
-      let debugSettings = UMPDebugSettings()
-      debugSettings.testDeviceIdentifiers = testDeviceIdentifiers
-      debugSettings.geography = .EEA
-      parameters.debugSettings = debugSettings
+    guard let topVC = UIApplication.topStackViewController() else {
+      return
     }
     
-    UMPConsentInformation.sharedInstance.requestConsentInfoUpdate(with: parameters) { [weak self] requestConsentError in
+    UMPConsentForm.presentPrivacyOptionsForm(from: topVC) { [weak self] formError in
       guard let self else {
         return
       }
-      if let requestConsentError {
-        print("AdMobManager: Request consent error - \(requestConsentError.localizedDescription)!")
+      if let formError {
+        print("AdMobManager: Form error - \(formError.localizedDescription)!")
         return
       }
-      
-      guard let topVC = UIApplication.topStackViewController() else {
-        return
+      if UMPConsentInformation.sharedInstance.canRequestAds {
+        self.startGoogleMobileAdsSDK()
       }
-      
-      UMPConsentForm.loadAndPresentIfRequired(from: topVC) { [weak self] loadAndPresentError in
-        guard let self else {
-          return
-        }
-        if let loadAndPresentError {
-          print("AdMobManager: Load and present error - \(loadAndPresentError.localizedDescription)!")
-          return
-        }
-        
-        if UMPConsentInformation.sharedInstance.canRequestAds {
-          self.startGoogleMobileAdsSDK()
-        }
-        self.state = UMPConsentInformation.sharedInstance.canRequestAds == true ? .allow : .reject
-      }
+      self.state = UMPConsentInformation.sharedInstance.canRequestAds == true ? .allow : .reject
     }
   }
   
@@ -448,7 +427,45 @@ extension AdMobManager {
       self.state = .allow
       return
     }
-    requestConsentUpdate()
+    
+    let parameters = UMPRequestParameters()
+    parameters.tagForUnderAgeOfConsent = false
+    
+    if isDebug {
+      let debugSettings = UMPDebugSettings()
+      debugSettings.testDeviceIdentifiers = testDeviceIdentifiers
+      debugSettings.geography = .EEA
+      parameters.debugSettings = debugSettings
+    }
+    
+    UMPConsentInformation.sharedInstance.requestConsentInfoUpdate(with: parameters) { [weak self] requestConsentError in
+      guard let self else {
+        return
+      }
+      if let requestConsentError {
+        print("AdMobManager: Request consent error - \(requestConsentError.localizedDescription)!")
+        return
+      }
+      
+      guard let topVC = UIApplication.topStackViewController() else {
+        return
+      }
+      
+      UMPConsentForm.loadAndPresentIfRequired(from: topVC) { [weak self] loadAndPresentError in
+        guard let self else {
+          return
+        }
+        if let loadAndPresentError {
+          print("AdMobManager: Load and present error - \(loadAndPresentError.localizedDescription)!")
+          return
+        }
+        
+        if UMPConsentInformation.sharedInstance.canRequestAds {
+          self.startGoogleMobileAdsSDK()
+        }
+        self.state = UMPConsentInformation.sharedInstance.canRequestAds == true ? .allow : .reject
+      }
+    }
     
     if UMPConsentInformation.sharedInstance.canRequestAds {
       self.startGoogleMobileAdsSDK()
