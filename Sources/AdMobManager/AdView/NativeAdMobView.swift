@@ -19,12 +19,14 @@ open class NativeAdMobView: UIView, AdMobViewProtocol, GADVideoControllerDelegat
   private var nativeAdView: GADNativeAdView?
   private var nativeAd: NativeAd?
   private var didReceive: Handler?
+  private var didError: Handler?
   
   open override func awakeFromNib() {
     super.awakeFromNib()
     addComponents()
     setConstraints()
     setProperties()
+    self.isHidden = false
   }
 
   public override init(frame: CGRect) {
@@ -32,6 +34,7 @@ open class NativeAdMobView: UIView, AdMobViewProtocol, GADVideoControllerDelegat
     addComponents()
     setConstraints()
     setProperties()
+    self.isHidden = false
   }
 
   required public init?(coder: NSCoder) {
@@ -56,40 +59,64 @@ open class NativeAdMobView: UIView, AdMobViewProtocol, GADVideoControllerDelegat
   
   open func setColor() {}
   
-  public func load(name: String, rootViewController: UIViewController? = nil) {
-    if let nativeAd = nativeAd {
-      config(ad: nativeAd.getAd())
-      return
-    }
-    guard let native = AdMobManager.shared.getAd(type: .onceUsed(.native), name: name) as? Native else {
-      return
-    }
-    guard native.status else {
-      return
-    }
-    
-    if let nativeAd = AdMobManager.shared.getNativePreload(name: name) {
-      self.nativeAd = nativeAd
-      config(ad: nativeAd.getAd())
-    } else {
-      self.nativeAd = NativeAd()
-      nativeAd?.config(ad: native, rootViewController: rootViewController)
-    }
-    nativeAd?.setBinding { [weak self] in
-      guard let self else {
-        return
-      }
-      self.config(ad: self.nativeAd?.getAd())
-    }
-  }
-  
-  public func binding(nativeAdView: GADNativeAdView, didReceive: @escaping Handler) {
+  public func load(name: String,
+                   nativeAdView: GADNativeAdView,
+                   rootViewController: UIViewController? = nil,
+                   didReceive: Handler?,
+                   didError: Handler?
+  ) {
     self.nativeAdView = nativeAdView
     self.didReceive = didReceive
+    self.didError = didError
+    
+    if nativeAd == nil {
+      guard let native = AdMobManager.shared.getAd(type: .onceUsed(.native), name: name) as? Native else {
+        return
+      }
+      guard native.status else {
+        return
+      }
+      
+      if let nativeAd = AdMobManager.shared.getNativePreload(name: name) {
+        self.nativeAd = nativeAd
+      } else {
+        self.nativeAd = NativeAd()
+        nativeAd?.config(ad: native, rootViewController: rootViewController)
+      }
+    }
+    
+    guard let nativeAd else {
+      return
+    }
+    switch nativeAd.getState() {
+    case .receive:
+      config(ad: nativeAd.getAd())
+    case .error:
+      errored()
+    case .loading:
+      nativeAd.bind { [weak self] in
+         guard let self else {
+           return
+         }
+         self.config(ad: nativeAd.getAd())
+      } didError: { [weak self] in
+        guard let self else {
+          return
+        }
+        self.errored()
+      }
+    default:
+      return
+    }
   }
 }
 
 extension NativeAdMobView {
+  private func errored() {
+    self.isHidden = true
+    didError?()
+  }
+  
   private func config(ad: GADNativeAd?) {
     guard
       let nativeAd = ad,

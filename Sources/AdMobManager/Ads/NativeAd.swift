@@ -13,9 +13,10 @@ class NativeAd: NSObject {
   private var adLoader: GADAdLoader?
   private weak var rootViewController: UIViewController?
   private var adUnitID: String?
-  private var isLoading = false
   private var isFullScreen = false
-  private var binding: Handler?
+  private var state: State = .wait
+  private var didReceive: Handler?
+  private var didError: Handler?
   
   func config(ad: Native, rootViewController: UIViewController?) {
     self.rootViewController = rootViewController
@@ -32,39 +33,38 @@ class NativeAd: NSObject {
     self.load()
   }
   
+  func getState() -> State {
+    return state
+  }
+  
   func getAd() -> GADNativeAd? {
-    if nativeAd == nil {
-      load()
-    }
     return nativeAd
   }
   
-  func setBinding(_ binding: Handler?) {
-    self.binding = binding
+  func bind(didReceive: Handler?, didError: Handler?) {
+    self.didReceive = didReceive
+    self.didError = didError
   }
 }
 
 extension NativeAd: GADNativeAdLoaderDelegate {
   func adLoader(_ adLoader: GADAdLoader,
                 didFailToReceiveAdWithError error: Error) {
-    self.isLoading = false
+    self.state = .error
+    didError?()
   }
   
   func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
     print("AdMobManager: NativeAd did load!")
-    self.isLoading = false
+    self.state = .receive
     self.nativeAd = nativeAd
-    binding?()
+    didReceive?()
   }
 }
 
 extension NativeAd {
   private func load() {
-    guard !isLoading else {
-      return
-    }
-    
-    guard !isExist() else {
+    guard state == .wait else {
       return
     }
     
@@ -78,7 +78,7 @@ extension NativeAd {
         return
       }
       
-      self.isLoading = true
+      self.state = .loading
       print("AdMobManager: NativeAd start load!")
       
       var options: [GADAdLoaderOptions]? = nil
@@ -95,9 +95,5 @@ extension NativeAd {
       self.adLoader?.delegate = self
       self.adLoader?.load(GADRequest())
     }
-  }
-  
-  private func isExist() -> Bool {
-    return nativeAd != nil
   }
 }

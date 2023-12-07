@@ -86,7 +86,7 @@ open class BannerAdMobView: UIView {
     load()
   }
   
-  public func binding(didReceive: @escaping Handler) {
+  public func bind(didReceive: @escaping Handler) {
     self.didReceive = didReceive
   }
 }
