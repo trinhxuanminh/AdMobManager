@@ -31,6 +31,7 @@ open class BannerAdMobView: UIView {
   private var anchored: Anchored?
   private var state: State = .wait
   private var didReceive: Handler?
+  private var didError: Handler?
   
   public override func awakeFromNib() {
     super.awakeFromNib()
@@ -67,8 +68,13 @@ open class BannerAdMobView: UIView {
     NSLayoutConstraint.activate(constraints)
   }
   
-  public func load(name: String, rootViewController: UIViewController, didReceive: Handler?) {
+  public func load(name: String,
+                   rootViewController: UIViewController,
+                   didReceive: Handler?,
+                   didError: Handler?
+  ) {
     self.didReceive = didReceive
+    self.didError = didError
     self.rootViewController = rootViewController
     
     guard adUnitID == nil else {
@@ -106,6 +112,7 @@ extension BannerAdMobView: GADBannerViewDelegate {
 extension BannerAdMobView {
   private func errored() {
     self.isHidden = true
+    didError?()
   }
   
   private func load() {
