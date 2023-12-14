@@ -26,7 +26,6 @@ The Swift Package Manager is a tool for managing the distribution of **Swift** c
 ## Get started
 Initial setup as documented by _Google AdMob_:
 - [Update your Info.plist](https://developers.google.com/admob/ios/quick-start?hl=vi#update_your_infoplist)
-- [Initialize the Mobile Ads SDK](https://developers.google.com/admob/ios/quick-start?hl=vi#initialize_the_mobile_ads_sdk)
 
 Manually add the `-ObjC` linker flag to `Other Linker Flags` in your target's build settings:
 - Select target project.
