@@ -88,7 +88,7 @@ public class AdMobManager {
       }
     }.store(in: &subscriptions)
   }
-
+  
   public func status(type: AdType, name: String) -> Bool? {
     guard !isPremium else {
       print("AdMobManager: Premium!")
@@ -111,7 +111,7 @@ public class AdMobManager {
     }
     return adConfig.status
   }
-
+  
   public func load(type: Reuse, name: String) {
     switch status(type: .reuse(type), name: name) {
     case false:
@@ -178,7 +178,7 @@ public class AdMobManager {
     nativeAd.config(ad: native, rootViewController: nil)
     self.listNativeAd[name] = nativeAd
   }
-
+  
   public func show(type: Reuse,
                    name: String,
                    rootViewController: UIViewController,
@@ -236,10 +236,11 @@ public class AdMobManager {
         print("AdMobManager: Form error - \(formError.localizedDescription)!")
         return
       }
-      if UMPConsentInformation.sharedInstance.canRequestAds {
+      let canShowAds = canShowAds()
+      if canShowAds {
         self.startGoogleMobileAdsSDK()
       }
-      self.state = UMPConsentInformation.sharedInstance.canRequestAds == true ? .allow : .reject
+      self.state = canShowAds == true ? .allow : .reject
     }
   }
   
@@ -460,14 +461,15 @@ extension AdMobManager {
           return
         }
         
-        if UMPConsentInformation.sharedInstance.canRequestAds {
+        let canShowAds = canShowAds()
+        if canShowAds {
           self.startGoogleMobileAdsSDK()
         }
-        self.state = UMPConsentInformation.sharedInstance.canRequestAds == true ? .allow : .reject
+        self.state = canShowAds == true ? .allow : .reject
       }
     }
     
-    if UMPConsentInformation.sharedInstance.canRequestAds {
+    if canShowAds() {
       self.startGoogleMobileAdsSDK()
       self.state = .allow
     }
@@ -484,6 +486,46 @@ extension AdMobManager {
       self.didSetup = true
       
       GADMobileAds.sharedInstance().start()
+    }
+  }
+  
+  private func canShowAds() -> Bool {
+    let userDefaults = UserDefaults.standard
+    
+    let purposeConsent = userDefaults.string(forKey: "IABTCF_PurposeConsents") ?? ""
+    let vendorConsent = userDefaults.string(forKey: "IABTCF_VendorConsents") ?? ""
+    let vendorLI = userDefaults.string(forKey: "IABTCF_VendorLegitimateInterests") ?? ""
+    let purposeLI = userDefaults.string(forKey: "IABTCF_PurposeLegitimateInterests") ?? ""
+    
+    let googleId = 755
+    let hasGoogleVendorConsent = hasAttribute(input: vendorConsent, index: googleId)
+    let hasGoogleVendorLI = hasAttribute(input: vendorLI, index: googleId)
+    
+    return hasConsentFor([1], purposeConsent, hasGoogleVendorConsent)
+    && hasConsentOrLegitimateInterestFor([2,7,9,10],
+                                         purposeConsent,
+                                         purposeLI,
+                                         hasGoogleVendorConsent,
+                                         hasGoogleVendorLI)
+  }
+  
+  private func hasAttribute(input: String, index: Int) -> Bool {
+    return input.count >= index && String(Array(input)[index - 1]) == "1"
+  }
+  
+  private func hasConsentFor(_ purposes: [Int], _ purposeConsent: String, _ hasVendorConsent: Bool) -> Bool {
+    return purposes.allSatisfy { i in hasAttribute(input: purposeConsent, index: i) } && hasVendorConsent
+  }
+  
+  private func hasConsentOrLegitimateInterestFor(_ purposes: [Int],
+                                                 _ purposeConsent: String,
+                                                 _ purposeLI: String,
+                                                 _ hasVendorConsent: Bool,
+                                                 _ hasVendorLI: Bool
+  ) -> Bool {
+    return purposes.allSatisfy { i in
+      (hasAttribute(input: purposeLI, index: i) && hasVendorLI) ||
+      (hasAttribute(input: purposeConsent, index: i) && hasVendorConsent)
     }
   }
 }
