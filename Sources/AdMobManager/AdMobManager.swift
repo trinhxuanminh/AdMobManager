@@ -463,7 +463,10 @@ extension AdMobManager {
         
         let canShowAds = canShowAds()
         if canShowAds {
+          LogEventManager.shared.log(event: .cmpClickConsent)
           self.startGoogleMobileAdsSDK()
+        } else {
+          LogEventManager.shared.log(event: .cmpNotConsent)
         }
         self.state = canShowAds == true ? .allow : .reject
       }
