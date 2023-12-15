@@ -440,11 +440,11 @@ extension AdMobManager {
       parameters.debugSettings = debugSettings
     }
     
-    guard isGDPR() else {
-      startGoogleMobileAdsSDK()
-      self.state = .allow
-      return
-    }
+//    guard isGDPR() else {
+//      startGoogleMobileAdsSDK()
+//      self.state = .allow
+//      return
+//    }
     
     UMPConsentInformation.sharedInstance.requestConsentInfoUpdate(with: parameters) { [weak self] requestConsentError in
       guard let self else {
