@@ -424,10 +424,7 @@ extension AdMobManager {
       self.state = .reject
       return
     }
-    guard 
-      adMobConfig.requestConsent == true,
-      isGDPR()
-    else {
+    guard adMobConfig.requestConsent == true else {
       startGoogleMobileAdsSDK()
       self.state = .allow
       return
@@ -441,6 +438,12 @@ extension AdMobManager {
       debugSettings.testDeviceIdentifiers = testDeviceIdentifiers
       debugSettings.geography = .EEA
       parameters.debugSettings = debugSettings
+    }
+    
+    guard isGDPR() else {
+      startGoogleMobileAdsSDK()
+      self.state = .allow
+      return
     }
     
     UMPConsentInformation.sharedInstance.requestConsentInfoUpdate(with: parameters) { [weak self] requestConsentError in
