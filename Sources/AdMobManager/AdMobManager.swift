@@ -424,7 +424,11 @@ extension AdMobManager {
       self.state = .reject
       return
     }
-    guard adMobConfig.requestConsent == true else {
+    guard 
+      adMobConfig.requestConsent == true,
+      isGDPR()
+    else {
+      startGoogleMobileAdsSDK()
       self.state = .allow
       return
     }
@@ -490,6 +494,12 @@ extension AdMobManager {
       
       GADMobileAds.sharedInstance().start()
     }
+  }
+  
+  private func isGDPR() -> Bool {
+    let settings = UserDefaults.standard
+    let gdpr = settings.integer(forKey: "IABTCF_gdprApplies")
+    return gdpr == 1
   }
   
   private func canShowAds() -> Bool {
