@@ -440,12 +440,6 @@ extension AdMobManager {
       parameters.debugSettings = debugSettings
     }
     
-//    guard isGDPR() else {
-//      startGoogleMobileAdsSDK()
-//      self.state = .allow
-//      return
-//    }
-    
     UMPConsentInformation.sharedInstance.requestConsentInfoUpdate(with: parameters) { [weak self] requestConsentError in
       guard let self else {
         return
@@ -465,6 +459,12 @@ extension AdMobManager {
         }
         if let loadAndPresentError {
           print("AdMobManager: Load and present error - \(loadAndPresentError.localizedDescription)!")
+          return
+        }
+        
+        guard isGDPR() else {
+          startGoogleMobileAdsSDK()
+          self.state = .allow
           return
         }
         
