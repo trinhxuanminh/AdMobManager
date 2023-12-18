@@ -105,6 +105,7 @@ extension BannerAdMobView: GADBannerViewDelegate {
   public func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
     print("AdMobManager: BannerAd did load!")
     self.state = .receive
+    self.bringSubviewToFront(self.bannerAdView)
     didReceive?()
   }
 }
