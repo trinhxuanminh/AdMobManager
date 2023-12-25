@@ -45,6 +45,7 @@ public class AdMobManager {
   
   @Published public private(set) var state: State = .unknow
   private let remoteConfig = RemoteConfig.remoteConfig()
+  private let consentKey = "CMP"
   private var retryAttempt = 0
   private var subscriptions = [AnyCancellable]()
   private var remoteKey: String?
@@ -78,7 +79,8 @@ public class AdMobManager {
     self.remoteKey = remoteKey
     self.defaultData = defaultData
     
-    fetchCache()
+    fetchConsentCache()
+    fetchAdMobCache()
     
     NetworkAdMob.shared.$isConnected.sink { [weak self] isConnected in
       guard let self = self else {
@@ -308,7 +310,7 @@ extension AdMobManager {
     return false
   }
   
-  private func updateCache() {
+  private func updateAdMobCache() {
     guard let remoteKey else {
       return
     }
@@ -321,17 +323,36 @@ extension AdMobManager {
     UserDefaults.standard.set(data, forKey: remoteKey)
   }
   
+  private func updateConsentCache() {
+    guard let consentConfig else {
+      return
+    }
+    guard let data = try? JSONEncoder().encode(consentConfig) else {
+      return
+    }
+    UserDefaults.standard.set(data, forKey: consentKey)
+  }
+  
   private func decoding(adMobData: Data) {
     guard let adMobConfig = try? JSONDecoder().decode(AdMobConfig.self, from: adMobData) else {
       print("AdMobManager: Invalid format!")
       return
     }
     self.adMobConfig = adMobConfig
-    updateCache()
+    updateAdMobCache()
     checkConsent()
   }
   
-  private func fetchCache() {
+  private func decoding(consentData: Data) {
+    guard let consentConfig = try? JSONDecoder().decode(ConsentConfig.self, from: consentData) else {
+      print("AdMobManager: Invalid format!")
+      return
+    }
+    self.consentConfig = consentConfig
+    updateConsentCache()
+  }
+  
+  private func fetchAdMobCache() {
     guard let remoteKey else {
       return
     }
@@ -339,6 +360,13 @@ extension AdMobManager {
       return
     }
     decoding(adMobData: cacheData)
+  }
+  
+  private func fetchConsentCache() {
+    guard let cacheData = UserDefaults.standard.data(forKey: consentKey) else {
+      return
+    }
+    decoding(consentData: cacheData)
   }
   
   private func fetchDefault() {
@@ -376,11 +404,12 @@ extension AdMobManager {
       self.remoteConfig.activate()
       self.configValue?(self.remoteConfig)
       let adMobData = remoteConfig.configValue(forKey: remoteKey).dataValue
-      let consentData = remoteConfig.configValue(forKey: "CMP").dataValue
+      let consentData = remoteConfig.configValue(forKey: consentKey).dataValue
       guard !adMobData.isEmpty else {
         self.retryFetchRemote()
         return
       }
+      self.decoding(consentData: consentData)
       self.decoding(adMobData: adMobData)
     }
   }
