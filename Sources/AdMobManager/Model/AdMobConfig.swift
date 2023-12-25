@@ -9,7 +9,6 @@ import Foundation
 
 struct AdMobConfig: Codable {
   let status: Bool
-  let requestConsent: Bool?
   var splash: Splash?
   var appOpen: AppOpen?
   var rewardeds: [Rewarded]?

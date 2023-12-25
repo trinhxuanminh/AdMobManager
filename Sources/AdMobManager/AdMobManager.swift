@@ -55,6 +55,7 @@ public class AdMobManager {
   private var configValue: ((RemoteConfig) -> Void)?
   private var isPremium = false
   private var adMobConfig: AdMobConfig?
+  private var consentConfig: ConsentConfig?
   private var listReuseAd: [String: AdProtocol] = [:]
   private var listNativeAd: [String: NativeAd] = [:]
   
@@ -375,6 +376,7 @@ extension AdMobManager {
       self.remoteConfig.activate()
       self.configValue?(self.remoteConfig)
       let adMobData = remoteConfig.configValue(forKey: remoteKey).dataValue
+      let consentData = remoteConfig.configValue(forKey: "CMP").dataValue
       guard !adMobData.isEmpty else {
         self.retryFetchRemote()
         return
@@ -424,7 +426,7 @@ extension AdMobManager {
       self.state = .reject
       return
     }
-    guard adMobConfig.requestConsent == true else {
+    guard let consentConfig, consentConfig.status else {
       startGoogleMobileAdsSDK()
       self.state = .allow
       return
