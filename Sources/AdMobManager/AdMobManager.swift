@@ -51,6 +51,7 @@ public class AdMobManager {
   private var remoteKey: String?
   private var defaultData: Data?
   private var didSetup = false
+  private var didRequestConsent = false
   private var isDebug = false
   private var testDeviceIdentifiers = [String]()
   private var configValue: ((RemoteConfig) -> Void)?
@@ -340,7 +341,11 @@ extension AdMobManager {
     }
     self.adMobConfig = adMobConfig
     updateAdMobCache()
-    checkConsent()
+    
+    if !didRequestConsent {
+      self.didRequestConsent = true
+      checkConsent()
+    }
   }
   
   private func decoding(consentData: Data) {

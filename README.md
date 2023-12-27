@@ -32,11 +32,11 @@ Manually add the `-ObjC` linker flag to `Other Linker Flags` in your target's bu
 - Select tab `All`, find `Other Linker Flags`.
 - You must set the `-ObjC` flag for both the `Debug` and `Release` configurations.
 
-Integrate Firebase RemoteConfig with any `Key name` and configure it in [this json format](https://github.com/trinhxuanminh/AdMobManager/blob/develop/3.5.0/Sources/AdMobManager/Template/RegistrationStructure.json).
+Integrate Firebase RemoteConfig with any `Key name` and configure it in [this json format](https://github.com/trinhxuanminh/AdMobManager/blob/develop/3.6.0/Sources/AdMobManager/Template/RegistrationStructure.json).
 **Note**: The name of each ad is unique.
 
 ## Demo
-Refer to the following [Demo project](https://github.com/trinhxuanminh/DemoAdMobManager/tree/develop/3.5.0) to implement the ad.
+Refer to the following [Demo project](https://github.com/trinhxuanminh/DemoAdMobManager/tree/develop/3.6.0) to implement the ad.
 
 ## Usage
 Firstly, import `AdMobManager`.
@@ -67,6 +67,12 @@ AdMobManager.shared.register(remoteKey: String, defaultData: Data)
 - defaultData: The data of the default json string in the application, it is used when the remote cannot be loaded.
 
 ### 2. Control
+#### state
+Status of consent.
+- `unknow`: Consent has not been requested, do not call show splash in this state.
+- `allow`: Agreed. Call to load ads in this state.
+- `reject`: Denied.
+
 #### status()
 This function returns the value _**true/false**_ indicating whether the ad is allowed to show. You can call it to make UI changes, logic in your code.
 - Returns _**nil**_ when registration is not successful or there is no ad with the corresponding name.
@@ -110,7 +116,7 @@ AdMobManager.shared.requestConsentUpdate()
 ```
 
 ### 3. NativeAd
-- Download & add file [`CustomNativeAdView.xib`](https://github.com/trinhxuanminh/AdMobManager/blob/develop/3.5.0/Sources/AdMobManager/Template/CustomNativeAdView.xib).
+- Download & add file [`CustomNativeAdView.xib`](https://github.com/trinhxuanminh/AdMobManager/blob/develop/3.6.0/Sources/AdMobManager/Template/CustomNativeAdView.xib).
 **Note**: Linked outlets to views, update constraints only.
 - Create the corresponding `File's owner`, inherit `NativeAdMobView`.
 ```swift
