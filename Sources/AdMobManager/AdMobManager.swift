@@ -461,8 +461,7 @@ extension AdMobManager {
       return
     }
     guard let consentConfig, consentConfig.status else {
-      startGoogleMobileAdsSDK()
-      self.state = .allow
+      allow()
       return
     }
     
@@ -482,6 +481,7 @@ extension AdMobManager {
       }
       if let requestConsentError {
         print("AdMobManager: Request consent error - \(requestConsentError.localizedDescription)!")
+        allow()
         return
       }
       
@@ -495,12 +495,12 @@ extension AdMobManager {
         }
         if let loadAndPresentError {
           print("AdMobManager: Load and present error - \(loadAndPresentError.localizedDescription)!")
+          allow()
           return
         }
         
         guard isGDPR() else {
-          startGoogleMobileAdsSDK()
-          self.state = .allow
+          allow()
           return
         }
         
@@ -516,9 +516,13 @@ extension AdMobManager {
     }
     
     if canShowAds() {
-      self.startGoogleMobileAdsSDK()
-      self.state = .allow
+      allow()
     }
+  }
+  
+  private func allow() {
+    self.startGoogleMobileAdsSDK()
+    self.state = .allow
   }
   
   private func startGoogleMobileAdsSDK() {
