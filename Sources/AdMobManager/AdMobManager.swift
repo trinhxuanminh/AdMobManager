@@ -457,7 +457,7 @@ extension AdMobManager {
       return
     }
     guard adMobConfig.status else {
-      self.state = .reject
+      allow()
       return
     }
     guard let consentConfig, consentConfig.status else {
