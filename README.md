@@ -53,17 +53,10 @@ This function will block registration, loading, and show ads.
 AdMobManager.shared.upgradePremium()
 ```
 
-#### ConfigValue
-The function allows receiving additional values from RemoteConfig.
-```swift
-AdMobManager.shared.addActionConfigValue(_ handler: @escaping ((RemoteConfig) -> Void))
-```
-
 #### Register advertising ID
 ```swift
-AdMobManager.shared.register(remoteKey: String, defaultData: Data)
+AdMobManager.shared.register(defaultData: Data)
 ```
-- remoteKey: The `Key name` you have set on RemoteConfig.
 - defaultData: The data of the default json string in the application, it is used when the remote cannot be loaded.
 
 ### 2. Control
