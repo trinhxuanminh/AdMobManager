@@ -9,7 +9,6 @@ import Foundation
 
 struct Native: AdConfigProtocol {
   let name: String
-  let status: Bool
   let id: String
   let description: String?
   let isFullScreen: Bool?

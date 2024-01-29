@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import FirebaseRemoteConfig
 import GoogleMobileAds
 import Combine
 import UserMessagingPlatform
@@ -44,20 +43,13 @@ public class AdMobManager {
   }
   
   @Published public private(set) var state: State = .unknow
-  private let remoteConfig = RemoteConfig.remoteConfig()
-  private let consentKey = "CMP"
-  private var retryAttempt = 0
-  private var subscriptions = [AnyCancellable]()
-  private var remoteKey: String?
   private var defaultData: Data?
   private var didSetup = false
   private var didRequestConsent = false
   private var isDebug = false
   private var testDeviceIdentifiers = [String]()
-  private var configValue: ((RemoteConfig) -> Void)?
   private var isPremium = false
   private var adMobConfig: AdMobConfig?
-  private var consentConfig: ConsentConfig?
   private var listReuseAd: [String: AdProtocol] = [:]
   private var listNativeAd: [String: NativeAd] = [:]
   
@@ -65,32 +57,14 @@ public class AdMobManager {
     self.isPremium = true
   }
   
-  public func addActionConfigValue(_ handler: @escaping ((RemoteConfig) -> Void)) {
-    self.configValue = handler
-  }
-  
-  public func register(remoteKey: String, defaultData: Data) {
+  public func register(defaultData: Data) {
     if isPremium {
       print("AdMobManager: Premium!")
       self.state = .reject
     }
-    guard self.remoteKey == nil else {
-      return
-    }
-    self.remoteKey = remoteKey
     self.defaultData = defaultData
     
-    fetchConsentCache()
-    fetchAdMobCache()
-    
-    NetworkAdMob.shared.$isConnected.sink { [weak self] isConnected in
-      guard let self = self else {
-        return
-      }
-      if isConnected, self.retryAttempt == 0 {
-        self.fetchRemote()
-      }
-    }.store(in: &subscriptions)
+    fetchDefault()
   }
   
   public func status(type: AdType, name: String) -> Bool? {
@@ -102,18 +76,11 @@ public class AdMobManager {
       print("AdMobManager: Not yet registered!")
       return nil
     }
-    guard adMobConfig.status else {
-      return false
-    }
     guard state == .allow else {
       print("AdMobManager: Can't Request Ads!")
       return nil
     }
-    guard let adConfig = getAd(type: type, name: name) as? AdConfigProtocol else {
-      print("AdMobManager: Ads don't exist!")
-      return nil
-    }
-    return adConfig.status
+    return true
   }
   
   public func load(type: Reuse, name: String) {
@@ -311,36 +278,12 @@ extension AdMobManager {
     return false
   }
   
-  private func updateAdMobCache() {
-    guard let remoteKey else {
-      return
-    }
-    guard let adMobConfig else {
-      return
-    }
-    guard let data = try? JSONEncoder().encode(adMobConfig) else {
-      return
-    }
-    UserDefaults.standard.set(data, forKey: remoteKey)
-  }
-  
-  private func updateConsentCache() {
-    guard let consentConfig else {
-      return
-    }
-    guard let data = try? JSONEncoder().encode(consentConfig) else {
-      return
-    }
-    UserDefaults.standard.set(data, forKey: consentKey)
-  }
-  
   private func decoding(adMobData: Data) {
     guard let adMobConfig = try? JSONDecoder().decode(AdMobConfig.self, from: adMobData) else {
       print("AdMobManager: Invalid format!")
       return
     }
     self.adMobConfig = adMobConfig
-    updateAdMobCache()
     
     if !didRequestConsent {
       self.didRequestConsent = true
@@ -348,85 +291,11 @@ extension AdMobManager {
     }
   }
   
-  private func decoding(consentData: Data) {
-    guard let consentConfig = try? JSONDecoder().decode(ConsentConfig.self, from: consentData) else {
-      print("AdMobManager: Invalid format!")
-      return
-    }
-    self.consentConfig = consentConfig
-    updateConsentCache()
-  }
-  
-  private func fetchAdMobCache() {
-    guard let remoteKey else {
-      return
-    }
-    guard let cacheData = UserDefaults.standard.data(forKey: remoteKey) else {
-      return
-    }
-    decoding(adMobData: cacheData)
-  }
-  
-  private func fetchConsentCache() {
-    guard let cacheData = UserDefaults.standard.data(forKey: consentKey) else {
-      return
-    }
-    decoding(consentData: cacheData)
-  }
-  
   private func fetchDefault() {
     guard let defaultData else {
       return
     }
     decoding(adMobData: defaultData)
-  }
-  
-  private func retryFetchRemote() {
-    if retryAttempt == 1 {
-      logErrorFetchRemote()
-      DispatchQueue.main.asyncAfter(deadline: .now() + 10.0, execute: fetchRemote)
-    } else if adMobConfig == nil {
-      fetchDefault()
-    }
-  }
-  
-  private func fetchRemote() {
-    self.retryAttempt += 1
-    guard retryAttempt <= 2 else {
-      return
-    }
-    guard let remoteKey else {
-      return
-    }
-    remoteConfig.fetch(withExpirationDuration: 0) { [weak self] _, error in
-      guard let self = self else {
-        return
-      }
-      guard error == nil else {
-        self.retryFetchRemote()
-        return
-      }
-      self.remoteConfig.activate()
-      self.configValue?(self.remoteConfig)
-      let adMobData = remoteConfig.configValue(forKey: remoteKey).dataValue
-      let consentData = remoteConfig.configValue(forKey: consentKey).dataValue
-      guard !adMobData.isEmpty else {
-        self.retryFetchRemote()
-        return
-      }
-      self.decoding(consentData: consentData)
-      self.decoding(adMobData: adMobData)
-    }
-  }
-  
-  private func logErrorFetchRemote() {
-    let key = "AdMobManager_First_Open"
-    if UserDefaults.standard.bool(forKey: key) {
-      LogEventManager.shared.log(event: .remoteConfigLoadFailLaunchApp)
-    } else {
-      LogEventManager.shared.log(event: .remoteConfigLoadFailFirstOpen)
-      UserDefaults.standard.set(true, forKey: key)
-    }
   }
   
   private func checkFrequency(adConfig: AdConfigProtocol, ad: AdProtocol) -> Bool {
@@ -451,17 +320,6 @@ extension AdMobManager {
   
   private func checkConsent() {
     guard !isPremium else {
-      return
-    }
-    guard let adMobConfig else {
-      return
-    }
-    guard adMobConfig.status else {
-      self.state = .reject
-      return
-    }
-    guard let consentConfig, consentConfig.status else {
-      allow()
       return
     }
     
@@ -506,10 +364,7 @@ extension AdMobManager {
         
         let canShowAds = canShowAds()
         if canShowAds {
-          LogEventManager.shared.log(event: .cmpClickConsent)
           self.startGoogleMobileAdsSDK()
-        } else {
-          LogEventManager.shared.log(event: .cmpNotConsent)
         }
         self.state = canShowAds == true ? .allow : .reject
       }

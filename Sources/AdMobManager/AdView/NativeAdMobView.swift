@@ -71,9 +71,6 @@ open class NativeAdMobView: UIView, AdMobViewProtocol, GADVideoControllerDelegat
       guard let native = AdMobManager.shared.getAd(type: .onceUsed(.native), name: name) as? Native else {
         return
       }
-      guard native.status else {
-        return
-      }
       
       if let nativeAd = AdMobManager.shared.getNativePreload(name: name) {
         self.nativeAd = nativeAd

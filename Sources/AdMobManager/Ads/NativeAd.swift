@@ -20,9 +20,6 @@ class NativeAd: NSObject {
   
   func config(ad: Native, rootViewController: UIViewController?) {
     self.rootViewController = rootViewController
-    guard ad.status else {
-      return
-    }
     guard adUnitID == nil else {
       return
     }

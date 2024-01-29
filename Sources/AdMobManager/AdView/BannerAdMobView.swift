@@ -83,9 +83,6 @@ open class BannerAdMobView: UIView {
     guard let ad = AdMobManager.shared.getAd(type: .onceUsed(.banner), name: name) as? Banner else {
       return
     }
-    guard ad.status else {
-      return
-    }
     self.adUnitID = ad.id
     if let anchored = ad.anchored {
       self.anchored = Anchored(rawValue: anchored)

@@ -1,29 +1,24 @@
 {
-  "status": true,
   "splash": {
     "name": "Splash",
-    "status": true,
     "id": "ca-app-pub-3940256099942544/4411468910",
     "description": "",
     "timeout": 30
   },
   "appOpen": {
     "name": "App_Open",
-    "status": true,
     "id": "ca-app-pub-3940256099942544/5575463023",
     "description": ""
   },
   "rewardeds": [
     {
       "name": "Rewarded",
-      "status": true,
       "id": "ca-app-pub-3940256099942544/1712485313"
     }
   ],
   "rewardedInterstitials": [
     {
       "name": "Rewarded_Interstitial",
-      "status": true,
       "id": "ca-app-pub-3940256099942544/6978759866",
       "description": ""
     }
@@ -31,7 +26,6 @@
   "interstitials": [
     {
       "name": "Interstitial_1",
-      "status": true,
       "id": "ca-app-pub-3940256099942544/4411468910",
       "description": "",
       "start": 1,
@@ -39,7 +33,6 @@
     },
     {
       "name": "Interstitial_2",
-      "status": true,
       "id": "ca-app-pub-3940256099942544/4411468910",
       "description": ""
     }
@@ -47,18 +40,15 @@
   "banners": [
     {
       "name": "Banner_1",
-      "status": true,
       "id": "ca-app-pub-3940256099942544/2934735716"
     },
     {
       "name": "Banner_2",
-      "status": true,
       "id": "ca-app-pub-3940256099942544/2934735716",
       "anchored": "top"
     },
     {
       "name": "Banner_3",
-      "status": true,
       "id": "ca-app-pub-3940256099942544/2934735716",
       "description": "",
       "anchored": "bottom"
@@ -67,20 +57,17 @@
   "natives": [
     {
       "name": "Native_1",
-      "status": true,
       "id": "ca-app-pub-3940256099942544/3986624511",
       "description": "",
       "isPreload": true
     },
     {
       "name": "Native_2",
-      "status": true,
       "id": "ca-app-pub-3940256099942544/3986624511",
       "description": ""
     },
     {
       "name": "Native_3",
-      "status": true,
       "id": "ca-app-pub-3940256099942544/3986624511",
       "description": ""
     }
