@@ -50,6 +50,7 @@ class NativeAd: NSObject {
 extension NativeAd: GADNativeAdLoaderDelegate {
   func adLoader(_ adLoader: GADAdLoader,
                 didFailToReceiveAdWithError error: Error) {
+    print("AdMobManager: NativeAd load fail - \(String(describing: error))!")
     self.state = .error
     didError?()
   }

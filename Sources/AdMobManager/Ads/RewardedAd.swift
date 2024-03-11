@@ -14,9 +14,16 @@ class RewardedAd: NSObject, AdProtocol {
   private var presentState = false
   private var isLoading = false
   private var retryAttempt = 0
-  private var didFail: Handler?
+  private var didLoadFail: Handler?
+  private var didLoadSuccess: Handler?
+  private var didShowFail: Handler?
   private var didEarnReward: Handler?
   private var didHide: Handler?
+  
+  func config(didFail: Handler?, didSuccess: Handler?) {
+    self.didLoadFail = didFail
+    self.didLoadSuccess = didSuccess
+  }
   
   func config(id: String) {
     self.adUnitID = id
@@ -47,7 +54,7 @@ class RewardedAd: NSObject, AdProtocol {
       return
     }
     print("AdMobManager: RewardAd requested to show!")
-    self.didFail = didFail
+    self.didShowFail = didFail
     self.didHide = didHide
     self.didEarnReward = didEarnReward
     rewardedAd?.present(fromRootViewController: rootViewController, userDidEarnRewardHandler: { [weak self] in
@@ -64,7 +71,7 @@ extension RewardedAd: GADFullScreenContentDelegate {
           didFailToPresentFullScreenContentWithError error: Error
   ) {
     print("AdMobManager: RewardAd did fail to show content!")
-    didFail?()
+    didShowFail?()
     self.rewardedAd = nil
     load()
   }
@@ -125,6 +132,7 @@ extension RewardedAd {
         guard error == nil, let ad = ad else {
           self.retryAttempt += 1
           guard self.retryAttempt == 1 else {
+            self.didLoadFail?()
             return
           }
           let delaySec = 5.0
@@ -136,6 +144,7 @@ extension RewardedAd {
         self.retryAttempt = 0
         self.rewardedAd = ad
         self.rewardedAd?.fullScreenContentDelegate = self
+        self.didLoadSuccess?()
       }
     }
   }

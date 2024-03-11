@@ -115,6 +115,7 @@ extension SplashAd {
         }
         self.invalidate()
         guard error == nil, let ad = ad else {
+          print("AdMobManager: SplashAd load fail - \(String(describing: error))!")
           self.didFail?()
           return
         }

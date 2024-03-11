@@ -83,13 +83,18 @@ AdMobManager.shared.status(type: AdType, name: String) -> Bool?
 #### load()
 This function will start loading ads.
 ```swift
-AdMobManager.shared.load(type: Reuse, name: String)
+AdMobManager.shared.load(type: Reuse,
+                         name: String,
+                         success: Handler? = nil,
+                         fail: Handler? = nil)
 ```
 
 #### preloadNative()
 This function will start preloading `NativeAd`.
 ```swift
-AdMobManager.shared.preloadNative(name: String)
+AdMobManager.shared.preloadNative(name: String,
+                                  success: Handler? = nil,
+                                  fail: Handler? = nil)
 ```
 
 #### show()

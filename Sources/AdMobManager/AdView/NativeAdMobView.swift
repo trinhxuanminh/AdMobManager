@@ -111,7 +111,6 @@ open class NativeAdMobView: UIView, AdMobViewProtocol, GADVideoControllerDelegat
 
 extension NativeAdMobView {
   private func errored() {
-    self.isHidden = true
     didError?()
   }
   

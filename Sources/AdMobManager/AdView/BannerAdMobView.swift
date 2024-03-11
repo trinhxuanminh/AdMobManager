@@ -98,6 +98,7 @@ extension BannerAdMobView: GADBannerViewDelegate {
   public func bannerView(_ bannerView: GADBannerView,
                          didFailToReceiveAdWithError error: Error
   ) {
+    print("AdMobManager: BannerAd load fail - \(String(describing: error))!")
     self.state = .error
     errored()
   }
@@ -112,7 +113,6 @@ extension BannerAdMobView: GADBannerViewDelegate {
 
 extension BannerAdMobView {
   private func errored() {
-    self.isHidden = true
     didError?()
   }
   

@@ -19,4 +19,5 @@ import UIKit
 
 extension AdProtocol {
   func config(timeout: Double) {}
+  func config(didFail: Handler?, didSuccess: Handler?) {}
 }

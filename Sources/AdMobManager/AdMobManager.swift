@@ -116,7 +116,11 @@ public class AdMobManager {
     return adConfig.status
   }
   
-  public func load(type: Reuse, name: String) {
+  public func load(type: Reuse,
+                   name: String,
+                   success: Handler? = nil,
+                   fail: Handler? = nil
+  ) {
     switch status(type: .reuse(type), name: name) {
     case false:
       print("AdMobManager: Ads are not allowed to show!")
@@ -153,11 +157,15 @@ public class AdMobManager {
     case .rewardedInterstitial:
       adProtocol = RewardedInterstitialAd()
     }
+    adProtocol.config(didFail: fail, didSuccess: success)
     adProtocol.config(id: adConfig.id)
     self.listReuseAd[type.rawValue + adConfig.id] = adProtocol
   }
   
-  public func preloadNative(name: String) {
+  public func preloadNative(name: String,
+                            success: Handler? = nil,
+                            fail: Handler? = nil
+  ) {
     switch status(type: .onceUsed(.native), name: name) {
     case false:
       print("AdMobManager: Ads are not allowed to show!")
@@ -179,6 +187,7 @@ public class AdMobManager {
       return
     }
     let nativeAd = NativeAd()
+    nativeAd.bind(didReceive: success, didError: fail)
     nativeAd.config(ad: native, rootViewController: nil)
     self.listNativeAd[name] = nativeAd
   }

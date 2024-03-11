@@ -14,9 +14,16 @@ class AppOpenAd: NSObject, AdProtocol {
   private var presentState = false
   private var isLoading = false
   private var retryAttempt = 0
-  private var didFail: Handler?
+  private var didLoadFail: Handler?
+  private var didLoadSuccess: Handler?
+  private var didShowFail: Handler?
   private var didEarnReward: Handler?
   private var didHide: Handler?
+  
+  func config(didFail: Handler?, didSuccess: Handler?) {
+    self.didLoadFail = didFail
+    self.didLoadSuccess = didSuccess
+  }
   
   func config(id: String) {
     self.adUnitID = id
@@ -47,7 +54,7 @@ class AppOpenAd: NSObject, AdProtocol {
       return
     }
     print("AdMobManager: AppOpenAd requested to show!")
-    self.didFail = didFail
+    self.didShowFail = didFail
     self.didHide = didHide
     self.didEarnReward = didEarnReward
     appOpenAd?.present(fromRootViewController: rootViewController)
@@ -59,7 +66,7 @@ extension AppOpenAd: GADFullScreenContentDelegate {
           didFailToPresentFullScreenContentWithError error: Error
   ) {
     print("AdMobManager: AppOpenAd did fail to show content!")
-    didFail?()
+    didShowFail?()
     self.appOpenAd = nil
     load()
   }
@@ -120,12 +127,15 @@ extension AppOpenAd {
         self.isLoading = false
         guard error == nil, let ad = ad else {
           self.retryAttempt += 1
+          self.didLoadFail?()
+          print("AdMobManager: AppOpenAd load fail - \(String(describing: error))!")
           return
         }
         print("AdMobManager: AppOpenAd did load!")
         self.retryAttempt = 0
         self.appOpenAd = ad
         self.appOpenAd?.fullScreenContentDelegate = self
+        self.didLoadSuccess?()
       }
     }
   }
