@@ -131,7 +131,7 @@ extension SplashAd {
             kAppsFlyerAdRevenueCountry: Locale.current.identifier,
             kAppsFlyerAdRevenueAdUnit: adUnitID as Any,
             kAppsFlyerAdRevenueAdType: "Interstitial",
-            kAppsFlyerAdRevenuePlacement: "Splash",
+            kAppsFlyerAdRevenuePlacement: "place",
             kAppsFlyerAdRevenueECPMPayload: "encrypt",
             "value_precision": adValue.precision
           ]
