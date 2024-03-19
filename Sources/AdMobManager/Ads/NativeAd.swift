@@ -60,6 +60,12 @@ extension NativeAd: GADNativeAdLoaderDelegate {
     self.state = .receive
     self.nativeAd = nativeAd
     didReceive?()
+    nativeAd.paidEventHandler = { [weak self] adValue in
+      guard let self else {
+        return
+      }
+//      
+    }
   }
 }
 

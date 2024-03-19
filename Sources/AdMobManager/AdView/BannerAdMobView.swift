@@ -108,6 +108,12 @@ extension BannerAdMobView: GADBannerViewDelegate {
     self.state = .receive
     self.bringSubviewToFront(self.bannerAdView)
     didReceive?()
+    bannerAdView.paidEventHandler = { [weak self] adValue in
+      guard let self else {
+        return
+      }
+//      
+    }
   }
 }
 

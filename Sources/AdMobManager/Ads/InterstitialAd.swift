@@ -78,6 +78,14 @@ extension InterstitialAd: GADFullScreenContentDelegate {
   
   func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
     print("AdMobManager: InterstitialAd did hide!")
+    if let ad = interstitialAd {
+      ad.paidEventHandler = { [weak self] adValue in
+        guard let self else {
+          return
+        }
+//
+      }
+    }
     didHide?()
     self.interstitialAd = nil
     self.presentState = false

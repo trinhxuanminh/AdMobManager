@@ -11,12 +11,30 @@
         }
       },
       {
+        "package": "adrevenue-apple-sdk",
+        "repositoryURL": "https://github.com/AppsFlyerSDK/adrevenue-apple-sdk.git",
+        "state": {
+          "branch": null,
+          "revision": "80de060b9fb48b3792aa6dd382a437ad56d7e39c",
+          "version": "6.13.1"
+        }
+      },
+      {
         "package": "AppCheck",
         "repositoryURL": "https://github.com/google/app-check.git",
         "state": {
           "branch": null,
           "revision": "5746b2d35c91c50581590ed97abe4c06b5037274",
           "version": "10.18.0"
+        }
+      },
+      {
+        "package": "AppsFlyerLib",
+        "repositoryURL": "https://github.com/AppsFlyerSDK/AppsFlyerFramework",
+        "state": {
+          "branch": null,
+          "revision": "4591cd113ea1af6fa950479fadbce2f13bab8895",
+          "version": "6.13.1"
         }
       },
       {
@@ -107,6 +125,15 @@
           "branch": null,
           "revision": "e70e889c0196c76d22759eb50d6a0270ca9f1d9e",
           "version": "2.3.1"
+        }
+      },
+      {
+        "package": "PurchaseConnector-Dynamic",
+        "repositoryURL": "https://github.com/AppsFlyerSDK/PurchaseConnector-Dynamic",
+        "state": {
+          "branch": null,
+          "revision": "05e05207e5574db3af80a0f4dfa3da3f2d54db78",
+          "version": "6.13.1"
         }
       },
       {

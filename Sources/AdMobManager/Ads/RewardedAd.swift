@@ -83,6 +83,14 @@ extension RewardedAd: GADFullScreenContentDelegate {
   
   func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
     print("AdMobManager: RewardAd did hide!")
+    if let ad = rewardedAd {
+      ad.paidEventHandler = { [weak self] adValue in
+        guard let self else {
+          return
+        }
+//
+      }
+    }
     didHide?()
     self.rewardedAd = nil
     self.presentState = false

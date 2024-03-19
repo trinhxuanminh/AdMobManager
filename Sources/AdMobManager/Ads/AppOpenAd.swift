@@ -7,6 +7,7 @@
 
 import UIKit
 import GoogleMobileAds
+import AppsFlyerAdRevenue
 
 class AppOpenAd: NSObject, AdProtocol {
   private var appOpenAd: GADAppOpenAd?
@@ -78,6 +79,55 @@ extension AppOpenAd: GADFullScreenContentDelegate {
   
   func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
     print("AdMobManager: AppOpenAd did hide!")
+    if let ad = appOpenAd {
+      ad.paidEventHandler = { [weak self] adValue in
+        guard let self else {
+          return
+        }
+//        let adRevenueParams: [AnyHashable: Any] = [
+//          kAppsFlyerAdRevenueCountry: "",
+//          kAppsFlyerAdRevenueAdUnit: adUnitID as Any,
+//          kAppsFlyerAdRevenueAdType: "AppOpen",
+//          kAppsFlyerAdRevenuePlacement: "place",
+//          kAppsFlyerAdRevenueECPMPayload: "encrypt",
+//          "value_precision": adValue.precision
+//        ]
+//        
+//        AppsFlyerAdRevenue.shared().logAdRevenue(
+//          monetizationNetwork: "admob",
+//          mediationNetwork: MediationNetworkType.googleAdMob,
+//          eventRevenue: adValue.value,
+//          revenueCurrency: adValue.currencyCode,
+//          additionalParameters: adRevenueParams)
+        
+        let value = adValue.value
+        print("value", value)
+        let precision = adValue.precision
+        print("precision", precision)
+        let currencyCode = adValue.currencyCode
+        print("currencyCode", currencyCode)
+        // Get the ad unit ID.
+        
+        let responseInfo = ad.responseInfo
+        print("responseInfo", responseInfo)
+        let loadedAdNetworkResponseInfo = responseInfo.loadedAdNetworkResponseInfo
+        print("loadedAdNetworkResponseInfo", loadedAdNetworkResponseInfo)
+        let adSourceId = loadedAdNetworkResponseInfo?.adSourceID
+        print("adSourceId", adSourceId)
+        let adSourceInstanceId = loadedAdNetworkResponseInfo?.adSourceInstanceID
+        print("adSourceInstanceId", adSourceInstanceId)
+        let adSourceInstanceName = loadedAdNetworkResponseInfo?.adSourceInstanceName
+        print("adSourceInstanceName", adSourceInstanceName)
+        let adSourceName = loadedAdNetworkResponseInfo?.adSourceName
+        print("adSourceName", adSourceName)
+        let mediationGroupName = responseInfo.extrasDictionary["mediation_group_name"]
+        print("mediationGroupName", mediationGroupName)
+        let mediationABTestName = responseInfo.extrasDictionary["mediation_ab_test_name"]
+        print("mediationABTestName", mediationABTestName)
+        let mediationABTestVariant = responseInfo.extrasDictionary["mediation_ab_test_variant"]
+        print("mediationABTestVariant", mediationABTestVariant)
+      }
+    }
     didHide?()
     self.appOpenAd = nil
     self.presentState = false

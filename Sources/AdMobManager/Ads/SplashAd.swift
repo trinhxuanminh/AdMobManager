@@ -69,6 +69,14 @@ extension SplashAd: GADFullScreenContentDelegate {
   
   func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
     print("AdMobManager: SplashAd did hide!")
+    if let ad = splashAd {
+      ad.paidEventHandler = { [weak self] adValue in
+        guard let self else {
+          return
+        }
+//
+      }
+    }
     didHide?()
     self.presentState = false
     self.splashAd = nil

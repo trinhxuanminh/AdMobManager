@@ -23,6 +23,11 @@ enum Event {
   case cmpClickConsent
   case cmpNotConsent
   
+  case connectedAppsFlyer
+  case noConnectAppsFlyer
+  case agreeTracking
+  case noTracking
+  
   var name: String {
     switch self {
     case .remoteConfigLoadFailFirstOpen:
@@ -33,6 +38,14 @@ enum Event {
       return "CMP_Click_Consent"
     case .cmpNotConsent:
       return "CMP_Not_Consent"
+    case .connectedAppsFlyer:
+      return "Connected_AppsFlyer"
+    case .noConnectAppsFlyer:
+      return "NoConnect_AppsFlyer"
+    case .agreeTracking:
+      return "Agree_Tracking"
+    case .noTracking:
+      return "No_Tracking"
     }
   }
   
