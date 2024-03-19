@@ -82,15 +82,7 @@ public class AdMobManager {
     
     fetchConsentCache()
     fetchAdMobCache()
-    
-    NetworkAdMob.shared.$isConnected.sink { [weak self] isConnected in
-      guard let self = self else {
-        return
-      }
-      if isConnected, self.retryAttempt == 0 {
-        self.fetchRemote()
-      }
-    }.store(in: &subscriptions)
+    fetchRemote()
   }
   
   public func status(type: AdType, name: String) -> Bool? {
