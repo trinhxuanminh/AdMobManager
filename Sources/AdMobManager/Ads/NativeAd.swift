@@ -7,6 +7,7 @@
 
 import UIKit
 import GoogleMobileAds
+import AppsFlyerAdRevenue
 
 class NativeAd: NSObject {
   private var nativeAd: GADNativeAd?
@@ -60,11 +61,27 @@ extension NativeAd: GADNativeAdLoaderDelegate {
     self.state = .receive
     self.nativeAd = nativeAd
     didReceive?()
+    
     nativeAd.paidEventHandler = { [weak self] adValue in
       guard let self else {
         return
       }
-//      
+      let adNetworkClassName = nativeAd.responseInfo.loadedAdNetworkResponseInfo?.adNetworkClassName
+      let adRevenueParams: [AnyHashable: Any] = [
+        kAppsFlyerAdRevenueCountry: Locale.current.identifier,
+        kAppsFlyerAdRevenueAdUnit: adUnitID as Any,
+        kAppsFlyerAdRevenueAdType: "Native",
+        kAppsFlyerAdRevenuePlacement: "place",
+        kAppsFlyerAdRevenueECPMPayload: "encrypt",
+        "value_precision": adValue.precision
+      ]
+
+      AppsFlyerAdRevenue.shared().logAdRevenue(
+        monetizationNetwork: adNetworkClassName ?? "admob",
+        mediationNetwork: MediationNetworkType.googleAdMob,
+        eventRevenue: adValue.value,
+        revenueCurrency: adValue.currencyCode,
+        additionalParameters: adRevenueParams)
     }
   }
 }

@@ -7,6 +7,7 @@
 
 import UIKit
 import GoogleMobileAds
+import AppsFlyerAdRevenue
 
 class RewardedAd: NSObject, AdProtocol {
   private var rewardedAd: GADRewardedAd?
@@ -145,6 +146,25 @@ extension RewardedAd {
         self.rewardedAd = ad
         self.rewardedAd?.fullScreenContentDelegate = self
         self.didLoadSuccess?()
+        
+        ad.paidEventHandler = { adValue in
+          let adNetworkClassName = ad.responseInfo.loadedAdNetworkResponseInfo?.adNetworkClassName
+          let adRevenueParams: [AnyHashable: Any] = [
+            kAppsFlyerAdRevenueCountry: Locale.current.identifier,
+            kAppsFlyerAdRevenueAdUnit: adUnitID as Any,
+            kAppsFlyerAdRevenueAdType: "Rewarded",
+            kAppsFlyerAdRevenuePlacement: "place",
+            kAppsFlyerAdRevenueECPMPayload: "encrypt",
+            "value_precision": adValue.precision
+          ]
+  
+          AppsFlyerAdRevenue.shared().logAdRevenue(
+            monetizationNetwork: adNetworkClassName ?? "admob",
+            mediationNetwork: MediationNetworkType.googleAdMob,
+            eventRevenue: adValue.value,
+            revenueCurrency: adValue.currencyCode,
+            additionalParameters: adRevenueParams)
+        }
       }
     }
   }

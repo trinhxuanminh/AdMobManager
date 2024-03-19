@@ -7,6 +7,7 @@
 
 import UIKit
 import GoogleMobileAds
+import AppsFlyerAdRevenue
 
 class RewardedInterstitialAd: NSObject, AdProtocol {
   private var rewardedInterstitialAd: GADRewardedInterstitialAd?
@@ -145,6 +146,25 @@ extension RewardedInterstitialAd {
         self.rewardedInterstitialAd = ad
         self.rewardedInterstitialAd?.fullScreenContentDelegate = self
         self.didLoadSuccess?()
+        
+        ad.paidEventHandler = { adValue in
+          let adNetworkClassName = ad.responseInfo.loadedAdNetworkResponseInfo?.adNetworkClassName
+          let adRevenueParams: [AnyHashable: Any] = [
+            kAppsFlyerAdRevenueCountry: Locale.current.identifier,
+            kAppsFlyerAdRevenueAdUnit: adUnitID as Any,
+            kAppsFlyerAdRevenueAdType: "RewardedInterstitial",
+            kAppsFlyerAdRevenuePlacement: "place",
+            kAppsFlyerAdRevenueECPMPayload: "encrypt",
+            "value_precision": adValue.precision
+          ]
+  
+          AppsFlyerAdRevenue.shared().logAdRevenue(
+            monetizationNetwork: adNetworkClassName ?? "admob",
+            mediationNetwork: MediationNetworkType.googleAdMob,
+            eventRevenue: adValue.value,
+            revenueCurrency: adValue.currencyCode,
+            additionalParameters: adRevenueParams)
+        }
       }
     }
   }

@@ -139,8 +139,9 @@ extension AppOpenAd {
         self.didLoadSuccess?()
         
         ad.paidEventHandler = { adValue in
+          let adNetworkClassName = ad.responseInfo.loadedAdNetworkResponseInfo?.adNetworkClassName
           let adRevenueParams: [AnyHashable: Any] = [
-            kAppsFlyerAdRevenueCountry: "US",
+            kAppsFlyerAdRevenueCountry: Locale.current.identifier,
             kAppsFlyerAdRevenueAdUnit: adUnitID as Any,
             kAppsFlyerAdRevenueAdType: "AppOpen",
             kAppsFlyerAdRevenuePlacement: "place",
@@ -149,41 +150,11 @@ extension AppOpenAd {
           ]
   
           AppsFlyerAdRevenue.shared().logAdRevenue(
-            monetizationNetwork: "admob",
+            monetizationNetwork: adNetworkClassName ?? "admob",
             mediationNetwork: MediationNetworkType.googleAdMob,
             eventRevenue: adValue.value,
             revenueCurrency: adValue.currencyCode,
             additionalParameters: adRevenueParams)
-          
-//          let value = adValue.value
-//          print("value", value)
-//          let precision = adValue.precision
-//          print("precision", precision)
-//          let currencyCode = adValue.currencyCode
-//          print("currencyCode", currencyCode)
-//          // Get the ad unit ID.
-//          
-//          let responseInfo = ad.responseInfo
-//          print("responseInfo", responseInfo)
-//          let loadedAdNetworkResponseInfo = responseInfo.loadedAdNetworkResponseInfo
-//          print("loadedAdNetworkResponseInfo", loadedAdNetworkResponseInfo)
-//          let adSourceId = loadedAdNetworkResponseInfo?.adSourceID
-//          print("adSourceId", adSourceId)
-//          let adSourceInstanceId = loadedAdNetworkResponseInfo?.adSourceInstanceID
-//          print("adSourceInstanceId", adSourceInstanceId)
-//          let adSourceInstanceName = loadedAdNetworkResponseInfo?.adSourceInstanceName
-//          print("adSourceInstanceName", adSourceInstanceName)
-//          let adSourceName = loadedAdNetworkResponseInfo?.adSourceName
-//          print("adSourceName", adSourceName)
-//          let mediationGroupName = responseInfo.extrasDictionary["mediation_group_name"]
-//          print("mediationGroupName", mediationGroupName)
-//          let mediationABTestName = responseInfo.extrasDictionary["mediation_ab_test_name"]
-//          print("mediationABTestName", mediationABTestName)
-//          let mediationABTestVariant = responseInfo.extrasDictionary["mediation_ab_test_variant"]
-//          print("mediationABTestVariant", mediationABTestVariant)
-          let adNetworkClassName = ad.responseInfo.loadedAdNetworkResponseInfo?.adNetworkClassName
-          print("adNetworkClassName", adNetworkClassName)
-          print("locale", Locale.current.identifier)
         }
       }
     }
