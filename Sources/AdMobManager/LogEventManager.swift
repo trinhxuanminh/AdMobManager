@@ -23,6 +23,7 @@ enum Event {
   case remoteConfigTimeout
   case remoteConfigStartLoad
   case remoteConfigSuccess
+  case remoteConfigErrorWithTimeout
   
   case cmpCheckConsent
   case cmpNotRequestConsent
@@ -44,6 +45,8 @@ enum Event {
       return "RemoteConfig_LoadFail"
     case .remoteConfigTimeout:
       return "RemoteConfig_Timeout"
+    case .remoteConfigErrorWithTimeout:
+      return "RemoteConfig_Error_With_Timeout"
     case .register:
       return "Register"
     case .remoteConfigStartLoad:

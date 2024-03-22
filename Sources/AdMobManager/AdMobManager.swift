@@ -413,6 +413,8 @@ extension AdMobManager {
   
   private func errorRemote() {
     guard adMobConfig == nil else {
+      LogEventManager.shared.log(event: .remoteConfigErrorWithTimeout)
+      print("[AdMobManager] Load remote config error with timeout!")
       return
     }
     print("[AdMobManager] Load remote config error!")
