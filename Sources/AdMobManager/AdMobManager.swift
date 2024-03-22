@@ -77,6 +77,7 @@ public class AdMobManager {
     guard self.remoteKey == nil else {
       return
     }
+    print("[AdMobManager] Register!")
     LogEventManager.shared.log(event: .register)
     self.remoteKey = remoteKey
     self.defaultData = defaultData
@@ -387,6 +388,7 @@ extension AdMobManager {
     guard let remoteKey else {
       return
     }
+    print("[AdMobManager] Remote config start load!")
     LogEventManager.shared.log(event: .remoteConfigStartLoad)
     DispatchQueue.main.asyncAfter(deadline: .now() + remoteTimeout, execute: timeoutRemote)
     remoteConfig.fetch(withExpirationDuration: 0) { [weak self] _, error in
@@ -405,6 +407,7 @@ extension AdMobManager {
         errorRemote()
         return
       }
+      print("[AdMobManager] Remote config success!")
       LogEventManager.shared.log(event: .remoteConfigSuccess)
       self.decoding(consentData: consentData)
       self.decoding(adMobData: adMobData)
@@ -452,8 +455,10 @@ extension AdMobManager {
   }
   
   private func checkConsent() {
+    print("[AdMobManager] CMP check consent!")
     LogEventManager.shared.log(event: .cmpCheckConsent)
     guard !isPremium else {
+      print("[AdMobManager] CMP not request consent!")
       LogEventManager.shared.log(event: .cmpNotRequestConsent)
       return
     }
@@ -461,11 +466,13 @@ extension AdMobManager {
       return
     }
     guard adMobConfig.status else {
+      print("[AdMobManager] CMP not request consent!")
       LogEventManager.shared.log(event: .cmpNotRequestConsent)
       allow()
       return
     }
     guard let consentConfig, consentConfig.status else {
+      print("[AdMobManager] CMP not request consent!")
       LogEventManager.shared.log(event: .cmpNotRequestConsent)
       allow()
       return
@@ -480,6 +487,7 @@ extension AdMobManager {
       debugSettings.geography = .EEA
       parameters.debugSettings = debugSettings
     }
+    print("[AdMobManager] CMP request consent!")
     LogEventManager.shared.log(event: .cmpRequestConsent)
     UMPConsentInformation.sharedInstance.requestConsentInfoUpdate(with: parameters) { [weak self] requestConsentError in
       guard let self else {
@@ -514,17 +522,20 @@ extension AdMobManager {
         
         let canShowAds = canShowAds()
         if canShowAds {
-          LogEventManager.shared.log(event: .cmpClickConsent)
+          print("[AdMobManager] CMP agree consent!")
+          LogEventManager.shared.log(event: .cmpAgreeConsent)
           self.startGoogleMobileAdsSDK()
         } else {
-          LogEventManager.shared.log(event: .cmpNotConsent)
+          print("[AdMobManager] CMP reject consent!")
+          LogEventManager.shared.log(event: .cmpRejectConsent)
         }
         self.state = canShowAds == true ? .allow : .reject
       }
     }
     
     if canShowAds() {
-      LogEventManager.shared.log(event: .cmpAutoConsent)
+      print("[AdMobManager] CMP auto agree consent!")
+      LogEventManager.shared.log(event: .cmpAutoAgreeConsent)
       allow()
     }
   }

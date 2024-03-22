@@ -30,9 +30,9 @@ enum Event {
   case cmpRequestConsent
   case cmpConsentInformationError
   case cmpConsentFormError
-  case cmpClickConsent
-  case cmpNotConsent
-  case cmpAutoConsent
+  case cmpAgreeConsent
+  case cmpRejectConsent
+  case cmpAutoAgreeConsent
   
   case connectedAppsFlyer
   case noConnectAppsFlyer
@@ -63,12 +63,12 @@ enum Event {
       return "CMP_Consent_Information_Error"
     case .cmpConsentFormError:
       return "CMP_Consent_Form_Error"
-    case .cmpClickConsent:
-      return "CMP_Click_Consent"
-    case .cmpNotConsent:
-      return "CMP_Not_Consent"
-    case .cmpAutoConsent:
-      return "CMP_Auto_Consent"
+    case .cmpAgreeConsent:
+      return "CMP_Agree_Consent"
+    case .cmpRejectConsent:
+      return "CMP_Reject_Consent"
+    case .cmpAutoAgreeConsent:
+      return "CMP_Auto_Agree_Consent"
     case .connectedAppsFlyer:
       return "Connected_AppsFlyer"
     case .noConnectAppsFlyer:

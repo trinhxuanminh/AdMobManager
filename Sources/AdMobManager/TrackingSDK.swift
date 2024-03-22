@@ -43,11 +43,11 @@ public class TrackingSDK: NSObject {
     
     AppsFlyerLib.shared().start(completionHandler: { (dictionary, error) in
       guard error == nil else {
-        print("TrackingSDK: \(String(describing: error))!")
+        print("[TrackingSDK] \(String(describing: error))!")
         LogEventManager.shared.log(event: .noConnectAppsFlyer)
         return
       }
-      print("TrackingSDK: \(String(describing: dictionary))")
+      print("[TrackingSDK] \(String(describing: dictionary))")
       LogEventManager.shared.log(event: .connectedAppsFlyer)
     })
     
@@ -84,12 +84,12 @@ public class TrackingSDK: NSObject {
     ATTrackingManager.requestTrackingAuthorization { status in
       switch status {
       case .authorized:
-        print("TrackingSDK: Enable!")
-        print("TrackingSDK: \(ASIdentifierManager.shared().advertisingIdentifier)")
+        print("[TrackingSDK] Enable!")
+        print("[TrackingSDK] \(ASIdentifierManager.shared().advertisingIdentifier)")
         Analytics.setAnalyticsCollectionEnabled(true)
         LogEventManager.shared.log(event: .agreeTracking)
       default:
-        print("TrackingSDK: Disable!")
+        print("[TrackingSDK] Disable!")
         Analytics.setAnalyticsCollectionEnabled(false)
         LogEventManager.shared.log(event: .noTracking)
       }
