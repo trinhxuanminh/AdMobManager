@@ -119,8 +119,7 @@ extension AppOpenAd {
       let request = GADRequest()
       GADAppOpenAd.load(
         withAdUnitID: adUnitID,
-        request: request,
-        orientation: UIInterfaceOrientation.portrait
+        request: request
       ) { [weak self] (ad, error) in
         guard let self = self else {
           return
