@@ -33,6 +33,7 @@ enum Event {
   case cmpAgreeConsent
   case cmpRejectConsent
   case cmpAutoAgreeConsent
+  case cmpAutoAgreeConsentGDPR
   
   case connectedAppsFlyer
   case noConnectAppsFlyer
@@ -69,6 +70,8 @@ enum Event {
       return "CMP_Reject_Consent"
     case .cmpAutoAgreeConsent:
       return "CMP_Auto_Agree_Consent"
+    case .cmpAutoAgreeConsentGDPR:
+      return "CMP_Auto_Agree_Consent_GDPR"
     case .connectedAppsFlyer:
       return "Connected_AppsFlyer"
     case .noConnectAppsFlyer:

@@ -516,6 +516,8 @@ extension AdMobManager {
         }
         
         guard isGDPR() else {
+          print("[AdMobManager] CMP auto agree consent GDPR!")
+          LogEventManager.shared.log(event: .cmpAutoAgreeConsentGDPR)
           allow()
           return
         }
