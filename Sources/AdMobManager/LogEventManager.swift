@@ -43,11 +43,11 @@ enum Event {
   var name: String {
     switch self {
     case .remoteConfigLoadFail:
-      return "RemoteConfig_LoadFail"
+      return "RemoteConfig_First_Load_Fail"
     case .remoteConfigTimeout:
-      return "RemoteConfig_Timeout"
+      return "RemoteConfig_First_Load_Timeout"
     case .remoteConfigErrorWithTimeout:
-      return "RemoteConfig_Error_With_Timeout"
+      return "RemoteConfig_First_Load_Error_With_Timeout"
     case .register:
       return "Register"
     case .remoteConfigStartLoad:
