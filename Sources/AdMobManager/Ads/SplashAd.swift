@@ -41,11 +41,11 @@ class SplashAd: NSObject, AdProtocol {
             didHide: Handler?
   ) {
     guard !presentState else {
-      print("AdMobManager: SplashAd display failure - ads are being displayed!")
+      print("[AdMobManager] SplashAd display failure - ads are being displayed!")
       didFail?()
       return
     }
-    print("AdMobManager: SplashAd requested to show!")
+    print("[AdMobManager] SplashAd requested to show!")
     self.didFail = didFail
     self.didHide = didHide
     self.didEarnReward = didEarnReward
@@ -58,18 +58,18 @@ extension SplashAd: GADFullScreenContentDelegate {
   func ad(_ ad: GADFullScreenPresentingAd,
           didFailToPresentFullScreenContentWithError error: Error
   ) {
-    print("AdMobManager: SplashAd did fail to show content!")
+    print("[AdMobManager] SplashAd did fail to show content!")
     didFail?()
     self.splashAd = nil
   }
   
   func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-    print("AdMobManager: SplashAd will display!")
+    print("[AdMobManager] SplashAd will display!")
     self.presentState = true
   }
   
   func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-    print("AdMobManager: SplashAd did hide!")
+    print("[AdMobManager] SplashAd did hide!")
     didHide?()
     self.presentState = false
     self.splashAd = nil
@@ -83,13 +83,13 @@ extension SplashAd {
     }
     
     guard let adUnitID = adUnitID else {
-      print("AdMobManager: SplashAd failed to load - not initialized yet! Please install ID.")
+      print("[AdMobManager] SplashAd failed to load - not initialized yet! Please install ID.")
       didFail?()
       return
     }
     
     guard let rootViewController = rootViewController else {
-      print("AdMobManager: SplashAd display failure - can't find RootViewController!")
+      print("[AdMobManager] SplashAd display failure - can't find RootViewController!")
       didFail?()
       return
     }
@@ -101,7 +101,7 @@ extension SplashAd {
       
       self.isLoading = true
       self.fire()
-      print("AdMobManager: SplashAd start load!")
+      print("[AdMobManager] SplashAd start load!")
       
       let request = GADRequest()
       GADInterstitialAd.load(
@@ -116,11 +116,11 @@ extension SplashAd {
         }
         self.invalidate()
         guard error == nil, let ad = ad else {
-          print("AdMobManager: SplashAd load fail - \(String(describing: error))!")
+          print("[AdMobManager] SplashAd load fail - \(String(describing: error))!")
           self.didFail?()
           return
         }
-        print("AdMobManager: SplashAd did load!")
+        print("[AdMobManager] SplashAd did load!")
         self.splashAd = ad
         self.splashAd?.fullScreenContentDelegate = self
         self.splashAd?.present(fromRootViewController: rootViewController)

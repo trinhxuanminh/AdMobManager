@@ -99,13 +99,13 @@ extension BannerAdMobView: GADBannerViewDelegate {
   public func bannerView(_ bannerView: GADBannerView,
                          didFailToReceiveAdWithError error: Error
   ) {
-    print("AdMobManager: BannerAd load fail - \(String(describing: error))!")
+    print("[AdMobManager] BannerAd load fail - \(String(describing: error))!")
     self.state = .error
     errored()
   }
   
   public func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
-    print("AdMobManager: BannerAd did load!")
+    print("[AdMobManager] BannerAd did load!")
     self.state = .receive
     self.bringSubviewToFront(self.bannerAdView)
     didReceive?()
@@ -145,11 +145,11 @@ extension BannerAdMobView {
     }
     
     guard let adUnitID = adUnitID else {
-      print("AdMobManager: BannerAd failed to load - not initialized yet! Please install ID.")
+      print("[AdMobManager] BannerAd failed to load - not initialized yet! Please install ID.")
       return
     }
     
-    print("AdMobManager: BannerAd start load!")
+    print("[AdMobManager] BannerAd start load!")
     self.state = .loading
     DispatchQueue.main.async { [weak self] in
       guard let self = self else {

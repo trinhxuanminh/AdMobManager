@@ -17,11 +17,21 @@ class LogEventManager {
 }
 
 enum Event {
-  case remoteConfigLoadFailFirstOpen
-  case remoteConfigLoadFailLaunchApp
+  case register
   
+  case remoteConfigLoadFail
+  case remoteConfigTimeout
+  case remoteConfigStartLoad
+  case remoteConfigSuccess
+  
+  case cmpCheckConsent
+  case cmpNotRequestConsent
+  case cmpRequestConsent
+  case cmpConsentInformationError
+  case cmpConsentFormError
   case cmpClickConsent
   case cmpNotConsent
+  case cmpAutoConsent
   
   case connectedAppsFlyer
   case noConnectAppsFlyer
@@ -30,14 +40,32 @@ enum Event {
   
   var name: String {
     switch self {
-    case .remoteConfigLoadFailFirstOpen:
-      return "RemoteConfig_LoadFail_First_Open"
-    case .remoteConfigLoadFailLaunchApp:
-      return "RemoteConfig_LoadFail_Launch_App"
+    case .remoteConfigLoadFail:
+      return "RemoteConfig_LoadFail"
+    case .remoteConfigTimeout:
+      return "RemoteConfig_Timeout"
+    case .register:
+      return "Register"
+    case .remoteConfigStartLoad:
+      return "RemoteConfig_Start_Load"
+    case .remoteConfigSuccess:
+      return "remoteConfig_Success"
+    case .cmpCheckConsent:
+      return "CMP_Check_Consent"
+    case .cmpNotRequestConsent:
+      return "CMP_Not_Request_Consent"
+    case .cmpRequestConsent:
+      return "CMP_Request_Consent"
+    case .cmpConsentInformationError:
+      return "CMP_Consent_Information_Error"
+    case .cmpConsentFormError:
+      return "CMP_Consent_Form_Error"
     case .cmpClickConsent:
       return "CMP_Click_Consent"
     case .cmpNotConsent:
       return "CMP_Not_Consent"
+    case .cmpAutoConsent:
+      return "CMP_Auto_Consent"
     case .connectedAppsFlyer:
       return "Connected_AppsFlyer"
     case .noConnectAppsFlyer:
@@ -51,10 +79,6 @@ enum Event {
   
   var parameters: [String: Any]? {
     switch self {
-    case .remoteConfigLoadFailFirstOpen:
-      return [AnalyticsParameterContent: "Error loading RemoteConfig ads the first time opening the app"]
-    case .remoteConfigLoadFailLaunchApp:
-      return [AnalyticsParameterContent: "Error loading RemoteConfig ads from the second time opening the app"]
     default:
       return nil
     }

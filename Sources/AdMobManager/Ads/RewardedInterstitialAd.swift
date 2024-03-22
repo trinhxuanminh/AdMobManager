@@ -45,16 +45,16 @@ class RewardedInterstitialAd: NSObject, AdProtocol {
             didHide: Handler?
   ) {
     guard isReady() else {
-      print("AdMobManager: RewardedInterstitialAd display failure - not ready to show!")
+      print("[AdMobManager] RewardedInterstitialAd display failure - not ready to show!")
       didFail?()
       return
     }
     guard !presentState else {
-      print("AdMobManager: RewardedInterstitialAd display failure - ads are being displayed!")
+      print("[AdMobManager] RewardedInterstitialAd display failure - ads are being displayed!")
       didFail?()
       return
     }
-    print("AdMobManager: RewardedInterstitialAd requested to show!")
+    print("[AdMobManager] RewardedInterstitialAd requested to show!")
     self.didShowFail = didFail
     self.didHide = didHide
     self.didEarnReward = didEarnReward
@@ -71,19 +71,19 @@ extension RewardedInterstitialAd: GADFullScreenContentDelegate {
   func ad(_ ad: GADFullScreenPresentingAd,
           didFailToPresentFullScreenContentWithError error: Error
   ) {
-    print("AdMobManager: RewardedInterstitialAd did fail to show content!")
+    print("[AdMobManager] RewardedInterstitialAd did fail to show content!")
     didShowFail?()
     self.rewardedInterstitialAd = nil
     load()
   }
   
   func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-    print("AdMobManager: RewardedInterstitialAd will display!")
+    print("[AdMobManager] RewardedInterstitialAd will display!")
     self.presentState = true
   }
   
   func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-    print("AdMobManager: RewardedInterstitialAd did hide!")
+    print("[AdMobManager] RewardedInterstitialAd did hide!")
     didHide?()
     self.rewardedInterstitialAd = nil
     self.presentState = false
@@ -109,7 +109,7 @@ extension RewardedInterstitialAd {
     }
     
     guard let adUnitID = adUnitID else {
-      print("AdMobManager: RewardedInterstitialAd failed to load - not initialized yet! Please install ID.")
+      print("[AdMobManager] RewardedInterstitialAd failed to load - not initialized yet! Please install ID.")
       return
     }
     
@@ -119,7 +119,7 @@ extension RewardedInterstitialAd {
       }
       
       self.isLoading = true
-      print("AdMobManager: RewardedInterstitialAd start load!")
+      print("[AdMobManager] RewardedInterstitialAd start load!")
       
       let request = GADRequest()
       GADRewardedInterstitialAd.load(
@@ -137,11 +137,11 @@ extension RewardedInterstitialAd {
             return
           }
           let delaySec = 5.0
-          print("AdMobManager: RewardedInterstitialAd did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
+          print("[AdMobManager] RewardedInterstitialAd did fail to load. Reload after \(delaySec)s! (\(String(describing: error)))")
           DispatchQueue.global().asyncAfter(deadline: .now() + delaySec, execute: self.load)
           return
         }
-        print("AdMobManager: RewardedInterstitialAd did load!")
+        print("[AdMobManager] RewardedInterstitialAd did load!")
         self.retryAttempt = 0
         self.rewardedInterstitialAd = ad
         self.rewardedInterstitialAd?.fullScreenContentDelegate = self

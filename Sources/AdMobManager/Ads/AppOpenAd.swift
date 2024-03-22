@@ -45,16 +45,16 @@ class AppOpenAd: NSObject, AdProtocol {
             didHide: Handler?
   ) {
     guard isReady() else {
-      print("AdMobManager: AppOpenAd display failure - not ready to show!")
+      print("[AdMobManager] AppOpenAd display failure - not ready to show!")
       didFail?()
       return
     }
     guard !presentState else {
-      print("AdMobManager: AppOpenAd display failure - ads are being displayed!")
+      print("[AdMobManager] AppOpenAd display failure - ads are being displayed!")
       didFail?()
       return
     }
-    print("AdMobManager: AppOpenAd requested to show!")
+    print("[AdMobManager] AppOpenAd requested to show!")
     self.didShowFail = didFail
     self.didHide = didHide
     self.didEarnReward = didEarnReward
@@ -66,19 +66,19 @@ extension AppOpenAd: GADFullScreenContentDelegate {
   func ad(_ ad: GADFullScreenPresentingAd,
           didFailToPresentFullScreenContentWithError error: Error
   ) {
-    print("AdMobManager: AppOpenAd did fail to show content!")
+    print("[AdMobManager] AppOpenAd did fail to show content!")
     didShowFail?()
     self.appOpenAd = nil
     load()
   }
   
   func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-    print("AdMobManager: AppOpenAd will display!")
+    print("[AdMobManager] AppOpenAd will display!")
     self.presentState = true
   }
   
   func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-    print("AdMobManager: AppOpenAd did hide!")
+    print("[AdMobManager] AppOpenAd did hide!")
     didHide?()
     self.appOpenAd = nil
     self.presentState = false
@@ -104,7 +104,7 @@ extension AppOpenAd {
     }
     
     guard let adUnitID = adUnitID else {
-      print("AdMobManager: AppOpenAd failed to load - not initialized yet! Please install ID.")
+      print("[AdMobManager] AppOpenAd failed to load - not initialized yet! Please install ID.")
       return
     }
     
@@ -114,7 +114,7 @@ extension AppOpenAd {
       }
       
       self.isLoading = true
-      print("AdMobManager: AppOpenAd start load!")
+      print("[AdMobManager] AppOpenAd start load!")
       
       let request = GADRequest()
       GADAppOpenAd.load(
@@ -129,10 +129,10 @@ extension AppOpenAd {
         guard error == nil, let ad = ad else {
           self.retryAttempt += 1
           self.didLoadFail?()
-          print("AdMobManager: AppOpenAd load fail - \(String(describing: error))!")
+          print("[AdMobManager] AppOpenAd load fail - \(String(describing: error))!")
           return
         }
-        print("AdMobManager: AppOpenAd did load!")
+        print("[AdMobManager] AppOpenAd did load!")
         self.retryAttempt = 0
         self.appOpenAd = ad
         self.appOpenAd?.fullScreenContentDelegate = self

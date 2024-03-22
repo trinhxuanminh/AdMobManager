@@ -46,7 +46,7 @@ public class AdMobManager {
   @Published public private(set) var state: State = .unknow
   private let remoteConfig = RemoteConfig.remoteConfig()
   private let consentKey = "CMP"
-  private var retryAttempt = 0
+  private let remoteTimeout = 10.0
   private var subscriptions = [AnyCancellable]()
   private var remoteKey: String?
   private var defaultData: Data?
@@ -71,12 +71,13 @@ public class AdMobManager {
   
   public func register(remoteKey: String, defaultData: Data) {
     if isPremium {
-      print("AdMobManager: Premium!")
+      print("[AdMobManager] Premium!")
       self.state = .reject
     }
     guard self.remoteKey == nil else {
       return
     }
+    LogEventManager.shared.log(event: .register)
     self.remoteKey = remoteKey
     self.defaultData = defaultData
     
@@ -87,22 +88,22 @@ public class AdMobManager {
   
   public func status(type: AdType, name: String) -> Bool? {
     guard !isPremium else {
-      print("AdMobManager: Premium!")
+      print("[AdMobManager] Premium!")
       return nil
     }
     guard let adMobConfig else {
-      print("AdMobManager: Not yet registered!")
+      print("[AdMobManager] Not yet registered!")
       return nil
     }
     guard adMobConfig.status else {
       return false
     }
     guard state == .allow else {
-      print("AdMobManager: Can't Request Ads!")
+      print("[AdMobManager] Can't Request Ads!")
       return nil
     }
     guard let adConfig = getAd(type: type, name: name) as? AdConfigProtocol else {
-      print("AdMobManager: Ads don't exist!")
+      print("[AdMobManager] Ads don't exist!")
       return nil
     }
     return adConfig.status
@@ -115,7 +116,7 @@ public class AdMobManager {
   ) {
     switch status(type: .reuse(type), name: name) {
     case false:
-      print("AdMobManager: Ads are not allowed to show!")
+      print("[AdMobManager] Ads are not allowed to show!")
       return
     case true:
       break
@@ -123,7 +124,7 @@ public class AdMobManager {
       return
     }
     guard let adConfig = getAd(type: .reuse(type), name: name) as? AdConfigProtocol else {
-      print("AdMobManager: Ads don't exist!")
+      print("[AdMobManager] Ads don't exist!")
       return
     }
     guard listReuseAd[type.rawValue + adConfig.id] == nil else {
@@ -134,7 +135,7 @@ public class AdMobManager {
     switch type {
     case .splash:
       guard let splash = adConfig as? Splash else {
-        print("AdMobManager: Format conversion error!")
+        print("[AdMobManager] Format conversion error!")
         return
       }
       let splashAd = SplashAd()
@@ -160,7 +161,7 @@ public class AdMobManager {
   ) {
     switch status(type: .onceUsed(.native), name: name) {
     case false:
-      print("AdMobManager: Ads are not allowed to show!")
+      print("[AdMobManager] Ads are not allowed to show!")
       return
     case true:
       break
@@ -168,11 +169,11 @@ public class AdMobManager {
       return
     }
     guard let native = getAd(type: .onceUsed(.native), name: name) as? Native else {
-      print("AdMobManager: Ads don't exist!")
+      print("[AdMobManager] Ads don't exist!")
       return
     }
     guard native.isPreload == true else {
-      print("AdMobManager: Ads are not preloaded!")
+      print("[AdMobManager] Ads are not preloaded!")
       return
     }
     guard listNativeAd[name] == nil else {
@@ -193,7 +194,7 @@ public class AdMobManager {
   ) {
     switch status(type: .reuse(type), name: name) {
     case false:
-      print("AdMobManager: Ads are not allowed to show!")
+      print("[AdMobManager] Ads are not allowed to show!")
       didFail?()
       return
     case true:
@@ -203,22 +204,22 @@ public class AdMobManager {
       return
     }
     guard let adConfig = getAd(type: .reuse(type), name: name) as? AdConfigProtocol else {
-      print("AdMobManager: Ads don't exist!")
+      print("[AdMobManager] Ads don't exist!")
       didFail?()
       return
     }
     guard let ad = listReuseAd[type.rawValue + adConfig.id] else {
-      print("AdMobManager: Ads do not exist!")
+      print("[AdMobManager] Ads do not exist!")
       didFail?()
       return
     }
     guard !checkIsPresent() else {
-      print("AdMobManager: Ads display failure - other ads is showing!")
+      print("[AdMobManager] Ads display failure - other ads is showing!")
       didFail?()
       return
     }
     guard checkFrequency(adConfig: adConfig, ad: ad) else {
-      print("AdMobManager: Ads hasn't been displayed yet!")
+      print("[AdMobManager] Ads hasn't been displayed yet!")
       didFail?()
       return
     }
@@ -238,7 +239,7 @@ public class AdMobManager {
         return
       }
       if let formError {
-        print("AdMobManager: Form error - \(formError.localizedDescription)!")
+        print("[AdMobManager] Form error - \(formError.localizedDescription)!")
         return
       }
       let canShowAds = canShowAds()
@@ -337,7 +338,7 @@ extension AdMobManager {
   
   private func decoding(adMobData: Data) {
     guard let adMobConfig = try? JSONDecoder().decode(AdMobConfig.self, from: adMobData) else {
-      print("AdMobManager: Invalid format!")
+      print("[AdMobManager] Invalid format!")
       return
     }
     self.adMobConfig = adMobConfig
@@ -351,7 +352,7 @@ extension AdMobManager {
   
   private func decoding(consentData: Data) {
     guard let consentConfig = try? JSONDecoder().decode(ConsentConfig.self, from: consentData) else {
-      print("AdMobManager: Invalid format!")
+      print("[AdMobManager] Invalid format!")
       return
     }
     self.consentConfig = consentConfig
@@ -382,29 +383,18 @@ extension AdMobManager {
     decoding(adMobData: defaultData)
   }
   
-  private func retryFetchRemote() {
-    if retryAttempt == 1 {
-      logErrorFetchRemote()
-      DispatchQueue.main.asyncAfter(deadline: .now() + 10.0, execute: fetchRemote)
-    } else if adMobConfig == nil {
-      fetchDefault()
-    }
-  }
-  
   private func fetchRemote() {
-    self.retryAttempt += 1
-    guard retryAttempt <= 2 else {
-      return
-    }
     guard let remoteKey else {
       return
     }
+    LogEventManager.shared.log(event: .remoteConfigStartLoad)
+    DispatchQueue.main.asyncAfter(deadline: .now() + remoteTimeout, execute: timeoutRemote)
     remoteConfig.fetch(withExpirationDuration: 0) { [weak self] _, error in
       guard let self = self else {
         return
       }
       guard error == nil else {
-        self.retryFetchRemote()
+        errorRemote()
         return
       }
       self.remoteConfig.activate()
@@ -412,22 +402,31 @@ extension AdMobManager {
       let adMobData = remoteConfig.configValue(forKey: remoteKey).dataValue
       let consentData = remoteConfig.configValue(forKey: consentKey).dataValue
       guard !adMobData.isEmpty else {
-        self.retryFetchRemote()
+        errorRemote()
         return
       }
+      LogEventManager.shared.log(event: .remoteConfigSuccess)
       self.decoding(consentData: consentData)
       self.decoding(adMobData: adMobData)
     }
   }
   
-  private func logErrorFetchRemote() {
-    let key = "AdMobManager_First_Open"
-    if UserDefaults.standard.bool(forKey: key) {
-      LogEventManager.shared.log(event: .remoteConfigLoadFailLaunchApp)
-    } else {
-      LogEventManager.shared.log(event: .remoteConfigLoadFailFirstOpen)
-      UserDefaults.standard.set(true, forKey: key)
+  private func errorRemote() {
+    guard adMobConfig == nil else {
+      return
     }
+    print("[AdMobManager] Load remote config error!")
+    LogEventManager.shared.log(event: .remoteConfigLoadFail)
+    fetchDefault()
+  }
+  
+  private func timeoutRemote() {
+    guard adMobConfig == nil else {
+      return
+    }
+    print("[AdMobManager] Load remote config timeout!")
+    LogEventManager.shared.log(event: .remoteConfigTimeout)
+    fetchDefault()
   }
   
   private func checkFrequency(adConfig: AdConfigProtocol, ad: AdProtocol) -> Bool {
@@ -451,17 +450,21 @@ extension AdMobManager {
   }
   
   private func checkConsent() {
+    LogEventManager.shared.log(event: .cmpCheckConsent)
     guard !isPremium else {
+      LogEventManager.shared.log(event: .cmpNotRequestConsent)
       return
     }
     guard let adMobConfig else {
       return
     }
     guard adMobConfig.status else {
+      LogEventManager.shared.log(event: .cmpNotRequestConsent)
       allow()
       return
     }
     guard let consentConfig, consentConfig.status else {
+      LogEventManager.shared.log(event: .cmpNotRequestConsent)
       allow()
       return
     }
@@ -475,13 +478,14 @@ extension AdMobManager {
       debugSettings.geography = .EEA
       parameters.debugSettings = debugSettings
     }
-    
+    LogEventManager.shared.log(event: .cmpRequestConsent)
     UMPConsentInformation.sharedInstance.requestConsentInfoUpdate(with: parameters) { [weak self] requestConsentError in
       guard let self else {
         return
       }
       if let requestConsentError {
-        print("AdMobManager: Request consent error - \(requestConsentError.localizedDescription)!")
+        print("[AdMobManager] Request consent error - \(requestConsentError.localizedDescription)!")
+        LogEventManager.shared.log(event: .cmpConsentInformationError)
         allow()
         return
       }
@@ -495,7 +499,8 @@ extension AdMobManager {
           return
         }
         if let loadAndPresentError {
-          print("AdMobManager: Load and present error - \(loadAndPresentError.localizedDescription)!")
+          print("[AdMobManager] Load and present error - \(loadAndPresentError.localizedDescription)!")
+          LogEventManager.shared.log(event: .cmpConsentFormError)
           allow()
           return
         }
@@ -517,6 +522,7 @@ extension AdMobManager {
     }
     
     if canShowAds() {
+      LogEventManager.shared.log(event: .cmpAutoConsent)
       allow()
     }
   }
