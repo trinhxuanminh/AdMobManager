@@ -138,7 +138,6 @@ extension AppOpenAd {
         self.didLoadSuccess?()
         
         ad.paidEventHandler = { adValue in
-          let adNetworkClassName = ad.responseInfo.loadedAdNetworkResponseInfo?.adNetworkClassName
           let adRevenueParams: [AnyHashable: Any] = [
             kAppsFlyerAdRevenueCountry: "US",
             kAppsFlyerAdRevenueAdUnit: adUnitID as Any,

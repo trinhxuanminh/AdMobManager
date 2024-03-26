@@ -114,18 +114,14 @@ extension BannerAdMobView: GADBannerViewDelegate {
       guard let self else {
         return
       }
-      let adNetworkClassName = bannerView.responseInfo?.loadedAdNetworkResponseInfo?.adNetworkClassName
       let adRevenueParams: [AnyHashable: Any] = [
-        kAppsFlyerAdRevenueCountry: Locale.current.identifier,
+        kAppsFlyerAdRevenueCountry: "US",
         kAppsFlyerAdRevenueAdUnit: adUnitID as Any,
-        kAppsFlyerAdRevenueAdType: "Banner",
-        kAppsFlyerAdRevenuePlacement: "place",
-        kAppsFlyerAdRevenueECPMPayload: "encrypt",
-        "value_precision": adValue.precision
+        kAppsFlyerAdRevenueAdType: "Banner"
       ]
-
+      
       AppsFlyerAdRevenue.shared().logAdRevenue(
-        monetizationNetwork: adNetworkClassName ?? "admob",
+        monetizationNetwork: "admob",
         mediationNetwork: MediationNetworkType.googleAdMob,
         eventRevenue: adValue.value,
         revenueCurrency: adValue.currencyCode,

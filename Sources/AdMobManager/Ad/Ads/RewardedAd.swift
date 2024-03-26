@@ -148,18 +148,14 @@ extension RewardedAd {
         self.didLoadSuccess?()
         
         ad.paidEventHandler = { adValue in
-          let adNetworkClassName = ad.responseInfo.loadedAdNetworkResponseInfo?.adNetworkClassName
           let adRevenueParams: [AnyHashable: Any] = [
-            kAppsFlyerAdRevenueCountry: Locale.current.identifier,
+            kAppsFlyerAdRevenueCountry: "US",
             kAppsFlyerAdRevenueAdUnit: adUnitID as Any,
-            kAppsFlyerAdRevenueAdType: "Rewarded",
-            kAppsFlyerAdRevenuePlacement: "place",
-            kAppsFlyerAdRevenueECPMPayload: "encrypt",
-            "value_precision": adValue.precision
+            kAppsFlyerAdRevenueAdType: "Rewarded"
           ]
-  
+          
           AppsFlyerAdRevenue.shared().logAdRevenue(
-            monetizationNetwork: adNetworkClassName ?? "admob",
+            monetizationNetwork: "admob",
             mediationNetwork: MediationNetworkType.googleAdMob,
             eventRevenue: adValue.value,
             revenueCurrency: adValue.currencyCode,

@@ -143,18 +143,14 @@ extension InterstitialAd {
         self.didLoadSuccess?()
         
         ad.paidEventHandler = { adValue in
-          let adNetworkClassName = ad.responseInfo.loadedAdNetworkResponseInfo?.adNetworkClassName
           let adRevenueParams: [AnyHashable: Any] = [
-            kAppsFlyerAdRevenueCountry: Locale.current.identifier,
+            kAppsFlyerAdRevenueCountry: "US",
             kAppsFlyerAdRevenueAdUnit: adUnitID as Any,
-            kAppsFlyerAdRevenueAdType: "Interstitial",
-            kAppsFlyerAdRevenuePlacement: "place",
-            kAppsFlyerAdRevenueECPMPayload: "encrypt",
-            "value_precision": adValue.precision
+            kAppsFlyerAdRevenueAdType: "Interstitial"
           ]
-  
+          
           AppsFlyerAdRevenue.shared().logAdRevenue(
-            monetizationNetwork: adNetworkClassName ?? "admob",
+            monetizationNetwork: "admob",
             mediationNetwork: MediationNetworkType.googleAdMob,
             eventRevenue: adValue.value,
             revenueCurrency: adValue.currencyCode,
