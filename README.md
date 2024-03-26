@@ -32,7 +32,7 @@ Manually add the `-ObjC` linker flag to `Other Linker Flags` in your target's bu
 - Select tab `All`, find `Other Linker Flags`.
 - You must set the `-ObjC` flag for both the `Debug` and `Release` configurations.
 
-Integrate Firebase RemoteConfig with any `Key name` and configure it in [this json format](https://github.com/trinhxuanminh/AdMobManager/blob/develop/4.1.0/Sources/AdMobManager/Template/RegistrationStructure.json).
+Integrate Firebase RemoteConfig with any `Key name` and configure it in [this json format](https://github.com/trinhxuanminh/AdMobManager/blob/develop/4.1.0/Sources/AdMobManager/Ad/Template/RegistrationStructure.json).
 **Note**: The name of each ad is unique.
 
 ## Demo
@@ -121,7 +121,7 @@ AdMobManager.shared.requestConsentUpdate()
 ```
 
 ### 3. NativeAd
-- Download & add file [`CustomNativeAdView.xib`](https://github.com/trinhxuanminh/AdMobManager/blob/develop/4.1.0/Sources/AdMobManager/Template/CustomNativeAdView.xib).
+- Download & add file [`CustomNativeAdView.xib`](https://github.com/trinhxuanminh/AdMobManager/blob/develop/4.1.0/Sources/AdMobManager/Ad/Template/CustomNativeAdView.xib).
 **Note**: Linked outlets to views, update constraints only.
 - Create the corresponding `File's owner`, inherit `NativeAdMobView`.
 ```swift

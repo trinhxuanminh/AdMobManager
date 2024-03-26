@@ -25,6 +25,7 @@ public class TrackingSDK: NSObject {
   public func initialize(devKey: String, appID: String, timeout: Double? = nil) {
     AppsFlyerLib.shared().appsFlyerDevKey = devKey
     AppsFlyerLib.shared().appleAppID = appID
+    AppsFlyerLib.shared().delegate = self
     
     PurchaseConnector.shared().purchaseRevenueDelegate = self
     PurchaseConnector.shared().purchaseRevenueDataSource = self
@@ -41,15 +42,7 @@ public class TrackingSDK: NSObject {
                    name: UIApplication.didBecomeActiveNotification,
                    object: nil)
     
-    AppsFlyerLib.shared().start(completionHandler: { (dictionary, error) in
-      guard error == nil else {
-        print("[TrackingSDK] \(String(describing: error))!")
-        LogEventManager.shared.log(event: .noConnectAppsFlyer)
-        return
-      }
-      print("[TrackingSDK] \(String(describing: dictionary))")
-      LogEventManager.shared.log(event: .connectedAppsFlyer)
-    })
+    
     
     AppsFlyerAdRevenue.start()
     
@@ -61,6 +54,10 @@ public class TrackingSDK: NSObject {
   
   public func debug(enable: Bool) {
     AppsFlyerLib.shared().isDebug = enable
+  }
+  
+  public func sandbox(enable: Bool) {
+    PurchaseConnector.shared().isSandbox = enable
   }
   
   public func status() -> Bool {
@@ -118,9 +115,39 @@ extension TrackingSDK: PurchaseRevenueDataSource, PurchaseRevenueDelegate {
   }
 }
 
+extension TrackingSDK: AppsFlyerLibDelegate {
+  public func onConversionDataSuccess(_ installData: [AnyHashable: Any]) {
+    guard let status = installData["af_status"] as? String else {
+      return
+    }
+    if status == "Non-organic" {
+      // Business logic for Non-organic install scenario is invoked
+      if let sourceID = installData["media_source"],
+         let campaign = installData["campaign"] {
+        print("This is a Non-organic install. Media source: \(sourceID)  Campaign: \(campaign)")
+      }
+    } else {
+      // Business logic for organic install scenario is invoked
+    }
+  }
+  
+  public func onConversionDataFail(_ error: Error) {
+    // Logic for when conversion data resolution fails
+    print(error)
+  }
+}
+
 extension TrackingSDK {
   @objc private func sendLaunch() {
-    AppsFlyerLib.shared().start()
+    AppsFlyerLib.shared().start(completionHandler: { (dictionary, error) in
+      guard error == nil else {
+        print("[TrackingSDK] \(String(describing: error))!")
+        LogEventManager.shared.log(event: .noConnectAppsFlyer)
+        return
+      }
+      print("[TrackingSDK] \(String(describing: dictionary))")
+      LogEventManager.shared.log(event: .connectedAppsFlyer)
+    })
     PurchaseConnector.shared().startObservingTransactions()
   }
 }
