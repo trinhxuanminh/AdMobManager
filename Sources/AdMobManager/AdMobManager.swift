@@ -119,17 +119,21 @@ public class AdMobManager {
     switch status(type: .reuse(type), name: name) {
     case false:
       print("[AdMobManager] Ads are not allowed to show!")
+      fail?()
       return
     case true:
       break
     default:
+      fail?()
       return
     }
     guard let adConfig = getAd(type: .reuse(type), name: name) as? AdConfigProtocol else {
       print("[AdMobManager] Ads don't exist!")
+      fail?()
       return
     }
     guard listReuseAd[type.rawValue + adConfig.id] == nil else {
+      fail?()
       return
     }
     
@@ -138,6 +142,7 @@ public class AdMobManager {
     case .splash:
       guard let splash = adConfig as? Splash else {
         print("[AdMobManager] Format conversion error!")
+        fail?()
         return
       }
       let splashAd = SplashAd()
@@ -164,21 +169,26 @@ public class AdMobManager {
     switch status(type: .onceUsed(.native), name: name) {
     case false:
       print("[AdMobManager] Ads are not allowed to show!")
+      fail?()
       return
     case true:
       break
     default:
+      fail?()
       return
     }
     guard let native = getAd(type: .onceUsed(.native), name: name) as? Native else {
       print("[AdMobManager] Ads don't exist!")
+      fail?()
       return
     }
     guard native.isPreload == true else {
       print("[AdMobManager] Ads are not preloaded!")
+      fail?()
       return
     }
     guard listNativeAd[name] == nil else {
+      fail?()
       return
     }
     let nativeAd = NativeAd()
