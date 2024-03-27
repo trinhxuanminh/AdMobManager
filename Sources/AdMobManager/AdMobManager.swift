@@ -72,7 +72,7 @@ public class AdMobManager {
       print("AdMobManager: Premium!")
       return nil
     }
-    guard let adMobConfig else {
+    guard adMobConfig != nil else {
       print("AdMobManager: Not yet registered!")
       return nil
     }
