@@ -15,11 +15,11 @@ let package = Package(
   dependencies: [
     // Dependencies declare other packages that this package depends on.
     // .package(url: /* package url */, from: "1.0.0"),
-    .package(name: "GoogleMobileAds", url: "https://github.com/googleads/swift-package-manager-google-mobile-ads.git", from: "11.2.0"),
-    .package(url: "https://github.com/firebase/firebase-ios-sdk", revision: "10.23.0"),
-    .package(url: "https://github.com/AppsFlyerSDK/AppsFlyerFramework", from: "6.14.3"),
-    .package(url: "https://github.com/AppsFlyerSDK/PurchaseConnector-Dynamic", from: "6.14.3"),
-    .package(url: "https://github.com/AppsFlyerSDK/adrevenue-apple-sdk.git", from: "6.14.3")
+    .package(name: "GoogleMobileAds", url: "https://github.com/googleads/swift-package-manager-google-mobile-ads.git", revision: "11.4.0"),
+    .package(url: "https://github.com/firebase/firebase-ios-sdk", revision: "10.25.0"),
+    .package(url: "https://github.com/AppsFlyerSDK/AppsFlyerFramework", revision: "6.13.2"),
+    .package(url: "https://github.com/AppsFlyerSDK/PurchaseConnector-Dynamic", revision: "6.13.1"),
+    .package(url: "https://github.com/AppsFlyerSDK/adrevenue-apple-sdk.git", revision: "6.13.0")
   ],
   targets: [
     // Targets are the basic building blocks of a package. A target can define a module or a test suite.
