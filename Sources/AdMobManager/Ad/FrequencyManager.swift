@@ -42,6 +42,6 @@ extension FrequencyManager {
   }
   
   private func save() {
-    UserDefaults.standard.set(countClicks, forKey: Keys.cache)
+//    UserDefaults.standard.set(countClicks, forKey: Keys.cache)
   }
 }
