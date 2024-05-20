@@ -479,12 +479,6 @@ extension AdMobManager {
       allow()
       return
     }
-    guard let consentConfig, consentConfig.status else {
-      print("[AdMobManager] CMP not request consent!")
-      LogEventManager.shared.log(event: .cmpNotRequestConsent)
-      allow()
-      return
-    }
     
     let parameters = UMPRequestParameters()
     parameters.tagForUnderAgeOfConsent = false
@@ -494,7 +488,15 @@ extension AdMobManager {
       debugSettings.testDeviceIdentifiers = testDeviceIdentifiers
       debugSettings.geography = .EEA
       parameters.debugSettings = debugSettings
+    } else {
+      guard let consentConfig, consentConfig.status else {
+        print("[AdMobManager] CMP not request consent!")
+        LogEventManager.shared.log(event: .cmpNotRequestConsent)
+        allow()
+        return
+      }
     }
+    
     print("[AdMobManager] CMP request consent!")
     LogEventManager.shared.log(event: .cmpRequestConsent)
     UMPConsentInformation.sharedInstance.requestConsentInfoUpdate(with: parameters) { [weak self] requestConsentError in
