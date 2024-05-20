@@ -8,6 +8,7 @@
 import UIKit
 
 @objc protocol AdProtocol {
+  func config(didFail: Handler?, didSuccess: Handler?)
   func config(id: String)
   func isPresent() -> Bool
   @objc optional func isExist() -> Bool
@@ -19,5 +20,4 @@ import UIKit
 
 extension AdProtocol {
   func config(timeout: Double) {}
-  func config(didFail: Handler?, didSuccess: Handler?) {}
 }
