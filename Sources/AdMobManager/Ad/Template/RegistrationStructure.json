@@ -1,12 +1,14 @@
 {
   "status": true,
-  "splash": {
-    "name": "Splash",
-    "status": true,
-    "id": "ca-app-pub-3940256099942544/4411468910",
-    "description": "",
-    "timeout": 30
-  },
+  "splashs": [
+    {
+      "name": "Splash_1",
+      "status": true,
+      "id": "ca-app-pub-3940256099942544/4411468910",
+      "description": "",
+      "timeout": 30
+    }
+  ],
   "appOpen": {
     "name": "App_Open",
     "status": true,
@@ -34,7 +36,7 @@
       "status": true,
       "id": "ca-app-pub-3940256099942544/4411468910",
       "description": "",
-      "start": 1,
+      "start": 2,
       "frequency": 2
     },
     {
@@ -66,23 +68,11 @@
   ],
   "natives": [
     {
-      "name": "Native_1",
+      "name": "Native",
       "status": true,
       "id": "ca-app-pub-3940256099942544/3986624511",
       "description": "",
       "isPreload": true
-    },
-    {
-      "name": "Native_2",
-      "status": true,
-      "id": "ca-app-pub-3940256099942544/3986624511",
-      "description": ""
-    },
-    {
-      "name": "Native_3",
-      "status": true,
-      "id": "ca-app-pub-3940256099942544/3986624511",
-      "description": ""
     }
   ]
 }
