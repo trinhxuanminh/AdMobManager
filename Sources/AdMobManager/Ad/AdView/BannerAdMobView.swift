@@ -81,6 +81,17 @@ open class BannerAdMobView: UIView {
     guard adUnitID == nil else {
       return
     }
+    switch AdMobManager.shared.status(type: .onceUsed(.banner), name: name) {
+    case false:
+      print("[AdMobManager] Ads are not allowed to show!")
+      errored()
+      return
+    case true:
+      break
+    default:
+      errored()
+      return
+    }
     guard let ad = AdMobManager.shared.getAd(type: .onceUsed(.banner), name: name) as? Banner else {
       return
     }

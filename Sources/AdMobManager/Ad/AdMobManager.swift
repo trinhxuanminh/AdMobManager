@@ -287,13 +287,7 @@ extension AdMobManager {
     case .reuse(let type):
       switch type {
       case .splash:
-        guard
-          let splash = adMobConfig.splash,
-          splash.name == name
-        else {
-          return nil
-        }
-        return adMobConfig.splash
+        return adMobConfig.splashs?.first(where: { $0.name == name })
       case .appOpen:
         guard
           let appOpen = adMobConfig.appOpen,

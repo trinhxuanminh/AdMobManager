@@ -9,7 +9,7 @@ import Foundation
 
 struct AdMobConfig: Codable {
   let status: Bool
-  var splash: Splash?
+  var splashs: [Splash]?
   var appOpen: AppOpen?
   var rewardeds: [Rewarded]?
   var interstitials: [Interstitial]?

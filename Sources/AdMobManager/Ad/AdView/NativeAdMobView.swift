@@ -67,6 +67,18 @@ open class NativeAdMobView: UIView, AdMobViewProtocol, GADVideoControllerDelegat
     self.didReceive = didReceive
     self.didError = didError
     
+    switch AdMobManager.shared.status(type: .onceUsed(.native), name: name) {
+    case false:
+      print("[AdMobManager] Ads are not allowed to show!")
+      errored()
+      return
+    case true:
+      break
+    default:
+      errored()
+      return
+    }
+    
     if nativeAd == nil {
       guard let native = AdMobManager.shared.getAd(type: .onceUsed(.native), name: name) as? Native else {
         return
