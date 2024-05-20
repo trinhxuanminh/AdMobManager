@@ -13,18 +13,25 @@ class SplashAd: NSObject, AdProtocol {
   private var splashAd: GADInterstitialAd?
   private var adUnitID: String?
   private var presentState = false
-  private weak var rootViewController: UIViewController?
   private var isLoading = false
   private var timeout: Double?
   private var time = 0.0
   private var timer: Timer?
   private var timeInterval = 0.1
+  private var didLoadFail: Handler?
+  private var didLoadSuccess: Handler?
   private var didFail: Handler?
   private var didEarnReward: Handler?
   private var didHide: Handler?
   
+  func config(didFail: Handler?, didSuccess: Handler?) {
+    self.didLoadFail = didFail
+    self.didLoadSuccess = didSuccess
+  }
+  
   func config(id: String) {
     self.adUnitID = id
+    load()
   }
   
   func config(timeout: Double) {
@@ -35,11 +42,20 @@ class SplashAd: NSObject, AdProtocol {
     return presentState
   }
   
+  func isExist() -> Bool {
+    return splashAd != nil
+  }
+  
   func show(rootViewController: UIViewController,
             didFail: Handler?,
             didEarnReward: Handler?,
             didHide: Handler?
   ) {
+    guard isExist() else {
+      print("[AdMobManager] InterstitialAd display failure - not ready to show!")
+      didFail?()
+      return
+    }
     guard !presentState else {
       print("[AdMobManager] SplashAd display failure - ads are being displayed!")
       didFail?()
@@ -49,8 +65,7 @@ class SplashAd: NSObject, AdProtocol {
     self.didFail = didFail
     self.didHide = didHide
     self.didEarnReward = didEarnReward
-    self.rootViewController = rootViewController
-    load()
+    splashAd?.present(fromRootViewController: rootViewController)
   }
 }
 
@@ -84,13 +99,7 @@ extension SplashAd {
     
     guard let adUnitID = adUnitID else {
       print("[AdMobManager] SplashAd failed to load - not initialized yet! Please install ID.")
-      didFail?()
-      return
-    }
-    
-    guard let rootViewController = rootViewController else {
-      print("[AdMobManager] SplashAd display failure - can't find RootViewController!")
-      didFail?()
+      didLoadFail?()
       return
     }
     
@@ -117,13 +126,13 @@ extension SplashAd {
         self.invalidate()
         guard error == nil, let ad = ad else {
           print("[AdMobManager] SplashAd load fail - \(String(describing: error))!")
-          self.didFail?()
+          self.didLoadFail?()
           return
         }
         print("[AdMobManager] SplashAd did load!")
         self.splashAd = ad
         self.splashAd?.fullScreenContentDelegate = self
-        self.splashAd?.present(fromRootViewController: rootViewController)
+        self.didLoadSuccess?()
         
         ad.paidEventHandler = { adValue in
           let adRevenueParams: [AnyHashable: Any] = [
@@ -169,6 +178,6 @@ extension SplashAd {
       return
     }
     invalidate()
-    didFail?()
+    didLoadFail?()
   }
 }
