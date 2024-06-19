@@ -50,7 +50,7 @@ public class AdMobManager {
   private var subscriptions = [AnyCancellable]()
   private var remoteKey: String?
   private var defaultData: Data?
-  private var didTimeout = false
+  private var didRemoteTimeout = false
   private var didSetup = false
   private var didRequestConsent = false
   private var isDebug = false
@@ -83,6 +83,7 @@ public class AdMobManager {
     self.remoteKey = remoteKey
     self.defaultData = defaultData
     
+    print("[AdMobManager] \(Bundle.main.bundleIdentifier)")
     fetchConsentCache()
     fetchAdMobCache()
     fetchRemote()
@@ -421,7 +422,7 @@ extension AdMobManager {
   
   private func errorRemote() {
     guard adMobConfig == nil else {
-      if didTimeout {
+      if didRemoteTimeout {
         print("[AdMobManager] First load remote config error with timeout!")
         LogEventManager.shared.log(event: .remoteConfigErrorWithTimeout)
       }
@@ -436,7 +437,7 @@ extension AdMobManager {
     guard adMobConfig == nil else {
       return
     }
-    self.didTimeout = true
+    self.didRemoteTimeout = true
     print("[AdMobManager] First load remote config timeout!")
     LogEventManager.shared.log(event: .remoteConfigTimeout)
     fetchDefault()
