@@ -61,7 +61,7 @@ extension AutoRelease {
   
   private func load(bundleId: String) async {
     do {
-      let releaseResponse: ReleaseResponse = try await APIService().request(from: .releaseVersion(bundleId: "com.chat.gpt.3.chatgpt3.chatgbt3"))
+      let releaseResponse: ReleaseResponse = try await APIService().request(from: .releaseVersion(bundleId: bundleId))
       guard let result = releaseResponse.results.first else {
         // Hiện tại chưa có version release nào.
         change(isRelease: false)
