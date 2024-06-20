@@ -11,6 +11,7 @@ struct Native: AdConfigProtocol {
   let name: String
   let status: Bool
   let id: String
+  let isAuto: Bool?
   let description: String?
   let isFullScreen: Bool?
   let isPreload: Bool?

@@ -5,6 +5,7 @@
       "name": "Splash_1",
       "status": true,
       "id": "ca-app-pub-3940256099942544/4411468910",
+      "isAuto": true,
       "description": "",
       "timeout": 30
     }
@@ -35,6 +36,7 @@
       "name": "Interstitial_1",
       "status": true,
       "id": "ca-app-pub-3940256099942544/4411468910",
+      "isAuto": true,
       "description": "",
       "start": 2,
       "frequency": 2
@@ -43,6 +45,7 @@
       "name": "Interstitial_2",
       "status": true,
       "id": "ca-app-pub-3940256099942544/4411468910",
+      "isAuto": true,
       "description": ""
     }
   ],

@@ -69,7 +69,6 @@ extension AutoRelease {
       }
       let releaseVersionString = result.version as NSString
       let releaseVersion = releaseVersionString.doubleValue
-      print("[AdMobManager] Release version:", releaseVersion)
       
       if nowVersion <= releaseVersion {
         // Version hiện tại đã release. Cache version.

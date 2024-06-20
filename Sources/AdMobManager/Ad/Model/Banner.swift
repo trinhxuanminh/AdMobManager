@@ -11,6 +11,7 @@ struct Banner: AdConfigProtocol {
   let name: String
   let status: Bool
   let id: String
+  let isAuto: Bool?
   let description: String?
   let anchored: String?
 }

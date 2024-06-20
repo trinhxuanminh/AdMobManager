@@ -11,6 +11,7 @@ struct Splash: AdConfigProtocol {
   let name: String
   let status: Bool
   let id: String
+  let isAuto: Bool?
   let description: String?
   let timeout: Double
 }

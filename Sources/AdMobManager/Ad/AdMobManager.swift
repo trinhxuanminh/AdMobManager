@@ -118,6 +118,9 @@ public class AdMobManager {
       print("[AdMobManager] Ads don't exist!")
       return nil
     }
+    if AutoRelease.shared.isRelease == false, adConfig.isAuto == true {
+      return false
+    }
     return adConfig.status
   }
   
