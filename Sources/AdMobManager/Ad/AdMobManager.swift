@@ -83,10 +83,19 @@ public class AdMobManager {
     self.remoteKey = remoteKey
     self.defaultData = defaultData
     
-    print("[AdMobManager] \(Bundle.main.bundleIdentifier)")
-    fetchConsentCache()
-    fetchAdMobCache()
-    fetchRemote()
+    AutoRelease.shared.$isRelease
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] isRelease in
+        guard let self else {
+          return
+        }
+        guard let isRelease else {
+          return
+        }
+        fetchConsentCache()
+        fetchAdMobCache()
+        fetchRemote()
+      }.store(in: &subscriptions)
   }
   
   public func status(type: AdType, name: String) -> Bool? {
