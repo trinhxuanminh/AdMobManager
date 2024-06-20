@@ -73,7 +73,7 @@ extension AutoRelease {
       
       if nowVersion <= releaseVersion {
         // Version hiện tại đã release. Cache version.
-        update()
+        update(releaseVersion)
         change(isRelease: true)
       } else {
         // Version hiện tại chưa release.
@@ -97,7 +97,7 @@ extension AutoRelease {
     self.releaseVersion = UserDefaults.standard.double(forKey: Keys.cache)
   }
   
-  private func update() {
+  private func update(_ releaseVersion: Double) {
     UserDefaults.standard.set(releaseVersion, forKey: Keys.cache)
     fetch()
   }
