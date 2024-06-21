@@ -8,7 +8,7 @@
 import Foundation
 
 enum EndPoint {
-  case releaseVersion(bundleId: String)
+  case releaseVersion(regionCode: String, bundleId: String)
   
   var domain: String {
     switch self {
@@ -19,8 +19,8 @@ enum EndPoint {
   
   var path: String? {
     switch self {
-    case .releaseVersion:
-      return "/lookup"
+    case .releaseVersion(let regionCode, _):
+      return "/\(regionCode)/lookup"
     }
   }
   
@@ -34,7 +34,7 @@ enum EndPoint {
   var params: [String: String?] {
     var params: [String: String?] = [:]
     switch self {
-    case .releaseVersion(let bundleId):
+    case .releaseVersion(_, let bundleId):
       params["bundleId"] = bundleId
     }
     return params

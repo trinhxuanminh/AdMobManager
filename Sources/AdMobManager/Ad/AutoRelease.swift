@@ -41,10 +41,19 @@ extension AutoRelease {
       change(isRelease: true)
     } else {
       guard let bundleId = Bundle.main.bundleIdentifier else {
-        // // Không lấy được bundleId.
+        // Không lấy được bundleId.
         change(isRelease: true)
         return
       }
+      
+      let regionCodeClean: String
+      if let regionCode = Locale.current.regionCode,
+         let cleanPath = regionCode.lowercased().addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+        regionCodeClean = cleanPath
+      } else {
+        regionCodeClean = "us"
+      }
+      
       DispatchQueue.main.asyncAfter(deadline: .now() + timeout) { [weak self] in
         guard let self else {
           return
@@ -54,14 +63,16 @@ extension AutoRelease {
       }
       Task {
         // Tìm version đang release trên AppStore.
-        await load(bundleId: bundleId)
+        await load(regionCodeClean, bundleId)
       }
     }
   }
   
-  private func load(bundleId: String) async {
+  private func load(_ regionCode: String,_ bundleId: String) async {
     do {
-      let releaseResponse: ReleaseResponse = try await APIService().request(from: .releaseVersion(bundleId: bundleId))
+      let endPoint = EndPoint.releaseVersion(regionCode: regionCode,
+                                             bundleId: bundleId)
+      let releaseResponse: ReleaseResponse = try await APIService().request(from: endPoint)
       guard let result = releaseResponse.results.first else {
         // Hiện tại chưa có version release nào.
         change(isRelease: false)
